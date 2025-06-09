@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useMemo } from 'react'
+import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
@@ -9,6 +9,7 @@ import 'slick-carousel/slick/slick.css'
 import '../assets/css/homepage.css'
 import '../assets/css/newHomePage.css'
 import backImg from '../assets/img/banner/homeBackgroundImage.webp'
+import backImgMobile from '../assets/img/banner/homeBackgroundImage_mobile.webp'
 import { getDashboardPanchang, setPanchangDetails } from '../storemain/slice/MasterSlice'
 import messageIcon from '/newThemeHomePage/MessageIcon.svg'
 import astromall from '/newThemeHomePage/astromall.svg'
@@ -19,6 +20,7 @@ import { Constatnt } from '../utils/Constent'
 import phoneIcon from '/newThemeHomePage/phoneIcon.svg'
 import HeroSection from '../component/Homepage/HeroSection'
 import { hasAtLeastOneResponseData } from '../utils/CommonFunction'
+import { useInitialScreenSizeCategory } from './hooks/useInitialScreenSizeCategory'
 
 const ChatWithAstrologerCard = lazy(() =>
   import('../component/CommonChatTalkAstrologerCard')
@@ -38,21 +40,12 @@ const ChooseCategory = lazy(() =>
   import('../component/Homepage/ChooseCategory')
 )
 
-// import ChatWithAstrologerCard from '../component/CommonChatTalkAstrologerCard';
-// import HoroscopeGrid from '../component/kundali/HoroscopeGrid';
-// import TodaysPanchangHomePage from '../component/panchang/TodaysPanchangHomePage';
-// import TestimonialSlider from '../component/TestimonialSlider/TestimonialSlider';
-// import CustomButton from '../component/Homepage/CustomButton';
-// import HomeBlog from '../component/Homepage/HomeBlog';
-// import HomeFAQs from '../component/Homepage/HomeFAQs';
-// import Numbers from '../component/Homepage/Numbers';
-// import Loader from '../component/loader/Loader';
-// import ChooseCategory from '../component/Homepage/ChooseCategory'
 function HomePage () {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const PATHS = UpdatedPaths()
-
+  const screenCategory = useInitialScreenSizeCategory();
+  const [bgImage, setBgImage] = useState(null)
   const { t } = useTranslation()
   const loader = useSelector(state => state.masterSlice?.loader)
   const locationData = useSelector(state => state.masterSlice?.location)
@@ -108,7 +101,9 @@ function HomePage () {
     }
   }, [locationData, LocalLanguage])
 
-  console.log('locationData', locationData);
+  useEffect(() => {
+    screenCategory === "412-or-below" ? setBgImage(backImgMobile) : setBgImage(backImg)
+  }, [screenCategory])
 
   const cardData = useMemo(
     () => [
@@ -139,7 +134,7 @@ function HomePage () {
   return (
     <>
       <HeroSection
-        backImg={backImg}
+        backImg={bgImage}
         cardData={cardData}
         // observerRefss={observerRef}
         t={t}
