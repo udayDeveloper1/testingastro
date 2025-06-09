@@ -1,0 +1,1 @@
+import{v as s,j as a}from"./vendor-Z3tYsDUR.js";import{a as l}from"./ChartsGrid-BdHhx-aw.js";const c=({taraBala:n=[],chandraBala:i=[],lagnaChartData:r={}})=>{const{t}=s();return a.jsx("div",{className:"",children:a.jsx(l,{title:t("lagna_chart_sunrise"),allCharts:r,classList:"particular_Chart lagnbalamChart"})})};export{c as default};

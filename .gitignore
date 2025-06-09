@@ -20,7 +20,6 @@ yarn-debug.log*
 yarn-error.log*
 
  
-/dist
 stats.html
 vite_cache
 

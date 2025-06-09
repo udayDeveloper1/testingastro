@@ -1,0 +1,1 @@
+function i(t){if(t==null||isNaN(t))return"";const n=Math.floor(t),o=(t-n)*60,s=Math.floor(o),r=(o-s)*60,c=Math.floor(r);return`${n}°${s}'${c}"`}function a(t){return!t||typeof t!="string"?"-":t.slice(0,3)}const l={D1:"D1",D9:"D9",chalit:"chalit",sun:"sun",moon:"moon",transit:"transit",varshapal:"varshapal"};export{l as K,i as c,a as g};
