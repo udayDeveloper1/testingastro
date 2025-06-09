@@ -1,0 +1,812 @@
+
+:root {
+  --website-color: #C32853;
+  --website-hover-color: #74419d3b;
+  --font-weight-100: 100;
+  --font-weight-200: 200;
+  --font-weight-300: 300;
+  --font-weight-400: 400;
+  --font-weight-500: 500;
+  --font-weight-100: 100;
+  --font-weight-600: 600;
+  --font-weight-700: 700;
+  --font-weight-800: 800;
+  --font-size--10: 10px;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-22: 22px;
+  --font-size-24: 24px;
+  --font-size-28: 28px;
+  --font-size-30: 30px;
+  --font-size-36: 36px;
+  --body-font: #575A6E;
+  --black-color: black;
+  --white-color: white;
+  --gray-color: #797979;
+ 
+  --black-opacity: rgba(0, 0, 0, 0.88);
+  --backKundliReport: #F2ECF6;
+  --black-opacity: rgba(0, 0, 0, 0.88);
+  --box-shadow-common: 0px 0px 20px 0px #0000000D;
+
+  --website-light-color:#e3725d21;
+  --website-gradient-back:linear-gradient(90deg, #C32853 0%, #EE7E49 100%);
+   --solid-hover-color: #C32853;  
+   --light-website-gradient-back: linear-gradient(270deg, #FDF3EC 0%, #F9E9EC 100%);
+
+   --input--border-color:  1px solid rgba(227, 114, 93, 0.3);
+    --border-color:rgba(227, 114, 93, 0.3);
+    --new-drop--shadow:0px 0px 20px 0px #0000000D;
+     --new-body-color:#343434;
+}
+
+
+@keyframes pulseFontSize {
+  0% {
+    font-size: 18px;
+  }
+  50% {
+    font-size: 22px;
+  }
+  100% {
+    font-size: 18px;
+  }
+}
+
+.pulsing-text {
+  animation: pulseFontSize 3s ease-in-out infinite;
+}
+
+
+.chatbox_sec {
+  height: calc(100vh - 200px);
+}
+@media(max-width: 576px){
+    .chatbox_sec {
+    height: calc(100vh - 150px);
+  }
+}
+/* .custom-confirm-modal .ant-modal-footer::not(:has(*)){
+  display: none;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+} */
+
+
+
+.kundliBox_parts {
+  display: flex;
+  justify-content: center;
+}
+
+.kundliBox p {
+  margin-bottom: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.kundliBox {
+  width: 420px;
+  height: 420px;
+  /* border: 2px solid var(--website-color); */
+  position: relative;
+  overflow: hidden;
+}
+
+.kundliBox::before {
+  content: '';
+  position: absolute;
+  top: -87px;
+  left: 209px;
+  width: 2px;
+  height: 595px;
+  background: var(--website-gradient-back);
+  transform: rotate(-45deg);
+}
+
+.kundliBox::after {
+  content: '';
+  position: absolute;
+  top: -87px;
+  left: 208.5px;
+  width: 2px;
+  height: 595px;
+  background: var(--website-gradient-back);
+  transform: rotate(45deg);
+}
+
+/* Mid horizontal line (left to right) */
+
+.sampleVertical {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 419px;
+  width: 1px;
+  background: #000;
+  transform: translateX(-50%);
+}
+
+.samplehorizontal {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 1px;
+  width: 419px;
+  background: #000;
+  transform: translateY(-50%);
+}
+
+.kundliBox_line1 {
+  position: absolute;
+  top: -45px;
+  left: 314px;
+  width: 2px;
+  height: 300px;
+  background:var(--website-gradient-back);
+  transform: rotate(-45deg);
+}
+
+.kundliBox_line2 {
+  position: absolute;
+  bottom: -45px;
+  left: 103px;
+  width: 2px;
+  height: 300px;
+  background:var(--website-gradient-back);
+  transform: rotate(-45deg);
+}
+
+.kundliBox_line3 {
+  position: absolute;
+  top: -45px;
+  left: 103px;
+  width: 2px;
+  height: 300px;
+  background:var(--website-gradient-back);
+  transform: rotate(45deg);
+}
+
+.kundliBox_line4 {
+  position: absolute;
+  bottom: -45px;
+  left: 314px;
+  width: 2px;
+  height: 300px;
+  background:var(--website-gradient-back);
+  transform: rotate(45deg);
+}
+
+.house1 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 7%;
+  left: 32%;
+  transform: rotate(45deg);
+}
+
+.house2 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: -18.5%;
+  left: 7.05%;
+  transform: rotate(-45deg);
+}
+
+.house3 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 7%;
+  left: -18%;
+  transform: rotate(-45deg);
+}
+
+.house4 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 32%;
+  left: 7%;
+  transform: rotate(-45deg);
+}
+
+.house5 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 57.1%;
+  left: -18.5%;
+  transform: rotate(-45deg);
+}
+
+.house6 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 82%;
+  left: 7%;
+  transform: rotate(-45deg);
+}
+
+.house7 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 57%;
+  left: 32%;
+  transform: rotate(-45deg);
+}
+
+.house8 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 82%;
+  left: 57.06%;
+  transform: rotate(-45deg);
+}
+
+.house9 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 57.06%;
+  left: 82.4%;
+  transform: rotate(-45deg);
+}
+
+.house10 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 32%;
+  left: 57.1%;
+  transform: rotate(-45deg);
+}
+
+.house11 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 7.05%;
+  left: 82%;
+  transform: rotate(-45deg);
+}
+
+.house12 {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: -18%;
+  right: 7%;
+  transform: rotate(-45deg);
+}
+
+.house2 .mainTitle p {
+  min-width: 16px;
+  text-align: center;
+}
+
+.house1 .mainTitle {
+  transform: rotate(-45deg);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  position: relative;
+  top: 18px;
+  left: 18px;
+}
+
+.house2 .mainTitle,
+.house12 .mainTitle {
+  transform: rotate(-315deg);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: end;
+  position: relative;
+  top: 65px;
+  left: 30px;
+}
+
+.house3 .mainTitle,
+.house4 .mainTitle,
+.house5 .mainTitle {
+  transform: rotate(-315deg);
+  top: 58px;
+  left: -30px;
+  text-align: end;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.house6 .mainTitle,
+.house8 .mainTitle {
+  transform: rotate(-315deg);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: baseline;
+  position: relative;
+  top: 33px;
+  left: 67px;
+}
+
+.house7 .mainTitle {
+  transform: rotate(45deg);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  position: relative;
+  top: -107px;
+  left: 107px;
+}
+
+.house10 .mainTitle,
+.house9 .mainTitle,
+.house11 .mainTitle {
+  transform: rotate(-315deg);
+  top: 30px;
+  left: -60px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.house1 .planetList {
+  transform: rotate(-45deg);
+  width: 120px;
+  height: 78px;
+  position: relative;
+  top: -114px;
+  left: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.planetList ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+}
+
+.planetList ul li {
+  font-size: 15px;
+  line-height: 120%;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.house2 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -81px;
+  left: 4px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 76px;
+}
+
+.house2 .planetList ul {
+  justify-content: start;
+  align-items: start;
+}
+
+.house3 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -131px;
+  left: 69px;
+  max-width: 50px;
+  min-width: 50px;
+  min-height: 154px;
+  max-height: 154px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house4 .planetList {
+  position: relative;
+  transform: rotate(45deg);
+  top: -117px;
+  left: 27px;
+  width: 100px;
+  height: 76px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house5 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -132px;
+  left: 70px;
+  max-width: 50px;
+  min-width: 50px;
+  min-height: 154px;
+  max-height: 154px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house6 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -141px;
+  left: 50px;
+  max-width: 100px;
+  min-width: 100px;
+  min-height: 84px;
+  max-height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house7 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -118px;
+  left: 27px;
+  max-width: 100px;
+  min-width: 100px;
+  min-height: 84px;
+  max-height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house8 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -141px;
+  left: 50px;
+  max-width: 100px;
+  min-width: 100px;
+  min-height: 84px;
+  max-height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house9 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -171px;
+  left: 30px;
+  max-width: 50px;
+  min-width: 50px;
+  min-height: 154px;
+  max-height: 154px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house10 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -120px;
+  left: 27px;
+  max-width: 100px;
+  min-width: 100px;
+  min-height: 84px;
+  max-height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house11 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -170px;
+  left: 33px;
+  max-width: 50px;
+  min-width: 50px;
+  min-height: 154px;
+  max-height: 154px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.house12 .planetList {
+  transform: rotate(45deg);
+  position: relative;
+  top: -85px;
+  left: -4px;
+  width: 104px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kundliBox ul li[data-planet='Ma'] {
+  color: #ff0000;
+} /* Mars */
+.kundliBox ul li[data-planet='Mo'] {
+  color: #999999;
+} /* Moon */
+.kundliBox ul li[data-planet='Ke'] {
+  color: #cc6600;
+} /* Ketu */
+.kundliBox ul li[data-planet='Asc'] {
+  color: #000000;
+} /* Ascendant */
+.kundliBox ul li[data-planet='Su'] {
+  color: #ff9900;
+} /* Sun */
+.kundliBox ul li[data-planet='Me'] {
+  color: #009933;
+} /* Mercury */
+.kundliBox ul li[data-planet='Sa'] {
+  color: #006699;
+} /* Saturn */
+.kundliBox ul li[data-planet='Ve'] {
+  color: #cc3399;
+} /* Venus */
+.kundliBox ul li[data-planet='Ne'] {
+  color: #6666cc;
+} /* Neptune */
+.kundliBox ul li[data-planet='Ur'] {
+  color: #66ccff;
+} /* Uranus */
+.kundliBox ul li[data-planet='Ju'] {
+  color: #e6c200;
+} /* Jupiter */
+.kundliBox ul li[data-planet='Pl'] {
+  color: #666666;
+} /* Pluto */
+.kundliBox ul li[data-planet='Ra'] {
+  color: #333333;
+} /* Rahu */
+
+.customNavbar {
+  position: relative;
+  z-index: 30;
+}
+
+body:has(.chat_section) .footerBackground,
+body:has(.chat_section) .footer_line_2 {
+  display: none;
+}
+
+.custom_payment_modal {
+  max-width: 1000px;
+  width: 100% !important;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 0 30px;
+}
+
+.charts_list{
+  border: 1px solid var(--border-color);
+}
+
+@media(max-width: 768px){
+  .charts_list{
+  border: none;
+
+}
+}
+
+@media(max-width: 1799px){
+  .charts_list > div > div, .particular_Chart{
+    zoom: 0.86;
+  }
+}
+
+@media(max-width: 1599px){
+  .charts_list > div > div, .particular_Chart{
+    zoom: 0.796;
+  }
+}
+
+@media(max-width: 1399px){
+  .charts_list > div > div, .particular_Chart {
+    zoom: 0.693;
+}
+}
+
+@media(max-width: 1119px){
+  .charts_list > div > div, .particular_Chart {
+    zoom: 0.598;
+}
+}
+
+@media(max-width: 1023px){
+  .charts_list > div > div {
+    zoom: 0.78;
+}
+
+.particular_Chart{
+  zoom: 0.8;
+  margin: auto;
+}
+
+}
+
+@media(max-width: 775px){
+  .charts_list > div > div , .particular_Chart{
+    zoom: 0.7797;
+}
+ .charts_list > div > div,
+  .particular_Chart.lagnbalamChart {
+    zoom:0.8 !important;
+  }
+}
+
+@media(max-width: 774px){
+  .charts_list > div {
+    justify-content: center;
+}
+.charts_list > div > div,
+  .particular_Chart.lagnbalamChart {
+    zoom:.94 !important;
+  }
+}
+
+@media(max-width: 420px){
+  .particular_Chart{
+    zoom: 0.6;
+  }
+  .charts_list > div > div,
+  .particular_Chart.lagnbalamChart {
+    zoom:0.754 !important;
+  }
+}
+
+@media(max-width: 390px){
+  .charts_list > div > div {
+    zoom: 0.7;
+}
+.charts_list > div > div,
+  .particular_Chart.lagnbalamChart {
+    zoom:0.75 !important;
+  }
+}
+
+@media(max-width: 360px){
+  .charts_list > div > div {
+    zoom: 0.65;
+}
+.charts_list > div > div,
+  .particular_Chart.lagnbalamChart {
+    zoom:0.65 !important;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .bannerImagePC {
+    max-width: 350px;
+  }
+
+  .bannerImageRound {
+    max-width: 180px;
+    left: 100px;
+  }
+
+  .bannerSqureDots {
+    max-width: 95px;
+    left: 150px;
+  }
+
+  .bannerRoundDots {
+    max-width: 86px;
+    bottom: -25px;
+  }
+}
+
+@media (max-width: 1399px) {
+  .bannerSqureDots {
+    max-width: 95px;
+    left: 90px;
+  }
+  .bannerImageRound {
+    max-width: 180px;
+    left: 20px;
+  }
+}
+
+@media (max-width: 1120px) {
+  .bannerSqureDots {
+    left: 30px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .bannerSqureDots {
+    left: 80px;
+  }
+  .bannerRoundDots {
+    right: 70px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .bannerH2,
+  .bannerSpan {
+    font-size: 31px;
+    line-height: 42px;
+  }
+}
+
+@media (max-width: 576px) {
+  .bannerImagePC {
+    max-width: 250px;
+  }
+  .bannerImageRound {
+    max-width: 110px;
+    left: 90px;
+  }
+  .bannerSqureDots {
+    max-width: 75px;
+    left: 105px;
+  }
+  .bannerRoundDots {
+    max-width: 66px;
+    right: 110px;
+    bottom: -15px;
+  }
+}
+
+@media (max-width: 500px) {
+  .bannerSqureDots {
+    left: 50px;
+}
+.bannerImageRound {
+  left: 50px;
+}
+.bannerRoundDots {
+  right: 50px;
+}
+}
+
+@media (max-width: 420px) {
+  .bannerImageRound {
+    left: 0;
+}
+.bannerRoundDots {
+  right: 30px;
+}
+.bannerSqureDots {
+  left: 30px;
+}
+}
+
+@media(max-width: 350px){
+  .bannerRoundDots {
+    right: 10px;
+}
+.bannerSqureDots {
+  left: 10px;
+}
+}

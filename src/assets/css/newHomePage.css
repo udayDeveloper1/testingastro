@@ -1,0 +1,364 @@
+
+
+:root {
+  --website-color: #C32853;
+  --website-hover-color: #74419d3b;
+  --font-weight-100: 100;
+  --font-weight-200: 200;
+  --font-weight-300: 300;
+  --font-weight-400: 400;
+  --font-weight-500: 500;
+  --font-weight-100: 100;
+  --font-weight-600: 600;
+  --font-weight-700: 700;
+  --font-weight-800: 800;
+  --font-size--10: 10px;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-22: 22px;
+  --font-size-24: 24px;
+  --font-size-28: 28px;
+  --font-size-30: 30px;
+  --font-size-36: 36px;
+  --body-font: #575A6E;
+  --black-color: black;
+  --white-color: white;
+  --gray-color: #797979;
+ 
+  --black-opacity: rgba(0, 0, 0, 0.88);
+  --backKundliReport: #F2ECF6;
+  --black-opacity: rgba(0, 0, 0, 0.88);
+  --box-shadow-common: 0px 0px 20px 0px #0000000D;
+
+  --website-light-color:#e3725d21;
+  --website-gradient-back:linear-gradient(90deg, #C32853 0%, #EE7E49 100%);
+   --solid-hover-color: #C32853;  
+   --light-website-gradient-back: linear-gradient(270deg, #FDF3EC 0%, #F9E9EC 100%);
+
+   --input--border-color:  1px solid rgba(227, 114, 93, 0.3);
+    --border-color:rgba(227, 114, 93, 0.3);
+    --new-drop--shadow:0px 0px 20px 0px #0000000D;
+     --new-body-color:#343434;
+}
+
+
+.homePanchangCard {
+  background-image: url('/newThemeHomePage/frame1.webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.horscopeNewCard {
+  box-shadow: 0px 0px 20px 0px #0000000d;
+  border: 1px solid #eee9f2;
+}
+
+
+/* .ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state{
+
+} */
+
+.numbersNewDiv {
+  background-color: rgba(227, 114, 93, 0.03);
+}
+
+.testHr {
+  border-top: 1px solid var(--border-color);
+}
+
+.slick-dots li button:before {
+  font-size: 16px;
+}
+
+.testimonial .slick-dots li button:before {
+  font-size: 16px !important;
+}
+
+.testimonial .slick-dots li.slick-active button:before {
+  color: var(--website-color);
+}
+
+.testimonial .slick-dots li button:before {
+  font-size: 18px;
+  color: var(--website-color);
+}
+
+.testimonial .slick-dots {
+  bottom: -49px;
+}
+.astroNewCard{
+  border: 1px solid transparent;
+
+}
+.astroNewCard:hover {
+  border: 1px solid var(--website-color);
+}
+
+.newHomeBack {
+  background-color: #fefafa;
+}
+
+/* .antDNewInput {
+   border: 1px solid transparent;
+  border-radius: 10px; 
+  background: linear-gradient(white, white), var(--website-gradient-back);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+} */
+
+.panchangDetailHomeBack{
+  background: url("/newThemeHomePage/frame1.webp");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.renderChatCard .slick-list {
+  overflow: visible !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #c32853 0%, #ee7e49 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  /* for Firefox */
+  color: transparent !important;
+}
+
+
+
+.gradient-border {
+  border: 1px solid transparent;
+  border-image: linear-gradient(90deg, #c32853, #ee7e49);
+  border-image-slice: 1;
+  border-radius: 75px;
+}
+
+
+
+.renderAstroCard {
+  background: url('/newThemeHomePage/astroMobileCardBack.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.gradient-border > .inner {
+  background: white;
+  /* Or any background you want */
+  padding: 20px;
+  border-radius: 6px;
+  /* slightly smaller than parent */
+}
+
+.horoscopeGrid .slick-prev:before,
+.horoscopeGrid .slick-next:before {
+  color: var(--website-color);
+  font-size: 25px;
+}
+
+.horoscopeGrid .slick-prev {
+  left: -5px;
+  z-index: 1;
+}
+
+.horoscopeGrid .slick-next {
+  right: 0px;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.celebrity .slick-dots {
+  z-index: 1;
+  bottom: -46px;
+}
+
+.celebrity .slick-dots li.slick-active button:before {
+  color: var(--website-color);
+  font-size: 16px;
+}
+
+.celebrity .slick-dots li button:before {
+  font-size: 16px;
+  color: var(--website-color);
+}
+
+.celebrity .slick-prev:before,
+.celebrity .slick-next:before {
+  color: var(--website-color);
+  font-size: 25px;
+}
+
+.celebrity .slick-prev {
+  left: -5px;
+  z-index: 1;
+}
+
+.celebrity .slick-next {
+  right: 0px;
+}
+
+.renderChatCard .slick-dots {
+  z-index: 1;
+  bottom: -2px;
+}
+
+.renderChatCard .slick-dots li.slick-active button:before {
+  color: var(--website-color);
+  font-size: 16px;
+}
+
+.renderChatCard .slick-dots li button:before {
+  font-size: 16px;
+  color: var(--website-color);
+}
+
+.renderChatCard .slick-prev:before,
+.renderChatCard .slick-next:before {
+  color: var(--website-color);
+  font-size: 25px;
+}
+
+.renderChatCard .slick-prev {
+  left: -5px;
+  z-index: 1;
+}
+
+.renderChatCard .slick-next {
+  right: 0px;
+}
+
+.ratecard {
+  min-width: 92.39px;
+  max-width: 92.39px;
+  justify-content: center;
+  min-height: 36.39px;
+  display: flex;
+  align-items: center;
+}
+
+
+.newColorBack{
+  background-color: #FFFCFC;
+}
+
+
+@media (max-width: 1799px) {
+  .ratecard {
+    max-width: 75.39px;
+    min-width: 75.39px;
+  }
+}
+
+@media (max-width: 1599px) {
+  .ratecard {
+   max-width: 69.39px;
+        min-width: 69.39px;
+    font-size: 12px;
+    gap: 2px;
+  }
+}
+
+
+@media (max-width: 1530px) {
+  .ratecard {
+   max-width: 100.39px;
+        min-width: 100.39px;
+    font-size: 12px;
+    gap: 2px;
+  }
+}
+
+
+@media screen and (max-width: 1399px) {
+  .ratecard {
+    max-width: 81.39px;
+    min-width: 80.39px;
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .ratecard {
+            max-width: 80.39px;
+        min-width: 80.39px;
+  }
+}
+
+@media (max-width: 1119px) {
+  .ratecard {
+           max-width: 71.39px;
+        min-width: 71.39px;
+  }
+}
+
+
+@media (max-width: 1024px) {
+ .ratecard {
+        max-width: 102.39px;
+        min-width: 102.39px;
+    }
+}
+
+@media (max-width: 767px) {
+  .ratecard {
+           max-width: 73.39px;
+        min-width: 73.39px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 675px) {
+  .ratecard {
+            max-width: 73px;
+        min-width: 73px;
+  }
+}
+@media (max-width: 636px) {
+  .ratecard {
+            max-width: 71px;
+        min-width: 71px;
+  }
+}
+@media (max-width: 622px) {
+  .ratecard {
+            max-width: 69px;
+        min-width: 69px;
+  }
+}
+@media (max-width: 610px) {
+  .ratecard {
+            max-width: 68px;
+        min-width: 68px;
+  }
+}
+
+@media (max-width: 604px) {
+  .ratecard {
+         max-width: 147px;
+        min-width: 77px;
+  }
+}
+
+@media (max-width: 415px) {
+  .ratecard {
+                    max-width: 72px;
+        min-width: 71px;
+  }
+}
+@media (max-width: 320px) {
+  .ratecard {
+                    max-width: 64px;
+        min-width: 61px;
+  }
+}
+       

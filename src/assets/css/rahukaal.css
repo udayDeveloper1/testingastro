@@ -1,0 +1,12 @@
+
+@media(max-width: 1023px){
+    .close_img_rahukaal {
+          top: 75%;
+    }
+}
+
+@media(max-width: 767px){
+    .close_img_rahukaal {
+          top: 77%;
+    }
+}
