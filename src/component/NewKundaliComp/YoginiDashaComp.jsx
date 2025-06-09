@@ -8,7 +8,10 @@ import { LanguageOption } from "../../utils/CommonVariable";
 
 export default function YoginiDashaComp({ yoginiDashaSub }) {
 
-  const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
+
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+      ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+      : LanguageOption?.ENGLISH
 
   const getYoginiDashaFullPeriods = (yoginiDasha = []) => {
     const allMainPeriods = [];
@@ -18,13 +21,13 @@ export default function YoginiDashaComp({ yoginiDashaSub }) {
       let currentStartDate = new Date(item?.sub_dasha_start_date);
 
       const sub_dasha_periods = item?.sub_dasha_list?.map((subName, i) => {
-        const endDate = myLanguage === LanguageOption?.ENGLISH ? new Date(item.sub_dasha_end_dates[i]) : item.sub_dasha_end_dates[i] || '-';
+        const endDate = LocalLanguage === LanguageOption?.ENGLISH ? new Date(item.sub_dasha_end_dates[i]) : item.sub_dasha_end_dates[i] || '-';
         const formatDate = (date) =>
           `${date?.getDate()} / ${date?.getMonth() + 1} / ${date?.getFullYear()}`;
 
         const period = {
           sign: subName || '-',
-          end_date: myLanguage === LanguageOption?.ENGLISH ? formatDate(endDate) : endDate || '-',
+          end_date: LocalLanguage === LanguageOption?.ENGLISH ? formatDate(endDate) : endDate || '-',
         };
         currentStartDate = new Date(endDate); // update for next loop
         return period;
@@ -88,7 +91,7 @@ export default function YoginiDashaComp({ yoginiDashaSub }) {
                         }
                         const formattedStartDate = startDate.format('DD/MM/YYYY');
                         const dashaName = getShortNakshatra(item?.main_dasha)?.toUpperCase();
-                        const retrunValue = myLanguage === LanguageOption?.ENGLISH ? `${displayValue} ( ${formattedStartDate} )` : item?.sub_dasha_start_date[0]
+                        const retrunValue = LocalLanguage === LanguageOption?.ENGLISH ? `${displayValue} ( ${formattedStartDate} )` : item?.sub_dasha_start_date[0]
                         return retrunValue;
 
                       })(),

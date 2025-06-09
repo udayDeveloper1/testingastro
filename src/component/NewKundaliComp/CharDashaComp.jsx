@@ -10,7 +10,10 @@ import { useTranslation } from 'react-i18next';
 export default function CharDashaComp({ charDashaSub, charDashaMain }) {
   const { t } = useTranslation()
 
-  const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
+
+    const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+      ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+      : LanguageOption?.ENGLISH
 
   const columnsCharDasha = [
     {
@@ -57,15 +60,15 @@ export default function CharDashaComp({ charDashaSub, charDashaMain }) {
 
   const finelCharDashaMain = Array.isArray(charDashaMain?.dasha_list) ?
     charDashaMain.dasha_list.map((planet, index) => {
-      const startDate = index === 0 ? myLanguage == LanguageOption?.ENGLISH ? moment(charDashaMain?.start_date) : charDashaMain?.start_date :
-        myLanguage == LanguageOption?.ENGLISH ? moment(charDashaMain?.dasha_end_dates?.[index - 1]) : charDashaMain?.dasha_end_dates?.[index - 1];
+      const startDate = index === 0 ? LocalLanguage == LanguageOption?.ENGLISH ? moment(charDashaMain?.start_date) : charDashaMain?.start_date :
+        LocalLanguage == LanguageOption?.ENGLISH ? moment(charDashaMain?.dasha_end_dates?.[index - 1]) : charDashaMain?.dasha_end_dates?.[index - 1];
 
-      const endDate = myLanguage == LanguageOption?.ENGLISH ? moment(charDashaMain?.dasha_end_dates?.[index]) : charDashaMain?.dasha_end_dates?.[index];
+      const endDate = LocalLanguage == LanguageOption?.ENGLISH ? moment(charDashaMain?.dasha_end_dates?.[index]) : charDashaMain?.dasha_end_dates?.[index];
 
       return {
         planet,
-        start_date: myLanguage == LanguageOption?.ENGLISH ? startDate.isValid() ? formatDate(startDate, DateFormat?.DATE_SLASH_FORMAT_SPACE) : '-' : startDate || '-',
-        end_date: myLanguage == LanguageOption?.ENGLISH ? endDate.isValid() ? formatDate(endDate, DateFormat?.DATE_SLASH_FORMAT_SPACE) : '-' : endDate || '-',
+        start_date: LocalLanguage == LanguageOption?.ENGLISH ? startDate.isValid() ? formatDate(startDate, DateFormat?.DATE_SLASH_FORMAT_SPACE) : '-' : startDate || '-',
+        end_date: LocalLanguage == LanguageOption?.ENGLISH ? endDate.isValid() ? formatDate(endDate, DateFormat?.DATE_SLASH_FORMAT_SPACE) : '-' : endDate || '-',
       };
     })
     : [];
@@ -75,19 +78,19 @@ export default function CharDashaComp({ charDashaSub, charDashaMain }) {
 
     charDasha?.length > 0 && charDasha?.forEach((item) => {
 
-      let currentStartDate = myLanguage == LanguageOption?.ENGLISH ? new Date(item?.sub_dasha_start_date) : item?.sub_dasha_start_date;
+      let currentStartDate = LocalLanguage == LanguageOption?.ENGLISH ? new Date(item?.sub_dasha_start_date) : item?.sub_dasha_start_date;
       const sub_dasha_periods = item?.sub_dasha_list?.map((subName, i) => {
-        const endDate = myLanguage == LanguageOption?.ENGLISH ? new Date(item.sub_dasha_end_dates[i]) : item.sub_dasha_end_dates[i];
+        const endDate = LocalLanguage == LanguageOption?.ENGLISH ? new Date(item.sub_dasha_end_dates[i]) : item.sub_dasha_end_dates[i];
         // const formatDate = (date) =>
         //   `${date?.getDate()} / ${date?.getMonth() + 1} / ${date?.getFullYear().toString().slice(2)}`;
 
         const period = {
           sign: subName || '-',
-          start_date: myLanguage == LanguageOption?.ENGLISH ? formatDate(currentStartDate, DateFormat?.DATE_SLASH_FORMAT_SPACE) : currentStartDate || '-',
-          end_date: myLanguage == LanguageOption?.ENGLISH ? formatDate(endDate, DateFormat?.DATE_SLASH_FORMAT_SPACE) : endDate || '-',
+          start_date: LocalLanguage == LanguageOption?.ENGLISH ? formatDate(currentStartDate, DateFormat?.DATE_SLASH_FORMAT_SPACE) : currentStartDate || '-',
+          end_date: LocalLanguage == LanguageOption?.ENGLISH ? formatDate(endDate, DateFormat?.DATE_SLASH_FORMAT_SPACE) : endDate || '-',
         };
 
-        currentStartDate = myLanguage == LanguageOption?.ENGLISH ? new Date(endDate) : endDate; // update for next loop
+        currentStartDate = LocalLanguage == LanguageOption?.ENGLISH ? new Date(endDate) : endDate; // update for next loop
         return period;
       });
 
@@ -145,26 +148,26 @@ export default function CharDashaComp({ charDashaSub, charDashaMain }) {
                   },
                   {
                     title: (() => {
-                      const startDate = myLanguage == LanguageOption?.ENGLISH ? moment(item?.sub_dasha_start_date, "ddd MMM DD YYYY") : item?.sub_dasha_start_date;
-                      const endDate = myLanguage == LanguageOption?.ENGLISH ? moment(item?.sub_dasha_periods?.[0]?.end_date,
+                      const startDate = LocalLanguage == LanguageOption?.ENGLISH ? moment(item?.sub_dasha_start_date, "ddd MMM DD YYYY") : item?.sub_dasha_start_date;
+                      const endDate = LocalLanguage == LanguageOption?.ENGLISH ? moment(item?.sub_dasha_periods?.[0]?.end_date,
                         [
                           "D/M/YY",
                           "DD/MM/YYYY",
                           "YYYY-MM-DD",
                         ]) : item?.sub_dasha_periods?.[0]?.end_date;
 
-                      let yearsDifference = myLanguage == LanguageOption?.ENGLISH ? endDate.diff(startDate, "years") : startDate;
+                      let yearsDifference = LocalLanguage == LanguageOption?.ENGLISH ? endDate.diff(startDate, "years") : startDate;
                       let displayValue = "";
 
                       if (yearsDifference === 0) {
-                        const monthsDifference = myLanguage == LanguageOption?.ENGLISH ? endDate.diff(startDate, "months") : startDate;
+                        const monthsDifference = LocalLanguage == LanguageOption?.ENGLISH ? endDate.diff(startDate, "months") : startDate;
                         displayValue = `${monthsDifference} Month${monthsDifference > 1 ? "s" : ""}`;
                       } else {
                         displayValue = `${yearsDifference} Year${yearsDifference > 1 ? "s" : ""}`;
                       }
                       const dashaName = getShortNakshatra(item?.main_dasha)?.toUpperCase();
 
-                      const returnValue = myLanguage == LanguageOption?.ENGLISH ? `${displayValue} (${formatDate(startDate, DateFormat?.DATE_SLASH_FORMAT_SPACE)})` : startDate
+                      const returnValue = LocalLanguage == LanguageOption?.ENGLISH ? `${displayValue} (${formatDate(startDate, DateFormat?.DATE_SLASH_FORMAT_SPACE)})` : startDate
                       return returnValue;
                     })(),
 

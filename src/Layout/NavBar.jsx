@@ -570,8 +570,6 @@ function NavBar() {
   // }, [location.pathname, LocalLanguage])
 
 
-  console.log('homapageDatahomapageData', homapageData);
-
   const fetchData = useCallback(async () => {
     try {
       const cityName = await getCurrentCity()

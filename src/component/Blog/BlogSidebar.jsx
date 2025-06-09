@@ -73,7 +73,7 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
         filterOption={(inputValue, option) =>
           option.label.toLowerCase().includes(inputValue.toLowerCase())
         }
-        className="min-h-[50px] autoComplete_min_h !w-full"
+        className="min-h-[50px] autoComplete_min_h !w-full blogSideBarAutoComplete"
       >
         <Input
           prefix={
@@ -81,7 +81,7 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
             <img src={commonSearch} alt='Search' className='object-contain w-[16px] h-[16px]' />
           </div>
           }
-          className="p-2 outline-none border rounded-lg"
+          className="p-2 outline-none border rounded-lg "
         />
       </AutoComplete>
 

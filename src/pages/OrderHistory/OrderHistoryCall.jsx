@@ -9,8 +9,15 @@ import { useNavigate } from 'react-router'
 import Loader from '../../component/loader/Loader'
 import AstrologerChatCard from '../../component/Transaction/AstrologerChatCard'
 // import { PATHS } from '../../routers/Paths'
-import { addChatRequest, getUserDetails, orderHistoryChat } from '../../services/api/api.services'
-import { setAstroDetails, setAstroPaymentDetails } from '../../storemain/slice/astroLogerDetailsSlice'
+import {
+  addChatRequest,
+  getUserDetails,
+  orderHistoryChat
+} from '../../services/api/api.services'
+import {
+  setAstroDetails,
+  setAstroPaymentDetails
+} from '../../storemain/slice/astroLogerDetailsSlice'
 
 import {
   Encryption,
@@ -28,7 +35,7 @@ import { UpdatedPaths } from '../../routers/Paths'
 import { useTranslation } from 'react-i18next'
 const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
 
-function OrderHistoryCall() {
+function OrderHistoryCall () {
   const [active, setActive] = useState('1')
   const [astrologers, setAstrologers] = useState([])
   const dispatch = useDispatch()
@@ -40,8 +47,6 @@ function OrderHistoryCall() {
     state => state?.masterSlice?.loginUser
   )
 
-  const { loding_type, is_loading } = useSelector(state => state?.masterSlice?.loader)
-
   const [loading, setLoading] = useState(true)
 
   const getOrderChatDetails = async () => {
@@ -52,6 +57,7 @@ function OrderHistoryCall() {
         setAstrologers(response?.data)
       }
     } catch (error) {
+      setLoading(false)
       console.log(error)
     } finally {
       setLoading(false)
@@ -60,55 +66,67 @@ function OrderHistoryCall() {
   }
 
   const handleChat = async (e, record) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       const recordData = {
         ...cloneDeep(record),
         sessionID: `sessionID_${Date.now()}`
-      };
-      recordData.price_per_min = recordData?.receiver_price_per_min;
-      recordData.profile_image = recordData?.receiver_profile;
-      recordData.name = recordData?.receiver_name;
-      const res = await getUserDetails();
+      }
+      recordData.price_per_min = recordData?.receiver_price_per_min
+      recordData.profile_image = recordData?.receiver_profile
+      recordData.name = recordData?.receiver_name
+      const res = await getUserDetails()
 
       if (res.code !== Codes.SUCCESS) {
-        return TOAST_ERROR(res.message);
+        return TOAST_ERROR(res.message)
       }
 
-      const userData = { ...loginUserData, ...res?.data };
-      setLoginUserData(dispatch, is_login, loginUserData, setUserLoginData, res?.data);
-      loginRedirection(userData);
+      const userData = { ...loginUserData, ...res?.data }
+      setLoginUserData(
+        dispatch,
+        is_login,
+        loginUserData,
+        setUserLoginData,
+        res?.data
+      )
+      loginRedirection(userData)
 
-      const isAI = record?.is_ai_chat == '1';
-      const isFreeChatAvailable = res?.data?.is_freechat_count > 0;
-      const walletBalance = +userData?.total_wallet_balance;
-      const pricePerMin = +recordData.receiver_price_per_min;
+      const isAI = record?.is_ai_chat == '1'
+      const isFreeChatAvailable = res?.data?.is_freechat_count > 0
+      const walletBalance = +userData?.total_wallet_balance
+      const pricePerMin = +recordData.receiver_price_per_min
 
-      // Non-AI flow: make addChatRequest API call
       if (!isAI) {
         const response = await addChatRequest({
           astrologer_id: record?.receiver_id,
           conversation_types: 'chat'
-        });
+        })
 
         if (response.code !== Codes.SUCCESS) {
-          return TOAST_ERROR(response.message);
+          return TOAST_ERROR(response.message)
         }
 
-        recordData.AstroData = response.data;
-
+        recordData.AstroData = response.data
       }
 
       if (isFreeChatAvailable || walletBalance / pricePerMin >= 2) {
-        navigateChat(navigate, dispatch, setAstroDetails, Encryption, recordData, 'history', true);
+        navigateChat(
+          navigate,
+          dispatch,
+          setAstroDetails,
+          Encryption,
+          recordData,
+          'history',
+          true
+        )
       } else {
-        dispatch(setAstroPaymentDetails(recordData));
-        navigate(PATHS.MONEY_WALLET);
+        dispatch(setAstroPaymentDetails(recordData))
+        navigate(PATHS.MONEY_WALLET)
       }
     } catch (error) {
-      TOAST_ERROR(error.message);
+      TOAST_ERROR(error.message)
     }
-  };
+  }
 
   useLayoutEffect(() => {
     getOrderChatDetails()
@@ -118,62 +136,10 @@ function OrderHistoryCall() {
     <>
       <section>
         <div className=''>
-          <CommonBanner
-            // backgroundImage={ active == '0' ? TransactionWalletImage : transactionPayment }
-            text={t('order_history')}
-          // highlight={
-          //   active == '0' ? 'Order History' : 'Order History'
-          // }
-          />
+          <CommonBanner text={t('order_history')} />
         </div>
-        {/* <KundliStepper /> */}
       </section>
 
-      {/* <section>
-        <div className='container paddingTop50'>
-          <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 gap-4 w-full'>
-            <div>
-              <CustomButton
-                className={`  w-full  border font-semibold text-[16px] leading-[100%] transition-all py-[13px] ${active === '0'
-                    ? 'setting_active'
-                    : 'setting_inactive'
-                  }`}
-                onClick={() => {
-                  setActive('0')
-                }}
-              >
-                Call
-              </CustomButton>
-            </div>
-            <div>
-              <CustomButton
-                className={`w-full  border font-semibold text-[16px] leading-[100%] transition-all py-[13px] ${active === '1'
-                    ? 'setting_active'
-                    : 'setting_inactive'
-                  }`}
-                onClick={() => {
-                  setActive('1')
-                }}
-              >
-                Chat
-              </CustomButton>
-            </div>
-            <div>
-              <CustomButton
-                className={`w-full  border font-semibold text-[16px] leading-[100%] transition-all py-[13px] ${active === '2'
-                    ? 'setting_active'
-                    : 'setting_inactive'
-                  }`}
-                onClick={() => {
-                  setActive('2')
-                }}
-              >
-                Report
-              </CustomButton>
-            </div>
-          </div>
-        </div>
-      </section> */}
       <section>
         <div className='container padding50 '>
           {active === '0' ? (
@@ -204,17 +170,14 @@ function OrderHistoryCall() {
               </div>
             </>
           ) : (
-            <>
-            </>
+            <></>
           )}
           {loading && <Loader />}
-          {!loading &&
-            astrologers?.length === 0 &&
-            (
-              <>
-                <NoDataFound classList='pt-10' />
-              </>
-            )}
+          {!loading && astrologers?.length === 0 && (
+            <>
+              <NoDataFound classList='pt-10' />
+            </>
+          )}
         </div>
       </section>
     </>

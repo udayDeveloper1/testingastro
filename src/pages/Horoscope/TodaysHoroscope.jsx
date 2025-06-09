@@ -34,9 +34,11 @@ function TodaysHoroscope() {
   const horoscopeTabs = useHoroscopeTabs();
   const horoscopeList = useHoroscopeList();
 
-  const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage);
-  const LocalLanguage =
-    localStorage.getItem(Constatnt.LANGUAGE_KEY) || LanguageOption.ENGLISH;
+  
+
+        const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+        ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+        : LanguageOption?.ENGLISH
 
   const [active, setActive] = useState('0');
   const [type, setType] = useState('daily');
@@ -109,7 +111,7 @@ function TodaysHoroscope() {
     if (typeParams) {
       fetchHoroscopeData(typeParams);
     }
-  }, [typeParams, myLanguage]);
+  }, [typeParams, LocalLanguage]);
 
   return (
     <>

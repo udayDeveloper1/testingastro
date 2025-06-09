@@ -68,7 +68,9 @@ const KundaliMatchForm = () => {
   const loginUser = useSelector(state => state?.masterSlice?.loginUser);
   const localstorage_isLogin = localStorage.getItem(Constatnt?.LOGIN_KEY)
   const loder = useSelector(state => state?.masterSlice?.loader)
-  const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
+    const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+      ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+      : LanguageOption?.ENGLISH
 
   const [boyForm] = Form.useForm()
   const [girlForm] = Form.useForm()
@@ -193,7 +195,7 @@ const KundaliMatchForm = () => {
         gender: 'male',
         u_name: value[InputTypesEnum?.NAME]
       },
-      lang: myLanguage || LanguageOption?.ENGLISH
+      lang: LocalLanguage || LanguageOption?.ENGLISH
     }
 
     const request_2 = {

@@ -6,7 +6,9 @@ import { useSelector } from "react-redux";
 
 export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
 
-  const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
+      const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+      ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+      : LanguageOption?.ENGLISH
 
   const columns = [
     {
@@ -24,7 +26,7 @@ export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
       key: "value",
       align: "center",
 
-      render: (text) => <span className="text-gray-800">{myLanguage == LanguageOption?.ENGLISH ? formatDate(text, DateFormat?.DATE_SLASH_FORMAT_SPACE) : text}</span>,
+      render: (text) => <span className="text-gray-800">{LocalLanguage == LanguageOption?.ENGLISH ? formatDate(text, DateFormat?.DATE_SLASH_FORMAT_SPACE) : text}</span>,
     },
   ];
 
@@ -66,10 +68,10 @@ export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
 
   const dataSourceMahaDasha = Array.isArray(mahaDasha?.mahadasha) ? mahaDasha.mahadasha.map((planet, index) => {
     const startDate = index === 0 ?
-      myLanguage == LanguageOption?.ENGLISH ? formatDate(mahaDasha?.dasha_start_date || null, DateFormat?.DATE_SLASH_FORMAT_SPACE) : mahaDasha?.dasha_start_date
-      : myLanguage == LanguageOption?.ENGLISH ? formatDate(mahaDasha?.mahadasha_order?.[index - 1] || null, DateFormat?.DATE_SLASH_FORMAT_SPACE) : mahaDasha?.mahadasha_order?.[index - 1];
+      LocalLanguage == LanguageOption?.ENGLISH ? formatDate(mahaDasha?.dasha_start_date || null, DateFormat?.DATE_SLASH_FORMAT_SPACE) : mahaDasha?.dasha_start_date
+      : LocalLanguage == LanguageOption?.ENGLISH ? formatDate(mahaDasha?.mahadasha_order?.[index - 1] || null, DateFormat?.DATE_SLASH_FORMAT_SPACE) : mahaDasha?.mahadasha_order?.[index - 1];
 
-    const endDate = myLanguage == LanguageOption?.ENGLISH ? formatDate(mahaDasha?.mahadasha_order?.[index] || null, DateFormat?.DATE_SLASH_FORMAT_SPACE) : mahaDasha?.mahadasha_order?.[index];
+    const endDate = LocalLanguage == LanguageOption?.ENGLISH ? formatDate(mahaDasha?.mahadasha_order?.[index] || null, DateFormat?.DATE_SLASH_FORMAT_SPACE) : mahaDasha?.mahadasha_order?.[index];
 
     return {
       key: index,

@@ -29,7 +29,7 @@ function AstrologerChatCard({ astro, historyType, handleChat = () => { } }) {
           />
         ) : (
           <div className="w-16 h-16 rounded-full  relative">
-            <Loader3 classList="shadow-[0px_0px_14px_0px_#00000040]" />
+            <Loader3 classList="shadow-[0px_0px_14px_0px_#00000040] zoom-[0.5] scale-[0.5]" />
           </div>
         )}
         <div className="flex-1 flex flex-col gap-2">

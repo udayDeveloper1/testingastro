@@ -64,7 +64,7 @@ const BASE_PATHS = {
 }
 
 export const PATHS_LANGUAGE = {
-  HOMEPAGE: '/:lang',
+  HOMEPAGE: '/:lang/',
   TALKWITHASTROLOGER: '/:lang/talkWithAstrologer',
   CHATWITHASTROLOGERS: '/:lang/chatWithAstrologer',
   FREEKUNDALI: '/:lang/freeKundli',
@@ -157,7 +157,9 @@ export function UpdatedPaths () {
   for (const key in BASE_PATHS) {
     const path = BASE_PATHS[key]
     prefixedPaths[key] = path === '*' ? '*' : `/${lang}${path}`
-  }
+  }  
+  console.log(prefixedPaths, "prefixedPaths");
+  
   return prefixedPaths
 }
 

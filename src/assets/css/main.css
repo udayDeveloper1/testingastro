@@ -1011,6 +1011,10 @@ h2 {
 .footerBackground {
   position: relative;
 }
+
+.blogSideBarAutoComplete .ant-select-selection-placeholder{
+  padding-left: 62px !important;
+}
 @media (min-width: 413px) {
   .footerBackground {
     background: url('/banner/footerBg.svg') no-repeat;

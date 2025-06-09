@@ -13,7 +13,6 @@ import { blogDetails } from '../../services/api/api.services'
 
 const BlogDetails = () => {
   const { blogId } = useParams()
-  const BlogList = useSelector(state => state.HomePageSlice?.homapageList?.data?.BlogList) || [];
   const blogListData = useSelector(state => state?.masterSlice?.blogListData)
 
   const [blogDetailData, setBlogDetailData] = useState({});

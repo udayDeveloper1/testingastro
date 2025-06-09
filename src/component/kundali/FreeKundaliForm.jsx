@@ -1017,7 +1017,7 @@ const FreeKundali = () => {
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     : LanguageOption?.ENGLISH
-  const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
+  
 
   const [placeOptions, setPlaceOptions] = useState([])
   const [selecteLocation, setSelectedLocation] = useState({})
@@ -1392,7 +1392,7 @@ const FreeKundali = () => {
       bop: value[InputTypesEnum?.LOCATION],
       gender: value[InputTypesEnum?.GENDER],
       u_name: value[InputTypesEnum?.NAME],
-      lang: myLanguage || LanguageOption?.ENGLISH // myLanguage,
+      lang: LocalLanguage || LanguageOption?.ENGLISH // myLanguage,
     }
 
     console.log('requestrequest', request);
@@ -1967,7 +1967,6 @@ const FreeKundali = () => {
             </Form.Item>
           </Form>
         </Card>
-
         {pathname == PATHS?.FREEKUNDALI && (
           <>
             <Card className='col-span-3 lg:col-span-1 newKundaliCard'>

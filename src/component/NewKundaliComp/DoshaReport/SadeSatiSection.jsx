@@ -8,7 +8,9 @@ import { LanguageOption } from "../../../utils/CommonVariable";
 const { Title, Paragraph } = Typography;
 function SadeSatiSection({ sadeSati }) {
   const { t } = useTranslation()
-  const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
+    const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+        ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+        : LanguageOption?.ENGLISH
 
 
   // Check if sadeSati is defined and is an array
@@ -21,8 +23,8 @@ function SadeSatiSection({ sadeSati }) {
   hundredYearsFromNow.setFullYear(currentDate.getFullYear() + 100); // 100 years from now
 
   const filteredSadeSati = sadeSati?.filter((item) => {
-    const itemDate = myLanguage === LanguageOption?.ENGLISH ? new Date(item.start_date) : item.start_date;
-    return myLanguage === LanguageOption?.ENGLISH ? itemDate <= hundredYearsFromNow : itemDate; // Only include entries within 100 years from now
+    const itemDate = LocalLanguage === LanguageOption?.ENGLISH ? new Date(item.start_date) : item.start_date;
+    return LocalLanguage === LanguageOption?.ENGLISH ? itemDate <= hundredYearsFromNow : itemDate; // Only include entries within 100 years from now
   });
 
   // const columns = [

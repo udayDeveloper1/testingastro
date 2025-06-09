@@ -68,12 +68,10 @@ console.log(name);
  useEffect(() => {
    setSignName(name);
  }, [name])
- 
 
-
-  const myLanguage = useSelector(
-    (state) => state?.masterSlice?.currentLanguage
-  );
+      const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+        ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+        : LanguageOption?.ENGLISH
 
   const [horoScopDetails, setHoroScopDetails] = useState({});
   const [horoScopDescription, setHoroScopDescription] = useState({});
@@ -146,18 +144,18 @@ console.log(name);
         if (type === "weekly-horoscope") {
           response = await getWeeklyHoroscope({
             zodiac: zodiacSign,
-            lang: myLanguage ?? localStorage.getItem(Constatnt?.LANGUAGE_KEY),
+            lang: LocalLanguage ?? localStorage.getItem(Constatnt?.LANGUAGE_KEY),
           });
         } else if (type === "yearly-horoscope") {
           response = await getYearlyHoroscope({
             zodiac: zodiacSign,
-            lang: myLanguage ?? localStorage.getItem(Constatnt?.LANGUAGE_KEY),
+            lang: LocalLanguage ?? localStorage.getItem(Constatnt?.LANGUAGE_KEY),
             year: currentYear,
           });
         } else {
           response = await getHoroscope({
             zodiac: zodiacSign,
-            lang: myLanguage ?? localStorage.getItem(Constatnt?.LANGUAGE_KEY),
+            lang: LocalLanguage ?? localStorage.getItem(Constatnt?.LANGUAGE_KEY),
             date: getDateByType(type),
           });
         }
@@ -177,7 +175,7 @@ console.log(name);
       }
     };
     fetchData();
-  }, [name, type, zodiacSign, currentYear, getDateByType, myLanguage]);
+  }, [name, type, zodiacSign, currentYear, getDateByType, LocalLanguage]);
 
   // Handle tab change for yearly horoscope
   const handleTabChange = useCallback((data) => {
