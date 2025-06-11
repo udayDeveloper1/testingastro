@@ -559,7 +559,9 @@ const ChatUI = () => {
         <div
           className={`flex ${
             isUser ? 'justify-end' : 'justify-start'
-          } px-2 md:px-6 my-2 mb-4`}
+          } 
+          my-2 mb-4`}
+          // px-2 md:px-6 
         >
           <div className='flex flex-col items-start'>
             <div

@@ -36,6 +36,10 @@
     />
     <meta name="twitter:image" content="/astrotalk-preview.jpg" />
     <meta name="theme-color" content="#E3725D" />
+    <link rel="preload" as="image" href="/homepage/homeBackgroundImage.webp" type="image/webp">
+<link rel="preload" as="image" href="/assets/img/banner/homeBackgroundImage_mobile.webp" type="image/webp" media="(max-width: 412px)">
+
+
     <script type="text/javascript">
       ;(function (c, l, a, r, i, t, y) {
         c[a] =
@@ -94,7 +98,7 @@
 
   <body>
     <div id="root"></div>
-
+<!-- 
     <div id="preloader">
       <div class="preloader">
         <svg height="100" width="100">
@@ -109,7 +113,7 @@
           />
         </svg>
       </div>
-    </div>
+    </div> -->
 
     <script>
       window.addEventListener('load', function () {
@@ -152,6 +156,6 @@
 
     <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-6V1TW3XYFY"></script> <script>   window.dataLayer = window.dataLayer || [];   function gtag(){dataLayer.push(arguments);}   gtag('js', new Date());   gtag('config', 'G-6V1TW3XYFY'); </script> -->
 
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx" defer></script>
   </body>
 </html>

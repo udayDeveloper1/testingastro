@@ -10,11 +10,14 @@ import '../assets/css/homepage.css'
 import '../assets/css/newHomePage.css'
 import backImg from '/homepage/homeBackgroundImage.webp'
 import backImgMobile from '../assets/img/banner/homeBackgroundImage_mobile.webp'
-import { getDashboardCount, getDashboardPanchang, setPanchangDetails } from '../storemain/slice/MasterSlice'
+import {
+  getDashboardCount,
+  getDashboardPanchang,
+  setPanchangDetails
+} from '../storemain/slice/MasterSlice'
 import messageIcon from '/newThemeHomePage/MessageIcon.svg'
 import astromall from '/newThemeHomePage/astromall.svg'
 import bookPooja from '/newThemeHomePage/bookPooja.svg'
-
 import { UpdatedPaths } from '../routers/Paths'
 import { Constatnt } from '../utils/Constent'
 import phoneIcon from '/newThemeHomePage/phoneIcon.svg'
@@ -23,6 +26,7 @@ import { hasAtLeastOneResponseData } from '../utils/CommonFunction'
 import { useInitialScreenSizeCategory } from './hooks/useInitialScreenSizeCategory'
 import { getHomePageListing } from '../storemain/slice/HompageSlice'
 import { LanguageOption } from '../utils/CommonVariable'
+import useObserver from './hooks/useObserver'
 
 const ChatWithAstrologerCard = lazy(() =>
   import('../component/CommonChatTalkAstrologerCard')
@@ -30,8 +34,12 @@ const ChatWithAstrologerCard = lazy(() =>
 
 const HoroscopeGrid = lazy(() => import('../component/kundali/HoroscopeGrid'))
 
-const TodaysPanchangHomePage = lazy(() => import('../component/panchang/TodaysPanchangHomePage'))
-const TestimonialSlider = lazy(() => import('../component/TestimonialSlider/TestimonialSlider'))
+const TodaysPanchangHomePage = lazy(() =>
+  import('../component/panchang/TodaysPanchangHomePage')
+)
+const TestimonialSlider = lazy(() =>
+  import('../component/TestimonialSlider/TestimonialSlider')
+)
 
 const CustomButton = lazy(() => import('../component/Homepage/CustomButton'))
 const HomeBlog = lazy(() => import('../component/Homepage/HomeBlog'))
@@ -42,11 +50,12 @@ const ChooseCategory = lazy(() =>
   import('../component/Homepage/ChooseCategory')
 )
 
-function HomePage() {
+function HomePage () {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const PATHS = UpdatedPaths()
-  const screenCategory = useInitialScreenSizeCategory();
+  const [ourAstrogersRef, showOurAstrogers] = useObserver()
+  const screenCategory = useInitialScreenSizeCategory()
   const [bgImage, setBgImage] = useState(null)
   const { t } = useTranslation()
   const loader = useSelector(state => state.masterSlice?.loader)
@@ -55,9 +64,15 @@ function HomePage() {
     state => state?.masterSlice?.dashboardCount
   )
   // const LocalLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
-  const homapageData = useSelector(state => state.HomePageSlice?.homapageList?.data || [])
-  const panchangDetailsData = useSelector(state => state.masterSlice?.panchangDetails)
-  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
+  const homapageData = useSelector(
+    state => state.HomePageSlice?.homapageList?.data || []
+  )
+  const panchangDetailsData = useSelector(
+    state => state.masterSlice?.panchangDetails
+  )
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    : LanguageOption?.ENGLISH
 
   // const [shouldLoadAfterScroll, setShouldLoadAfterScroll] = useState(false)
   // const observerRef = useRef(null)
@@ -72,12 +87,16 @@ function HomePage() {
   }
 
   useEffect(() => {
-    const isValidLocation = locationData && Object.keys(locationData).length > 0 && locationData?.name;
-    const panchangeData = localStorage?.getItem(Constatnt?.PANCHANGE_KEY);
+    const isValidLocation =
+      locationData && Object.keys(locationData).length > 0 && locationData?.name
+    const panchangeData = localStorage?.getItem(Constatnt?.PANCHANGE_KEY)
 
-    const parsedData = (panchangeData && panchangeData !== "undefined") ? JSON.parse(panchangeData) : {};
-    const isDataMissing = !hasAtLeastOneResponseData(parsedData?.response);
-    const isLanguageChanged = parsedData?.request?.lang !== LocalLanguage;
+    const parsedData =
+      panchangeData && panchangeData !== 'undefined'
+        ? JSON.parse(panchangeData)
+        : {}
+    const isDataMissing = !hasAtLeastOneResponseData(parsedData?.response)
+    const isLanguageChanged = parsedData?.request?.lang !== LocalLanguage
     if (isValidLocation) {
       // const isDataMissing = !hasAtLeastOneResponseData(panchangDetailsData?.response);
       // const isLanguageChanged = panchangDetailsData?.request?.lang !== LocalLanguage;
@@ -95,19 +114,21 @@ function HomePage() {
         }
         dispatch(getDashboardPanchang(request))
       } else {
-        dispatch(setPanchangDetails(parsedData));
+        dispatch(setPanchangDetails(parsedData))
       }
     } else {
     }
   }, [locationData, LocalLanguage])
 
   useEffect(() => {
-    screenCategory === "412-or-below" ? setBgImage(backImgMobile) : setBgImage(backImg)
+    screenCategory === '412-or-below'
+      ? setBgImage(backImgMobile)
+      : setBgImage(backImg)
   }, [screenCategory])
 
   useEffect(() => {
     // if (!homapageData?.AstrologerList?.length) {
-    dispatch(getHomePageListing());
+    dispatch(getHomePageListing())
     dispatch(getDashboardCount())
     // }
   }, [t])
@@ -155,7 +176,7 @@ function HomePage() {
               <span className='commonheadingSpan'>{t('category')}</span>{' '}
             </h2>
           </div>
-          <div className=''>
+          <div className=''ref={ourAstrogersRef}>
             <ChooseCategory />
           </div>
         </div>
@@ -181,7 +202,9 @@ function HomePage() {
             </div>
           </div>
         </section>
-        <section className='newColorBack'>
+      </Suspense>
+    {showOurAstrogers &&  <>
+        <section className='newColorBack' >
           <div className='container mx-auto paddingTop50 paddingBottom50 flex flex-col gap-[30px] md:gap-[50px] z-10 relative'>
             <div className='flex items-center justify-center text-center flex-col gap-3'>
               <h2 className='mb-4 commonHeadingH2 '>
@@ -214,7 +237,6 @@ function HomePage() {
             </div>
           </div>
         </section>
-        {/* Blog Sec */}
         <section className=''>
           <div className='container mx-auto paddingTop50 paddingBottom50 mb-[50px]  md:mb-0 flex flex-col gap-[20px] md:gap-[50px]'>
             <div className='flex items-center justify-center text-center flex-col  gap-3'>
@@ -252,7 +274,7 @@ function HomePage() {
           text={t('Frequently_Asked_Questions')}
           highlightText={t('Astrology')}
         />
-      </Suspense>
+      </>}
     </>
   )
 }

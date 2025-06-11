@@ -1,1 +1,0 @@
-import{j as t}from"./vendor-Z3tYsDUR.js";import{n as o}from"./No_Data_Found-BlLxs6qj.js";const n=({classList:a=""})=>t.jsxs("div",{className:`text-center ${a}`,children:[t.jsx("img",{src:o,alt:"no-data-found",className:"block mx-auto"}),t.jsx("h4",{className:"text-[#e3725d] font-black text-center -mt-8 text-[30px]",children:"No Data Found."})]});export{n as N};
