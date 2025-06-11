@@ -30,6 +30,9 @@ function OurAstrologer({ AstrologerList, viewAll }) {
                         src={astrologer1 || astro?.profile_image}
                         alt={astro?.name}
                         className='homeAstroImage rounded-full object-contain'
+                        decoding='async'
+                        width={80}
+                        height={80}
                       />
                     </div>
                     <div className='flex flex-col gap-2  text-center md:text-start items-center md:items-start'>

@@ -37,7 +37,7 @@ const CelebrityCustomer = ({ CelebrityList }) => {
             width={332}
             height={240}
             decoding='async'
-            loading='lazy'
+            // loading='lazy'
           />
           <div className='absolute inset-0 flex items-center justify-center'>
             <div className='w-20 h-20  bg-opacity-80   transition-transform duration-200 hover:scale-110 shadow-lg border-gray-300 relative'>

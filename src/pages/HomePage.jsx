@@ -67,9 +67,6 @@ function HomePage () {
   const homapageData = useSelector(
     state => state.HomePageSlice?.homapageList?.data || []
   )
-  const panchangDetailsData = useSelector(
-    state => state.masterSlice?.panchangDetails
-  )
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     : LanguageOption?.ENGLISH

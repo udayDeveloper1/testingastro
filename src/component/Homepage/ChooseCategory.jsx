@@ -74,7 +74,7 @@ const ChooseCategory = () => {
             <img
               src={article.image}
               alt={article.title}
-              loading='lazy'
+              // loading='lazy'
               decoding='async'
               className='w-full h-40 rounded-md category_slide_img object-contain'
               height={60}
@@ -98,7 +98,7 @@ const ChooseCategory = () => {
             <img
               src={article.image}
               alt={article.title}
-              loading='lazy'
+              // loading='lazy'
               decoding='async'
               className='w-full h-20 md:h-40 rounded-md category_slide_img object-contain'
               width={60}

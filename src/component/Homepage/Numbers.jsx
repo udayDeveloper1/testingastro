@@ -55,8 +55,10 @@ function Numbers () {
                 src={logoWeb}
                 alt='stat icon'
                 className='w-[50px] h-[50px] lg:w-[60px] lg:h-[60px] xl:w-[78px] xl:h-[78px] object-contain'
-                loading='lazy'
+                // loading='lazy'
                 decoding='async'
+                width={78}
+                height={78}
               />
               <div className='flex flex-col justify-center'>
                 <h2 className='text-[24px] md:text-[27px] lg:text-[30px] xl:text-[38px] font-semibold mb-[3px] lg:mb-[5px] new_body_font leading-[110%] text-center md:text-start'>

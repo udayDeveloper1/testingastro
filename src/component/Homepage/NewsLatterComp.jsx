@@ -73,7 +73,7 @@ const NewsletterComp = () => {
                   width={123}
                   height={38}
                   decoding='async'
-                  loading='lazy'
+                  // loading='lazy'
                 />
               </div>
 
