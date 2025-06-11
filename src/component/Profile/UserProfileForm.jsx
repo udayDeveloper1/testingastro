@@ -21,8 +21,11 @@ import {
 import { setUserLoginData } from '../../storemain/slice/MasterSlice'
 import {
   closeLoder,
+  compressAndResizeImage,
   FORM_RULS_NO_REQUIRED,
+  formatDate,
   formatMomentToYYYYMMDD,
+  formatTime,
   formatTimeTo12Hour,
   getLocationValidationRule,
   openLoader,
@@ -30,37 +33,42 @@ import {
   TOAST_ERROR,
   TOAST_SUCCESS
 } from '../../utils/CommonFunction'
-import { Codes, InputTypesEnum } from '../../utils/CommonVariable'
+import {
+  Codes,
+  DateFormat,
+  InputTypesEnum,
+  TimeFormat
+} from '../../utils/CommonVariable'
 import { Constatnt } from '../../utils/Constent'
 const CustomButton = lazy(() => import('../Homepage/CustomButton'))
 import CustomWhiteButton from '../Homepage/CustomWhiteButton'
 import Loader from '../loader/Loader'
 import { useTranslation } from 'react-i18next'
-import edit_icon from "../../assets/img/Profile/edit_icon.svg"
-import "../../assets/css/userProfileForm.css"
-
+import edit_icon from '../../assets/img/Profile/edit_icon.svg'
+import '../../assets/css/userProfileForm.css'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+  dayjs.extend(customParseFormat)
 const UserProfileForm = () => {
   const dispatch = useDispatch()
 
+  const [timeValue, setTimeValue] = useState(null)
   const loginUser = useSelector(state => state?.masterSlice?.loginUser)
-
   const { loding_type } = useSelector(state => state?.masterSlice?.loader)
-  const loder = useSelector((state) => state?.masterSlice?.loader);
+  const loder = useSelector(state => state?.masterSlice?.loader)
 
   const { t } = useTranslation()
   const [form] = Form.useForm()
   const [previewImage, setPreviewImage] = useState(profile_image)
   const [imageFile, setImageFile] = useState(null)
   const [placeOptions, setPlaceOptions] = useState([])
-  const [selecteLocation, setSelectedLocation] = useState({});
-
+  const [selecteLocation, setSelectedLocation] = useState({})
 
   const searchTimeoutRef = useRef(null)
   const isPlaceSelected = useRef(false)
   const locationRules = useMemo(
-  () => getLocationValidationRule(isPlaceSelected, t, selecteLocation),
-  [t, selecteLocation]
-);
+    () => getLocationValidationRule(isPlaceSelected, t, selecteLocation),
+    [t, selecteLocation]
+  )
 
   const allowedTypes = [
     'image/png',
@@ -69,6 +77,12 @@ const UserProfileForm = () => {
     'image/gif',
     'image/webp'
   ]
+  const convertTime24Hour = data => {
+    return  dayjs(data).format('HH:mm:ss')
+  }
+  const convertDate = dateString => {
+    return dayjs(dateString).format('DD/MM/YYYY')
+  }
 
   const updateProfile = async request => {
     try {
@@ -78,7 +92,7 @@ const UserProfileForm = () => {
           const response2 = await getUserDetails({
             id: loginUser?.loginUserData?._id
           })
-          
+
           if (response2?.code === Codes?.SUCCESS) {
             dispatch(
               setUserLoginData({
@@ -122,64 +136,87 @@ const UserProfileForm = () => {
   }
 
   const onFinish = async values => {
-    let res = false
+
+    let date = convertDate(values?.[InputTypesEnum?.DOB])
     if (imageFile !== null) {
       try {
-        openLoader(dispatch, "profile_form");
+        openLoader(dispatch, 'profile_form')
         let formdata = new FormData()
         formdata.append('image', imageFile)
+
+        
         let response = await uploadImage(formdata, 'Profileimage')
         if (response.code === Codes.SUCCESS) {
           let request = {
-            name: values?.[InputTypesEnum?.FIRSTNAME] || "  ",
+            name: values?.[InputTypesEnum?.FIRSTNAME] || '  ',
             gender: values?.[InputTypesEnum?.GENDER],
-            // time_of_birth: values?.[InputTypesEnum?.TOB],
-            time_of_birth: formatTimeTo12Hour(values?.[InputTypesEnum?.TOB]),
+            time_of_birth: timeValue
+          ? convertTime24Hour(timeValue)
+          : '',
             place_of_birth: values?.[InputTypesEnum?.PLACE_OF_BIRTH],
             curr_address: values?.[InputTypesEnum?.ADDRESS],
             city: values?.[InputTypesEnum?.CITY],
             pincode: values?.[InputTypesEnum?.PINCODE],
             email: values?.[InputTypesEnum?.EMAIL],
-            dob: formatMomentToYYYYMMDD(values?.[InputTypesEnum?.DOB]),
+            dob:date,
             profile_image: response.data.file_name,
-            latitude: selecteLocation?.coordinates[0] ? selecteLocation?.coordinates[0] : loginUser?.loginUserData?.latitude,
-            longitude: selecteLocation?.coordinates[1] ? selecteLocation?.coordinates[1] : loginUser?.loginUserData?.longitude,
-            tz: selecteLocation?.tz ? selecteLocation?.tz : loginUser?.loginUserData?.longitude
+            latitude: selecteLocation?.coordinates?.[0]
+              ? selecteLocation?.coordinates?.[0]
+              : loginUser?.loginUserData?.latitude,
+            longitude: selecteLocation?.coordinates?.[1]
+              ? selecteLocation?.coordinates?.[1]
+              : loginUser?.loginUserData?.longitude,
+            tz: selecteLocation?.tz
+              ? selecteLocation?.tz
+              : loginUser?.loginUserData?.longitude
           }
-          let res =  updateProfile(request)
           
+          let res = updateProfile(request)
+
           if (res.code === Codes.SUCCESS) {
-            closeLoder(dispatch);
+            closeLoder(dispatch)
             TOAST_SUCCESS(res.message)
           } else {
-            closeLoder(dispatch);
+            closeLoder(dispatch)
             TOAST_ERROR(res.message)
           }
         } else {
           TOAST_ERROR(response.message)
-          closeLoder(dispatch);
+          closeLoder(dispatch)
         }
       } catch (error) {
-        closeLoder(dispatch);
+        console.log(error);
+        
+        closeLoder(dispatch)
         TOAST_ERROR(error.message)
       }
     } else {
       let request = {
         name: values?.[InputTypesEnum?.FIRSTNAME],
         gender: values?.[InputTypesEnum?.GENDER],
-        time_of_birth: values?.[InputTypesEnum?.TOB] ? formatTimeTo12Hour(values?.[InputTypesEnum?.TOB]) : '',
+        time_of_birth: timeValue
+          ? convertTime24Hour(timeValue)
+          : '',
         place_of_birth: values?.[InputTypesEnum?.PLACE_OF_BIRTH],
         curr_address: values?.[InputTypesEnum?.ADDRESS],
         city: values?.[InputTypesEnum?.CITY],
         pincode: values?.[InputTypesEnum?.PINCODE],
         email: values?.[InputTypesEnum?.EMAIL],
-        dob: formatMomentToYYYYMMDD(values?.[InputTypesEnum?.DOB]),
-        latitude: selecteLocation?.coordinates?.[0] != null ? selecteLocation.coordinates[0] : loginUser?.loginUserData?.latitude,
-        longitude: selecteLocation?.coordinates?.[1] != null ? selecteLocation.coordinates[1] : loginUser?.loginUserData?.longitude,
-        tz: selecteLocation?.tz ? selecteLocation?.tz : loginUser?.loginUserData?.longitude
+        dob: date,
+        latitude:
+          selecteLocation?.coordinates?.[0] != null
+            ? selecteLocation.coordinates[0]
+            : loginUser?.loginUserData?.latitude,
+        longitude:
+          selecteLocation?.coordinates?.[1] != null
+            ? selecteLocation.coordinates[1]
+            : loginUser?.loginUserData?.longitude,
+        tz: selecteLocation?.tz
+          ? selecteLocation?.tz
+          : loginUser?.loginUserData?.longitude
       }
-      let res =  updateProfile(request)
-      
+      let res = updateProfile(request)
+
       if (res.code === Codes.SUCCESS) {
         TOAST_SUCCESS(res.message)
       } else {
@@ -188,20 +225,24 @@ const UserProfileForm = () => {
     }
   }
 
-  const handleImageChange = ({ file }) => {
+  const handleImageChange = async({ file }) => {
     if (file) {
       if (!allowedTypes.includes(file?.type)) {
         TOAST_ERROR('Only PNG, JPG, JPEG, GIF, or WEBP images are allowed.')
         return
       }
-      const imageUrl = URL.createObjectURL(file)
+         console.log(file);
+        const resizedFile = await compressAndResizeImage(file);
+        console.log(resizedFile);
+        
+      const imageUrl = URL.createObjectURL(resizedFile)
       setPreviewImage(imageUrl)
-      setImageFile(file)
+      setImageFile(resizedFile)
     }
   }
 
   const handleSearchPlace = value => {
-    isPlaceSelected.current = false // Reset when user types manually
+    isPlaceSelected.current = false
 
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current)
@@ -235,23 +276,27 @@ const UserProfileForm = () => {
 
   const getProfileData = async () => {
     openLoader(dispatch, 'userProfileLoader')
+    
     if (loginUser?.is_login === true) {
       let data = loginUser?.loginUserData
       form.setFieldsValue({
         [InputTypesEnum?.FIRSTNAME]: data?.name,
         [InputTypesEnum?.GENDER]: data?.gender,
-        [InputTypesEnum?.DOB]: data?.dob ? dayjs(data?.dob) : null,
-        // [InputTypesEnum?.TOB]: data?.time_of_birth
-        //   ? moment(data?.time_of_birth, 'HH:mm')
-        //   : null,
-        [InputTypesEnum?.TOB]: data?.time_of_birth ? moment(data?.time_of_birth, 'HH:mm') : null,
+        [InputTypesEnum?.DOB]: data?.dob ? dayjs(data?.dob, 'DD/MM/YYYY') : null,
+        [InputTypesEnum?.TOB]: data?.time_of_birth
+          ? moment(data?.time_of_birth, 'HH:mm')
+          : null,
         [InputTypesEnum?.PLACE_OF_BIRTH]: data?.place_of_birth || '',
         [InputTypesEnum?.ADDRESS]: data?.curr_address,
         [InputTypesEnum?.CITY]: data?.city,
         [InputTypesEnum?.PINCODE]: data?.pincode,
         [InputTypesEnum?.EMAIL]: data?.email
       })
-      setSelectedLocation({PLACE_OF_BIRTH: data?.place_of_birth})
+      if (data?.time_of_birth) {
+        let timeOfBirth = dayjs(data?.time_of_birth, 'HH:mm:ss') || null
+        setTimeValue(timeOfBirth)
+      }
+      setSelectedLocation({ PLACE_OF_BIRTH: data?.place_of_birth })
 
       if (data?.profile_image) {
         if (!data?.profile_image.startsWith('http')) {
@@ -263,9 +308,7 @@ const UserProfileForm = () => {
     }
     closeLoder(dispatch)
   }
-  // const handleRemoveImage = () => {
-  //   setPreviewImage(null)
-  // }
+
 
   const handleRemoveImage = () => {
     setPreviewImage(profile_image)
@@ -274,6 +317,10 @@ const UserProfileForm = () => {
 
   const handleDeleteModal = async () => {
     openModel(dispatch, 'handleDeleteProfile')
+  }
+
+  const handleTimeChange = value => {
+    setTimeValue(value)
   }
 
   useEffect(() => {
@@ -290,9 +337,7 @@ const UserProfileForm = () => {
 
   return (
     <>
-      {loder?.is_loading && loder?.loding_type === "profile_form" && (
-        <Loader />
-      )}
+      {loder?.is_loading && loder?.loding_type === 'profile_form' && <Loader />}
 
       <div className='mx-auto md:p-20 bg-white rounded-2xl ProfileCard ProfileCard_input'>
         {loding_type === 'userProfileLoader' && <Loader />}
@@ -305,7 +350,7 @@ const UserProfileForm = () => {
                   src={previewImage}
                   alt='Profile'
                   className='w-full h-full object-cover rounded-full '
-                // onError={(e) => }
+                  // onError={(e) => }
                 />
               ) : (
                 <img
@@ -315,7 +360,14 @@ const UserProfileForm = () => {
                 />
               )}
               <div className='w-[30px] h-[30px] absolute -bottom-[9px] -right-[9px] rounded-full cursor-pointer [background:linear-gradient(90deg,_#C32853_0%,_#EE7E49_100%)] flex items-center justify-center'>
-                <img src={edit_icon} alt="edit-icon" width={12} height={12} loading='lazy' decoding='async' />
+                <img
+                  src={edit_icon}
+                  alt='edit-icon'
+                  width={12}
+                  height={12}
+                  loading='lazy'
+                  decoding='async'
+                />
                 <Upload
                   showUploadList={false}
                   beforeUpload={() => false}
@@ -368,14 +420,14 @@ const UserProfileForm = () => {
               rules={FORM_RULS_NO_REQUIRED[InputTypesEnum?.GENDER]}
               className='col-span-1 '
             >
-              <Radio.Group >
+              <Radio.Group>
                 <Radio value='male'>{t('male')}</Radio>
                 <Radio value='female'>{t('female')}</Radio>
                 {/* <Radio value='others'>Others</Radio> */}
               </Radio.Group>
             </Form.Item>
 
-            <div className="flex col-span-1 justify-between">
+            <div className='flex col-span-1 justify-between'>
               <Form.Item
                 label={t('date_of_birth')}
                 name={InputTypesEnum?.DOB}
@@ -383,23 +435,24 @@ const UserProfileForm = () => {
                 className='w-[49%]'
               >
                 <DatePicker
-                  format='DD MMMM YYYY'
+                  format='DD/MM/YYYY'
                   className='w-full px-6 py-4 font-medium text-[16px]  rounded-[10px] new_body_font'
                 />
               </Form.Item>
 
               <Form.Item
                 label={t('time_of_birth')}
-                name={InputTypesEnum?.TOB}
-                rules={FORM_RULS_NO_REQUIRED[InputTypesEnum?.TOB]}
+                // name={InputTypesEnum?.TOB}
+                // rules={FORM_RULS_NO_REQUIRED[InputTypesEnum?.TOB]}
                 className='w-[49%]'
               >
-
                 <TimePicker
                   format='hh:mm A'
                   use12Hours
                   className='w-full px-6 py-4 font-medium text-[16px]  rounded-[10px] new_body_font'
                   minuteStep={1}
+                  value={timeValue}
+                  onChange={handleTimeChange}
                   allowClear
                 />
               </Form.Item>
@@ -422,8 +475,8 @@ const UserProfileForm = () => {
                     [InputTypesEnum?.PLACE_OF_BIRTH]: value
                   })
                   setSelectedLocation(
-                    placeOptions.find((ele) => ele.full_name === value)
-                  );
+                    placeOptions.find(ele => ele.full_name === value)
+                  )
                   isPlaceSelected.current = true
                   setPlaceOptions([]) // Hide dropdown
                 }}
@@ -505,4 +558,3 @@ const UserProfileForm = () => {
 }
 
 export default UserProfileForm
-

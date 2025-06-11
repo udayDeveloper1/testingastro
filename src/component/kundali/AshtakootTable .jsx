@@ -45,11 +45,11 @@ const AshtakootTable = ({ AshtakootData }) => {
       width: '120px',
       align: 'center',
     },
-    // {
-    //   title: "Out of",
-    //   dataIndex: "outOf",
-    //   key: "outOf",
-    // },
+    {
+      title: t('out_of'),
+      dataIndex: "outOf",
+      key: "outOf",
+    },
     {
       title: t('score'),
       dataIndex: 'received',
@@ -71,16 +71,16 @@ const AshtakootTable = ({ AshtakootData }) => {
       male: `${varna?.boy_varna || '-'}`,
       female: `${varna?.girl_varna || '-'}`,
       outOf: `${varna?.full_score || '-'}`,
-      received: `${varna?.full_score || '-'}`,
+      received: `${varna?.varna || '-'}`,
       areaOfLife: `${varna?.description || '-'}`,
     },
     {
       key: 2,
-      attribute: t('vashya') ,
+      attribute: t('vashya'),
       male: `${vasya?.boy_vasya || '-'}`,
       female: `${vasya?.girl_vasya || '-'}`,
       outOf: `${vasya?.full_score || '-'}`,
-      received: `${vasya?.full_score || '-'}`,
+      received: `${vasya?.vasya || '-'}`,
       areaOfLife: `${vasya?.description || '-'}`,
     },
     {
@@ -89,16 +89,16 @@ const AshtakootTable = ({ AshtakootData }) => {
       male: `${tara?.boy_tara || '-'}`,
       female: `${tara?.boy_tara || '-'}`,
       outOf: `${tara?.full_score || '-'}`,
-      received: `${tara?.full_score || '-'}`,
+      received: `${tara?.tara || '-'}`,
       areaOfLife: `${tara?.description || '-'}`,
     },
     {
       key: 4,
-      attribute:t('yoni'),
+      attribute: t('yoni'),
       male: `${yoni?.boy_yoni || '-'}`,
       female: `${yoni?.girl_yoni || '-'}`,
       outOf: `${yoni?.full_score || '-'}`,
-      received: `${yoni?.full_score || '-'}`,
+      received: `${yoni?.yoni || '-'}`,
       areaOfLife: `${yoni?.description || '-'}`,
     },
     {
@@ -107,7 +107,7 @@ const AshtakootTable = ({ AshtakootData }) => {
       male: `${grahamaitri?.boy_lord || '-'}`,
       female: `${grahamaitri?.girl_lord || '-'}`,
       outOf: `${grahamaitri?.full_score || '-'}`,
-      received: `${grahamaitri?.full_score || '-'}`,
+      received: `${grahamaitri?.grahamaitri || '-'}`,
       areaOfLife: `${grahamaitri?.description || '-'}`,
     },
     {
@@ -116,7 +116,7 @@ const AshtakootTable = ({ AshtakootData }) => {
       male: `${gana?.boy_gana || '-'}`,
       female: `${gana?.girl_gana || '-'}`,
       outOf: `${gana?.full_score || '-'}`,
-      received: `${gana?.full_score || '-'}`,
+      received: `${gana?.gana || '-'}`,
       areaOfLife: `${gana?.description || '-'}`,
     },
     {
@@ -125,7 +125,7 @@ const AshtakootTable = ({ AshtakootData }) => {
       male: `${bhakoot?.boy_rasi || '-'}`,
       female: `${bhakoot?.girl_rasi || '-'}`,
       outOf: `${bhakoot?.full_score || '-'}`,
-      received: `${bhakoot?.full_score || '-'}`,
+      received: `${bhakoot?.bhakoot || '-'}`,
       areaOfLife: `${bhakoot?.description || '-'}`,
     },
     {
@@ -134,7 +134,7 @@ const AshtakootTable = ({ AshtakootData }) => {
       male: `${nadi?.boy_nadi || '-'}`,
       female: `${nadi?.girl_nadi || '-'}`,
       outOf: `${nadi?.full_score || '-'}`,
-      received: `${nadi?.full_score || '-'}`,
+      received: `${nadi?.nadi || '-'}`,
       areaOfLife: `${nadi?.description || '-'}`,
     },
     {

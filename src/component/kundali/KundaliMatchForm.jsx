@@ -68,9 +68,7 @@ const KundaliMatchForm = () => {
   const loginUser = useSelector(state => state?.masterSlice?.loginUser);
   const localstorage_isLogin = localStorage.getItem(Constatnt?.LOGIN_KEY)
   const loder = useSelector(state => state?.masterSlice?.loader)
-    const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-      ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-      : LanguageOption?.ENGLISH
+  const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
 
   const [boyForm] = Form.useForm()
   const [girlForm] = Form.useForm()
@@ -169,7 +167,6 @@ const KundaliMatchForm = () => {
 
   const onSubmit = value => {
     openLoader(dispatch, 'freeKundli_match_form')
-
     let request = {
       female: {
         // dob: `${value[InputTypesEnum?.DAY_2]}/${moment(value[InputTypesEnum?.MONTH_2], 'MMM').format('MM')}/${value[InputTypesEnum?.YEAR_2]}`,
@@ -190,12 +187,11 @@ const KundaliMatchForm = () => {
         lat: selectedBoyPlaceOfBirthValue?.coordinates[0],
         lon: selectedBoyPlaceOfBirthValue?.coordinates[1],
         tzone: selectedBoyPlaceOfBirthValue?.tzone[0],
-
         bop: value[InputTypesEnum?.LOCATION_2],
         gender: 'male',
         u_name: value[InputTypesEnum?.NAME]
       },
-      lang: LocalLanguage || LanguageOption?.ENGLISH
+      lang: myLanguage || LanguageOption?.ENGLISH
     }
 
     const request_2 = {
@@ -327,22 +323,29 @@ const KundaliMatchForm = () => {
   const handleListItemClick = Data => {
 
     if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.innerHeight < 768) {
+        formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     if (Data?.gender == 'female') {
       // setIsGirlEdit(true)
       boyForm?.setFieldsValue({
         [InputTypesEnum?.GIRL_NAME]: Data?.name,
-        [InputTypesEnum?.DAY_2]: Data?.date,
+        // [InputTypesEnum?.DAY_2]: Data?.date,
+        // [InputTypesEnum?.MONTH_2]: moment().month(Data?.month - 1).format('MMM'),
+        // [InputTypesEnum?.YEAR_2]: Data?.year,
+        [InputTypesEnum?.DAY_2]: moment(Data?.date, 'D').format('DD'),
         [InputTypesEnum?.MONTH_2]: moment().month(Data?.month - 1).format('MMM'),
-        [InputTypesEnum?.YEAR_2]: Data?.year,
-        [InputTypesEnum?.HOURS_2]: Data?.hours,
-        [InputTypesEnum?.MINUTE_2]: Data?.minutes,
-        [InputTypesEnum?.SECOND_2]: Data?.seconds,
+        [InputTypesEnum?.YEAR_2]: moment(Data?.year, 'YYYY').format('YYYY'),
+        // [InputTypesEnum?.HOURS_2]: Data?.hours,
+        // [InputTypesEnum?.MINUTE_2]: Data?.minutes,
+        // [InputTypesEnum?.SECOND_2]: Data?.seconds,
+        [InputTypesEnum?.HOURS_2]: moment(Data?.hours, 'H').format('HH'),
+        [InputTypesEnum?.MINUTE_2]: moment(Data?.minutes, 'm').format('mm'),
+        [InputTypesEnum?.SECOND_2]: moment(Data?.seconds, 's').format('ss'),
         [InputTypesEnum?.LOCATION_2]: Data?.place_of_birth
       })
-
       setSelectedGirlPlaceOfBirthValue({
         name: Data?.place_of_birth,
         alternate_name: Data?.place_of_birth,
@@ -362,12 +365,18 @@ const KundaliMatchForm = () => {
       // setIsBoyEdit(true)
       boyForm?.setFieldsValue({
         [InputTypesEnum?.NAME]: Data?.name,
-        [InputTypesEnum?.DAY]: Data?.date,
+        [InputTypesEnum?.DAY]: moment(Data?.date, 'D').format('DD'),
         [InputTypesEnum?.MONTH]: moment().month(Data?.month - 1).format('MMM'),
-        [InputTypesEnum?.YEAR]: Data?.year,
-        [InputTypesEnum?.HOURS]: Data?.hours,
-        [InputTypesEnum?.MINUTE]: Data?.minutes,
-        [InputTypesEnum?.SECOND]: Data?.seconds,
+        [InputTypesEnum?.YEAR]: moment(Data?.year, 'YYYY').format('YYYY'),
+        // [InputTypesEnum?.DAY]: Data?.date,
+        // [InputTypesEnum?.MONTH]: moment().month(Data?.month - 1).format('MMM'),
+        // [InputTypesEnum?.YEAR]: Data?.year,
+        [InputTypesEnum?.HOURS]: moment(Data?.hours, 'H').format('HH'),
+        [InputTypesEnum?.MINUTE]: moment(Data?.minutes, 'm').format('mm'),
+        [InputTypesEnum?.SECOND]: moment(Data?.seconds, 's').format('ss'),
+        // [InputTypesEnum?.HOURS]: Data?.hours,
+        // [InputTypesEnum?.MINUTE]: Data?.minutes,
+        // [InputTypesEnum?.SECOND]: Data?.seconds,
         [InputTypesEnum?.LOCATION]: Data?.place_of_birth
       })
       setSelectedBoyPlaceOfBirthValue({
@@ -832,7 +841,7 @@ const KundaliMatchForm = () => {
                         ))}
                       </Select>
                     </Form.Item>
-                    
+
                   </div>
                   <Form.Item
                     label={t('birth_place')}
@@ -876,11 +885,11 @@ const KundaliMatchForm = () => {
               </div>
             </div>
 
-            <Form.Item className='mb-0'>
+            <Form.Item className='!mb-0'>
               <CustomButton
                 type='primary'
                 htmltype='submit'
-                className='text-[16px] font-medium w-full py-3 '
+                className='text-[16px] font-medium w-full py-3'
               >
                 {t('kundli_matching_report')}
               </CustomButton>
@@ -896,7 +905,7 @@ const KundaliMatchForm = () => {
         </Card>
 
         {/* Saved Kundli Section */}
-        <Card className='col-span-3 lg:col-span-1 newKundaliCard '>
+        <Card className='col-span-3 lg:col-span-1 newKundaliCard  '>
           <h2 className='customFormH2 pb-3 mb-3'>{t('save_kundli')}</h2>
           {localstorage_isLogin ? (
             <>

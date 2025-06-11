@@ -12,7 +12,7 @@ import { UpdatedPaths } from "../../routers/Paths";
 import { useTranslation } from "react-i18next";
 
 const BlogCard = React.memo(({ blog, onClick }) => (
-  
+
   <div
     className="flex items-center gap-4 border-t py-4 last:border-b-0 mb-0 cursor-pointer"
     onClick={onClick}
@@ -36,17 +36,17 @@ const BlogCard = React.memo(({ blog, onClick }) => (
 ));
 
 const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
-      const { t } = useTranslation()
-  
+  const { t } = useTranslation()
+
   const [inputValue, setInputValue] = useState("");
   const { blogId } = useParams();
   const navigate = useNavigate();
   const PATHS = UpdatedPaths()
 
   const blogOptions = useMemo(() => {
-    return recentBlogs.map((blog) => ({
+    return recentBlogs?.map((blog) => ({
       label: blog.title,
-      value: blog._id,
+      value: blog.unique_id,
     }));
   }, [recentBlogs]);
 
@@ -78,8 +78,8 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
         <Input
           prefix={
             <div className='w-[38px] h-[38px] min-h-[38px] min-w-[38px] flex items-center justify-center bg_light_back rounded-full'>
-            <img src={commonSearch} alt='Search' className='object-contain w-[16px] h-[16px]' />
-          </div>
+              <img src={commonSearch} alt='Search' className='object-contain w-[16px] h-[16px]' />
+            </div>
           }
           className="p-2 outline-none border rounded-lg "
         />
@@ -88,11 +88,11 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
       {/* Recent Blogs */}
       <h3 className="text-lg font-semibold mt-4">{t('Recent_Blog')}</h3>
       <div className="mt-2 pt-2 space-y-4">
-        {recentBlogs.map((blog) => (
+        {recentBlogs?.map((blog) => (
           <BlogCard
             key={blog._id}
             blog={blog}
-            onClick={() => handleNavigate(blog._id)}
+            onClick={() => handleNavigate(blog?.unique_id)}
           />
         ))}
       </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import '../../assets/css/blogDetail.css'
 // import bhumipujaMuhurat from '../../assets/img/banner/bhumipujaMuhurat.webp'
@@ -7,25 +7,34 @@ import calenderIcon from '../../assets/img/blog/calenderIcon.webp'
 import BlogSidebar from '../../component/Blog/BlogSidebar'
 import CommonBanner from '../../component/CommonBanner'
 import { formatDate } from '../../utils/CommonFunction'
-import { Codes, DateFormat } from '../../utils/CommonVariable'
+import { Codes, DateFormat, LanguageOption } from '../../utils/CommonVariable'
 import { t } from 'i18next'
 import { blogDetails } from '../../services/api/api.services'
+import { blogListingThunk } from '../../storemain/slice/MasterSlice'
+import { Constatnt } from '../../utils/Constent'
 
 const BlogDetails = () => {
   const { blogId } = useParams()
+  const dispatch = useDispatch();
+
   const blogListData = useSelector(state => state?.masterSlice?.blogListData)
-
   const [blogDetailData, setBlogDetailData] = useState({});
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
 
+  const commonPagination = {
+    page: 1,
+    per_page: Constatnt?.PER_PAGE_DATA
+  }
   useEffect(() => {
-    blogDetails({ blog_id: blogId }).then((response) => {
+    blogDetails({ unique_id: blogId }).then((response) => {
       if (response?.code === Codes?.SUCCESS) {
         setBlogDetailData(response?.data)
+        dispatch(blogListingThunk(commonPagination))
       } else {
         setBlogDetailData({})
       }
     })
-  }, [blogId])
+  }, [blogId, LocalLanguage])
 
   return (
     <>
@@ -40,7 +49,7 @@ const BlogDetails = () => {
 
       {/* Blog Content Section */}
       <section>
-        <div className='container mx-auto padding100 commonPadMarBottomClass'>
+        <div className='container mx-auto padding100 '>
           <div className='grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6   '>
             {/* Main Blog Content */}
             <div className='bg-white py-6 pt-0 rounded-lg '>

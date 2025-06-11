@@ -105,6 +105,8 @@ export const generateMuhuratBlogThunk = createAsyncThunk(
 export const blogListingThunk = createAsyncThunk(
     "blogListing",
     async (submitData, { dispatch }) => {
+        console.log(submitData);
+        
         try {
             // dispatch(setLoading({ is_loading: true, loding_type: 'homepage' }))
             const { data } = await blogListing(submitData);

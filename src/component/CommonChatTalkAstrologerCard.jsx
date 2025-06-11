@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash'
-import React, { lazy, useCallback } from 'react'
+import React, { lazy, useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import Slider from 'react-slick'
@@ -32,10 +32,11 @@ import { useTranslation } from 'react-i18next'
 import { UpdatedPaths } from '../routers/Paths'
 import { astrologerDetailsRedirection } from '../utils/navigations/NavigationPage'
 import PhoneAuthModal from './auth/PhoneAuthModals'
+import CustomWhiteButton from './Homepage/CustomWhiteButton'
 
-const CustomWhiteButton = lazy(() => import('./Homepage/CustomWhiteButton'))
+// const CustomWhiteButton = lazy(() => import('./Homepage/CustomWhiteButton'))
 
-function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
+function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
   const { t } = useTranslation()
   const { is_login, loginUserData } = useSelector(
     state => state?.masterSlice?.loginUser
@@ -110,11 +111,15 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
     }
   }
 
-  const renderCard1 = useCallback((astrologer, index) => {
+  const RenderCard1 = React.memo(({ astrologer, index }) => {
+
+    
     return (
       <div
         key={index}
-        className={`w-full  rounded-[10px]  box_shadow_common flex flex-col gap-4 bg-white max-w-[350px] sm:max-w-[unset] mx-auto sm:mx-[unset] ${index === 0 ? "mt-4 sm:mt-0" : ""}`}
+        className={`w-full  rounded-[10px]  box_shadow_common flex flex-col gap-4 bg-white max-w-[350px] sm:max-w-[unset] mx-auto sm:mx-[unset] ${
+          index === 0 ? 'mt-4 sm:mt-0' : ''
+        }`}
       >
         <div className='py-5 px-[15px] astroBg_part h-full flex flex-col justify-between '>
           {/* Header Section: Profile Image + Name + Skills + Minutes at bottom right */}
@@ -130,7 +135,11 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
                     className='w-[80px] h-[80px] rounded-full object-cover cursor-pointer'
                     onClick={() =>
                       // navigate(`/astrologerDetailPage/${astrologer?._id}`)
-                      astrologerDetailsRedirection(navigate, PATHS?.ASTROLOGER_DETAIL_PAGE, astrologer?._id)
+                      astrologerDetailsRedirection(
+                        navigate,
+                        PATHS?.ASTROLOGER_DETAIL_PAGE,
+                        astrologer?.uniqueID
+                      )
                     }
                     loading='lazy'
                     decoding='async'
@@ -142,32 +151,33 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
                 {/* Name & Skills */}
                 <div className='flex flex-col justify-center items-center gap-1'>
                   <h2
-                    className='text-[18px] font-semibold text-gray-800 cursor-pointer capitalize new_body_font'
+                    className='text-[18px] font-semibold new_body_font cursor-pointer capitalize new_body_font'
                     onClick={() =>
                       // navigate(`/astrologerDetailPage/${astrologer?._id}`)
-                      astrologerDetailsRedirection(navigate, PATHS?.ASTROLOGER_DETAIL_PAGE, astrologer?._id)
+                      astrologerDetailsRedirection(
+                        navigate,
+                        PATHS?.ASTROLOGER_DETAIL_PAGE,
+                        astrologer?.uniqueID
+                      )
                     }
                   >
                     {astrologer?.name || '-'}
                   </h2>
-                  <span className='text-[14px] text-gray-600  line-clamp-1 new_body_font'>
-                    {astrologer?.skills ? astrologer.skills.split(',').slice(0, 3).join(', ') : '-'}
+                  <span className='text-[14px] new_body_font  line-clamp-1 new_body_font'>
+                    {astrologer?.skills
+                      ? astrologer.skills.split(',').slice(0, 3).join(', ')
+                      : '-'}
                   </span>
                 </div>
               </div>
             </div>
-            {/* Bottom Right: Minutes */}
-            {/* <div className="flex items-center gap-1 mt-auto text-xs text-gray-500 justify-end">
-            <img src={messageTalk} className="w-[14px] h-[14px]" alt="Minutes" />
-            <span>{astrologer?.minutes || '49k'} Mins</span>
-          </div> */}
           </div>
           <div className='border_astro_parent relative'>
             <div className='border_astro_img'></div>
             <div className='border_astro_line'></div>
           </div>
           {/* Info Section */}
-          <div className='grid grid-cols-2 gap-x-4 gap-y-4 text-sm text-gray-700 pt-5'>
+          <div className='grid grid-cols-2 gap-x-4 gap-y-4 text-sm new_body_font pt-5'>
             {/* Experience */}
             <div className='flex items-center gap-2 col-span-1'>
               <img
@@ -226,11 +236,7 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
               {/* Call Rate */}
               <div className='flex items-center gap-1 gradient-background rounded-[76px] p-[1px]'>
                 <CustomWhiteButton
-                  // onClick={e => {
-                  //   e.stopPropagation()
-                  //   // handleCall(astrologer?._id)
-                  // }}
-                  onClick={(e) => {
+                  onClick={e => {
                     if (is_login && is_login_local) {
                       // handleChat(e, astrologer)
                     } else {
@@ -251,7 +257,8 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
                       height={15}
                     />
                     <span className='website_new_color text-left'>
-                      ₹{astrologer?.call_rate || astrologer?.rate || 100} / {t('Min')}
+                      ₹{astrologer?.call_rate || astrologer?.rate || 100} /{' '}
+                      {t('Min')}
                     </span>
                   </div>
                 </CustomWhiteButton>
@@ -261,7 +268,7 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
               <div className='flex items-center gap-1 gradient-background rounded-[76px]  p-[1px]'>
                 <CustomWhiteButton
                   // onClick={e => handleChat(e, astrologer)}
-                  onClick={(e) => {
+                  onClick={e => {
                     if (is_login && is_login_local) {
                       handleChat(e, astrologer)
                     } else {
@@ -270,7 +277,6 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
                   }}
                   className='px-3 py-1 rounded-[76px] text-sm !border-0'
                   parentClassName='!p-0'
-
                 >
                   <div className='flex gap-1 items-center'>
                     <img
@@ -296,76 +302,21 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
         </div>
       </div>
     )
-  }, [is_login_local, is_login])
+  }, [])
 
-  const sliderSettings = {
-    dots: true,
-    infinite: false,
-    speed: 400,
-    slidesToShow: 2,
-    responsive: [
-      {
-        breakpoint: 600, // Tailwind's sm: 640px
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ],
-    slidesToScroll: 1,
-    arrows: false
-  }
 
   return (
     <>
-      {/* 🟡 Grid View for md+ screens */}
-      {/* <div className='hidden md:grid gap-x-5 gap-y-[30px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  '>
-        {astrologersList?.length > 0
-          ? astrologersList?.map((astro, index) => (
-              <React.Fragment key={index}>
-                {renderCard1(astro, index)}
-              </React.Fragment>
-            ))
-          : loading_type === '' && (
-              <div className='col-span-full flex justify-center '>
-                <NoDataFound />
-              </div>
-            )}
-      </div>
-
-      <div className='block md:hidden px-3 renderChatCard'>
-        {astrologersList?.length > 0 ? (
-          <Slider {...sliderSettings}>
-            {astrologersList?.map((astro, index) => (
-              <div key={index} className='px-2 py-10'>
-                {renderCard1(astro, index)}
-              </div>
-            ))}
-          </Slider>
-        ) : (
-          loading_type === '' && <NoDataFound />
-        )}
-      </div>
-      {loading_type === 'chat_with_astrologer' && <Loader />} */}
-
       <div className='grid gap-x-[20px] gap-y-[20px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  '>
-        {astrologersList?.length > 0
-          ? astrologersList?.map((astro, index) => (
-            <React.Fragment key={index}>
-              {renderCard1(astro, index)}
-            </React.Fragment>
-          ))
-          : loading_type === '' && (
-            <div className='col-span-full flex justify-center '>
-              <NoDataFound />
-            </div>
-          )}
+        {astrologersList?.map((astro, index) => (
+          <React.Fragment key={index}>
+            <RenderCard1 astrologer={astro} index={index} />
+          </React.Fragment>
+        ))}
       </div>
 
       <PhoneAuthModal
-        isPhoneModalOpen={
-          modal?.is_model && modal?.model_type === 'chat_modal'
-        }
+        isPhoneModalOpen={modal?.is_model && modal?.model_type === 'chat_modal'}
         issetIsModalOpen={() => {
           closeModel(dispatch)
         }}

@@ -52,8 +52,6 @@ import {
   ManageTokan
 } from '../utils/CommonFunction';
 import { Codes } from '../utils/CommonVariable';
-import { store } from '../store/store';
-import { setUserLoginData } from '../storemain/slice/MasterSlice';
 
 // Create Axios instance
 const AxiosClientApi = axios.create({

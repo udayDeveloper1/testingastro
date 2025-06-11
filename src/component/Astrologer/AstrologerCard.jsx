@@ -85,7 +85,6 @@ const AstrologerCard = ({ astrologer }) => {
   //     recordData.sessionID = `sessionID_${Date.now()}`
 
   //     const res = await getUserDetails()
-  //     console.log(res)
   //     if (res.code === Codes.SUCCESS) {
   //       setLoginUserData(
   //         dispatch,

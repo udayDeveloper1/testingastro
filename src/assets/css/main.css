@@ -58,7 +58,7 @@ h3 {
 }
 
 p {
-  font-weight: var(--font-weight-500);
+  font-weight: var(--font-weight-400);
 }
 
 p:empty {
@@ -1015,6 +1015,17 @@ h2 {
 .blogSideBarAutoComplete .ant-select-selection-placeholder{
   padding-left: 62px !important;
 }
+
+/* .Toastify .Toastify__toast-container .Toastify__toast-icon svg{
+      fill: #d8524e;
+}
+
+.Toastify__progress-bar--success{
+  background: linear-gradient(90deg, #C32853 0%, #EE7E49 100%);
+} */
+
+
+
 @media (min-width: 413px) {
   .footerBackground {
     background: url('/banner/footerBg.svg') no-repeat;
@@ -2671,6 +2682,7 @@ body:has(.isScroll) {
   padding-left: 20px;
   padding-right: 20px;
   height: 100%;
+  overflow-y: auto;
 }
 
 .kundaliCardForm .ant-card-body {

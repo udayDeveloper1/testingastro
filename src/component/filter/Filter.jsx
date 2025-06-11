@@ -122,7 +122,7 @@ function Filter({ isOpen, onClose }) {
             <div></div>
           </div> */}
 
-          <div className="flex flex-col gap-5 overflow-y-scroll max-h-[400px] CustomFilterOption md:pr-4">
+          <div className="flex flex-col gap-5 overflow-y-auto  md:h-[300px] CustomFilterOption md:pr-4">
             {selectedSubcategories?.map((option) => {
 
               const label = typeof option === "string" ? option : option?.name;

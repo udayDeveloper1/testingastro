@@ -4,6 +4,7 @@ import CustomTable from "../../Custom/CustomTable";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { LanguageOption } from "../../../utils/CommonVariable";
+import { Constatnt } from "../../../utils/Constent";
 
 const { Title, Paragraph } = Typography;
 function SadeSatiSection({ sadeSati }) {

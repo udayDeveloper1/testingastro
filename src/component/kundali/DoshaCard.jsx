@@ -32,7 +32,7 @@ function DoshaCard() {
             </div>
             <div className="flex flex-col gap-2">
             <h3 className="mt-3 font-semibold">{dosha.title}</h3>
-            <p className="text-gray-600">{dosha.value}</p>
+            <p className="commonQuesP">{dosha.value}</p>
             </div>
             
           </div>

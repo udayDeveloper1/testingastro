@@ -14,15 +14,16 @@ import useDebounce from '../hooks/useDebounce'
 import { Constatnt } from '../../utils/Constent'
 import NoDataFound from '../NoDataFound/NoDataFound'
 import CustomPagination from '../../component/Pagination/CustomPagination'
+import Loader2 from '../../component/loader/Loader2'
 
 function Blog() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const blogListData = useSelector(state => state?.masterSlice?.blogListData)
-
+const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [perPage, setParPage] = useState(Constatnt?.PER_PAGE_DATA)
-
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
   // useEffect(() => {
   //   dispatch(getHomePageListing())
   // }, [dispatch])
@@ -30,15 +31,19 @@ function Blog() {
   const [searchInput, setSearchInput] = useState('');
   const debounceSearch = useDebounce(searchInput, Constatnt?.SEARCH_DELAY || 500);
 
-  useEffect(() => {
-    if (debounceSearch?.trim() || currentPage) {
-      dispatch(blogListingThunk({
-        search: searchInput,
-        page: currentPage,
-        per_page: perPage
-      }))
-    }
-  }, [debounceSearch, currentPage])
+useEffect(() => {
+  const fetchBlogs = async () => {
+    setLoading(true);
+    await dispatch(blogListingThunk({
+      search: searchInput,
+      page: currentPage,
+      per_page: perPage
+    }));
+    setLoading(false);
+  };
+
+  fetchBlogs();
+}, [debounceSearch, currentPage,LocalLanguage]);
 
   const handleSearchChange = (value) => {
     setSearchInput(value);
@@ -79,26 +84,34 @@ function Blog() {
       <section>
         <div className='container mx-auto padding50  flex flex-col gap-10'>
 
-          {
-            blogListData?.blogList?.length > 0 ?
-              <HomeBlog BlogList={blogListData?.blogList} />
-              :
-              <div className='col-span-full flex justify-center'>
-                <NoDataFound />
-              </div>
-          }
+         {loading ? (
+  <div className='col-span-full flex justify-center py-10'>
+    <Loader2/> {/* You can replace this with a spinner component */}
+  </div>
+) : (
+  <>
+    {blogListData?.blogList?.length > 0 ? (
+      <HomeBlog BlogList={blogListData?.blogList} />
+    ) : (
+      <div className='col-span-full flex justify-center'>
+        <NoDataFound />
+      </div>
+    )}
 
-          <div className='container flex justify-center'>
-            {blogListData?.totalBlogs > blogListData?.perPage && (
-              <CustomPagination
-                current={blogListData?.currentPage}
-                total={blogListData?.totalBlogs}
-                onChange={handlePageChange}
-                perpage={perPage}
-              />
-            )}
+    <div className='container flex justify-center'>
+      {blogListData?.totalBlogs > blogListData?.perPage && (
+        <CustomPagination
+          current={blogListData?.currentPage}
+          total={blogListData?.totalBlogs}
+          onChange={handlePageChange}
+          perpage={perPage}
+        />
+      )}
+    </div>
+  </>
+)}
+
           </div>
-        </div>
       </section>
 
       {/* <HomeFAQs

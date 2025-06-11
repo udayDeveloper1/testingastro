@@ -35,6 +35,9 @@ import travel from "../../assets/img/newIcon/travel.svg";
 import family from "../../assets/img/newIcon/family.svg";
 import physique from "../../assets/img/newIcon/physique.svg";
 import friend from "../../assets/img/newIcon/friend.svg";
+import friends from "../../assets/img/newIcon/friend.svg";
+
+import { Constatnt } from "../../utils/Constent";
 
 // Lazy loaded components
 const CommonBanner = React.lazy(() => import("../../component/CommonBanner"));
@@ -58,20 +61,19 @@ const LuckyInfoCard = React.lazy(() =>
 // Moved static content outside the component
 function YearlySingleHoroscope() {
   const { id, type, name } = useParams();
-  const [signname,setSignName]=useState("");
+  const [signname, setSignName] = useState("");
   const { t } = useTranslation();
   const navigate = useNavigate();
   const PATHS = UpdatedPaths();
   const horoscopeList = useHoroscopeList();
-console.log(name);
 
- useEffect(() => {
-   setSignName(name);
- }, [name])
+  useEffect(() => {
+    setSignName(name);
+  }, [name])
 
-      const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-        ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-        : LanguageOption?.ENGLISH
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    : LanguageOption?.ENGLISH
 
   const [horoScopDetails, setHoroScopDetails] = useState({});
   const [horoScopDescription, setHoroScopDescription] = useState({});
@@ -110,7 +112,7 @@ console.log(name);
     Life: life,
     Travel: travel,
     Family: family,
-    Friend: friend,
+    Friend: friend || friends,
     Physique: physique,
     "": "", // Fallback for empty label
   };
@@ -185,13 +187,12 @@ console.log(name);
 
   const DEFAULT_CONTENT = {
     overview: [],
-   
+
     love: [
       {
         key: t('love'),
         label: "Love",
-        pTag:
-          horoScopDetails?.bot_response?.relationship?.split_response || "-",
+        pTag: horoScopDetails?.bot_response?.relationship?.split_response || "-",
       },
       {
         key: t('career'),
@@ -231,7 +232,7 @@ console.log(name);
         key: t('family'),
       },
     ],
-  
+
     remedies: [
       "Unlock the potential of 2025 with astrologer-recommended remedies tailored for Aries. Stay patient and focused amidst life's distractions, avoiding the allure of shiny distractions and unnecessary attractions. Nurture spiritual strength by visiting Lord Hanuman's temple regularly, seeking his blessings for success in all aspects of life.",
       "Elevate your energy by wearing a Rudraksha, activated through the right mantras and rituals, paving the way for positivity and growth. Consider adorning the powerful Pearl (Moti) after consulting an astrologer, enhancing concentration and balance in the Aries journey. Additionally, donate black-colored items on Saturdays to appease Saturn and minimize delays in achieving desired results.",
@@ -246,8 +247,12 @@ console.log(name);
         return "Health";
       case "finance":
         return "Money";
-      case "":
-        return ""; // Handle empty label case
+      case "relationship":
+        return "Love"; // Handle empty label case
+      case "finances":
+        return "Money"; // Handle empty label case
+      case "friends":
+        return "Friend"; // Handle empty label case
       default:
         return label.charAt(0).toUpperCase() + label.slice(1).toLowerCase();
     }
@@ -261,10 +266,9 @@ console.log(name);
           <h2 className="commonQuesH2">{title}</h2>
           <div className="flex flex-col gap-3 horoscopeContent">
             {content?.map((paragraph, index) => {
-
-              const normalizedLabel = normalizeLabel(paragraph.key);
+              console.log("Paragraph:", paragraph);
+              const normalizedLabel = normalizeLabel(paragraph?.key);
               const icon = iconMap[normalizedLabel];
-
               return (
                 <div key={index} className="flex gap-[10px] md:gap-[20px] flex-col md:flex-row items-start justify-start" >
                   {icon && (
@@ -414,8 +418,6 @@ console.log(name);
               type={"yearly"}
               signNameForHighlight={signname}
             />
-            {console.log(signname)}
-            
           </Suspense>
         </div>
       </section>

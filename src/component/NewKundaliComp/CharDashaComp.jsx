@@ -6,6 +6,7 @@ import { getShortNakshatra } from "./KundliVariabls";
 import { DateFormat, LanguageOption } from '../../utils/CommonVariable';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Constatnt } from '../../utils/Constent';
 
 export default function CharDashaComp({ charDashaSub, charDashaMain }) {
   const { t } = useTranslation()

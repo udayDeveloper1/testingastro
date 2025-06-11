@@ -1,8 +1,9 @@
 import { AudioOutlined, SendOutlined } from '@ant-design/icons'
-
+import cloneDeep from 'lodash/cloneDeep'
 import { faQuestion, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'antd/dist/reset.css'
+import '../../assets/css/chatui.css'
 import React, {
   lazy,
   useCallback,
@@ -25,6 +26,7 @@ import { createSocket } from '../../component/socket/socket'
 import CountdownTimer from '../../component/Timer/Timer'
 import {
   addChatduration,
+  addChatRequest,
   chatHistory,
   editChatRequest,
   getAstrologersDetails,
@@ -93,6 +95,7 @@ const ChatUI = () => {
   const [redErrorRef, setRedErrorRef] = useState(false)
   const timerRef = useRef(null)
   const [loading, setLoading] = useState(true)
+  const [history, setHistory] = useState(false)
 
   const today = new Date()
   const yesterday = new Date()
@@ -130,9 +133,7 @@ const ChatUI = () => {
       if (response.code === 1) {
         dispatch(setAstroDetails(response.data))
       }
-    } catch (error) {
-      console.log(error, 'error')
-    }
+    } catch (error) {}
   }
 
   const handleReview = async rating => {
@@ -202,6 +203,14 @@ const ChatUI = () => {
     })
   }
 
+  const addTodayLabel = () => {
+    let msg = {}
+    const date = new Date()
+    let formattedLabel = formatDateLabel(date)
+    msg.timeStampLabel = formattedLabel
+    return msg
+  }
+
   const getChatData = async () => {
     setLoading(true)
     try {
@@ -219,7 +228,7 @@ const ChatUI = () => {
           }
           const response = await chatHistory(data)
           if (response?.code === 1) {
-            let lastDateLabel = null // Keep track of the last label applied
+            let lastDateLabel = null
             const mergedMessages = (response?.data).map(msg => {
               const date = new Date(msg.created_at)
               let formattedLabel = null
@@ -237,10 +246,13 @@ const ChatUI = () => {
             })
             setMessages(mergedMessages)
           }
-        } catch (error) {
-          console.log(error)
-        }
+        } catch (error) {}
+        setHistory(true)
+        setWaitingRef(false)
+        setRedErrorRef(false)
+        setDisconnected(false)
       } else {
+        connectSocket(false, chatAstroID)
         id = chatAstroID?._id
         setReceiverId(chatAstroID?._id)
         setMessages([])
@@ -250,7 +262,7 @@ const ChatUI = () => {
         getAstrologerDetail(id)
       }
     } catch (error) {
-      console.error(error)
+      console.log(error.message)
     }
     setLoading(false)
   }
@@ -291,9 +303,7 @@ const ChatUI = () => {
         openModel(dispatch, 'openRecharge')
         pauseTimer()
       }
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
 
   const deductMoney = async () => {
@@ -323,22 +333,19 @@ const ChatUI = () => {
         sender_type: 'user',
         receiver_id: receiverId,
         receiver_type: 'astrologer',
-        message: `name: ${loginUserData?.name || 'Kim Jong Un'}
-              dob: ${
-                formatDate(loginUserData?.dob, 'DD-MM-YYYY') !== 'Invalid date'
-                  ? formatDate(loginUserData?.dob, 'DD-MM-YYYY')
-                  : '01-01-2000'
-              }
-              tob: ${
-                formatTime(loginUserData?.time_of_birth, 'hh:mm A') !==
-                'Invalid date'
-                  ? formatTime(loginUserData?.time_of_birth, 'hh:mm A')
-                  : '01:11 PM'
-              }
-              place: ${loginUserData?.place_of_birth || 'Amreli, Gujarat, IN'} 
-              Hello ${urlData?.name || 'Hello Userji'}Ji,
-              Jay Shree Krishna !! 
-              `,
+        message: `name: ${loginUserData?.name || 'Test User'}<br /> dob: ${
+          formatDate(loginUserData?.dob, 'DD-MM-YYYY') !== 'Invalid date'
+            ? formatDate(loginUserData?.dob, 'DD-MM-YYYY')
+            : '01-01-2000'
+        }<br /> tob: ${
+          formatTime(loginUserData?.time_of_birth, 'hh:mm A') !== 'Invalid date'
+            ? formatTime(loginUserData?.time_of_birth, 'hh:mm A')
+            : '01:11 PM'
+        }<br /> place: ${
+          loginUserData?.place_of_birth || 'Amreli, Gujarat, IN'
+        } <br /> Hello ${
+          urlData?.name || 'Hello Userji'
+        }Ji,<br /> Jay Shree Krishna !! <br />`,
         message_type: '',
         image: '',
         attachment: '',
@@ -357,22 +364,20 @@ const ChatUI = () => {
     }
   }
 
-  const connectSocket = (reconnect = false) => {
-    if ((!socket && senderId && receiverId) || reconnect) {
+  const connectSocket = (reconnect = false, chatAstroID = {}) => {
+    let rec_id = receiverId || chatAstroID?._id
+    if ((!socket && senderId && rec_id) || reconnect) {
+      // if ((!socket && senderId && (receiverIds ? receiverIds : receiverId)) || reconnect) {
+      let urlDatas = Object.keys(chatAstroID).length > 0 ? chatAstroID : urlData
       const newSocket = createSocket(
         senderId,
-        receiverId,
-        // +loginUserData?.is_freechat_count > 0 ? true : false
-        urlData.is_ai_chat == '1' ? true : false
-        // +loginUserData?.is_freechat_count > 0 ? true : false
+        rec_id,
+        urlDatas.is_ai_chat == '1' ? true : false
       )
       setSocket(newSocket)
-
       newSocket.on('connect', () => {})
-
       newSocket.on('disconnect', err => {
         setIsSocketConnected(false)
-        console.log('Disconnected:', err)
       })
 
       newSocket.on('connect_error', err => {
@@ -385,9 +390,9 @@ const ChatUI = () => {
         if (data?.code === Codes.SUCCESS || data?.code === '') {
           setSocket(newSocket)
           setIsSocketConnected(true)
-          if (urlData.chatType === 'new' && countsRef.current === 0) {
+          if (urlDatas.chatType === 'new' && countsRef.current === 0) {
             countsRef.current = 1
-            freshMessage(urlData.chatType, newSocket)
+            freshMessage(urlDatas.chatType, newSocket)
             startTimer()
           } else {
             resumeTimer()
@@ -411,8 +416,6 @@ const ChatUI = () => {
         } else if (data?.code === Codes.ASTROLOGER_DISCONNECTED) {
           // openModel(dispatch, 'waitingForAstrologer')
           pauseTimer()
-          // setWaitingRef(false)
-          // setRedErrorRef(false)
           setDisconnected(true)
         } else {
           setIsSocketConnected(false)
@@ -422,7 +425,15 @@ const ChatUI = () => {
       })
 
       newSocket.on('send_message', data => {
-        setMessages(prev => [...prev, data?.data])
+        setMessages(prev => {
+          if (prev.length === 0) {
+            const obj = addTodayLabel()
+            return [obj, data?.data]
+          } else {
+            return [...prev, data?.data]
+          }
+        })
+        // setMessages(prev => [...prev, data?.data])
       })
 
       newSocket.on('typing', data => {
@@ -433,9 +444,7 @@ const ChatUI = () => {
         setTyping(data || {})
       })
 
-      newSocket.on('send_message_error', data => {
-        console.log('send_message_error:', data?.message)
-      })
+      newSocket.on('send_message_error', data => {})
     }
   }
 
@@ -470,25 +479,79 @@ const ChatUI = () => {
   }
 
   const endChat = async () => {
-    navigate('/')
+    navigate(PATHS.HOMEPAGE)
   }
 
   const onPaymentSuccess = async () => {
     try {
       await connectSocket()
-      await chatAddDuration()
+      // await chatAddDuration()
       await closeModel(dispatch)
+      setHistory(false)
     } catch (error) {}
   }
 
   const freeChatComplete = async () => {
-    chatAddDuration()
+    // chatAddDuration()
     pauseTimer()
     editChatRequestApi()
     endChat()
   }
 
+  //   const handleChatStart = async () => {
+  //   if (+loginUserData?.total_wallet_balance > +astroDetails?.price_per_min) {
+  //     try {
+  //       const response = await addChatRequest({
+  //         astrologer_id: urlData?.receiver_id,
+  //         conversation_types: 'chat'
+  //       });
+
+  //       const updatedData = cloneDeep(urlData);
+  //       updatedData.AstroData = response.data;
+  //       setUrlData(updatedData);
+
+  //       await connectSocket();
+  //       // await chatAddDuration();
+  //       await closeModel(dispatch);
+  //       setHistory(false);
+  //     } catch (error) {
+  //       console.error('Failed to start chat:', error);
+  //       // Optionally show error to user
+  //     }
+  //   } else {
+  //     openModel(dispatch, 'openRecharge');
+  //   }
+  // };
+
   // ui parts
+
+  const handleChatStart = async () => {
+    const walletBalance = +loginUserData?.total_wallet_balance || 0
+    const perMinutePrice = +astroDetails?.price_per_min || 0
+
+    if (walletBalance > perMinutePrice) {
+      const receiverId = urlData?.receiver_id
+      // if (!receiverId) return
+
+      try {
+        const { data, code, message } = await addChatRequest({
+          astrologer_id: receiverId,
+          conversation_types: 'chat'
+        })
+        if (code === Codes.SUCCESS) {
+          setUrlData(prev => ({ ...prev, AstroData: data }))
+          await Promise.all([connectSocket(), closeModel(dispatch)])
+          setHistory(false)
+        } else {
+          TOAST_ERROR(message)
+        }
+      } catch (error) {
+        TOAST_ERROR(error.message)
+      }
+    } else {
+      openModel(dispatch, 'openRecharge')
+    }
+  }
 
   const ChatMessage = React.memo(
     ({ message, isUser, time }) => {
@@ -550,11 +613,26 @@ const ChatUI = () => {
 
   const WaitingMessage = () => (
     <div className='website_color w-full'>
-      {' '}
       <p className='text-center mb-0 text-[12px] sm:text-[16px]'>
         Your request has been sent to the astrologer! Please wait a moment while
         we connect you. Thank you for your patience!
       </p>
+    </div>
+  )
+
+  const HistoryMessage = () => (
+    <div className='website_color w-full flex justify-center items-center mx-auto'>
+      {' '}
+      <p className='text-center mb-0 text-[12px] sm:text-[16px]'>
+        {/* {Astrologer_Name} ₹ {Astrologer_per_min}  */}
+        price per min, Would you like to continue the chat?
+      </p>
+      <button
+        className='text-[12px] sm:text-[16px] !border-[unset] box_shadow_common py-2 px-2 sm:px-5 ms-3 rounded-sm cursor-pointer transition-all bg-white text-[#e3725d] font-bold hover:text-white hover:bg-[linear-gradient(90deg,_#C32853_0%,_#EE7E49_100%)]'
+        onClick={handleChatStart}
+      >
+        Continue Chat
+      </button>
     </div>
   )
 
@@ -569,8 +647,13 @@ const ChatUI = () => {
   )
 
   const showChatInput = useMemo(() => {
-    return waitingRef === false && redErrorRef === false && disconnected === false
-  }, [waitingRef, redErrorRef, disconnected])
+    return (
+      waitingRef === false &&
+      redErrorRef === false &&
+      disconnected === false &&
+      history === false
+    )
+  }, [waitingRef, redErrorRef, disconnected, history])
 
   if (!senderId) {
     return (
@@ -625,12 +708,12 @@ const ChatUI = () => {
 
   const handleImageError = useCallback(e => {
     e.target.onerror = null
-    e.target.src = profileImage
+    e.target.src = sampleImage
   }, [])
 
   useEffect(() => {
     if (senderId !== '' && receiverId !== '') {
-      connectSocket()
+      // connectSocket()
     } else {
       disconnectSocket()
     }
@@ -642,20 +725,25 @@ const ChatUI = () => {
   useEffect(() => {
     getChatData()
 
-    const handleBeforeUnload = event => {
-      event.preventDefault()
-      event.returnValue = ''
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-    }
+    // const handleBeforeUnload = event => {
+    //   event.preventDefault()
+    //   event.returnValue = ''
+    // }
+    // window.addEventListener('beforeunload', handleBeforeUnload)
+    // return () => {
+    //   window.removeEventListener('beforeunload', handleBeforeUnload)
+    // }
   }, [])
 
   useEffect(() => {
     scrollBottom()
   }, [messages])
-  if(loading) return <Loader2 />
+  if (loading)
+    return (
+      <div className='py-10'>
+        <Loader2 />
+      </div>
+    )
 
   return (
     <>
@@ -691,9 +779,15 @@ const ChatUI = () => {
                               {'Waiting for Astrologer...'}
                             </p>
                           ) : (
-                            <>{disconnected ?  <p className='mb-0 text-[12px]'>
-                              {'Astrologer Disconected'}
-                            </p>: <></>}</>
+                            <>
+                              {disconnected ? (
+                                <p className='mb-0 text-[12px]'>
+                                  {'Astrologer Disconected'}
+                                </p>
+                              ) : (
+                                <></>
+                              )}
+                            </>
                           )}
                         </>
                       )}
@@ -792,9 +886,15 @@ const ChatUI = () => {
                     </>
                   ) : waitingRef === true ? (
                     <WaitingMessage />
-                  ) : (redErrorRef || disconnected) ? (
-                    <ErrorMessage />
-                  ) :   null}
+                  ) : (
+                    <>
+                      {history ? (
+                        <HistoryMessage />
+                      ) : redErrorRef || disconnected ? (
+                        <ErrorMessage />
+                      ) : null}
+                    </>
+                  )}
                 </div>
               }
             </div>
@@ -810,7 +910,7 @@ const ChatUI = () => {
         />
         <PaymentModal
           isOpen={is_model && model_type == 'openRecharge'}
-          title='Want to Continue Chat Or Exit'
+          title={`"Your wallet balance is lower than the astrologer's per-minute rate. To continue the chat, please recharge your wallet. `}
           description=''
           okText='Recharge Now'
           cancelText='Cancel'
@@ -820,6 +920,7 @@ const ChatUI = () => {
             editChatRequestApi()
             endChat()
           }}
+          className='paymentModel'
         />
         <ConfirmModal
           isOpen={is_model && model_type === 'end_chat'}
@@ -837,25 +938,6 @@ const ChatUI = () => {
             closeModel(dispatch)
           }}
         />
-        {/* <ConfirmModal
-          isOpen={is_model && model_type === 'waitingForAstrologer'}
-          title='You want to Wait for Astrologer or End Chat??'
-          description='You want to Wait for Astrologer or End Chat?'
-          okText='Continue'
-          cancelText='End Chat'
-          onConfirm={async() => {
-           await disconnectSocket()
-           
-            // connectSocket(true)
-            closeModel(dispatch)
-          }}
-          onCancel={() => {
-            disconnectSocket()
-            editChatRequestApi()
-            closeModel(dispatch)
-            endChat()
-          }}
-        /> */}
       </section>
       {/* <ReloadModal
         isOpen={reloadOpen}
@@ -871,19 +953,3 @@ const ChatUI = () => {
 }
 
 export default React.memo(ChatUI)
-{
-  /* {showMessage === '' && !loading && (
-                    <div className='px-5 block mx-auto text-center'>
-                      <img
-                        src={notFoundImg}
-                        alt='no-data-found '
-                        className='max-w-[300px] block object-contain mx-auto '
-                      />
-                      <div className='website_new_color '>
-                        <p className='text-[35px] font-bold mb-0 -mt-5 '>
-                          No Chat Found.
-                        </p>
-                      </div>
-                    </div>
-                  )} */
-}

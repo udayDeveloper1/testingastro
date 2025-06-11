@@ -8,6 +8,7 @@ import calender from "../../assets/img/rahukaal/calender.svg";
 import { Codes, DateFormat } from "../../utils/CommonVariable";
 import moment from "moment";
 import dayjs from "dayjs";
+import { Constatnt } from "../../utils/Constent";
 const CustomButton = lazy(() => import("../Homepage/CustomButton"));
 const RahuKaalForm = ({
   value,
@@ -29,7 +30,7 @@ const RahuKaalForm = ({
   const isPlaceSelected = useRef(false);
   const searchTimeoutRef = useRef(null);
   const [autoSubmit, setAutoSubmit] = useState(false);
-
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
   const handleSearch = (val) => {
     isPlaceSelected.current = false;
 
@@ -96,14 +97,14 @@ const RahuKaalForm = ({
       }
     };
     setDefaultCity();
-  }, []);
+  }, [LocalLanguage]);
 
   useEffect(() => {
     if (autoSubmit) {
       onSubmit();
       setAutoSubmit(false); // prevent re-submit
     }
-  }, [autoSubmit]);
+  }, [autoSubmit, LocalLanguage]);
 
   const handleDateChange = (date, dateString) => {
     const formatted = date ? date.format(DateFormat?.DATE_DASH_FORMAT) : null;

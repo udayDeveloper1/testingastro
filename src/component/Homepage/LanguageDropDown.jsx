@@ -8,12 +8,12 @@ import Loader from '../loader/Loader'
 function LanguageDropdown ({ className = '' }) {
   const { changeLanguage, language } = useContext(LanguageContext)
   const navigate = useNavigate()
-
+  
   const [loading, setLoading] = useState(false)
 
   const handleLanguageChange = value => {
     setLoading(true) // Show loader
-
+    
     changeLanguage(value)
     const supportedLanguages = Object.values(LanguageOption)
     const pathSegments = window.location.pathname.split('/')

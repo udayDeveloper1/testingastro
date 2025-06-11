@@ -21,6 +21,7 @@ const LayoutWrapper = ({ children, showFooter = true }) => {
     }
   }, [location?.pathname, pageScroll]);
 
+
   return (
     <div ref={scrolltoTopRef}>
       <SEO />

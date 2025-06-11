@@ -166,6 +166,22 @@
     min-height: 87px;
   }
 
+  .book_pooja_chat_btns{
+    max-width: 185px;
+  }
+
+  @media(max-width: 1023px){
+    
+  .book_pooja_chat_btns_part > .book_pooja_chat_btns:nth-child(odd) {
+    margin-left: auto;
+  }
+
+  .freeKundliHomepageForm{
+    max-width: 409px;
+    margin: auto;
+  }
+  }
+
   @media(max-width: 767px){
     .HeroSection {
       margin-top: -92px;

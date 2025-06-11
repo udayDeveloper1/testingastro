@@ -7,9 +7,7 @@ import phone from '../../assets/img/Phone/phone.webp'
 // import { PATHS } from '../../routers/Paths'
 import { login, sendOTP } from '../../services/api/api.services'
 
-import {
-  setUserLoginData
-} from '../../storemain/slice/MasterSlice'
+import { setUserLoginData } from '../../storemain/slice/MasterSlice'
 import {
   closeModel,
   loginRedirection,
@@ -19,12 +17,10 @@ import {
 import { Codes } from '../../utils/CommonVariable'
 import { UpdatedPaths } from '../../routers/Paths'
 import { useTranslation } from 'react-i18next'
-const PhoneInput = React.lazy(() => import('react-phone-input-2'));
-const CustomButton = React.lazy(() => import('../Homepage/CustomButton'));
-
+const PhoneInput = React.lazy(() => import('react-phone-input-2'))
+const CustomButton = React.lazy(() => import('../Homepage/CustomButton'))
 
 const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
-  const modal = useSelector(state => state?.masterSlice?.modal)
   const [isOtpOpen, setIsOtpOpen] = useState(false)
   const [phoneNumber, setPhoneNumber] = useState('')
   const [OTPMatch, setOTPMatch] = useState('')
@@ -111,7 +107,7 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
 
       sendOTP(requestBody).then(response => {
         if (response?.code === Codes?.SUCCESS) {
-          // TOAST_SUCCESS(response?.message)
+          TOAST_SUCCESS(response?.message)
           setOTPMatch(response?.data?.otp_code)
           setIsOtpOpen(true)
           closeModel(dispatch)
@@ -159,7 +155,7 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
   const validateAndSubmitOTP = useCallback(() => {
     const enteredOTP = otp.join('')
     if (enteredOTP.length !== 4) {
-      setCustomError('Please enter a valid 4-digit OTP.')
+      setCustomError(t('Please_enter_a_valid_4_digit_OTP'))
       return
     }
     setCustomError('')
@@ -179,51 +175,50 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
     [otp, validateAndSubmitOTP]
   )
 
-  const onOTPSubmit = useCallback(otpCode => {
-
-    if (resendTimer === 0) {
-      TOAST_ERROR('OTP expired. Please resend new OTP.')
-      setOtp(['', '', '', ''])
-      setTimeout(() => inputRefs.current[0]?.focus(), 0)
-      return
-    }
-
-    if (OTPMatch !== otpCode) {
-      TOAST_ERROR('OTP does not match.')
-      setOtp(['', '', '', ''])
-      setTimeout(() => inputRefs.current[0]?.focus(), 0)
-      return
-    }
-
-    const requestBody = {
-      role: 'user',
-      country_code: `${countryCode?.country_format}${countryCode?.country_code}`,
-      mobile_number: phoneNumber,
-      device_type: 'web',
-      device_token: '123'
-    }
-
-    login(requestBody).then(response => {
-      if (response?.code === Codes?.SUCCESS) {
-        loginRedirection(response?.data)
-        // TOAST_SUCCESS('OTP verified successfully!')
-        setOTPMatch('')
+  const onOTPSubmit = useCallback(
+    otpCode => {
+      if (resendTimer === 0) {
+        TOAST_ERROR('OTP expired. Please resend new OTP.')
         setOtp(['', '', '', ''])
-        setIsOtpOpen(false)
-        issetIsModalOpen(false)
-        dispatch(
-          setUserLoginData({ is_login: true, loginUserData: response?.data })
-        )
-        closeModel(dispatch)
-        navigate(PATHS?.HOMEPAGE)
-        setResendTimer(0)
-      } else {
-        TOAST_ERROR(response?.message)
-        closeModel(dispatch)
+        setTimeout(() => inputRefs.current[0]?.focus(), 0)
+        return
       }
-    })
 
-  },
+      if (OTPMatch !== otpCode) {
+        TOAST_ERROR('OTP does not match.')
+        setOtp(['', '', '', ''])
+        setTimeout(() => inputRefs.current[0]?.focus(), 0)
+        return
+      }
+
+      const requestBody = {
+        role: 'user',
+        country_code: `${countryCode?.country_format}${countryCode?.country_code}`,
+        mobile_number: phoneNumber,
+        device_type: 'web',
+        device_token: '123'
+      }
+
+      login(requestBody).then(response => {
+        if (response?.code === Codes?.SUCCESS) {
+          loginRedirection(response?.data)
+          TOAST_SUCCESS(response.message)
+          setOTPMatch('')
+          setOtp(['', '', '', ''])
+          setIsOtpOpen(false)
+          issetIsModalOpen(false)
+          dispatch(
+            setUserLoginData({ is_login: true, loginUserData: response?.data })
+          )
+          closeModel(dispatch)
+          // navigate(PATHS?.HOMEPAGE)
+          setResendTimer(0)
+        } else {
+          TOAST_ERROR(response?.message)
+          closeModel(dispatch)
+        }
+      })
+    },
     [
       OTPMatch,
       countryCode,
@@ -244,8 +239,7 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
 
     sendOTP(requestBody).then(response => {
       if (response?.code === Codes?.SUCCESS) {
-        // TOAST_SUCCESS(response?.message)
-
+        TOAST_SUCCESS(response?.message)
         setOTPMatch(response?.data?.otp_code)
         setIsOtpOpen(true)
         issetIsModalOpen(false)
@@ -299,29 +293,29 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
 
   useEffect(() => {
     if (isOtpOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = ''
     }
 
     // Cleanup on unmount
     return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOtpOpen]);
+      document.body.style.overflow = ''
+    }
+  }, [isOtpOpen])
 
   useEffect(() => {
     if (isPhoneModalOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = ''
     }
 
     // Cleanup on unmount
     return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isPhoneModalOpen]);
+      document.body.style.overflow = ''
+    }
+  }, [isPhoneModalOpen])
 
   return (
     <>
@@ -340,8 +334,6 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
               >
                 ✖
               </button>
-
-
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className='p-4'>
@@ -354,7 +346,11 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
                 <div className=''>
                   <div className='flex gap-3'>
                     <div className='aspect-square w-12 rounded-[5px] bg_website_color flex items-center justify-center'>
-                      <img src={phone} alt='call' className='block object-contain' />
+                      <img
+                        src={phone}
+                        alt='call'
+                        className='block object-contain'
+                      />
                     </div>
                     <PhoneInput
                       country={'in'}
@@ -362,7 +358,13 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
                       onChange={handleChange}
                       inputClass='w-full border border-gray-300 rounded-md px-3 py-2 h-full'
                       inputProps={{
-                        ref: phoneInputRef
+                        ref: phoneInputRef,
+                        onKeyDown: e => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault()
+                            handleSubmit(onSubmit)()
+                          }
+                        }
                       }}
                     />
                     <input
@@ -376,7 +378,11 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
                     {errors?.phoneNumber?.message}
                   </label>
                 </div>
-                <CustomButton type='submit' className='w-full py-2' parentClassName='mt-6'>
+                <CustomButton
+                  type='submit'
+                  className='w-full py-2'
+                  parentClassName='mt-6'
+                >
                   {t('get_otp')}
                 </CustomButton>
                 <p className='text-[14px] new_body_font text-start font-[400] mt-5 mb-4'>
@@ -401,7 +407,7 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
           <div className='bg-white rounded-lg box_shadow_common w-full md:w-[450px] min-h-[290px]'>
             <div className='bg_website_color p-4 flex justify-between items-center rounded-t-lg'>
               <h2 className='text-lg text-white font-semibold mb-0'>
-                {t('verify_otp')}
+                {t('Verify_OTP')}
               </h2>
               <button
                 onClick={closeAllModals}
@@ -411,10 +417,12 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
               </button>
             </div>
             <div className='p-6 flex flex-col items-center justify-between'>
-              <p className='text-[16px] font-[400] text-gray mt-2'>
-                OTP sent to{' '}
+              <p className='text-[16px] font-[400] text-gray new_body_font mt-2'>
+                {t('OTP_sent_to')}{' '}
                 <span className='font-semibold new_body_font'>
-                  {`${countryCode.country_format}${countryCode?.country_code + ' '}${watchedPhoneNumber}`}
+                  {`${countryCode.country_format}${
+                    countryCode?.country_code + ' '
+                  }${watchedPhoneNumber}`}
                 </span>
               </p>
               <div className='flex justify-center gap-3 mt-4'>
@@ -439,12 +447,12 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
                 parentClassName='mt-6 w-full'
                 onClick={validateAndSubmitOTP}
               >
-                LOGIN
+                {t('login')}
               </CustomButton>
               <div className='text-[14px] font-normal text-center mt-4 mb-0 w-full flex justify-between'>
                 {resendTimer !== 0 ? (
                   <span>
-                    Resend OTP available in{' '}
+                    {t('OTP_sent_to')}{' '}
                     <span className='website_color'>
                       {String(resendTimer).padStart(2, '0')}s
                     </span>
@@ -464,423 +472,6 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
       )}
     </>
   )
-
-
 })
 
 export default PhoneAuthModal
-
-// import React, { useState, useEffect, useRef } from 'react'
-// import PhoneInput from 'react-phone-input-2'
-// import 'react-phone-input-2/lib/style.css'
-// import CustomButton from '../Homepage/CustomButton'
-// import { useForm } from 'react-hook-form'
-// import { login, sendOTP } from '../../services/api/api.services'
-// import { Codes } from '../../utils/CommonVariable'
-// import {
-//   closeModel,
-//   loginRedirection,
-//   TOAST_ERROR,
-//   TOAST_SUCCESS
-// } from '../../utils/CommonFunction'
-// import { PATHS } from '../../routers/Paths'
-// import { useNavigate } from 'react-router'
-// import { useDispatch, useSelector } from 'react-redux'
-// import {
-//   changeLanguage,
-//   setUserLoginData
-// } from '../../storemain/slice/MasterSlice'
-// import phone from '../../assets/img/Phone/phone.svg'
-
-// const PhoneAuthModal = ({ isPhoneModalOpen, issetIsModalOpen }) => {
-
-//   const modal = useSelector((state) => state?.masterSlice?.modal);
-//   const [isOtpOpen, setIsOtpOpen] = useState(false)
-//   const [phoneNumber, setPhoneNumber] = useState('')
-//   const [OTPMatch, setOTPMatch] = useState('')
-//   const navigate = useNavigate()
-//   const dispatch = useDispatch()
-//   const phoneInputRef = useRef(null)
-
-//   const {
-//     register,
-//     handleSubmit,
-//     reset,
-//     getValues,
-//     watch,
-//     setValue,
-//     formState: { errors },
-//     clearErrors,
-//     setError,
-//     setFocus
-//   } = useForm()
-
-//   const [countryCode, setCountryCode] = useState({
-//     country_code: '91', // Default India
-//     country_format: '+',
-//     short_name: 'in'
-//   })
-
-//   // -------------------------------------- Login Code --------------------------------------------
-
-//   const validatePhoneNumber = number => {
-//     const phoneRegex = /^\d{10}$/
-//     if (!number) {
-//       setError('phoneNumber', {
-//         type: 'manual',
-//         message: 'Phone number is required.'
-//       })
-//     } else if (!phoneRegex.test(number)) {
-//       setError('phoneNumber', {
-//         type: 'manual',
-//         message: 'Invalid phone number. Must be exactly 10 digits.'
-//       })
-//     } else {
-//       clearErrors('phoneNumber')
-//     }
-//   }
-
-//   const handleChange = (value, country) => {
-//     // Remove the country code (handles different country codes dynamically)
-//     let formattedNumber = value.startsWith(`${country.dialCode}`)
-//       ? value.replace(`${country.dialCode}`, '').trim()
-//       : value
-
-//     setPhoneNumber(formattedNumber) // Store only the phone number without the country code
-//     setCountryCode({
-//       country_code: country.dialCode,
-//       country_format: '+',
-//       short_name: country.countryCode
-//     })
-//     setValue('phoneNumber', formattedNumber)
-//     clearErrors('phoneNumber', '')
-
-//     validatePhoneNumber(formattedNumber)
-//   }
-
-//   const onSubmit = submitData => {
-//     let requestBody = {
-//       role: 'admin',
-//       country_code: `${countryCode?.country_format}${countryCode?.country_code}`,
-//       mobile_number: submitData?.phoneNumber
-//       // device_type: "web",
-//       // device_token: "123"
-//     }
-//     sendOTP(requestBody).then(response => {
-//       if (response?.code === Codes?.SUCCESS) {
-//         TOAST_SUCCESS(response?.message)
-//         setOTPMatch(response?.data?.otp_code)
-//         setIsOtpOpen(true)
-//         // isPhoneModalOpen(false)
-//         setResendTimer(60)
-//         closeModel(dispatch)
-//         issetIsModalOpen(false)
-//         // loginRedirection(response?.data);
-//         // navigate(PATHS?.HOMEPAGE)
-//       } else {
-//         TOAST_ERROR(response?.message)
-//         isPhoneModalOpen(false)
-//         closeModel(dispatch)
-//       }
-//     }, [])
-//   }
-
-//   // --------------------------------------------------OTP Code  -----------------------------------------------------------------
-
-//   const [otp, setOtp] = useState(['', '', '', ''])
-//   const [customError, setCustomError] = useState('')
-//   const [resendTimer, setResendTimer] = useState(60)
-//   const inputRefs = useRef([])
-
-//   const handleOtpChange = (index, value) => {
-//     if (/^\d?$/.test(value)) {
-//       const newOtp = [...otp]
-//       newOtp[index] = value
-//       setOtp(newOtp)
-//       setCustomError('')
-//       // Move to next input if filled
-//       if (value && index < otp.length - 1) {
-//         inputRefs.current[index + 1].focus()
-//       }
-//     }
-//   }
-
-//   const validateAndSubmitOTP = () => {
-//     const enteredOTP = otp.join('') // Convert array to string
-//     if (enteredOTP.length !== 4) {
-//       setCustomError('Please enter a valid 4-digit OTP.')
-//       return
-//     }
-//     setCustomError('') // Clear error if valid
-//     onOTPSubmit(enteredOTP)
-//   }
-//   // Handle Backspace
-//   const handleBackspace = (index, e) => {
-//     if (e.key === 'Backspace' && !otp[index] && index > 0) {
-//       inputRefs.current[index - 1].focus()
-//     }
-//     if (e.key === "Enter") {
-//       validateAndSubmitOTP()
-//     }
-//   }
-
-//   // Resend OTP Countdown
-//   useEffect(() => {
-//     if (isOtpOpen && resendTimer > 0) {
-//       const timer = setTimeout(() => setResendTimer(resendTimer - 1), 1000)
-//       return () => clearTimeout(timer)
-//     }
-//   }, [isOtpOpen, resendTimer])
-
-//   // Focus first empty input on opening OTP modal
-//   useEffect(() => {
-//     if (isOtpOpen) {
-//       const firstEmpty = otp.findIndex(digit => digit === '')
-//       if (firstEmpty !== -1) {
-//         inputRefs.current[firstEmpty].focus()
-//       }
-//     }
-//   }, [isOtpOpen])
-
-//   const onOTPSubmit = otpCode => {
-//     if (resendTimer === 0) {
-//       TOAST_ERROR('OTP expired. Please resend new OTP.')
-//       setOtp(['', '', '', ''])
-
-//       setTimeout(() => {
-//         if (inputRefs?.current[0]) {
-//           inputRefs.current[0].focus()
-//         }
-//       }, 0)
-//     } else if (OTPMatch == otpCode) {
-//       let requestBody = {
-//         role: 'user',
-//         country_code: `${countryCode?.country_format}${countryCode?.country_code}`,
-//         mobile_number: phoneNumber,
-//         device_type: 'web',
-//         device_token: '123'
-//       }
-//       login(requestBody).then(response => {
-//         if (response?.code === Codes?.SUCCESS) {
-//           loginRedirection(response?.data)
-//           navigate(PATHS?.HOMEPAGE)
-//           TOAST_SUCCESS('OTP verified successfully!')
-//           setOTPMatch('')
-//           setOtp(['', '', '', ''])
-//           setOTPMatch('')
-//           setIsOtpOpen(false)
-//           issetIsModalOpen(false)
-//           dispatch(
-//             setUserLoginData({ is_login: true, loginUserData: response?.data })
-//           )
-//           closeModel(dispatch)
-//           setResendTimer(0)
-//         } else {
-//           TOAST_ERROR(response?.message)
-//           closeModel(dispatch)
-//         }
-//       }, [])
-//     } else {
-//       TOAST_ERROR('OTP does not match.')
-//       setOtp(['', '', '', ''])
-
-//       setTimeout(() => {
-//         if (inputRefs?.current[0]) {
-//           inputRefs.current[0].focus()
-//         }
-//       }, 0)
-//     }
-//   }
-
-//   const onResendOTP = submitData => {
-//     let requestBody = {
-//       role: 'admin',
-//       country_code: `${countryCode?.country_format}${countryCode?.country_code}`,
-//       mobile_number: submitData?.phoneNumber
-//       // device_type: "web",
-//       // device_token: "123"
-//     }
-//     sendOTP(requestBody).then(response => {
-//       if (response?.code === Codes?.SUCCESS) {
-//         TOAST_SUCCESS(response?.message)
-//         setOTPMatch(response?.data?.otp_code)
-//         setIsOtpOpen(true)
-//         issetIsModalOpen(false)
-//         setResendTimer(60)
-
-//         const firstEmpty = otp.findIndex(digit => digit === '')
-//         if (firstEmpty !== -1) {
-//           inputRefs.current[firstEmpty].focus()
-//         }
-//         // loginRedirection(response?.data);
-//         // navigate(PATHS?.HOMEPAGE)
-//       } else {
-//         TOAST_ERROR(response?.message)
-//       }
-//     }, [])
-//   }
-
-//   useEffect(() => {
-//     setFocus('phoneNumber')
-//   }, [])
-
-//   useEffect(() => {
-//     if (isPhoneModalOpen && phoneInputRef.current) {
-//       setTimeout(() => {
-//         phoneInputRef.current.focus()
-//       }, 200)
-//     }
-//   }, [isPhoneModalOpen])
-
-//   return (
-//     <>
-//       {/* Phone Number Modal */}
-//       {isPhoneModalOpen && (
-//         <div className='fixed inset-0 flex items-center justify-center  bg-opacity-30 bg-[#00000080] z-50 reactPhone p-4'>
-//           <div className='bg-white rounded-lg box_shadow_common '>
-//             <div className='bg_website_color p-4 flex justify-between items-center rounded-t-lg'>
-//               <h2 className='bg_website_color text-white text-[24px] font-medium mb-0'>
-//                 Continue With Phone
-//               </h2>
-//               <button
-//                 onClick={() => {
-//                   closeModel(dispatch)
-//                   issetIsModalOpen(false)
-//                 }}
-//                 className='text-xl text-white cursor-pointer'
-//               >
-//                 ✖
-//               </button>
-//             </div>
-//             <form onSubmit={handleSubmit(onSubmit)}>
-//               <div className='p-6'>
-//                 <p className='text-[20px] new_body_fontfont-medium my-5'>
-//                   You will receive a 4-digit code for verification.
-//                 </p>
-//                 <p className='text-[16px] font-semibold'>
-//                   Enter your phone number
-//                 </p>
-//                 <div className=''>
-//                   <div className='flex gap-3'>
-//                     <img src={phone} alt='' className='w-12 h-12' />
-//                     <PhoneInput
-//                       country={'in'} // Default country (India)
-//                       value={countryCode?.country_code}
-//                       onChange={handleChange}
-//                       inputClass='w-full border border-gray-300 rounded-md px-3 py-2 h-full'
-//                       inputProps={{
-//                         ref: phoneInputRef
-//                       }}
-//                     />
-//                     <input
-//                       type='hidden'
-//                       {...register('phoneNumber', {
-//                         required: 'Enter mobile number'
-//                         // validate: validatePhoneNumber,
-//                       })}
-//                       className=''
-//                     />
-//                   </div>
-
-//                   <label className='errorc pt-1 mt-1'>
-//                     {errors?.phoneNumber && errors?.phoneNumber?.message}
-//                   </label>
-//                 </div>
-//                 <CustomButton type='submit' className='w-full py-2 mt-6 border'>
-//                   GET OTP
-//                 </CustomButton>
-//                 <p className='text-[14px] new_body_fontfont-medium text-center mt-7'>
-//                   By Signing up, you agree to our
-//                   <span className='website_color cursor-pointer'>
-//                     Terms of Use
-//                   </span>{' '}
-//                   and
-//                   <span className='website_color cursor-pointer'>
-//                     Privacy Policy
-//                   </span>
-//                 </p>
-//               </div>
-//             </form>
-//           </div>
-//         </div>
-//       )}
-
-//       {/* OTP Verification Modal */}
-//       {isOtpOpen && (
-//         <div className='fixed inset-0 flex items-center justify-center bg-opacity-30 bg-[#00000080] z-50 z-100'>
-//           <div className='bg-white rounded-lg box_shadow_common w-96'>
-//             <div className='bg_website_color p-4 flex justify-between items-center rounded-t-lg'>
-//               <h2 className='text-lg text-white font-semibold mb-0'>
-//                 Verify OTP
-//               </h2>
-//               <button
-//                 onClick={() => { setIsOtpOpen(false); setOtp(["", "", "", ""]) }}
-//                 className='text-xl text-white cursor-pointer'
-//               >
-//                 ✖
-//               </button>
-//             </div>
-//             <div className='p-6 flex flex-col items-center'>
-//               <p className='text-[20px] font-medium text-gray mt-2'>
-//                 OTP sent to{' '}
-//                 <span className='font-bold new_body_font'>{`${countryCode.country_format
-//                   }${countryCode?.country_code + '  '}${watch(
-//                     'phoneNumber'
-//                   )}`}</span>
-//               </p>
-//               {/* <p className="text-[16px] font-semibold">
-//                 Enter your phone number{" "}
-//               </p> */}
-//               <div className='flex justify-center gap-3 mt-4'>
-//                 {otp.map((digit, index) => (
-//                   <input
-//                     key={index}
-//                     ref={el => (inputRefs.current[index] = el)}
-//                     type='text'
-//                     maxLength='1'
-//                     className='w-12 h-12 text-center border border-gray-300 rounded-md text-lg  outline-none'
-//                     value={digit}
-//                     onChange={e => handleOtpChange(index, e.target.value)}
-//                     onKeyDown={e => handleBackspace(index, e)}
-//                   />
-//                 ))}
-//               </div>
-//               <label className='errorc pt-1 mt-1'>
-//                 {customError && customError}
-//               </label>
-
-//               <CustomButton
-//                 className=' w-full py-2 mt-4  border'
-//                 onClick={() => {
-//                   validateAndSubmitOTP()
-//                 }}
-//               >
-//                 LOGIN
-//               </CustomButton>
-//               <p className='text-[16px] font-semibold text-center mt-4 mb-0 w-full flex justify-between'>
-//                 <p className='mb-0'>
-//                   {' '}
-//                   Resend OTP available in{' '}
-//                   <span className='website_color'>{resendTimer}s</span>{' '}
-//                 </p>
-
-//                 {resendTimer === 0 && (
-//                   <span
-//                     className='website_color cursor-pointer font-bold'
-//                     onClick={() => {
-//                       onResendOTP({ phoneNumber: phoneNumber })
-//                     }}
-//                   >
-//                     Resend OTP
-//                   </span>
-//                 )}
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   )
-// }
-
-// export default PhoneAuthModal

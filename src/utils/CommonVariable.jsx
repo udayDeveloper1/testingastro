@@ -1,5 +1,7 @@
 //  date formate 
 
+import { Constatnt } from "./Constent";
+
 export const DateFormat = {
     DATE_FORMAT: "YYYY-MM-DD", // 2024-06-12
     ABBREVIATED_DATE_FORMAT: "D MMM", // 12 Jun
@@ -120,6 +122,7 @@ export const LanguageOption = {
     GUJRATI: 'gu',
     HINDI: 'hi',
 };
+
 
 /////////////////// Use for FAQs
 

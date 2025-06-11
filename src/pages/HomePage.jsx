@@ -10,7 +10,7 @@ import '../assets/css/homepage.css'
 import '../assets/css/newHomePage.css'
 import backImg from '/homepage/homeBackgroundImage.webp'
 import backImgMobile from '../assets/img/banner/homeBackgroundImage_mobile.webp'
-import { getDashboardPanchang, setPanchangDetails } from '../storemain/slice/MasterSlice'
+import { getDashboardCount, getDashboardPanchang, setPanchangDetails } from '../storemain/slice/MasterSlice'
 import messageIcon from '/newThemeHomePage/MessageIcon.svg'
 import astromall from '/newThemeHomePage/astromall.svg'
 import bookPooja from '/newThemeHomePage/bookPooja.svg'
@@ -21,6 +21,8 @@ import phoneIcon from '/newThemeHomePage/phoneIcon.svg'
 import HeroSection from '../component/Homepage/HeroSection'
 import { hasAtLeastOneResponseData } from '../utils/CommonFunction'
 import { useInitialScreenSizeCategory } from './hooks/useInitialScreenSizeCategory'
+import { getHomePageListing } from '../storemain/slice/HompageSlice'
+import { LanguageOption } from '../utils/CommonVariable'
 
 const ChatWithAstrologerCard = lazy(() =>
   import('../component/CommonChatTalkAstrologerCard')
@@ -40,7 +42,7 @@ const ChooseCategory = lazy(() =>
   import('../component/Homepage/ChooseCategory')
 )
 
-function HomePage () {
+function HomePage() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const PATHS = UpdatedPaths()
@@ -53,7 +55,7 @@ function HomePage () {
     state => state?.masterSlice?.dashboardCount
   )
   // const LocalLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
-  const homapageData = useSelector( state => state.HomePageSlice?.homapageList?.data || [])
+  const homapageData = useSelector(state => state.HomePageSlice?.homapageList?.data || [])
   const panchangDetailsData = useSelector(state => state.masterSlice?.panchangDetails)
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
 
@@ -72,7 +74,8 @@ function HomePage () {
   useEffect(() => {
     const isValidLocation = locationData && Object.keys(locationData).length > 0 && locationData?.name;
     const panchangeData = localStorage?.getItem(Constatnt?.PANCHANGE_KEY);
-    const parsedData = panchangeData ? JSON.parse(panchangeData) : {};
+
+    const parsedData = (panchangeData && panchangeData !== "undefined") ? JSON.parse(panchangeData) : {};
     const isDataMissing = !hasAtLeastOneResponseData(parsedData?.response);
     const isLanguageChanged = parsedData?.request?.lang !== LocalLanguage;
     if (isValidLocation) {
@@ -92,18 +95,22 @@ function HomePage () {
         }
         dispatch(getDashboardPanchang(request))
       } else {
-        console.log('getDashboardPanchang parsedData', parsedData);
         dispatch(setPanchangDetails(parsedData));
-        console.log("Panchang data is available. No API call needed.");
       }
     } else {
-      console.log('location not found');
     }
   }, [locationData, LocalLanguage])
 
   useEffect(() => {
     screenCategory === "412-or-below" ? setBgImage(backImgMobile) : setBgImage(backImg)
   }, [screenCategory])
+
+  useEffect(() => {
+    // if (!homapageData?.AstrologerList?.length) {
+    dispatch(getHomePageListing());
+    dispatch(getDashboardCount())
+    // }
+  }, [t])
 
   const cardData = useMemo(
     () => [
@@ -120,12 +127,12 @@ function HomePage () {
       {
         label: t('astro_mall'),
         icon: astromall,
-        path: null
+        path: PATHS?.ASTRO_MALL
       },
       {
         label: t('book_a_pooja'),
         icon: bookPooja,
-        path: null
+        path: PATHS?.BOOK_POOJA_LIST
       }
     ],
     [t]
@@ -136,6 +143,7 @@ function HomePage () {
       <HeroSection
         backImg={bgImage}
         cardData={cardData}
+        navigate={navigate}
         // observerRefss={observerRef}
         t={t}
       />

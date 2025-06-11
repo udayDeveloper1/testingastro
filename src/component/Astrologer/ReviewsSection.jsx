@@ -70,7 +70,7 @@ const ReviewsSection = React.memo(({ RATTING_REVEW_LIST, astrologerDetails }) =>
     return (
       <Card className=' PersonReviewCard rating p-4 w-full border-none box_shadow_common'>
         <div className='flex flex-col items-start'>
-          <h4 className='ratingCardHeadingH3 w-full text-center text-gray-600'>
+          <h4 className='ratingCardHeadingH3 w-full text-center new_body_font'>
             {t('ratting_list_not_found')}
           </h4>
         </div>
@@ -131,7 +131,7 @@ const ReviewsSection = React.memo(({ RATTING_REVEW_LIST, astrologerDetails }) =>
                   </div>
                   <div className='flex w-full'>
                     <div className='w-full h-full flex flex-col justify-between md:justify-end items-end gap-4'>
-                      <p className='text-gray-500 text-[18px] mb-0 text-end h-full w-full'>
+                      <p className='new_body_font font-[500] text-[18px] mb-0 text-end h-full w-full'>
                         {astrologerDetails?.orders} Orders
                       </p>
                     </div>

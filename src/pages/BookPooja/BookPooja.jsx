@@ -23,7 +23,6 @@ const BookPooja = () => {
   const handleCancel = () => setIsModalOpen(false);
 
   const handleSubmit = (values) => {
-    console.log("Form Submitted:", values);
     setIsModalOpen(false);
   };
 

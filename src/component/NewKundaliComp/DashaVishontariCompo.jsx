@@ -3,16 +3,19 @@ import CustomTable from "../Custom/CustomTable";
 import { formatDate } from "../../utils/CommonFunction";
 import { DateFormat, LanguageOption } from "../../utils/CommonVariable";
 import { useSelector } from "react-redux";
+import { Constatnt } from "../../utils/Constent";
+import { useTranslation } from "react-i18next";
 
 export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
+  const { t } = useTranslation()
 
-      const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-      ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-      : LanguageOption?.ENGLISH
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    : LanguageOption?.ENGLISH
 
   const columns = [
     {
-      title: "Planet",
+      title: t('planets'),
       dataIndex: "label",
       key: "label",
       align: "center",
@@ -21,7 +24,7 @@ export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
       ),
     },
     {
-      title: "Date",
+      title: t('date'),
       dataIndex: "value",
       key: "value",
       align: "center",
@@ -32,7 +35,7 @@ export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
 
   const columnsMahaDasha = [
     {
-      title: "Planet",
+      title: t('planets'),
       dataIndex: "label",
       key: "label",
       fixed: "left",
@@ -42,7 +45,7 @@ export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
       ),
     },
     {
-      title: "Start Date",
+      title: t('start_date'),
       dataIndex: "start_date",
       key: "start_date",
       align: "center",
@@ -50,7 +53,7 @@ export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
       render: (text) => <span className="newKundaliTableValue">{text || '-'}</span>,
     },
     {
-      title: "End Date",
+      title: t('end_date'),
       dataIndex: "end_date",
       key: "end_date",
       align: "center",
@@ -100,7 +103,7 @@ export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
         >
           {/* Header */}
           <div className="bg_website_color px-4 py-2">
-            <h3 className=" new_common_heading">MahaDasha</h3>
+            <h3 className=" new_common_heading"> {t('mahadasha_fal')}</h3>
           </div>
 
           {/* Custom Table */}
@@ -111,8 +114,8 @@ export default function DashaVishontariCompo({ mahaDasha, antarDasha }) {
             loading={false}
             scroll={{ x: "max-content" }}
             bordered={false}
-             className="lightBackHead"
-            
+            className="lightBackHead"
+
           />
         </Card>
         <Card className="rounded-[10px] overflow-hidden new_custom_card border-none dashaVisnotari new_custom_table !border-none" bodyStyle={{ padding: 0 }}>

@@ -59,12 +59,14 @@
 .loader2{
   top: 0;
   left: 0;
-  animation: reverseRotateLoader 7s linear infinite;
+  /* animation: reverseRotateLoader 7s linear infinite; */
+  animation: rotateLoader 7s linear infinite;
 }
 .loader3{
   top: 0;
   left: 0;
-  animation: reverseRotateLoader 7s linear infinite;
+  /* animation: reverseRotateLoader 7s linear infinite; */
+  animation: rotateLoader 7s linear infinite;
 }
 .loader4{
   top: 0;

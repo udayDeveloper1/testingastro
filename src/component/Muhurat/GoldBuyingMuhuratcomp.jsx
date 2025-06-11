@@ -22,8 +22,10 @@ const GoldBuyingMuhuratcomp = ({ title, introText, data, footerText, arrayTitle,
         <ul className={`list-${listStyle} pl-5 flex flex-col gap-3`}>
           {data?.map((item, index) => (
             <li key={index} className="struct_title">
-                {item.title ? `${item.title}:` : ""}
-                <span className="struct_Para"> {item.description}</span>
+              {item.title ? `${item.title}:` : ""}
+              {/* <span className="struct_Para" dangerouslySetInnerHTML={{ __html: item.description }}></span> */}
+              <span className="struct_Para">{item.description}</span>
+
             </li>
           ))}
         </ul>

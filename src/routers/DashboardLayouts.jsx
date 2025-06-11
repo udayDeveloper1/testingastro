@@ -4,8 +4,14 @@ import React, {
   useRef,
   Suspense,
   useCallback,
+  useLayoutEffect
 } from 'react'
-import { Outlet, useLocation, useNavigate } from 'react-router'
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useNavigationType
+} from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPageScroll } from '../storemain/slice/MasterSlice'
 import { Constatnt } from '../utils/Constent'
@@ -24,6 +30,7 @@ export const RootLayout = React.memo(() => {
   const scrollRef = useRef(null)
   const location = useLocation()
   const dispatch = useDispatch()
+
   const pageScroll = useSelector(state => state?.masterSlice?.pageScroll)
 
   const scrollToTop = useCallback(() => {
@@ -35,13 +42,37 @@ export const RootLayout = React.memo(() => {
 
   useEffect(() => {
     scrollToTop()
-  }, [location.pathname, pageScroll, scrollToTop])
+  }, [location.pathname, pageScroll])
+
+  const navigationType = useNavigationType()
+  const prevIdxRef = useRef(window.history.state?.idx || 0)
+  useLayoutEffect(() => {
+    const currentIdx = window.history.state?.idx
+    console.log(navigationType);
+    
+    if (navigationType === 'POP' && location.pathname.includes('/chat/')) {
+      console.log("kmashdjkashdjkajdkahsd");
+      
+      const prevIdx = prevIdxRef.current
+      if (currentIdx < prevIdx) {
+              console.log("kmashdjkashdjkajdkahsd1");
+        window.history.go(-2)
+      } else if (currentIdx > prevIdx) {
+              console.log("kmashdjkashdjkajdkahsd2");
+        window.history.go(2)
+      } else {
+              console.log("kmashdjkashdjkajdkahsd3");
+        window.history.go(-2)
+      }
+      prevIdxRef.current = currentIdx
+    }
+  }, [location, navigationType])
 
   return (
-    <div ref={scrollRef}>
-      <Suspense fallback={null}>
-        <NavBar />
-      </Suspense>
+    <div className={pageScroll.is_scroll ? 'isScroll' : ''} ref={scrollRef}>
+      {/* <Suspense fallback={null}> */}
+      <NavBar />
+      {/* </Suspense> */}
 
       <Suspense fallback={null}>
         <SEO />
@@ -51,7 +82,7 @@ export const RootLayout = React.memo(() => {
         <Outlet />
       </main>
 
-      <Suspense fallback={<div className="text-center py-4">Loading Footer...</div>}>
+      <Suspense fallback={null}>
         <Footer />
       </Suspense>
     </div>
@@ -83,7 +114,9 @@ export const PublicLayout = React.memo(() => <Outlet />)
 // Without Header & Footer Layout
 // ==========================
 export const WithoutHeaderFooter = React.memo(({ children }) => (
-  <Suspense fallback={null}>
-    <LayoutWrapper showFooter={false}>{children}</LayoutWrapper>
-  </Suspense>
+  <LayoutWrapper showFooter={false}>{children}</LayoutWrapper>
 ))
+// <Suspense fallback={null}>
+{
+  /* </Suspense> */
+}

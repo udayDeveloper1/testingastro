@@ -87,7 +87,6 @@ const LanguageAndNotificationCard = () => {
         // toast.error(response?.message)
       }
     } catch (error) {
-      console.log(error)
       // toast.error(error?.message)
       TOAST_ERROR(error?.message)
     } finally {

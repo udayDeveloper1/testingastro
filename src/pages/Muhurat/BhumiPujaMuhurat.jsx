@@ -1,41 +1,35 @@
 // import bhumipujaMuhurat from "../../assets/img/banner/bhumipujaMuhurat.webp";
-import { useEffect } from 'react'
-import CommonBanner from '../../component/CommonBanner'
-import CommonQuestionComp from '../../component/CommonQuestionComp'
-import DynamicCard from '../../component/Dynemic/DynamicCard'
-import NewsletterComp from '../../component/Homepage/NewsLatterComp'
-import BhoomiPujanCard from '../../component/Muhurat/BhoomiPujanCard'
-import GoldBuyingMuhuratcomp from '../../component/Muhurat/GoldBuyingMuhuratcomp'
-import Footer from '../../Layout/Footer'
-import { generateMuhuratBlogThunk } from '../../storemain/slice/MasterSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import { Constatnt } from '../../utils/Constent'
 import moment from 'moment'
-import Loader from '../../component/loader/Loader'
-import { openLoader } from '../../utils/CommonFunction'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import CommonBanner from '../../component/CommonBanner'
+import DynamicCard from '../../component/Dynemic/DynamicCard'
+import Loader from '../../component/loader/Loader'
+import { generateMuhuratBlogThunk } from '../../storemain/slice/MasterSlice'
+import { openLoader } from '../../utils/CommonFunction'
+import { Constatnt } from '../../utils/Constent'
 
-function BhumiPujaMuhurat() {
-
+function BhumiPujaMuhurat () {
   const dispatch = useDispatch()
-  const { t } = useTranslation();
-
+  const { t } = useTranslation()
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
   const muhratData = useSelector(state => state?.masterSlice?.muhratData)
-  const loder = useSelector((state) => state?.masterSlice?.loader);
+  const loder = useSelector(state => state?.masterSlice?.loader)
 
   useEffect(() => {
-    openLoader(dispatch, "bhoomi_muhrat");
+    openLoader(dispatch, 'bhoomi_muhrat')
     let request = {
       type: `bhoomi`,
       year: moment().year(),
       lang: localStorage.getItem(Constatnt?.LANGUAGE_KEY)
     }
     dispatch(generateMuhuratBlogThunk(request))
-  }, [])
+  }, [LocalLanguage])
 
   return (
     <>
-      {loder?.is_loading && loder?.loding_type === "bhoomi_muhrat" && (
+      {loder?.is_loading && loder?.loding_type === 'bhoomi_muhrat' && (
         <Loader />
       )}
       <section>
@@ -46,19 +40,18 @@ function BhumiPujaMuhurat() {
         />
       </section>
 
-
       <section>
         <div className='container mx-auto paddingTop100 paddingBottom100 flex flex-col gap-10'>
           <DynamicCard
-            title={`${t('significance_bhiimi_pujan')} ${new Date().getFullYear()}`}
-            introText=""
+            title={`${t(
+              'significance_bhiimi_pujan'
+            )} ${new Date().getFullYear()}`}
+            introText=''
             data={muhratData}
             listStyle='decimal'
           />
         </div>
       </section>
-
-
     </>
   )
 }

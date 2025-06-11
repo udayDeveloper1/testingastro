@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router'
 import '../assets/css/navbar.css'
 import profileImg from '../assets/img/navbar/profileImg.webp'
-import { getFAQList, getHomePageListing } from '../storemain/slice/HompageSlice'
+import { getFAQList } from '../storemain/slice/HompageSlice'
 import logoWeb from '/newThemeHomePage/logoWeb.svg'
 const PhoneAuthModals = lazy(() => import('../component/auth/PhoneAuthModals'))
 const ConfirmModal = lazy(() => import('../component/Modals/ConfirmModal'))
@@ -79,6 +80,9 @@ function NavBar() {
   const loginUser = useSelector(state => state?.masterSlice?.loginUser)
   const modal = useSelector(state => state?.masterSlice?.modal)
   const homapageData = useSelector(state => state.HomePageSlice?.homapageList?.data || [])
+  const { contentList: data } = useSelector(state => state?.masterSlice?.getFilterList)
+  const astrologersList = useSelector((state) => state?.masterSlice?.astrologerListData);
+  const muhratData = useSelector(state => state?.masterSlice?.muhratData)
 
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
 
@@ -101,7 +105,7 @@ function NavBar() {
       genral_prediction: t('genral_prediction'),
       kundali_prediction: t('kundali_prediction')
     }),
-    [t]
+    [LocalLanguage]
   )
 
   const topNavItems = useMemo(
@@ -188,7 +192,7 @@ function NavBar() {
         ),
       value: `horoscope/${key}-horoscope`
     }),
-    [navigate, t]
+    [navigate, LocalLanguage]
   )
 
   const openLoginModal = useCallback(() => setIsModalOpen(true), [])
@@ -214,7 +218,7 @@ function NavBar() {
           : navigate(path),
       value: path
     }),
-    [navigate, dispatch, t]
+    [navigate, dispatch, LocalLanguage]
   )
   const predictionChildren = useMemo(
     () => [
@@ -230,7 +234,7 @@ function NavBar() {
         true // requires login
       )
     ],
-    [getPredictionNavItem]
+    [getPredictionNavItem, LocalLanguage]
   )
 
   const getMuhuratNavItem = useCallback(
@@ -240,15 +244,15 @@ function NavBar() {
       onClick: () => navigate(path),
       value: path
     }),
-    [navigate, t]
+    [navigate, LocalLanguage]
   )
 
   const muhuratChildren = useMemo(
     () => [
-      getMuhuratNavItem('marriage', 'marriage', PATHS.MARRIAGE_MUHURAT),
+      getMuhuratNavItem('marriage', 'Marriage_Muhurat', PATHS.MARRIAGE_MUHURAT),
       getMuhuratNavItem('bhumi', 'bhumi_Pujan_Muhurat', PATHS.BHUMIPUJA_MUHURAT),
       getMuhuratNavItem('namakaran', 'namakaran_Muhurat', PATHS.NAMKARAN_MUHURAT),
-      getMuhuratNavItem('rahu', 'rahu', PATHS.RAHU_KAAL)
+      getMuhuratNavItem('rahu', 'rahu_kaal', PATHS.RAHU_KAAL)
     ],
     [getMuhuratNavItem]
   )
@@ -297,28 +301,6 @@ function NavBar() {
         label: labels.muhurat,
         type: 'dropdown',
         children: muhuratChildren
-        // children: [
-        //   {
-        //     label: labels.marriage,
-        //     key: 'marriage',
-        //     onClick: () => navigate(PATHS?.MARRIAGE_MUHURAT)
-        //   },
-        //   {
-        //     label: labels.bhumi,
-        //     key: 'Bhumi Pujan',
-        //     onClick: () => navigate(PATHS?.BHUMIPUJA_MUHURAT)
-        //   },
-        //   {
-        //     label: labels.namakaran,
-        //     key: 'Namakaran',
-        //     onClick: () => navigate(PATHS?.NAMKARAN_MUHURAT)
-        //   },
-        //   {
-        //     label: labels.rahu,
-        //     key: 'rahu_kaal',
-        //     onClick: () => navigate(PATHS?.RAHU_KAAL)
-        //   }
-        // ]
       },
       {
         key: 'login',
@@ -350,7 +332,7 @@ function NavBar() {
           </div>
         )
       })),
-    [horoscopeChildren, location.pathname]
+    [horoscopeChildren, location.pathname, t]
   )
 
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null)
@@ -440,11 +422,6 @@ function NavBar() {
         }
       ]
     },
-    // {
-    //   label: 'Talk to Astrologer',
-    //   type: 'link',
-    //   to: rootRoutes?.talkWithAstrologer
-    // },
     {
       label: t('Todays_Panchang'),
       type: 'link',
@@ -476,18 +453,35 @@ function NavBar() {
       type: 'link',
       to: PATHS?.BLOG
     },
+    // {
+    //   label: t('prediction'),
+    //   type: 'link',
+    //   to: PATHS.PREDICTION
+    // }
     {
       label: t('prediction'),
-      type: 'link',
-      to: PATHS.PREDICTION
-    }
+      type: 'dropdown',
+      children: [
+        {
+          label: t('genral_prediction'),
+          type: 'link',
+          to: PATHS?.GENERAL_PREDICTION
+        },
+        {
+          label: t('kundali_prediction'),
+          type: 'link',
+          to: PATHS?.PREDICTION
+        }
+
+      ]
+    },
   ]
 
   const logoutFunction = () => {
     // dispatch(resetStore())
     dispatch(setUserLoginData({ is_login: false, loginUserData: '' }))
     logoutRedirection()
-    navigate('/')
+    navigate(PATHS.HOMEPAGE)
     // TOAST_SUCCESS('Logout successfully')
   }
 
@@ -518,103 +512,38 @@ function NavBar() {
     })
   }
 
-  //   const fetchData = useCallback(async () => {
-  //   try {
-  //     const cityName = await getCurrentCity()
-  //     let request = {
-  //       type: 'marriage muhurat',
-  //       year: moment().year(),
-  //       lang: LocalLanguage
-  //     }
-
-  //     const apiCallList = []
-
-  //     if (PATHS?.HOMEPAGE === location.pathname) {
-  //       apiCallList.push(dispatch(getHomePageListing())),
-  //         apiCallList.push(dispatch(getDashboardCount())),
-  //         apiCallList.push(dispatch(getGeoSearchLoaction({ city: cityName })))
-  //     }
-
-  //     if (
-  //       PATHS?.TALKWITHASTROLOGER ||
-  //       PATHS?.TALKWITHASTROLOGER === location.pathname
-  //     ) {
-  //       apiCallList.push(dispatch(getFilterListing())),
-  //         apiCallList.push(
-  //           dispatch(
-  //             getAstrologerList({ page: 1, per_page: Constatnt?.PER_PAGE_DATA })
-  //           )
-  //         )
-  //     }
-
-  //     if (
-  //       PATHS?.NAMKARAN_MUHURAT ||
-  //       PATHS?.BHUMIPUJA_MUHURAT ||
-  //       PATHS?.MARRIAGE_MUHURAT === location.pathname
-  //     ) {
-  //       apiCallList.push(dispatch(generateMuhuratBlogThunk(request)))
-  //     }
-
-  //     if (PATHS?.BLOG === location.pathname) {
-  //       apiCallList.push(dispatch(generateMuhuratBlogThunk(request)))
-  //     }
-
-  //     apiCallList.push(dispatch(getGeoSearchLoaction({ city: cityName })))
-  //     apiCallList.push(dispatch(getFAQList({ per_page: 1000 })))
-
-  //     await Promise.all(apiCallList)
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error)
-  //   } finally {
-  //   }
-  // }, [location.pathname, LocalLanguage])
-
-
   const fetchData = useCallback(async () => {
     try {
+
       const cityName = await getCurrentCity()
-      let request = {
+      const commonPagination = {
+        page: 1,
+        per_page: Constatnt?.PER_PAGE_DATA
+      }
+
+      const muhuratRequest = {
         type: 'marriage muhurat',
         year: moment().year(),
         lang: LocalLanguage
       }
 
-      const apiCallList = []
-
-      if (PATHS?.HOMEPAGE === location.pathname) {
-        if (homapageData?.AstrologerList?.length > 0) {
-          // apiCallList.push(dispatch(getHomePageListing()))
-        } else {
-          apiCallList.push(dispatch(getHomePageListing()));
-          apiCallList.push(dispatch(getDashboardCount()));
-        }
-      }
-
-      if (PATHS?.TALKWITHASTROLOGER || PATHS?.TALKWITHASTROLOGER === location.pathname) {
-        apiCallList.push(dispatch(getFilterListing())),
-          apiCallList.push(dispatch(getAstrologerList({ page: 1, per_page: Constatnt?.PER_PAGE_DATA })))
-      }
-
-      if (PATHS?.NAMKARAN_MUHURAT || PATHS?.BHUMIPUJA_MUHURAT || PATHS?.MARRIAGE_MUHURAT === location.pathname) {
-        apiCallList.push(dispatch(generateMuhuratBlogThunk(request)))
-      }
-
-      if (PATHS?.BLOG === location.pathname) {
-        apiCallList.push(dispatch(generateMuhuratBlogThunk(request)))
-      }
-
-      apiCallList.push(dispatch(getGeoSearchLoaction({ city: cityName })))
-      apiCallList.push(dispatch(getFAQList({ per_page: 1000 })))
-      await Promise.all(apiCallList)
+      const apiCalls = [
+        // dispatch(getHomePageListing()),
+        dispatch(getGeoSearchLoaction({ city: cityName })),
+        dispatch(getFAQList({ per_page: 1000 })),
+        // dispatch(getFilterListing()),
+        // dispatch(getDashboardCount()),
+        // dispatch(blogListingThunk(commonPagination)),
+        // dispatch(getAstrologerList(commonPagination)),
+        // dispatch(generateMuhuratBlogThunk(muhuratRequest))
+      ]
+      await Promise.all(apiCalls)
     } catch (error) {
       console.error('Error fetching data:', error)
-    } finally {
     }
-  }, [location.pathname, LocalLanguage])
+  }, [LocalLanguage])
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+
 
   const NavItem = React.memo(({ item, horoscopeDropdownItems }) => {
     const baseClasses = 'nav_text_font new_body_font capitalize'
@@ -829,6 +758,7 @@ function NavBar() {
   //     </div>
   //   )
   // })
+
   const NavButtons = React.memo(
     ({ t, isLoggedIn, setIsModalOpen, setIsSidebarOpen, setShowModal }) => {
       const handleLoginClick = useCallback(() => {
@@ -876,7 +806,7 @@ function NavBar() {
                 onClick={handleChatClick}
                 className={chatBtnClass}
               >
-                {t('CHAT NOW')}
+                {t('chat_now')}
               </Link>
               <button onClick={handleLogoutClick} className={logoutBtnClass}>
                 {t('logout')}
@@ -941,6 +871,8 @@ function NavBar() {
   useEffect(() => {
     fetchData()
   }, [LocalLanguage])
+
+
 
   useEffect(() => {
     if (isSidebarOpen) {

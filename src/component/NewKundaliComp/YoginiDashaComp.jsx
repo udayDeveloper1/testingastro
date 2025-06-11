@@ -5,6 +5,7 @@ import { getShortNakshatra } from "./KundliVariabls";
 import React from "react";
 import { useSelector } from "react-redux";
 import { LanguageOption } from "../../utils/CommonVariable";
+import { Constatnt } from "../../utils/Constent";
 
 export default function YoginiDashaComp({ yoginiDashaSub }) {
 

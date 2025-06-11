@@ -5,11 +5,12 @@ import { astrologerDetailsRedirection } from '../../utils/navigations/Navigation
 import astrologer1 from '/homepage/astrologer1.webp'
 const CustomButton = lazy(() => import('./CustomButton'))
 
-function OurAstrologer ({ AstrologerList, viewAll }) {
+function OurAstrologer({ AstrologerList, viewAll }) {
   const location = useLocation()
 
   // const { t } = useTranslation()
   const navigate = useNavigate()
+  
 
   return (
     <>
@@ -21,9 +22,8 @@ function OurAstrologer ({ AstrologerList, viewAll }) {
                 index < 4 && (
                   <div
                     key={index}
-                    className={`flex flex-col md:flex-row w-full bg-white shadow-md rounded-lg p-7 items-center gap-7 md:gap-9 ${
-                      location?.pathname == '/' ? 'staticRadius' : ''
-                    }  `}
+                    className={`flex flex-col md:flex-row w-full bg-white shadow-md rounded-lg p-7 items-center gap-7 md:gap-9 ${location?.pathname == '/' ? 'staticRadius' : ''
+                      }  `}
                   >
                     <div className='homeAstroImageDiv'>
                       <img
@@ -43,7 +43,7 @@ function OurAstrologer ({ AstrologerList, viewAll }) {
                             astrologerDetailsRedirection(
                               navigate,
                               PATHS?.ASTROLOGER_DETAIL_PAGE,
-                              astro?._id
+                              astro?.uniqueID
                             )
                           }}
                         >
@@ -59,9 +59,8 @@ function OurAstrologer ({ AstrologerList, viewAll }) {
           <>
             <div
               // key={index}
-              className={`flex flex-col md:flex-row w-full bg-white shadow-md rounded-lg p-7 items-center gap-7 md:gap-9 ${
-                location?.pathname == '/' ? 'staticRadius' : ''
-              }`}
+              className={`flex flex-col md:flex-row w-full bg-white shadow-md rounded-lg p-7 items-center gap-7 md:gap-9 ${location?.pathname == '/' ? 'staticRadius' : ''
+                }`}
             >
               <div className='homeAstroImageDiv'>
                 <h1>Astrologer Not Found</h1>

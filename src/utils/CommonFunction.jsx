@@ -1,30 +1,33 @@
-import { Constatnt } from './Constent'
-import { toast } from 'react-toastify'
 import CryptoJS from 'crypto-js'
+import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
+import { Constatnt } from './Constent'
 // import ExcelJS from 'exceljs'
 // import jsPDF from 'jspdf'
-import { Suspense } from 'react'
-import { updateToken } from '../services/api/api.services'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+import i18next from 'i18next'
+import { cloneDeep } from 'lodash'
 import moment from 'moment'
-import { Codes, InputRegex, InputTypesEnum, TimeFormat } from './CommonVariable'
-import { useTranslation } from 'react-i18next'
+import { Suspense } from 'react'
+import { Helmet } from 'react-helmet'
+import { updateToken } from '../services/api/api.services'
+import imageCompression from 'browser-image-compression';
 import {
   setIsScroll,
   setLoading,
   setModel,
   setUserLoginData
 } from '../storemain/slice/MasterSlice'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
-import { useNavigate } from 'react-router'
-import { store } from '../store/store'
+import {
+  Codes,
+  InputRegex,
+  InputTypesEnum,
+  LanguageOption,
+  TimeFormat
+} from './CommonVariable'
 import { getDispatcher } from './navigations/NavigationService'
-import { useDispatch } from 'react-redux'
-import { cloneDeep } from 'lodash'
-import { Helmet } from 'react-helmet'
-import i18next from 'i18next'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -53,11 +56,14 @@ export const Decryption = async response => {
   return decryptedData
 }
 
-export const hasAtLeastOneResponseData = (response) => {
-    return response && Object.values(response).some(
-      (value) => value && Object.keys(value).length > 0
-    );
-  }
+export const hasAtLeastOneResponseData = response => {
+  return (
+    response &&
+    Object.values(response).some(
+      value => value && Object.keys(value).length > 0
+    )
+  )
+}
 // ------------------------------------------------------- Login/Logout Redirection -----------------------------------------------------------------------
 
 export const loginRedirection = data => {
@@ -264,12 +270,23 @@ export const navigateChat = (
   chatType,
   EncryptionType
 ) => {
+  let findLang = Object.keys(LanguageOption).find(ele => {
+    if (LanguageOption?.[ele] === window.location.pathname.split('/')[1]) {
+      return LanguageOption?.[ele]
+    }
+  })
+
   let rec = cloneDeep(record)
   rec.chatType = chatType
   let encry = Encryption(rec, EncryptionType)
   const safeEncrypted = encodeURIComponent(encry)
   dispatch(dispatchEventName(rec))
-  navigate(`/chat/${safeEncrypted}`)
+
+  if (findLang) {
+    navigate(`/${LanguageOption?.[findLang]}/chat/${safeEncrypted}`)
+  } else {
+    navigate(`/chat/${safeEncrypted}`)
+  }
 }
 
 export const utcToTst = time => {
@@ -277,44 +294,6 @@ export const utcToTst = time => {
 }
 
 // ------------------------------------------------------- Export file --------------------------------------------------------------------------------------
-
-const ExportToCSV = (data, fileName) => {
-  try {
-    let csvContent = ''
-    if (Array.isArray(data) && data.length > 0) {
-      if (Array.isArray(data[0])) {
-        csvContent = data.map(row => row.join(',')).join('\n')
-      } else if (typeof data[0] === 'object') {
-        const headers = Object.keys(data[0])
-        csvContent += headers.join(',') + '\n'
-        csvContent += data
-          .map(row => headers.map(header => row[header]).join(','))
-          .join('\n')
-      }
-    }
-    const blob = new Blob([csvContent], { type: 'text/csv' })
-
-    if (window.navigator.msSaveBlob) {
-      window.navigator.msSaveBlob(blob, `${fileName}.csv`)
-    } else {
-      const link = document.createElement('a')
-      if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob)
-        link.setAttribute('href', url)
-        link.setAttribute('download', `${fileName}.csv`)
-        link.style.visibility = 'hidden'
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        URL.revokeObjectURL(url)
-      } else {
-        TOAST_ERROR('Your browser does not support downloading files')
-      }
-    }
-  } catch (error) {
-    TOAST_ERROR(error)
-  }
-}
 
 const toGuDigits = numberString => {
   const gujaratiDigits = ['૦', '૧', '૨', '૩', '૪', '૫', '૬', '૭', '૮', '૯']
@@ -328,7 +307,7 @@ const toHiDigits = numberString => {
 
 export const getLocalizedDigits = numberString => {
   if (typeof window === 'undefined') return null
-  const lang = window.location.pathname.split('/')[1];
+  const lang = window.location.pathname.split('/')[1]
   if (lang === 'gu') return toGuDigits(numberString)
   if (lang === 'hi') return toHiDigits(numberString)
   return numberString
@@ -349,11 +328,11 @@ const convertToBase64 = async file => {
 // ------------------------------------------------------- Page Loadable manage ------------------------------------------------------------------------------------
 
 export const Loadable = Component => props =>
-(
-  <Suspense fallback={<></>}>
-    <Component {...props} />
-  </Suspense>
-)
+  (
+    <Suspense fallback={<></>}>
+      <Component {...props} />
+    </Suspense>
+  )
 
 // ------------------------------------------------------- Manage maodels ------------------------------------------------------------------------------------
 
@@ -388,38 +367,51 @@ export const openFilter = (dispatch, type) => {
 //   return t(keyword)
 // }
 
-export const Translate = (key) => i18next.t(key);
+export const Translate = key => i18next.t(key)
 
-export const getLocationValidationRule = (isPlaceSelectedRef, t, selecteLocation) => [
+export const getLocationValidationRule = (
+  isPlaceSelectedRef,
+  t,
+  selecteLocation
+) => [
   { required: true, message: t('enter_place_of_birth') },
   {
     validator: (_, value) => {
-      if (!value) return Promise.resolve();
+      if (!value) return Promise.resolve()
 
-      if (!isPlaceSelectedRef.current && Object.keys(selecteLocation).length === 0) {
-        return Promise.reject(new Error(t('please_select_place_from_suggestion')));
+      if (
+        !isPlaceSelectedRef.current &&
+        Object.keys(selecteLocation).length === 0
+      ) {
+        return Promise.reject(
+          new Error(t('please_select_place_from_suggestion'))
+        )
       }
 
-      return Promise.resolve();
+      return Promise.resolve()
     }
   }
-];
+]
 
-
-
-
-export const FORM_RULS = {  
+export const FORM_RULS = {
   [InputTypesEnum?.NAME]: [
     { required: true, message: Translate('enter_your_name') },
-    { pattern: InputRegex?.CHAR_REGEX, message: Translate('only_character_is_allowed') }
+    {
+      pattern: InputRegex?.CHAR_REGEX,
+      message: Translate('only_character_is_allowed')
+    }
   ],
-  [InputTypesEnum?.EMAIL]: [{ required: true, message: Translate('enter_email') }],
+  [InputTypesEnum?.EMAIL]: [
+    { required: true, message: Translate('enter_email') }
+  ],
   [InputTypesEnum?.GIRL_NAME]: [
     { required: true, message: Translate('enter_your_name') },
     { pattern: InputRegex?.CHAR_REGEX, message: 'only_character_is_allowed' }
   ],
 
-  [InputTypesEnum?.GENDER]: [{ required: true, message: Translate('select_gender') }],
+  [InputTypesEnum?.GENDER]: [
+    { required: true, message: Translate('select_gender') }
+  ],
 
   [InputTypesEnum?.DAY]: [{ required: true, message: 'Select day' }],
   [InputTypesEnum?.DAY_2]: [{ required: true, message: 'Select day' }],
@@ -441,8 +433,7 @@ export const FORM_RULS = {
 
   [InputTypesEnum?.LOCATION]: [
     { required: true, message: Translate('enter_place_of_birth') },
-    {
-    }
+    {}
   ],
   [InputTypesEnum?.LOCATION_2]: [
     { required: true, message: Translate('enter_place_of_birth') }
@@ -463,7 +454,10 @@ export const FORM_RULS_NO_REQUIRED = {
     { required: false, message: 'Enter your name' },
     { pattern: InputRegex?.CHAR_REGEX, message: 'Only character is allowed' }
   ],
-  [InputTypesEnum?.EMAIL]: [{ required: false, message: 'Enter Email' }, { pattern: InputRegex?.EMAIL_REGEX, message: 'Enter valid email' }],
+  [InputTypesEnum?.EMAIL]: [
+    { required: false, message: 'Enter Email' },
+    { pattern: InputRegex?.EMAIL_REGEX, message: 'Enter valid email' }
+  ],
 
   [InputTypesEnum?.GIRL_NAME]: [
     { required: false, message: 'Enter your name' },
@@ -494,10 +488,10 @@ export const FORM_RULS_NO_REQUIRED = {
     { required: false, message: 'Enter place of birth' }
   ],
 
-   [InputTypesEnum?.DOB]: [
+  [InputTypesEnum?.DOB]: [
     { required: true, message: Translate('enter_date_of_birth') }
   ],
-   [InputTypesEnum?.TOB]: [
+  [InputTypesEnum?.TOB]: [
     { required: true, message: Translate('enter_time_of_birth') }
   ],
   [InputTypesEnum?.PLACE_OF_BIRTH]: [
@@ -505,7 +499,7 @@ export const FORM_RULS_NO_REQUIRED = {
   ],
 
   [InputTypesEnum?.LOCATION_2]: [
-    { required: false, message: Translate('enter_place_of_birth')}
+    { required: false, message: Translate('enter_place_of_birth') }
   ],
 
   [InputTypesEnum?.FIRSTNAME]: [
@@ -517,8 +511,6 @@ export const FORM_RULS_NO_REQUIRED = {
     { pattern: InputRegex?.CHAR_REGEX, message: 'Only character is allowed' }
   ]
 }
-
-
 
 const handleInputChange = (key, value) => {
   // Validate the input using regex
@@ -532,52 +524,50 @@ const handleInputChange = (key, value) => {
   }
 }
 
-export const formatMomentToYYYYMMDD = (momentObj) => {
-  return moment(momentObj.$d).format('YYYY-MM-DD');
-};
+export const formatMomentToYYYYMMDD = momentObj => {
+  return moment(momentObj.$d).format('YYYY-MM-DD')
+}
 
-export const formatTimeTo12Hour = (momentObj) => {
-  return moment(momentObj._d).format(TimeFormat?.TIME_24_HOUR_FORMAT);
-};
+export const formatTimeTo12Hour = momentObj => {
+  return moment(momentObj._d).format(TimeFormat?.TIME_24_HOUR_FORMAT)
+}
 
 export const getCurrentTimeFormatted = () => {
-  const now = new Date();
+  const now = new Date()
 
   return now.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
     second: '2-digit',
-    hour12: true,
-  });
-};
+    hour12: true
+  })
+}
 
 export const getTodayDateFormatted = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0') // Months are 0-based
+  const day = String(today.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 export const formatThirdPartyContent = (stringData = '') => {
-  if (!stringData || typeof stringData !== 'string') return '';
+  if (!stringData || typeof stringData !== 'string') return ''
 
   return stringData
     .replace(/\n/g, '<br />')
     .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-    .replace(/<\/b><br\s*\/?>/g, '</b>');
-};
-
-
-export function isValidJSON(str) {
-  try {
-    JSON.parse(str);
-    return true;
-  } catch (e) {
-    return false;
-  }
+    .replace(/<\/b><br\s*\/?>/g, '</b>')
 }
 
+export function isValidJSON (str) {
+  try {
+    JSON.parse(str)
+    return true
+  } catch (e) {
+    return false
+  }
+}
 
 // ------------------------------------------------------- Seo Page ------------------------------------------------------------------------------------
 
@@ -635,6 +625,42 @@ export const getCurrentCity = async () => {
     )
   })
 }
+
+
+
+export const compressAndResizeImage = async (file, width = 184, height = 184) => {
+  // Step 1: Compress
+  const compressedFile = await imageCompression(file, {
+    maxSizeMB: 0.2,
+    maxWidthOrHeight: Math.max(width, height),
+    useWebWorker: true
+  });
+
+  // Step 2: Resize using Canvas
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, width, height);
+
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          const resizedFile = new File([blob], compressedFile.name, { type: compressedFile.type });
+          resolve(resizedFile);
+        }, compressedFile.type, 0.8); // quality
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(compressedFile);
+  });
+};
+
 
 export default {
   convertToBase64,

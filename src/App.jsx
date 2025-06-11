@@ -15,7 +15,6 @@
 //   WithoutHeaderFooter
 // } from './routers/DashboardLayouts'
 
-
 // import { usePathRedirection } from './routers/PathRedirection'
 
 // function App() {
@@ -86,9 +85,7 @@
 
 // export default App
 
-
-import { Suspense, useEffect, useMemo } from 'react'
-import { useSelector } from 'react-redux'
+import { memo, useEffect, useMemo, useRef } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import './assets/css/antdCss.css'
@@ -104,12 +101,12 @@ import {
   RootLayout,
   WithoutHeaderFooter
 } from './routers/DashboardLayouts'
-import { usePathRedirection } from './routers/PathRedirection'
+import { PathRedirection } from './routers/PathRedirection'
 import { LanguageInitializer } from './routers/LanguageInitializer'
 
 function App() {
-  const { isScroll } = useSelector(state => state.masterSlice)
-  const PathRedirection = usePathRedirection()
+
+  const scrolltoTopRef = useRef()
 
   // Optional: Only remove preloader if it exists
   useEffect(() => {
@@ -117,48 +114,73 @@ function App() {
     if (preloader) preloader.remove()
   }, [])
 
+  useEffect(() => {
+    if (scrolltoTopRef.current) {
+      scrolltoTopRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [location.pathname])
+
   // Memoize route groups to avoid recalculation
-  const authRoutes = useMemo(() => PathRedirection.filter(r => r.auth === true), [PathRedirection])
-  const publicRoutes = useMemo(() => PathRedirection.filter(r => r.auth === false), [PathRedirection])
-  const noLayoutRoutes = useMemo(() => PathRedirection.filter(r => r.auth === undefined), [PathRedirection])
+  const authRoutes = useMemo(
+    () => PathRedirection.filter(r => r.auth === true),
+    []
+  )
+  const publicRoutes = useMemo(
+    () => PathRedirection.filter(r => r.auth === false),
+    []
+  )
+  const noLayoutRoutes = useMemo(
+    () => PathRedirection.filter(r => r.auth === undefined),
+    []
+  )
 
-  return (
-    <div className={isScroll.is_scroll ? 'isScroll' : ''}>
-      <ScrollToTopButton />
-      <BrowserRouter>
-       <LanguageInitializer />
-        <Suspense fallback={<div className='min-h-100'></div>}>
-          <Routes>
-            <Route element={<RootLayout />}>
-              {authRoutes.length > 0 && (
-                <Route element={<DashboardLayout />}>
-                  {authRoutes.map(({ path, element }, index) =>
-                    path && element ? <Route key={index} path={path} element={element} /> : null
-                  )}
-                </Route>
-              )}
 
-              {publicRoutes.length > 0 && (
-                <Route element={<PublicLayout />}>
-                  {publicRoutes.map(({ path, element }, index) =>
-                    path && element ? <Route key={index} path={path} element={element} /> : null
-                  )}
-                </Route>
-              )}
 
-              {noLayoutRoutes.length > 0 && (
-                <Route element={<WithoutHeaderFooter />}>
-                  {noLayoutRoutes.map(({ path, element }, index) =>
-                    path && element ? <Route key={index} path={path} element={element} /> : null
-                  )}
-                </Route>
+  return (<>
+    {/* // <div className={isScroll.is_scroll ? 'isScroll' : ''} ref={scrolltoTopRef}> */}
+    <ScrollToTopButton />
+    <BrowserRouter>
+      <LanguageInitializer />
+      {/* <Suspense fallback={<div className='min-h-100'></div>}> */}
+      <Routes>
+        <Route element={<RootLayout />}>
+
+          {authRoutes?.length > 0 && (
+            <Route element={<DashboardLayout />}>
+              {authRoutes.map(({ path, element }, index) =>
+                path && element ? (
+                  <Route key={index} path={path} element={element} />
+                ) : null
               )}
             </Route>
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </div>
-  )
+          )}
+
+          {publicRoutes.length > 0 && (
+            <Route element={<PublicLayout />}>
+              {publicRoutes.map(({ path, element }, index) =>
+                path && element ? (
+                  <Route key={index} path={path} element={element} />
+                ) : null
+              )}
+            </Route>
+          )}
+
+          {noLayoutRoutes.length > 0 && (
+            <Route element={<WithoutHeaderFooter />}>
+              {noLayoutRoutes.map(({ path, element }, index) =>
+                path && element ? (
+                  <Route key={index} path={path} element={element} />
+                ) : null
+              )}
+            </Route>
+          )}
+
+        </Route>
+      </Routes>
+      {/* </Suspense> */}
+    </BrowserRouter>
+    {/* // </div> */}
+  </>)
 }
 
-export default App
+export default memo(App)

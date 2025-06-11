@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import termsAndCondition from "../../assets/img/banner/termsAndCondition.webp";
 import CommonBanner from "../../component/CommonBanner";
 import CommonQuestionComp from "../../component/CommonQuestionComp";
 import GoldBuyingMuhuratcomp from "../../component/Muhurat/GoldBuyingMuhuratcomp";
+import { Constatnt } from "../../utils/Constent";
+import { Codes, LanguageOption } from "../../utils/CommonVariable";
+import { getCmsPages } from "../../services/api/api.services";
+import { useTranslation } from "react-i18next";
 
 function TermsAndCondition() {
+
+  const { t } = useTranslation()
+
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
+  const [termAndConditionData, setTermAndCoditionData] = useState({})
+
+  useEffect(() => {
+    getCmsPages({ type: "terms_condition" }).then((res) => {
+      if (res?.code === Codes?.SUCCESS) {
+        setTermAndCoditionData(res?.data?.content[0])
+      } else {
+        setTermAndCoditionData({})
+      }
+    }).catch((err) => {
+      console.error('Error fetching privacy policy:', err)
+    })
+  }, [t])
+
   const content = [
-    "(“we”, ChatMyAstrologer Services Private Limited (Formerly Codeyeti Software Solutions Pvt. Ltd.)”, ChatMyAstrologer” (web and application) hereinafter referred as “website”) is committed to protect the privacy of the users of the website (including astrologers and buyers/customers whether registered or not registered). Please read this privacy policy carefully to understand how the website is going to use your information supplied by you to the Website.",
-  ];
+    termAndConditionData?.description || ""
+  ]
+
   const avoidBhumiPujan = [
     {
       title: "",
@@ -116,7 +139,7 @@ function TermsAndCondition() {
       description:
         "By using the Site, Application or Services, User hereby agrees that any legal remedy or liability that you seek to obtain for actions or omissions of other Members inclusive of the service provider registered with the Website or other third parties linked with the Website, shall be limited to claim against such particular party who may have caused any harm. You agree not to attempt to impose liability on or seek any legal remedy from the Website with respect to such actions or omissions.",
     },
-    
+
   ];
 
   let content1 = [
@@ -172,22 +195,22 @@ function TermsAndCondition() {
       description:
         "By using the Site, Application or Services, User hereby agrees that any legal remedy or liability that you seek to obtain for actions or omissions of other Members inclusive of the service provider registered with the Website or other third parties linked with the Website, shall be limited to claim against such particular party who may have caused any harm. You agree not to attempt to impose liability on or seek any legal remedy from the Website with respect to such actions or omissions.",
     },
-    
+
   ];
   return (
     <>
       <section>
         <CommonBanner
           // backgroundImage={termsAndCondition}
-          text="Terms and "
-          highlight="conditions of usage"
+          text={t('terms_conditions')}
+          highlight=""
         />
       </section>
       <section className="">
         <div className="container mx-auto padding50 flex flex-col gap-10">
           <CommonQuestionComp heading="" content={content} />
-         
-          <GoldBuyingMuhuratcomp
+
+          {/* <GoldBuyingMuhuratcomp
             title="Updation"
             introText="The Website may update/amend/modify these Terms of Usage from time to time. The User is responsible to check the Terms of Usage periodically to remain in compliance with these terms."
             // data={avoidBhumiPujan}
@@ -236,8 +259,8 @@ function TermsAndCondition() {
             data={websiteContent}
             footerText=""
             listStyle="disc"
-          />
-          
+          /> */}
+
         </div>
       </section>
     </>

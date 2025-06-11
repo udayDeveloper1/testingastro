@@ -6,7 +6,6 @@ const { Title, Paragraph } = Typography;
 function MangalDoshaSection({ mangalDosh, mangalikDosh }) {
   const { t } = useTranslation()
 
-  console.log('mangalDosh', mangalikDosh);
 
   return (
     <>

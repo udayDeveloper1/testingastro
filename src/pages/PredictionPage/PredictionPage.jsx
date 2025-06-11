@@ -165,6 +165,7 @@ const PredictionPage = () => {
         // request.type = 'kundli_prediction';
         genralPredictionDetails({
           lagnaData: data,
+          user_ids: loginUserData?._id,
           category: activeMainCard,
           subcategory: activeSubCard,
           lang: LocalLanguage,
@@ -200,9 +201,6 @@ const PredictionPage = () => {
       })
     }
   }
-
-  console.log('location?.pathname', location?.pathname);
-  console.log('location?.pathname PREDICTION', PATHS?.PREDICTION);
 
   useEffect(() => {
     if (PATHS?.PREDICTION === location?.pathname) {
@@ -271,7 +269,7 @@ const PredictionPage = () => {
 
           genralPredictionDetails({
             // topic: response?.data?.contentList[0].value + ' ' + response?.data?.contentList[0]?.subcategories[0].value,
-            ...(PATHS?.PREDICTION === location?.pathname && { lagnaData: data }),
+            ...(PATHS?.PREDICTION === location?.pathname && { lagnaData: data, user_ids: loginUserData?._id }),
             ...(PATHS?.PREDICTION === location?.pathname ? { type: 'kundli_prediction' } : { type: 'general_prediction' }),
             category: response?.data?.contentList[0].value,
             subcategory: response?.data?.contentList[0]?.subcategories[0].value,
@@ -309,6 +307,8 @@ const PredictionPage = () => {
       </React.Fragment>
     ));
   };
+
+  console.log('loginUserData?._id', loginUserData?._id);
 
   return (
     <>

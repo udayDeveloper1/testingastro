@@ -30,7 +30,7 @@ function AstrologerDetailPageComponent() {
     dispatch(setLoading({ is_loading: true, loding_type: "astro_details" }));
 
     try {
-      const request = { astrologer_id: id };
+      const request = { uniqueID: id };
 
       const astroResponse = await astrologerDetailsAPI(request);
       if (astroResponse?.code === Codes?.SUCCESS) {

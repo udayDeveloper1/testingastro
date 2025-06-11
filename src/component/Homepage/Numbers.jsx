@@ -29,7 +29,7 @@ function Numbers () {
         class: ''
       }
     ],
-    [dashboardCount]
+    [dashboardCount, t]
   )
 
   return (

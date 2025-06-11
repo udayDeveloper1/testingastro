@@ -10,15 +10,6 @@ function HomeBlog ({ BlogList }) {
   const navigate = useNavigate()
   const PATHS = UpdatedPaths()
 
-  // const sliderSettings = {
-  //   dots: true,
-  //   arrows: false,
-  //   infinite: false,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1
-  // }
-
   return (
     <div className='testimonial'>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-8 max-w-[350px] sm:max-w-[unset] mx-auto sm:mx-[unset]'>
@@ -28,7 +19,7 @@ function HomeBlog ({ BlogList }) {
             className='bg-white p-3 box_shadow_common rounded-[10px] flex flex-col items-center w-full blogBoxShodow homeBlogCard h-auto astroNewCard cursor-pointer'
             onClick={() => {
               // navigate(`${PATHS.BLOG_DETAILS}/${blog._id}`);
-              blogDetailsNavigation(navigate, PATHS.BLOG_DETAILS, blog._id)
+              blogDetailsNavigation(navigate, PATHS.BLOG_DETAILS, blog.unique_id)
             }}
           >
             <div className='w-full h-44 overflow-hidden rounded-[10px] homeBlogImageDiv'>

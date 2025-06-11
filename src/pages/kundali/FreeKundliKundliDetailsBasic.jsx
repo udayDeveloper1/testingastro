@@ -6,10 +6,6 @@ import BasicBirthDetailsCard from '../../component/NewKundaliComp/BasicBirthDeta
 const FreeKundliKundliDetailsBasic = ({ allKundliDetails }) => {
   const { panchangeDetails, planetDetails } = allKundliDetails
 
-  console.log('FreeKundliKundliDetailsBasic' , allKundliDetails?.panchangeDetails);
-  console.log('allKundliDetailsallKundliDetails',allKundliDetails);
-  
-  
   return (
     <>
       <section>

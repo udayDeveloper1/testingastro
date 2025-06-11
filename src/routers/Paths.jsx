@@ -1,7 +1,7 @@
 import i18n from '../i18n'
 import { LanguageOption } from '../utils/CommonVariable'
 
-const BASE_PATHS = {
+export const BASE_PATHS = {
   LOGIN: '/login',
   HOMEPAGE: '/',
   TALKWITHASTROLOGER: '/talkWithAstrologer',
@@ -60,6 +60,8 @@ const BASE_PATHS = {
   GENERAL_PREDICTION: '/general_prediction',
   BOOK_POOJA: '/bookPooja',
   BOOK_POOJA_LIST: '/bookPoojaList',
+  ASTRO_MALL:"/astromall",
+  ABOUT_US:"/aboutus",
   NOT_FOUND: '*'
 }
 
@@ -69,7 +71,7 @@ export const PATHS_LANGUAGE = {
   CHATWITHASTROLOGERS: '/:lang/chatWithAstrologer',
   FREEKUNDALI: '/:lang/freeKundli',
   KUNDALI_MATCHING: '/:lang/kundaliMatching',
-  KUNDALI_MATCHING_REPORT: '/kundaliMatchingReport',
+  KUNDALI_MATCHING_REPORT: '/:lang/kundaliMatchingReport',
   HOROSCOPE: '/:lang/todaysHoroscope',
   YEARLY_SINGLE: '/:lang/horoscope-details-yearly',
   YEARLY_SINGLE_HOROSCOPE: '/:lang/horoscope-details-yearly/:type/:name/:id',
@@ -118,17 +120,19 @@ export const PATHS_LANGUAGE = {
   MONEY_WALLET: '/:lang/moneyWallet',
   PREDICTION: '/:lang/kundali_prediction',
   GENERAL_PREDICTION: '/:lang/general_prediction',
-
   CONTACT_US: '/:lang/contactUs',
   RAHU_KAAL: '/:lang/rahuKaal',
   BOOK_POOJA: '/:lang/bookPooja',
-  BOOK_POOJA_LIST: '/:lang/bookPoojaList'
+  BOOK_POOJA_LIST: '/:lang/bookPoojaList',
+  ABOUT_US:"/:lang/aboutus",
+  ASTRO_MALL:"/:lang/astromall",
 }
 
 const supportedLanguages = Object.values(LanguageOption)
 
 export function getCurrentLanguage () {
-  if (typeof window === 'undefined' || window.location.pathname === '/') {
+  // if (typeof window === 'undefined' || window.location.pathname === '/') {
+  if (typeof window === 'undefined') {
     localStorage.setItem('ASTRO_language', 'en')
     return LanguageOption.ENGLISH
   }
@@ -150,17 +154,50 @@ export function getCurrentLanguage () {
   return currentLang
 }
 
+let cachedLang = localStorage.getItem("ASTRO_language") || "en"
+if(!localStorage.getItem("ASTRO_language")){
+  localStorage.setItem("ASTRO_language", "en")
+}
+let cachedPaths = null
+
 export function UpdatedPaths () {
   const lang = getCurrentLanguage()?.toLowerCase()
-  if (lang === LanguageOption.ENGLISH.toLowerCase()) {return BASE_PATHS}
-  const prefixedPaths = {}
-  for (const key in BASE_PATHS) {
-    const path = BASE_PATHS[key]
-    prefixedPaths[key] = path === '*' ? '*' : `/${lang}${path}`
-  }  
-  console.log(prefixedPaths, "prefixedPaths");
   
-  return prefixedPaths
+  // If language hasn’t changed, return cached paths
+  if (cachedLang === lang && cachedPaths) {
+    return cachedPaths
+  }
+
+  // Update cache
+  cachedLang = lang
+  if (lang === LanguageOption.ENGLISH.toLowerCase()) {
+    cachedPaths = BASE_PATHS
+  } else {
+    const prefixedPaths = {}
+    for (const key in BASE_PATHS) {
+      const path = BASE_PATHS[key]
+      prefixedPaths[key] = path === '*' ? '*' : `/${lang}${path}`
+    }
+    cachedPaths = prefixedPaths
+  }
+  return cachedPaths
 }
 
 export const PATHS = UpdatedPaths()
+
+// export function UpdatedPaths () {
+//   const lang = getCurrentLanguage()?.toLowerCase()
+  
+//   if (lang === LanguageOption.ENGLISH.toLowerCase()) {
+//     return BASE_PATHS}
+//   const prefixedPaths = {}
+//   for (const key in BASE_PATHS) {
+//     const path = BASE_PATHS[key]
+//     prefixedPaths[key] = path === '*' ? '*' : `/${lang}${path}`
+//   }  
+
+  
+//   return prefixedPaths
+// }
+
+// export const PATHS = UpdatedPaths()

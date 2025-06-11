@@ -210,7 +210,6 @@ export default function Friendship({ friendShip }) {
   });
 
 
-  console.log('friendShipfriendShip', friendShip);
 
   return (
     <div className="flex flex-col gap-[24px]">

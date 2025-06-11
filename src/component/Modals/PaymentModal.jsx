@@ -17,7 +17,8 @@ export default function PaymentModal ({
   onCancel,
   imageSrc = '',
   imgClass = '',
-  onPaymentSuccess
+  onPaymentSuccess,
+  className=""
 }) {
   const [showWallet, setShowWallet] = useState(false)
   const [paymentDetailsData, setPaymentDetailsData] = useState({})
@@ -52,7 +53,7 @@ export default function PaymentModal ({
                     onClick={onCancel}
                     className={`rounded-md border px-5 py-2 ${
                       showPaymentDetails || showWallet
-                        ? ' hover:!bg-[#ffff] hover:!text-[#e3725d] !text-white'
+                        ? ' '
                         : ''
                     }`}
                   >
@@ -74,7 +75,7 @@ export default function PaymentModal ({
         </>
       ]}
       centered
-      className='custom-confirm-modal custom_payment_modal'
+      className={`custom-confirm-modal custom_payment_modal ${className}`}
     >
     {showWallet && (
             <MoneyWallet

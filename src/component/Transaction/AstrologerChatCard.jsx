@@ -18,12 +18,12 @@ function AstrologerChatCard({ astro, historyType, handleChat = () => { } }) {
   const { t } = useTranslation()
 
   return (
-    <div className="w-full  bg-white  rounded-[10px] overflow-hidden AstroChatCard flex flex-col justify-between ">
+    <div className="w-full  bg-white  rounded-[10px] overflow-hidden AstroChatCard flex flex-col justify-between chat_fn">
       {/* Top header */}
       <div className="commonLightBack p-4 flex items-center gap-4">
-        {astro.receiver_profile ? (
+        {astro.receiver_profile || astro.sender_profile ? (
           <img
-            src={astro.receiver_profile}
+            src={astro.receiver_profile || astro.sender_profile}
             alt={astro.name}
             className="w-16 h-16 rounded-full object-cover shadow-[0px_0px_14px_0px_#00000040]"
           />

@@ -14,7 +14,6 @@ const CharDasha = ({ allKundliDetails }) => {
   const loginUser = useSelector((state) => state?.masterSlice?.loginUser);
   const [panchangDetailsData, setPanchangDetailsData] = useState({});
 
-  // console.log('kundlidetailsData', panchangDetailsData);
 
   return (
     <>

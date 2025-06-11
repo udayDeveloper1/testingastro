@@ -1,5 +1,7 @@
 import { lazy, useMemo } from 'react'
-import { PATHS_LANGUAGE, UpdatedPaths } from './Paths'
+import { BASE_PATHS, PATHS_LANGUAGE, UpdatedPaths } from './Paths'
+import Aboutus from '../pages/About/Aboutus'
+
 
 const CustomTabs = lazy(() => import('../component/Custom/CustomTabs'))
 const Login = lazy(() => import('../component/auth/Login'))
@@ -88,66 +90,70 @@ const BookPooja = lazy(() => import('../pages/BookPooja/BookPooja'))
 const BookPoojaList = lazy(() => import('../pages/BookPooja/BookPoojaList'))
 
 const NotFound = lazy(() => import('../pages/NotFound/NotFound'))
+const ComingSoon = lazy(() => import('../component/comingSoon/ComingSoon'))
 
-export const usePathRedirection = () => {
-  const ROUTES = UpdatedPaths()
+ export  const PathRedirection = [
+      { auth: false, path: BASE_PATHS.LOGIN, element: <Login /> },
+      { auth: false, path: BASE_PATHS.HOMEPAGE, element: <HomePage /> },
+      { auth: false, path: BASE_PATHS.TALKWITHASTROLOGER, element: <TalkWithAstrologer /> },
+      { auth: false, path: BASE_PATHS.CHATWITHASTROLOGERS, element: <ChatWithAstrologer /> },
+      { auth: false, path: BASE_PATHS.FREEKUNDALI, element: <FreeKundali /> },
+      { auth: false, path: BASE_PATHS.KUNDALI_MATCHING, element: <KundaliMatching /> },
+      { auth: false, path: BASE_PATHS.KUNDALI_MATCHING_REPORT, element: <KundaliMatchingReport /> },
+      { auth: false, path: BASE_PATHS.HOROSCOPE, element: <YearlyHoroscope /> },
+      { auth: false, path: BASE_PATHS.COMPATABILITY, element: <Compatibility /> },
+      { auth: false, path: BASE_PATHS.PHONE_AUTH_MODALS, element: <PhoneAuthModals /> },
+      { auth: false, path: BASE_PATHS.FESTIVAL_CALENDER, element: <FestivalCalender /> },
+      { auth: false, path: BASE_PATHS.GOLD_BUYING_MUHURAT, element: <GoldBuyingMuhurat /> },
+      { auth: false, path: BASE_PATHS.MARRIAGE_MUHURAT, element: <MarriageMuhurat /> },
+      { auth: false, path: BASE_PATHS.BHUMIPUJA_MUHURAT, element: <BhumiPujaMuhurat /> },
+      { auth: false, path: BASE_PATHS.NAMKARAN_MUHURAT, element: <NamkaranMuhurat /> },
+      { auth: false, path: BASE_PATHS.CARBIKE_MUHURAT, element: <CarBikeMuhurat /> },
+      { auth: false, path: BASE_PATHS.OUR_ASTROLOGER, element: <AstrologerListPage /> },
+      { auth: false, path: BASE_PATHS.ASTROLOGER_DETAIL_PAGE, element: <AstrologerDetailPage /> },
+      { auth: true, path: BASE_PATHS.PROFILE_SETTING, element: <ProfileSetting /> },
+      { auth: false, path: BASE_PATHS.PRIVACY_POLICY, element: <PrivacyPolicy /> },
+      { auth: false, path: BASE_PATHS.TERMS_CONDITIONS, element: <TermsAndCondition /> },
+      { auth: false, path: BASE_PATHS.PAYMENT_SCREEN, element: <PaymentDetails /> },
+      { auth: false, path: BASE_PATHS.WEEKLY_HOROSCOPE, element: <TodaysHoroscope /> },
+      { auth: false, path: BASE_PATHS.WEEKLY_SINGLE_HOROSCOPE, element: <YearlySingleHoroscope /> },
+      { auth: false, path: BASE_PATHS.YEARLY_HOROSCOPE, element: <TodaysHoroscope /> },
+      { auth: false, path: BASE_PATHS.YEARLY_SINGLE_HOROSCOPE, element: <YearlySingleHoroscope /> },
+      { auth: false, path: BASE_PATHS.TODAYS_SINGLE_HOROSCOPE, element: <YearlySingleHoroscope /> },
+      { auth: false, path: BASE_PATHS.FREE_KUNDLI_KUNDLI_DETAILS_BASIC, element: <FreeKundliKundliDetailsBasic /> },
+      { auth: false, path: BASE_PATHS.FREE_KUNDALI_DETAILS_KP, element: <FreeKundaliDetailsKp /> },
+      { auth: false, path: BASE_PATHS.FREEKUNDALI_DETAILS, element: <CustomTabs /> },
+      { auth: false, path: BASE_PATHS.FREE_KUNDLI_KUNDLI_DETAILS_CHARTS, element: <FreeKundliKundliDetailsCharts /> },
+      { auth: false, path: BASE_PATHS.FREE_KUNDLIKUNDLI_DETAILS_ASHTAKVARGA, element: <FreeKundliKundliDetailsAshtakvarga /> },
+      { auth: false, path: BASE_PATHS.FREE_KUNDLIKUNDLI_DETAILS_DASHA_VIMSHOTTARI, element: <FreeKundliKundliDetailsDashaVimshottari /> },
+      { auth: false, path: BASE_PATHS.FREE_KUNDALI_DETAILS_DASHA_VIMSHOTTARI_CONTENT, element: <FreeKundaliDetailsDashaVimshottariContent /> },
+      { auth: false, path: BASE_PATHS.FREE_KUNDALI_REPORT, element: <FreeKundaliReport /> },
+      { auth: false, path: BASE_PATHS.BLOG, element: <Blog /> },
+      { auth: false, path: BASE_PATHS.BLOG_SINGLE_PAGE, element: <BlogDetails /> },
+      { auth: false, path: BASE_PATHS.ALL_HOROSCOPE, element: <TodaysHoroscope /> },
+      { auth: false, path: BASE_PATHS.ALL_HOROSCOPE_DETAILS, element: <YearlySingleHoroscope /> },
+      { auth: true, path: BASE_PATHS.TRANSACTION_WALLET, element: <TransactionWallet /> },
+      { auth: false, path: BASE_PATHS.ORDER_HISTORY_CALL, element: <OrderHistoryCall /> },
+      { auth: false, path: BASE_PATHS.SUPPORT_CHAT, element: <SupportChatPage /> },
+      { auth: true, path: BASE_PATHS.CHAT_SCREEN, element: <ChatUI /> },
+      { auth: false, path: BASE_PATHS.CHAT_ID, element: <ChatUI /> },
+      { auth: false, path: BASE_PATHS.TODAYS_PANCHANGAM, element: <TodaysPanchang /> },
+      { auth: true, path: BASE_PATHS.MONEY_WALLET, element: <MoneyWallet /> },
+      { auth: false, path: BASE_PATHS.PREDICTION, element: <PredictionPage /> },
+      { auth: false, path: BASE_PATHS.GENERAL_PREDICTION, element: <PredictionPage /> },
+      { auth: false, path: BASE_PATHS.NOT_FOUND, element: <NotFound /> },
+      { auth: false, path: BASE_PATHS.CONTACT_US, element: <ContactSection /> },
+      { auth: false, path: BASE_PATHS?.RAHU_KAAL, element: <RahuKaal /> },
+      { auth: false, path: BASE_PATHS?.BOOK_POOJA, element: <ComingSoon /> },
+      // { auth: false, path: BASE_PATHS?.BOOK_POOJA, element: <BookPooja /> },
+      // { auth: false, path: BASE_PATHS?.BOOK_POOJA_LIST, element: <BookPoojaList /> },
+      { auth: false, path: BASE_PATHS?.BOOK_POOJA_LIST, element: <ComingSoon /> },
+      { auth: false, path: BASE_PATHS?.ABOUT_US, element: <Aboutus /> },
+      { auth: false, path: BASE_PATHS?.ASTRO_MALL, element: <ComingSoon /> },
 
-  const PathRedirection = useMemo(() => {
-    const routes = [
-      { auth: false, path: ROUTES.LOGIN, element: <Login /> },
-      { auth: false, path: ROUTES.HOMEPAGE, element: <HomePage /> },
-      { auth: false, path: ROUTES.TALKWITHASTROLOGER, element: <TalkWithAstrologer /> },
-      { auth: false, path: ROUTES.CHATWITHASTROLOGERS, element: <ChatWithAstrologer /> },
-      { auth: false, path: ROUTES.FREEKUNDALI, element: <FreeKundali /> },
-      { auth: false, path: ROUTES.KUNDALI_MATCHING, element: <KundaliMatching /> },
-      { auth: false, path: ROUTES.KUNDALI_MATCHING_REPORT, element: <KundaliMatchingReport /> },
-      { auth: false, path: ROUTES.HOROSCOPE, element: <YearlyHoroscope /> },
-      { auth: false, path: ROUTES.COMPATABILITY, element: <Compatibility /> },
-      { auth: false, path: ROUTES.PHONE_AUTH_MODALS, element: <PhoneAuthModals /> },
-      { auth: false, path: ROUTES.FESTIVAL_CALENDER, element: <FestivalCalender /> },
-      { auth: false, path: ROUTES.GOLD_BUYING_MUHURAT, element: <GoldBuyingMuhurat /> },
-      { auth: false, path: ROUTES.MARRIAGE_MUHURAT, element: <MarriageMuhurat /> },
-      { auth: false, path: ROUTES.BHUMIPUJA_MUHURAT, element: <BhumiPujaMuhurat /> },
-      { auth: false, path: ROUTES.NAMKARAN_MUHURAT, element: <NamkaranMuhurat /> },
-      { auth: false, path: ROUTES.CARBIKE_MUHURAT, element: <CarBikeMuhurat /> },
-      { auth: false, path: ROUTES.OUR_ASTROLOGER, element: <AstrologerListPage /> },
-      { auth: false, path: ROUTES.ASTROLOGER_DETAIL_PAGE, element: <AstrologerDetailPage /> },
-      { auth: true, path: ROUTES.PROFILE_SETTING, element: <ProfileSetting /> },
-      { auth: false, path: ROUTES.PRIVACY_POLICY, element: <PrivacyPolicy /> },
-      { auth: false, path: ROUTES.TERMS_CONDITIONS, element: <TermsAndCondition /> },
-      { auth: false, path: ROUTES.PAYMENT_SCREEN, element: <PaymentDetails /> },
-      { auth: false, path: ROUTES.WEEKLY_HOROSCOPE, element: <TodaysHoroscope /> },
-      { auth: false, path: ROUTES.WEEKLY_SINGLE_HOROSCOPE, element: <YearlySingleHoroscope /> },
-      { auth: false, path: ROUTES.YEARLY_HOROSCOPE, element: <TodaysHoroscope /> },
-      { auth: false, path: ROUTES.YEARLY_SINGLE_HOROSCOPE, element: <YearlySingleHoroscope /> },
-      { auth: false, path: ROUTES.TODAYS_SINGLE_HOROSCOPE, element: <YearlySingleHoroscope /> },
-      { auth: false, path: ROUTES.FREE_KUNDLI_KUNDLI_DETAILS_BASIC, element: <FreeKundliKundliDetailsBasic /> },
-      { auth: false, path: ROUTES.FREE_KUNDALI_DETAILS_KP, element: <FreeKundaliDetailsKp /> },
-      { auth: false, path: ROUTES.FREEKUNDALI_DETAILS, element: <CustomTabs /> },
-      { auth: false, path: ROUTES.FREE_KUNDLI_KUNDLI_DETAILS_CHARTS, element: <FreeKundliKundliDetailsCharts /> },
-      { auth: false, path: ROUTES.FREE_KUNDLIKUNDLI_DETAILS_ASHTAKVARGA, element: <FreeKundliKundliDetailsAshtakvarga /> },
-      { auth: false, path: ROUTES.FREE_KUNDLIKUNDLI_DETAILS_DASHA_VIMSHOTTARI, element: <FreeKundliKundliDetailsDashaVimshottari /> },
-      { auth: false, path: ROUTES.FREE_KUNDALI_DETAILS_DASHA_VIMSHOTTARI_CONTENT, element: <FreeKundaliDetailsDashaVimshottariContent /> },
-      { auth: false, path: ROUTES.FREE_KUNDALI_REPORT, element: <FreeKundaliReport /> },
-      { auth: false, path: ROUTES.BLOG, element: <Blog /> },
-      { auth: false, path: ROUTES.BLOG_SINGLE_PAGE, element: <BlogDetails /> },
-      { auth: false, path: ROUTES.ALL_HOROSCOPE, element: <TodaysHoroscope /> },
-      { auth: false, path: ROUTES.ALL_HOROSCOPE_DETAILS, element: <YearlySingleHoroscope /> },
-      { auth: true, path: ROUTES.TRANSACTION_WALLET, element: <TransactionWallet /> },
-      { auth: false, path: ROUTES.ORDER_HISTORY_CALL, element: <OrderHistoryCall /> },
-      { auth: false, path: ROUTES.SUPPORT_CHAT, element: <SupportChatPage /> },
-      { auth: true, path: ROUTES.CHAT_SCREEN, element: <ChatUI /> },
-      { auth: false, path: ROUTES.CHAT_ID, element: <ChatUI /> },
-      { auth: false, path: ROUTES.TODAYS_PANCHANGAM, element: <TodaysPanchang /> },
-      { auth: true, path: ROUTES.MONEY_WALLET, element: <MoneyWallet /> },
-      { auth: false, path: ROUTES.PREDICTION, element: <PredictionPage /> },
-      { auth: false, path: ROUTES.GENERAL_PREDICTION, element: <PredictionPage /> },
-      { auth: false, path: ROUTES.NOT_FOUND, element: <NotFound /> },
-      { auth: false, path: ROUTES.CONTACT_US, element: <ContactSection /> },
-      { auth: false, path: ROUTES?.RAHU_KAAL, element: <RahuKaal /> },
-      { auth: false, path: ROUTES?.BOOK_POOJA, element: <BookPooja /> },
-      { auth: false, path: ROUTES?.BOOK_POOJA_LIST, element: <BookPoojaList /> },
-//------------------------------------------------------------ language------------------------------------------------------------
+
+      // ---------------------------- language ------------------------------------------------
+
       { auth: false, path: PATHS_LANGUAGE.HOMEPAGE, element: <HomePage /> },
       { auth: false, path: PATHS_LANGUAGE.TALKWITHASTROLOGER, element: <TalkWithAstrologer /> },
       { auth: false, path: PATHS_LANGUAGE.CHATWITHASTROLOGERS, element: <ChatWithAstrologer /> },
@@ -197,11 +203,12 @@ export const usePathRedirection = () => {
       { auth: false, path: PATHS_LANGUAGE.GENERAL_PREDICTION, element: <PredictionPage /> },
       { auth: false, path: PATHS_LANGUAGE.CONTACT_US, element: <ContactSection /> },
       { auth: false, path: PATHS_LANGUAGE?.RAHU_KAAL, element: <RahuKaal /> },
-      { auth: false, path: PATHS_LANGUAGE?.BOOK_POOJA, element: <BookPooja /> },
-      { auth: false, path: PATHS_LANGUAGE?.BOOK_POOJA_LIST, element: <BookPoojaList /> }
-    ]
-    return routes
-  }, [UpdatedPaths])
+      { auth: false, path: PATHS_LANGUAGE?.BOOK_POOJA, element: <ComingSoon /> },
+      // { auth: false, path: PATHS_LANGUAGE?.BOOK_POOJA, element: <BookPooja /> },
+      // { auth: false, path: PATHS_LANGUAGE?.BOOK_POOJA_LIST, element: <BookPoojaList /> },
+      { auth: false, path: PATHS_LANGUAGE?.BOOK_POOJA_LIST, element: <ComingSoon /> },
+      { auth: false, path: PATHS_LANGUAGE?.ABOUT_US, element: <Aboutus /> },
+      { auth: false, path: PATHS_LANGUAGE?.ASTRO_MALL, element: <ComingSoon /> },
 
-  return PathRedirection
-}
+
+    ]

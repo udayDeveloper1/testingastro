@@ -61,7 +61,6 @@ function TransactionWallet () {
         setPaymentLogsData(resData?.filter(ele => ele?.type === 'credit'))
       }
     } catch (error) {
-      console.log(error)
     }
   }
 

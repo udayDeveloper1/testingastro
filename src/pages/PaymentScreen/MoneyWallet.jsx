@@ -99,7 +99,7 @@ function MoneyWallet({ openInModel = false, handlePriceCardClick = () => { } }) 
               className={`flex flex-col w-full sm:w-[48%]  ${!openInModel ? '' : ''
                 }`}
             >
-              <h2 className='text-[24px]  md:text-[40px] font-semibold new_body_font mb-0'>
+              <h2 className='text-[24px]  md:text-[40px] font-semibold new_body_font mb-0 pb-2'>
                 {t('add_mony_to_wallet')}
               </h2>
               <p className='text-[16px] font-semibold mb-0'>

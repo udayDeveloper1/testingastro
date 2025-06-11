@@ -21,7 +21,7 @@ import { Codes, InputRegex } from '../utils/CommonVariable'
 import { allHoroScopeNavigation } from '../utils/navigations/NavigationPage'
 const CustomButton = lazy(() => import('../component/Homepage/CustomButton'))
 
-function Footer () {
+function Footer() {
   const navigate = useNavigate()
   const PATHS = UpdatedPaths()
   const { t } = useTranslation()
@@ -121,6 +121,18 @@ function Footer () {
         slug: null,
         path: PATHS?.CONTACT_US,
         translatedLabel: t('contact_us')
+      },
+      {
+        label: 'privarcy_policy',
+        slug: null,
+        path: PATHS?.PRIVACY_POLICY,
+        translatedLabel: t('privarcy_policy')
+      },
+      {
+        label: 'termsConditions',
+        slug: null,
+        path: PATHS?.TERMS_CONDITIONS,
+        translatedLabel: t('terms_conditions')
       }
     ],
     [PATHS, t]

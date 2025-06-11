@@ -1,28 +1,26 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { cloneDeep } from 'lodash'
-import React, { lazy, useEffect, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
-import appLogo from '../../assets/img/mainLogo.webp'
-const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
+import appLogo from '../../assets/img/mainLogo.png'
+import celebrationimg from '../../assets/img/transaction/celebration.gif'
 import {
   addRecharge,
   applyCoupon,
   verifyPayment
 } from '../../services/api/api.services'
-import { Codes } from '../../utils/CommonVariable'
+import { setLoading, setUserLoginData } from '../../storemain/slice/MasterSlice'
 import {
   closeModel,
   openModel,
   TOAST_ERROR,
   TOAST_SUCCESS
 } from '../../utils/CommonFunction'
-import PaymentIntegration from '../../component/PaymentIntegration/PaymentIntegration'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { paymentScreenRedirection } from '../../utils/navigations/NavigationPage'
+import { Codes } from '../../utils/CommonVariable'
 import { Constatnt } from '../../utils/Constent'
-import { setLoading, setUserLoginData } from '../../storemain/slice/MasterSlice'
-import celebrationimg from '../../assets/img/transaction/celebration.gif'
+const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
 // import { PATHS } from '../../routers/Paths'
 import ConfirmModal from '../../component/Modals/ConfirmModal'
 import { UpdatedPaths } from '../../routers/Paths'
@@ -35,7 +33,7 @@ export default function PaymentDetails ({
   const { id } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-    const PATHS = UpdatedPaths()
+  const PATHS = UpdatedPaths()
 
   const [couponCode, setCouponCode] = useState('')
   const { is_login, loginUserData } = useSelector(
@@ -268,7 +266,9 @@ export default function PaymentDetails ({
       <section className='pt-3'>
         <div className='bg-white rounded-[10px]  w-full container padding100 mx-auto '>
           <div className='shadow-[0px_0px_35px_0px_#0000000D] p-[15px] md:p-10 w-full rounded-[10px] max-w-[800px] mx-auto'>
-            <h1 className='text-2xl font-semibold mb-3 md:mb-6'>Payment Details</h1>
+            <h1 className='text-2xl font-semibold mb-3 md:mb-6'>
+              Payment Details
+            </h1>
             <div className='space-y-2 mb-6 border-[#F2ECF6] border  rounded-[10px] '>
               <div className='flex justify-between  commonLightBack rounded py-4 px-7 mb-0'>
                 <span className='font-medium'>Total Amount</span>

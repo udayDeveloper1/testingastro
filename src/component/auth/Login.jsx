@@ -14,10 +14,6 @@ import { UpdatedPaths } from '../../routers/Paths'
 const loginRedirection = React.lazy(() => import('../../utils/CommonFunction').then(module => ({ default: module.loginRedirection })));
 const TOAST_SUCCESS = React.lazy(() => import('../../utils/CommonFunction').then(module => ({ default: module.TOAST_SUCCESS })));
 
-// Memoizing the Logo component to avoid unnecessary re-renders
-// const MemoizedLogo = React.memo(() => (
-//   <img src={logo} alt='logo' className='loginLogo mx-auto block mb-5' />
-// ))
 
 const Login = () => {
   const dispatch = useDispatch()

@@ -46,7 +46,7 @@ const ChooseCategory = () => {
         link: PATHS?.TODAYS_PANCHANGAM
       }
     ]
-  }, [])
+  }, [t])
 
   const settings = useMemo(
     () => ({

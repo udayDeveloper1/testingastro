@@ -145,7 +145,6 @@ export default function PlanetsDetail({ planetDetails }) {
                   planetDetails?.planets && typeof planetDetails?.planets === 'object'
                     ? Object.keys(planetDetails?.planets)?.map((key, index) => {
                       const planet = planetDetails?.planets[key] || {};
-                      console.log('planet columnsPlanets', planet);
 
                       return {
                         key: (index + 1).toString(),

@@ -2,7 +2,8 @@ import { memo, useCallback } from 'react'
 import FreeKundali from '../kundali/FreeKundaliForm'
 
 const HeroSection = ({ backImg, cardData, navigate, t }) => {
-  const handleNavigate = useCallback(path => () => navigate(path), [navigate])
+  const handleNavigate = useCallback(path => () =>{
+    navigate(path)}, [navigate])
 
   return (
     <div className='relative overflow-hidden'>
@@ -30,12 +31,12 @@ const HeroSection = ({ backImg, cardData, navigate, t }) => {
                   {t('lorem_ipsum_has_been_the')}
                 </p>
 
-                <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 mt-4 w-full'>
+                <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 mt-4 w-full book_pooja_chat_btns_part'>
                   {cardData.map((card, index) => (
                     <div
                       role='button'
                       key={index}
-                      className='commonLightBack w-full flex flex-col items-center justify-between py-[15px] px-[30px] rounded-[10px] gap-[10px] cursor-pointer'
+                      className='commonLightBack w-full flex flex-col items-center justify-between py-[15px] px-[30px] rounded-[10px] gap-[10px] cursor-pointer book_pooja_chat_btns'
                       onClick={handleNavigate(card.path)}
                     >
                       <div className='bg_website_color w-[50px] h-[50px] flex items-center justify-center rounded-full'>

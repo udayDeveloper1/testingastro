@@ -50,7 +50,6 @@ function KundaliMatching() {
 
   let contentForP2 = [t("kundli_matching_content2")];
 
-  let contentForP3 = [t("kundli_matching_content3")];
 
   return (
     <>

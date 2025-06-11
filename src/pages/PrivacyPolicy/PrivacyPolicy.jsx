@@ -1,32 +1,44 @@
 // import PrivacyBanner from "../../assets/img/banner/PrivacyBanner.webp";
+import { useEffect, useState } from 'react'
 import CommonBanner from '../../component/CommonBanner'
 import CommonQuestionComp from '../../component/CommonQuestionComp'
 import GoldBuyingMuhuratcomp from '../../component/Muhurat/GoldBuyingMuhuratcomp'
+import { getCmsPages } from '../../services/api/api.services'
+import { Codes, LanguageOption } from '../../utils/CommonVariable'
+import { Constatnt } from '../../utils/Constent'
+import { formatThirdPartyContent } from '../../utils/CommonFunction'
+import DOMPurify from 'dompurify'
+import { useTranslation } from 'react-i18next'
 
-function PrivacyPolicy () {
+function PrivacyPolicy() {
+  const { t } = useTranslation()
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
+
+  const [privarcyPolicyData, setPrivarcyPolicyData] = useState({})
+
+  useEffect(() => {
+    getCmsPages({ type: "privacy_policy" }).then((res) => {
+      if (res?.code === Codes?.SUCCESS) {
+        setPrivarcyPolicyData(res?.data?.content[0])
+      } else {
+        setPrivarcyPolicyData({})
+      }
+    }).catch((err) => {
+      console.error('Error fetching privacy policy:', err)
+    })
+  }, [t])
+
+
   const content = [
-    '(“we”, ChatMyAstrologer Services Private Limited (Formerly Codeyeti Software Solutions Pvt. Ltd.)”, ChatMyAstrologer (web and application) hereinafter referred as “website”) is committed to protect the privacy of the users of the website (including astrologers and buyers/customers whether registered or not registered). Please read this privacy policy carefully to understand how the website is going to use your information supplied by you to the Website.',
-    'This Privacy Policy is published in accordance with Rule 3(1) of the Information Technology (Intermediaries Guidelines) Rules, 2011 and Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011 which requires publishing of the Privacy policy for collection, use, storage and transfer of sensitive personal data or information.',
-    ,
+    privarcyPolicyData?.description || ""
   ]
 
   const content1 = [
     {
       title: '',
-      description:
-        'This Privacy Policy, which may be updated/amended from time to time, deals with the information collected from its users in the form of personal identification, contact details, birth details and any forecast made using the supplied information and how such information is further used for the purposes of the Website. By accessing the website and using it, you indicate that you understand the terms and expressly consent to the privacy policy of this website. If you do not agree with the terms of this privacy policy, please do not use this website.'
-    },
-    {
-      title: '',
-      description:
-        'Your continued use of this website shall confirm that you have provided your unconditional consent and confirm to the terms of this privacy policy as regards collecting, maintaining, using, processing and disclosing your personal and other information in accordance with this Privacy Policy.'
-    },
-    {
-      title: '',
-      description:
-        'This Privacy Policy is to be read alongwith the respective Terms of Use or other terms and conditions as provided on the Website.'
+      description: privarcyPolicyData?.description
     }
-  ]
+  ];
 
   const content2 = [
     {
@@ -99,74 +111,74 @@ function PrivacyPolicy () {
         'The Website may collect any other information which may be mandatory to be disclosed and further may receive any other information via email or other method inclusive of contract with regard to specific services availed from the Website or any products bought from the Website, such information may not be made part of the User-Member’s Profile but shall be used only for addressing the specific need or concern of the User.'
     }
   ]
+
   return (
     <>
       <section>
         <CommonBanner
           // backgroundImage={PrivacyBanner}
-          text='Privacy'
-          highlight='Policy'
+          text={t('privarcy_policy')}
+          highlight=''
         />
       </section>
       <section className=''>
         <div className='container mx-auto padding50 flex flex-col gap-10'>
           <CommonQuestionComp heading='' content={content} />
-
-          <GoldBuyingMuhuratcomp
+          {/* <GoldBuyingMuhuratcomp
             title='User’s consent'
             introText=''
             data={content1}
             footerText=''
             listStyle=''
-          />
+          /> */}
 
-          <GoldBuyingMuhuratcomp
+          {/* <GoldBuyingMuhuratcomp
             title='Collection of Personal Information'
             introText=''
             data={content2}
             footerText=''
             listStyle=''
-          />
+          /> */}
 
-          <GoldBuyingMuhuratcomp
+          {/* <GoldBuyingMuhuratcomp
             title='Collection of Personal Information'
             introText=''
             data={content3}
             footerText=''
             listStyle=''
-          />
+          /> */}
 
-          <GoldBuyingMuhuratcomp
+          {/* <GoldBuyingMuhuratcomp
             title='Purpose and use of data/information collection'
             introText=''
             data={content4}
             footerText=''
             listStyle=''
-          />
+          /> */}
 
-          <GoldBuyingMuhuratcomp
+          {/* <GoldBuyingMuhuratcomp
             title='Data Deletion'
             introText=''
             data={content5}
             footerText=''
             listStyle=''
-          />
+          /> */}
 
-          <GoldBuyingMuhuratcomp
+          {/* <GoldBuyingMuhuratcomp
             title='Commitment'
             introText=''
             data={content6}
             footerText=''
             listStyle=''
-          />
+          /> */}
 
-          <GoldBuyingMuhuratcomp
+          {/* <GoldBuyingMuhuratcomp
             title='information collected by website'
             introText='While certain days are ideal for Bhoomi Pujan, some must be avoided. It is important not to perform this ceremony during:'
             data={avoidBhumiPujan}
             footerText=''
             listStyle='disc'
-          />
+          /> */}
         </div>
       </section>
     </>

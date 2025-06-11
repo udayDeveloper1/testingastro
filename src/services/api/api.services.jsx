@@ -128,6 +128,7 @@ export function addRattingReview(request) {
    Kundli Module                                                              
 ====================================================== */
 
+
 export function addKundliMetching(request) {
     return AxiosClientApi.post(`${API_V1}/${THIRD_PARTY}/getMatchmaking`, request, true)
 }
@@ -151,8 +152,6 @@ export function editFreeKundliDetails(request) {
 export function kundliPredication(request) {
     return AxiosClientApi.post(`${API_V1}/${APP}/${COMMON}/prediction`, request, true)
 }
-
-
 
 //---------------------- Muhurat  Module ------------------------------//
 
@@ -393,4 +392,10 @@ export function getYearlyHoroscopeList(request) {
 
 export function getRaahuKaal(request) {
     return AxiosClientApi.post(`${API_V1}/${APP}/${COMMON}/get_rahukalam`, request, true)
+}
+
+// ---------------------- CMS PAGES api -------------------
+
+export function getCmsPages(request) {
+    return AxiosClientApi.post(`${API_V1}/${APP}/${COMMON}/list_pages`, request, true)
 }

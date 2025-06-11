@@ -6,7 +6,7 @@ const ReviewVideo = React.memo(() => {
   
   const videos = [
     {
-      title: "Astrotalk - Talk To Astrologer Online",
+      title: "ChatMyAstrologer - Talk To Astrologer Online",
       src: "https://media.istockphoto.com/id/1158647615/video/close-up-view-of-unrecognisable-female-customer-choosing-a-color-sample-at-a-paint-shop.mp4?s=mp4-640x640-is&k=20&c=OO3UW6frNcHdZvy3unpsfpgh1nzLR6GbrZ7JVw62OqI=",
       poster: poster1,
     },
