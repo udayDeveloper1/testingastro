@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import "../../assets/css/kundli/KundliParts.css";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
-import KundliReport from "../../component/kundali/KundliReport";
 import ChartsGrid from "../../component/NewKundaliComp/ChartsGrid";
+import DataWrapper from "../../component/Custom/DataWrapper";
 
 const FreeKundliKundliDetailsCharts = ({ allKundliDetails }) => {
+  const undefine = useSelector((state) => state?.masterSlice?.undefine);
+
   const {
     rashiLagnaChart,
     navamsaChart,
@@ -13,28 +15,33 @@ const FreeKundliKundliDetailsCharts = ({ allKundliDetails }) => {
     moonChart,
     transitChart,
     varshapalChart,
-  } = allKundliDetails;
+  } = allKundliDetails || {};
+
+  const hasChartData =
+    rashiLagnaChart ||
+    navamsaChart ||
+    chalitChart ||
+    sunChart ||
+    moonChart ||
+    transitChart ||
+    varshapalChart;
 
   return (
-    <>
-      <section className=" paddingTop50 ">
-        <div className="">
-          <div className=" mx-auto   ">
-            <ChartsGrid
-              rashiLagnaChart={rashiLagnaChart}
-              navamsaChart={navamsaChart}
-              chalitChart={chalitChart}
-              sunChart={sunChart}
-              moonChart={moonChart}
-              transitChart={transitChart}
-              varshapalChart={varshapalChart}
-            />
-          </div>
+    <section className="paddingTop50 min-h-[300px] flex items-center justify-center">
+      <DataWrapper data={hasChartData} undefine={undefine}>
+        <div className="w-full">
+          <ChartsGrid
+            rashiLagnaChart={rashiLagnaChart}
+            navamsaChart={navamsaChart}
+            chalitChart={chalitChart}
+            sunChart={sunChart}
+            moonChart={moonChart}
+            transitChart={transitChart}
+            varshapalChart={varshapalChart}
+          />
         </div>
-      </section>
-
-
-    </>
+      </DataWrapper>
+    </section>
   );
 };
 

@@ -28,11 +28,12 @@ import {
   getYoginiDashaSubTh,
   kundliPredication,
 } from "../../services/api/api.services";
-import { setKundliDetailsData } from "../../storemain/slice/MasterSlice";
+import { setKundliDetailsData, setUndefine } from "../../storemain/slice/MasterSlice";
 import {
   closeLoder,
   formatDate,
   formatTime,
+  hasAtLeastOneResponseData,
   openLoader,
 } from "../../utils/CommonFunction";
 import {
@@ -61,11 +62,8 @@ const CustomTabs = () => {
   const tabContainerRef = useRef(null);
 
   const navigationData = location.state?.kundliData;
-  const kundliDetailsData = useSelector(
-    (state) => state?.masterSlice?.kundliDetailsData
-  );
-  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-    ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+  const kundliDetailsData = useSelector( (state) => state?.masterSlice?.kundliDetailsData );
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     : LanguageOption?.ENGLISH;
   const loder = useSelector((state) => state?.masterSlice?.loader);
   const [activeKey, setActiveKey] = useState(
@@ -125,6 +123,14 @@ const CustomTabs = () => {
   };
 
   const [predicatioinApi, setPredicationApi] = useState({});
+console.log('dsdsjddsdsjddsdsjd',hasAtLeastOneResponseData(allKundliDetails?.panchangeDetails));
+console.log("dsdsjd");
+
+if (hasAtLeastOneResponseData(allKundliDetails?.panchangeDetails)) {
+  dispatch(setUndefine(true));
+}
+
+console.log(allKundliDetails);
 
   const tabConfigWithProps = kundliTabConfig?.map((tab) => ({
     ...tab,
@@ -137,8 +143,14 @@ const CustomTabs = () => {
   const currentTab = kundliTabConfig?.find((tab) => tab.key === activeKey);
 
   // -----------------------------------------------------------------  Half Api Calling ---------------------------------------------------------------------------------------------------
-
   const kundliDetailsApiCalling = async data => {
+  console.log(data);
+  
+// if (!data) {
+//   dispatch(setUndefine(true))
+// }
+
+
     console.log('kundliDetailsApiCalling data', data);
     let updatedRequest = {
       dob: data?.date,
@@ -400,7 +412,9 @@ const CustomTabs = () => {
       Object.keys(KundliItem)?.length !== 24
     ) {
       openLoader(dispatch, 'freeKundli_details')
-      kundliDetailsApiCalling(KundliItem?.panchangeDetails?.request)
+      if(KundliItem?.panchangeDetails?.request){
+        kundliDetailsApiCalling(KundliItem?.panchangeDetails?.request)
+      }
       hasCalledApi.current = true
       const timer = setTimeout(() => {
         closeLoder(dispatch)
@@ -470,11 +484,9 @@ const CustomTabs = () => {
               return (
                 <div
                   key={item.key}
-                  className={`min-w-max cursor-pointer custom-tab ${
-                    isActive ? "active" : ""
-                  } ${isFirst ? "rounded-l-full" : ""} ${
-                    isLast ? "rounded-r-full" : ""
-                  }`}
+                  className={`min-w-max cursor-pointer custom-tab ${isActive ? "active" : ""
+                    } ${isFirst ? "rounded-l-full" : ""} ${isLast ? "rounded-r-full" : ""
+                    }`}
                   onClick={(e) => {
                     setActiveKey(item.key);
                     navigate(

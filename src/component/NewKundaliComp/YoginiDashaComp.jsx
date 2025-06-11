@@ -1,129 +1,217 @@
+import React from 'react';
+import moment from 'moment';
 import { Card } from "antd";
 import CustomTable from "../Custom/CustomTable";
-import moment from 'moment';
+import { formatDate } from "../../utils/CommonFunction";
 import { getShortNakshatra } from "./KundliVariabls";
-import React from "react";
-import { useSelector } from "react-redux";
-import { LanguageOption } from "../../utils/CommonVariable";
-import { Constatnt } from "../../utils/Constent";
+import { DateFormat, LanguageOption } from '../../utils/CommonVariable';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { Constatnt } from '../../utils/Constent';
+import DataWrapper from "../Custom/DataWrapper";
 
-export default function YoginiDashaComp({ yoginiDashaSub }) {
+export default function CharDashaComp({ charDashaSub, charDashaMain }) {
+  const { t } = useTranslation();
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) || LanguageOption?.ENGLISH;
+  const undefine = useSelector((state) => state?.masterSlice?.undefine);
 
+  const columnsCharDasha = [
+    {
+      title: t('Planet'),
+      dataIndex: "planet",
+      key: "planet",
+      align: "center",
+      fixed: "left",
+      render: (text) => (
+        <span className="new_body_font font-bold font-medium">{text || '-'}</span>
+      ),
+    },
+    {
+      title: t('start_date'),
+      dataIndex: "start_date",
+      key: "start_date",
+      align: "center",
+      render: (text) => <span className="text-gray-800">{text || '-'}</span>,
+    },
+    {
+      title: t('end_date'),
+      dataIndex: "end_date",
+      key: "end_date",
+      align: "center",
+      render: (text) => <span className="text-gray-800">{text || '-'}</span>,
+    },
+  ];
 
-  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-      ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-      : LanguageOption?.ENGLISH
+  const finelCharDashaMain = Array.isArray(charDashaMain?.dasha_list)
+    ? charDashaMain.dasha_list.map((planet, index) => {
+        const startDate =
+          index === 0
+            ? LocalLanguage === LanguageOption?.ENGLISH
+              ? moment(charDashaMain?.start_date)
+              : charDashaMain?.start_date
+            : LocalLanguage === LanguageOption?.ENGLISH
+            ? moment(charDashaMain?.dasha_end_dates?.[index - 1])
+            : charDashaMain?.dasha_end_dates?.[index - 1];
 
-  const getYoginiDashaFullPeriods = (yoginiDasha = []) => {
+        const endDate =
+          LocalLanguage === LanguageOption?.ENGLISH
+            ? moment(charDashaMain?.dasha_end_dates?.[index])
+            : charDashaMain?.dasha_end_dates?.[index];
+
+        return {
+          planet,
+          start_date:
+            LocalLanguage === LanguageOption?.ENGLISH
+              ? startDate.isValid()
+                ? formatDate(startDate, DateFormat?.DATE_SLASH_FORMAT_SPACE)
+                : '-'
+              : startDate || '-',
+          end_date:
+            LocalLanguage === LanguageOption?.ENGLISH
+              ? endDate.isValid()
+                ? formatDate(endDate, DateFormat?.DATE_SLASH_FORMAT_SPACE)
+                : '-'
+              : endDate || '-',
+        };
+      })
+    : [];
+
+  const getCharDashaFullPeriods = (charDasha = []) => {
     const allMainPeriods = [];
 
-    yoginiDasha?.length > 0 && yoginiDasha?.forEach((item) => {
-
-      let currentStartDate = new Date(item?.sub_dasha_start_date);
+    charDasha?.forEach((item) => {
+      let currentStartDate =
+        LocalLanguage === LanguageOption?.ENGLISH
+          ? new Date(item?.sub_dasha_start_date)
+          : item?.sub_dasha_start_date;
 
       const sub_dasha_periods = item?.sub_dasha_list?.map((subName, i) => {
-        const endDate = LocalLanguage === LanguageOption?.ENGLISH ? new Date(item.sub_dasha_end_dates[i]) : item.sub_dasha_end_dates[i] || '-';
-        const formatDate = (date) =>
-          `${date?.getDate()} / ${date?.getMonth() + 1} / ${date?.getFullYear()}`;
+        const endDate =
+          LocalLanguage === LanguageOption?.ENGLISH
+            ? new Date(item.sub_dasha_end_dates[i])
+            : item.sub_dasha_end_dates[i];
 
         const period = {
           sign: subName || '-',
-          end_date: LocalLanguage === LanguageOption?.ENGLISH ? formatDate(endDate) : endDate || '-',
+          start_date:
+            LocalLanguage === LanguageOption?.ENGLISH
+              ? formatDate(currentStartDate, DateFormat?.DATE_SLASH_FORMAT_SPACE)
+              : currentStartDate || '-',
+          end_date:
+            LocalLanguage === LanguageOption?.ENGLISH
+              ? formatDate(endDate, DateFormat?.DATE_SLASH_FORMAT_SPACE)
+              : endDate || '-',
         };
-        currentStartDate = new Date(endDate); // update for next loop
+
+        currentStartDate =
+          LocalLanguage === LanguageOption?.ENGLISH
+            ? new Date(endDate)
+            : endDate;
+
         return period;
       });
 
-      allMainPeriods?.push({
+      allMainPeriods.push({
         main_dasha: item.main_dasha || '-',
         main_dasha_lord: item?.main_dasha_lord || '-',
-        sub_dasha_start_date: item?.sub_dasha_start_dates || '-',
+        sub_dasha_start_date: item?.sub_dasha_start_date || '-',
         sub_dasha_periods,
       });
-
     });
+
     return allMainPeriods;
   };
 
-  // Example usage:
-  const finalData = getYoginiDashaFullPeriods(yoginiDashaSub);
-  return (
+  const finalCharDashaSub = getCharDashaFullPeriods(charDashaSub);
 
-    <div className="flex flex-col gap-[24px]">
-      <div className="commonCardBorderKundali   rounded-[10px] sm:p-[15px] md:p-[30px] yoginiDashaCard  new_custom_table">
-        <Card className="rounded-[10px] overflow-hidden  new_custom_card " bodyStyle={{ padding: 0 }}>
-          {/* Grid layout for tables */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6 dashaVisnotari">
-            {finalData?.length > 0 && finalData?.map((item, index) => (<>
-              {/* <div key={index}> */}
-              <React.Fragment key={`${index}`}>
+  return (
+    <DataWrapper data={charDashaSub} undefine={undefine || finalCharDashaSub.length === 0}>
+      <div className="flex flex-col gap-[24px]">
+        <div className="rounded-[10px] sm:p-[15px] md:p-[30px] commonCardBorderKundali">
+
+          {/* Main Dasha Table */}
+          <Card className="rounded-[10px] overflow-hidden col-span-2 mb-5" bodyStyle={{ padding: 0 }}>
+            <div className="bg_website_color px-4 py-2">
+              <h3 className="new_common_heading">{t('chardashamain')}</h3>
+            </div>
+            <CustomTable
+              columns={columnsCharDasha}
+              data={finelCharDashaMain}
+              pagination={false}
+              loading={false}
+              scroll={{ x: "max-content" }}
+              bordered={false}
+              className="lightBackHead"
+            />
+          </Card>
+
+          {/* Sub Dasha Tables */}
+          <Card className="rounded-[10px] overflow-hidden new_custom_card !border-none new_custom_table" bodyStyle={{ padding: 0 }}>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 charDashaGrid dashaVisnotari">
+              {finalCharDashaSub.map((item, index) => (
                 <CustomTable
                   key={index}
                   columns={[
                     {
-                      title: (() => {
-                        const dashaName = getShortNakshatra(item?.main_dasha)?.toUpperCase();
-                        return `${dashaName}`;
-                      })(),
-                      dataIndex: "sign", // use the correct key for each row
+                      title: getShortNakshatra(item?.main_dasha)?.toUpperCase(),
+                      dataIndex: "sign",
                       key: "sign",
                       align: "center",
-                      width: "150px",
-                      fixed: "left",
-
-                      render: (text) => (
-                        <>{text?.toUpperCase()}</>
-                      ),
+                      width: "40%",
+                      render: (text) => <>{text?.toUpperCase()}</>,
                     },
                     {
                       title: (() => {
+                        const startDate = LocalLanguage === LanguageOption?.ENGLISH
+                          ? moment(item?.sub_dasha_start_date, "ddd MMM DD YYYY")
+                          : item?.sub_dasha_start_date;
 
-                        const startDate = moment(item?.sub_dasha_start_date[0], "ddd MMM DD YYYY");
-                        const endDate = moment(item?.sub_dasha_periods[0]?.end_date, ["D/M/YY", "DD/MM/YYYY", "YYYY-MM-DD"]); // added multiple format fallback
+                        const endDate = LocalLanguage === LanguageOption?.ENGLISH
+                          ? moment(item?.sub_dasha_periods?.[0]?.end_date, [
+                              "D/M/YY",
+                              "DD/MM/YYYY",
+                              "YYYY-MM-DD",
+                            ])
+                          : item?.sub_dasha_periods?.[0]?.end_date;
 
-                        let yearsDifference = endDate.diff(startDate, 'years');
-                        let displayValue = '';
+                        const yearsDiff = LocalLanguage === LanguageOption?.ENGLISH
+                          ? endDate.diff(startDate, "years")
+                          : startDate;
 
-                        if (yearsDifference === 0) {
-                          const monthsDifference = endDate?.diff(startDate, 'months');
-                          displayValue = `${monthsDifference} Month${monthsDifference > 1 ? 's' : ''}`;
-                        } else {
-                          displayValue = `${yearsDifference} Year${yearsDifference > 1 ? 's' : ''}`;
-                        }
-                        const formattedStartDate = startDate.format('DD/MM/YYYY');
-                        const dashaName = getShortNakshatra(item?.main_dasha)?.toUpperCase();
-                        const retrunValue = LocalLanguage === LanguageOption?.ENGLISH ? `${displayValue} ( ${formattedStartDate} )` : item?.sub_dasha_start_date[0]
-                        return retrunValue;
+                        let displayValue = yearsDiff === 0
+                          ? `${endDate.diff(startDate, "months")} Month${endDate.diff(startDate, "months") > 1 ? "s" : ""}`
+                          : `${yearsDiff} Year${yearsDiff > 1 ? "s" : ""}`;
 
+                        return LocalLanguage === LanguageOption?.ENGLISH
+                          ? `${displayValue} (${formatDate(startDate, DateFormat?.DATE_SLASH_FORMAT_SPACE)})`
+                          : startDate;
                       })(),
-                      dataIndex: "value",
-                      key: "value",
+                      dataIndex: "range",
+                      key: "range",
                       align: "center",
-                      width: "250px",
-                      render: (text) => (
-                        <span className="new_body_font font-bold font-medium text-center">{text}</span>
+                      render: (text, record) => (
+                        <span className="new_body_font font-bold font-medium text-center">
+                          {record?.start_date} - {record?.end_date}
+                        </span>
                       ),
-                    }
+                    },
                   ]}
                   data={item?.sub_dasha_periods?.map((subItem, subIndex) => ({
                     key: subIndex + 1,
-                    label: "Main Dasha",
                     sign: subItem?.sign,
-                    value: `${subItem?.end_date}`
+                    start_date: subItem?.start_date,
+                    end_date: subItem?.end_date,
                   }))}
                   pagination={false}
                   loading={false}
                   bordered={false}
-                  className="panchang123 new_custom_table kundaliTable  "
-                  scroll={{ x: 'max-content' }}
-
+                  className="panchang123 new_custom_table"
                 />
-                {/* </div> */}
-              </React.Fragment>
-            </>))}
-          </div>
-        </Card>
+              ))}
+            </div>
+          </Card>
+        </div>
       </div>
-    </div>
+    </DataWrapper>
   );
 }

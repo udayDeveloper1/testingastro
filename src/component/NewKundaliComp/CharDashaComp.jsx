@@ -44,21 +44,7 @@ export default function CharDashaComp({ charDashaSub, charDashaMain }) {
     },
   ];
 
-  // const finelCharDashaMain = charDashaMain?.dasha_list.map((planet, index) => {
-  //   const startDate =
-  //     index === 0
-  //       ? moment(charDashaMain?.start_date)
-  //       : moment(charDashaMain?.dasha_end_dates[index - 1]);
-  //   const endDate = moment(charDashaMain?.dasha_end_dates[index]);
-
-  //   return {
-  //     key: index,
-  //     label: planet,
-  //     start_date: formatDate(startDate, DateFormat?.DATE_SLASH_FORMAT_SPACE),
-  //     end_date: formatDate(endDate, DateFormat?.DATE_SLASH_FORMAT_SPACE),
-  //   };
-  // });
-
+  
   const finelCharDashaMain = Array.isArray(charDashaMain?.dasha_list) ?
     charDashaMain.dasha_list.map((planet, index) => {
       const startDate = index === 0 ? LocalLanguage == LanguageOption?.ENGLISH ? moment(charDashaMain?.start_date) : charDashaMain?.start_date :

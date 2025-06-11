@@ -173,7 +173,7 @@ function TodaysSingleHoroscope() {
       <section className="">
         <div className="container mx-auto paddingTop50 flex flex-col gap-5">
           <div className="flex flex-col items-start justify-center md:justify-start text-center">
-            <h2 className=" mb-4 commonHeadingH2 flex flex-col justify-center text-center md:text-start md:block w-full">
+            <h2 className=" mb-4 commonHeadingH2 flex flex-col justify-center text-center md:text-start md:block w-full gap-1">
               {" "}
               <span className="commonheadingSpan">
                 Yearly Horoscope 2025

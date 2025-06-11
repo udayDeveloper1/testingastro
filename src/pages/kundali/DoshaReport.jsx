@@ -1,16 +1,34 @@
-import { memo } from 'react'
-import '../../assets/css/kundli/KundliParts.css'
-import DoshaReportComp from '../../component/NewKundaliComp/DoshaReportComp'
-// import CustomTabs from "../../component/Custom/CustomTabs";
+import { memo } from 'react';
+import { useSelector } from 'react-redux';
+import '../../assets/css/kundli/KundliParts.css';
+import DoshaReportComp from '../../component/NewKundaliComp/DoshaReportComp';
+import DataWrapper from '../../component/Custom/DataWrapper';
 
 const DoshaReport = ({ allKundliDetails }) => {
+  const undefine = useSelector(state => state?.masterSlice?.undefine);
 
-  const { mangalikDosh, mangalDosh, pitraDosh, KaalsarpDosh, sadeSati, remedies } = allKundliDetails
+  const {
+    mangalikDosh,
+    mangalDosh,
+    pitraDosh,
+    KaalsarpDosh,
+    sadeSati,
+    remedies,
+  } = allKundliDetails || {};
+
+  // Check if all dosha-related values are missing
+  const isEmpty =
+    !mangalikDosh &&
+    !mangalDosh &&
+    !pitraDosh &&
+    !KaalsarpDosh &&
+    !sadeSati &&
+    !remedies;
 
   return (
-    <>
+    <DataWrapper data={allKundliDetails} undefine={undefine || isEmpty}>
       <section>
-        <div className='paddingTop50 '>
+        <div className="paddingTop50">
           <DoshaReportComp
             mangalikDosh={mangalikDosh}
             mangalDosh={mangalDosh}
@@ -21,8 +39,8 @@ const DoshaReport = ({ allKundliDetails }) => {
           />
         </div>
       </section>
-    </>
-  )
-}
+    </DataWrapper>
+  );
+};
 
-export default memo(DoshaReport)
+export default memo(DoshaReport);

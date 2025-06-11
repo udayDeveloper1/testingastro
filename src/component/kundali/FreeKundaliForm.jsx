@@ -58,6 +58,7 @@ import {
   formatDate,
   formatTime,
   getLocationValidationRule,
+  hasAtLeastOneResponseData,
   openLoader,
   openModel,
   TOAST_ERROR,
@@ -520,10 +521,15 @@ const FreeKundali = () => {
           if (response1?.code === Codes?.SUCCESS) {
             // TOAST_SUCCESS(response1?.message);
             const kundliData = await kundliDetailsApiCalling(request)
-
-            localStorage.setItem(Constatnt?.KUNDLI_KEY, JSON.stringify(kundliData))
-            dispatch(setKundliDetailsData(kundliData))
-            kundaliDetailsNavigate(navigate, 'basic', kundliData, PATHS.FREEKUNDALI_DETAILS)
+            if (hasAtLeastOneResponseData(kundliData?.panchangeDetails)) {
+              localStorage.setItem(Constatnt?.KUNDLI_KEY, JSON.stringify(kundliData))
+              dispatch(setKundliDetailsData(kundliData))
+              // kundaliDetailsNavigate(navigate, "basic", kundliData); // Navigate after all done
+              kundaliDetailsNavigate(navigate, 'basic', kundliData, PATHS.FREEKUNDALI_DETAILS)
+            } else {
+              TOAST_ERROR('something went wrong.')
+              closeLoder(dispatch)
+            }
             // closeLoder(dispatch);
           } else {
             TOAST_ERROR(response1?.message)
@@ -534,19 +540,23 @@ const FreeKundali = () => {
             // TOAST_SUCCESS(response1?.message);
             const kundliData = await kundliDetailsApiCalling(request)
             // return
-            localStorage.setItem(
-              Constatnt?.KUNDLI_KEY,
-              JSON.stringify(kundliData)
-            )
-            dispatch(setKundliDetailsData(kundliData))
-            // kundaliDetailsNavigate(navigate, "basic", kundliData); // Navigate after all done
-            kundaliDetailsNavigate(
-              navigate,
-              'basic',
-              kundliData,
-              PATHS.FREEKUNDALI_DETAILS
-            )
-
+            if (hasAtLeastOneResponseData(kundliData?.panchangeDetails)) {
+              localStorage.setItem(
+                Constatnt?.KUNDLI_KEY,
+                JSON.stringify(kundliData)
+              )
+              dispatch(setKundliDetailsData(kundliData))
+              // kundaliDetailsNavigate(navigate, "basic", kundliData); // Navigate after all done
+              kundaliDetailsNavigate(
+                navigate,
+                'basic',
+                kundliData,
+                PATHS.FREEKUNDALI_DETAILS
+              )
+            } else {
+              TOAST_ERROR('something went wrong.')
+              closeLoder(dispatch)
+            }
             // closeLoder(dispatch);
           } else {
             TOAST_ERROR(response1?.message)
@@ -558,19 +568,20 @@ const FreeKundali = () => {
         if (response?.code === Codes?.SUCCESS) {
           TOAST_SUCCESS(response?.message)
           const kundliData = await kundliDetailsApiCalling(request)
+          console.log('kundliData kundliDetailsApiCalling', kundliData);
+          if (hasAtLeastOneResponseData(kundliData?.panchangeDetails)) {
 
-          localStorage.setItem(Constatnt?.KUNDLI_KEY, JSON.stringify(kundliData))
-          dispatch(setKundliDetailsData(kundliData))
-          // kundaliDetailsNavigate(navigate, "basic", kundliData); // Navigate after all done
-          kundaliDetailsNavigate(
-            navigate,
-            'basic',
-            kundliData,
-            PATHS.FREEKUNDALI_DETAILS
-          )
-          // closeLoder(dispatch);
+            localStorage.setItem(Constatnt?.KUNDLI_KEY, JSON.stringify(kundliData))
+            dispatch(setKundliDetailsData(kundliData))
+            // kundaliDetailsNavigate(navigate, "basic", kundliData); // Navigate after all done
+            kundaliDetailsNavigate(navigate, 'basic', kundliData, PATHS.FREEKUNDALI_DETAILS)
+          } else {
+            TOAST_ERROR('something went wrong.')
+            closeLoder(dispatch)
+          }
         } else {
           TOAST_ERROR(response?.message)
+          closeLoder(dispatch);
         }
       }
     } catch (err) {

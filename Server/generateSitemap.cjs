@@ -11,30 +11,30 @@ const hostname = "https://devweb.chatmyastrologer.com";
 
 const staticLinks = [
   { url: "/", },
-  { url: "/chatWithAstrologer", },
-  { url: "/freeKundli", },
-  { url: "/kundaliMatching", },
-  { url: "/todaysPanchang" },
-  { url: "/general_prediction" },
-  { url: "/kundali_prediction" },
+  { url: "/chat-with-astrologer", },
+  { url: "/free-kundli", },
+  { url: "/kundali-matching", },
+  { url: "/todays-panchang" },
+  { url: "/general-prediction" },
+  { url: "/kundali-prediction" },
   { url: "/horoscope/daily-horoscope" },
   { url: "/horoscope/yesterday-horoscope" },
   { url: "/horoscope/tomorrow-horoscope" },
   { url: "/horoscope/weekly-horoscope" },
   { url: "/horoscope/yearly-horoscope" },
   { url: "/blog" },
-  { url: "/marrigeMuhurat" },
-  { url: "/bhumipujaMuhurat" },
-  { url: "/namkaranMuhurat" },
-  { url: "/rahuKaal" },
-  { url: "/profileSetting" },
-  { url: "/transactionWallet" },
-  { url: "/orderHistorycall" },
-  { url: "/ourAstrologer" },
-  { url: "/contactUs" },
-  { url: "/privacyPolicy" },
-  { url: "/termsConditions" },
-  { url: "/aboutus" },
+  { url: "/marriage-muhurat" },
+  { url: "/bhoomi-puja-muhurat" },
+  { url: "/namkaran-muhurat" },
+  { url: "/rahu-kaal" },
+  { url: "/profile-setting" },
+  { url: "/transaction-wallet" },
+  { url: "/order-history-call" },
+  { url: "/our-astrologer" },
+  { url: "/contact-us" },
+  { url: "/privacy-policy" },
+  { url: "/terms-conditions" },
+  { url: "/about-us" },
 ];
 
 const LanguageOption = {
@@ -251,16 +251,46 @@ const fetchDynamicRoutes = async () => {
   try {
 
     const blogResponse = await axios.post(
-      `https://devapi.chatmyastrologer.com/api/v1/app/home/blog_listing`,
+      'https://devapi.chatmyastrologer.com/api/v1/app/home/blog_listing',
+      {
+        search: ''
+      },
       {
         headers: {
-          'api-key': 'astrotalk@tracewave', // or whatever key name the API expects
-          // You can add other headers if needed
+          'api-key': 'astrotalk@tracewave',
+          'Accept-Language': 'en',
+          'Content-Type': 'application/json'
         }
       }
     );
 
-    console.log('blogResponce', blogResponse.data);
+    const transformedBlogData = blogResponse?.data?.data?.blogList?.flatMap(blog => {
+      const baseUrl = `/blog-details/${blog?.unique_id?.toLowerCase()}`;
+      return [
+        { url: baseUrl },
+        // { url: `${baseUrl}/ipo-details` },
+      ];
+    }) || [];
+
+    const astrologerDetailsResponce = await axios.post('https://devapi.chatmyastrologer.com/api/v1/app/astrologers/astrologers_filter',
+      {
+        search: ''
+      },
+      {
+        headers: {
+          'api-key': 'astrotalk@tracewave',
+          'Accept-Language': 'en',
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    const transformedAstrologerData = astrologerDetailsResponce?.data?.data?.astrologerList?.flatMap(astro => {
+      const baseUrl = `/astrologer-detail-page/${astro?.uniqueID?.toLowerCase()}`;
+      return [
+        { url: baseUrl },
+      ];
+    }) || [];
 
     const horoscopeDynamicData = horoscopeList?.flatMap(data => [
       {
@@ -280,20 +310,7 @@ const fetchDynamicRoutes = async () => {
       }
     ]) || [];
 
-    // const count = response.data?.data?.results?.all_ipo_count || 0;
-    // const transformedPageData = Array.from({ length: count }, (_, i) => ({
-    //   url: `https://ipo-trend.com/listed/All%20ipo/${i + 1}`,
-    // }));
-
-    // const transformedDataNews = response.data?.data?.results?.news_data?.flatMap(news => {
-    //   const formattedTitle = formatNewsTitle(news?.title);
-    //   return [
-    //     { url: `${hostname}/${formattedTitle}/${news.id}` },
-    //     { url: `${hostname}/${formattedTitle}/${news.id}` }
-    //   ];
-    // }) || [];
-
-    return [...horoscopeDynamicData];
+    return [...horoscopeDynamicData, ...transformedBlogData, ...transformedAstrologerData];
 
   } catch (error) {
     console.error("Error fetching dynamic routes:", error);
@@ -306,12 +323,10 @@ const generateSitemap = async () => {
   const dynamicLinks = await fetchDynamicRoutes();
 
   const allLinks = [...staticLinks, ...dynamicLinks];
-
-  // console.log("All Links:", allLinks);
-
+  
   const languageUpdation = allLinks?.flatMap(data => [
     {
-      url: `${hostname}/${LanguageOption.ENGLISH}${data.url}`,
+      url: `${hostname}/${data.url}`,
     },
     {
       url: `${hostname}/${LanguageOption.GUJRATI}${data.url}`,

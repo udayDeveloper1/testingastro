@@ -150,7 +150,8 @@ const initialState = {
     panchangDetails: {},
     location: {},
     muhratData: {},
-    blogListData: []
+    blogListData: [],
+    undefine:false,
 };
 
 const masterSlice = createSlice({
@@ -205,6 +206,9 @@ const masterSlice = createSlice({
         setPanchangDetails: (state, action) => {
             state.panchangDetails = action.payload;
         },
+        setUndefine:(state , action)=>{
+            state.undefine = action.payload;
+        }
 
         // resetStore: () => initialState
     },
@@ -263,5 +267,5 @@ const masterSlice = createSlice({
 },
 );
 
-export const { setLoading, setModel, changeLanguage, setIsScroll, setUserLoginData, resetStore, setKundliDetailsData, setFilterValue, setShortValue, setOnSubmitFilter, setFilterSearch, setPageScroll, setPanchangDetails } = masterSlice.actions;
+export const { setLoading, setModel, changeLanguage, setIsScroll, setUserLoginData, resetStore, setKundliDetailsData, setFilterValue, setShortValue, setOnSubmitFilter, setFilterSearch, setPageScroll, setPanchangDetails,setUndefine } = masterSlice.actions;
 export default masterSlice.reducer;

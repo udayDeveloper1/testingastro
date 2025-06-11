@@ -1,5 +1,5 @@
 export function getBasePath(path) {
-    const segments = path.split('/');
+    const segments = path?.split('/');
     const baseSegments = [];
     for (const segment of segments) {
         if (segment === '' || segment.startsWith(':')) continue;
