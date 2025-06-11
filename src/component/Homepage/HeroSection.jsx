@@ -12,7 +12,7 @@ const HeroSection = ({ backImg, cardData, navigate, t }) => {
         alt='banner'
         className='absolute top-0 left-0 z-[-1] h-full w-full object-cover'
         decoding='async'
-        loading='lazy'
+        // loading='lazy'
         width={4500}
         height={1750}
       />
