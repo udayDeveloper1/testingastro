@@ -56,7 +56,7 @@ function HomePage () {
   const PATHS = UpdatedPaths()
   const [ourAstrogersRef, showOurAstrogers] = useObserver()
   const screenCategory = useInitialScreenSizeCategory()
-  const [bgImage, setBgImage] = useState(null)
+  const [bgImage, setBgImage] = useState(backImg)
   const { t } = useTranslation()
   const loader = useSelector(state => state.masterSlice?.loader)
   const locationData = useSelector(state => state.masterSlice?.location)

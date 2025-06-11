@@ -36,9 +36,19 @@
     />
     <meta name="twitter:image" content="/astrotalk-preview.jpg" />
     <meta name="theme-color" content="#E3725D" />
-    <link rel="preload" as="image" href="/homepage/homeBackgroundImage.webp" type="image/webp">
-<link rel="preload" as="image" href="/assets/img/banner/homeBackgroundImage_mobile.webp" type="image/webp" media="(max-width: 412px)">
-
+    <link
+      rel="preload"
+      as="image"
+      href="/homepage/homeBackgroundImage.webp"
+      type="image/webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/img/banner/homeBackgroundImage_mobile.webp"
+      type="image/webp"
+      media="(max-width: 412px)"
+    />
 
     <script type="text/javascript">
       ;(function (c, l, a, r, i, t, y) {
@@ -55,66 +65,45 @@
       })(window, document, 'clarity', 'script', 'rxnu4zm6aj')
     </script>
     <style>
-      #preloader {
+      .initialLoader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid;
+        border-color: #ff3d00 transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 9999;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
 
-      .preloader {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
 
-      #c3 {
-        stroke-dasharray: 80;
-        stroke-dashoffset: 500;
-        animation: loading3 2s linear infinite;
-        -webkit-animation: loading3 2s linear infinite;
-      }
-
-      @keyframes loading3 {
-        to {
-          stroke-dashoffset: 0;
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
         }
       }
     </style>
-
-    <!-- <script>
-    if (window.location.pathname === '/') {
-      const link = document.createElement('link')
-      link.rel = 'preload'
-      link.as = 'image'
-      link.href = '/banner/homeBackgroundImage.webp'
-      document.head.appendChild(link)
-    }
-  </script> -->
   </head>
 
   <body>
     <div id="root"></div>
-<!-- 
-    <div id="preloader">
-      <div class="preloader">
-        <svg height="100" width="100">
-          <circle
-            id="c3"
-            cx="50"
-            cy="50"
-            r="25"
-            stroke="#e3725d"
-            stroke-width="5"
-            fill="transparent"
-          />
-        </svg>
-      </div>
-    </div> -->
-
+    <div class="initialLoader" id="initialLoader"></div>
     <script>
       window.addEventListener('load', function () {
         var script = document.createElement('script')
@@ -131,30 +120,22 @@
       })
     </script>
     <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js'
+      import { getAnalytics } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js'
+      const firebaseConfig = {
+        apiKey: 'AIzaSyBd_mTQ7hcb-ZpcgMVHvOED1eV98mpffE4',
+        authDomain: 'chatmyastrologern.firebaseapp.com',
+        projectId: 'chatmyastrologern',
+        storageBucket: 'chatmyastrologern.firebasestorage.app',
+        messagingSenderId: '288851431622',
+        appId: '1:288851431622:web:9a8f12695867dcb42f47c7',
+        measurementId: 'G-QVC1CV2RZB'
+      }
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBd_mTQ7hcb-ZpcgMVHvOED1eV98mpffE4",
-    authDomain: "chatmyastrologern.firebaseapp.com",
-    projectId: "chatmyastrologern",
-    storageBucket: "chatmyastrologern.firebasestorage.app",
-    messagingSenderId: "288851431622",
-    appId: "1:288851431622:web:9a8f12695867dcb42f47c7",
-    measurementId: "G-QVC1CV2RZB"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-6V1TW3XYFY"></script> <script>   window.dataLayer = window.dataLayer || [];   function gtag(){dataLayer.push(arguments);}   gtag('js', new Date());   gtag('config', 'G-6V1TW3XYFY'); </script> -->
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig)
+      const analytics = getAnalytics(app)
+    </script>
 
     <script type="module" src="/src/main.jsx" defer></script>
   </body>

@@ -48,25 +48,25 @@ export const RootLayout = React.memo(() => {
   const prevIdxRef = useRef(window.history.state?.idx || 0)
   useLayoutEffect(() => {
     const currentIdx = window.history.state?.idx
-    console.log(navigationType);
-    
     if (navigationType === 'POP' && location.pathname.includes('/chat/')) {
-      console.log("kmashdjkashdjkajdkahsd");
-      
       const prevIdx = prevIdxRef.current
       if (currentIdx < prevIdx) {
-              console.log("kmashdjkashdjkajdkahsd1");
         window.history.go(-2)
       } else if (currentIdx > prevIdx) {
-              console.log("kmashdjkashdjkajdkahsd2");
         window.history.go(2)
       } else {
-              console.log("kmashdjkashdjkajdkahsd3");
         window.history.go(-2)
       }
       prevIdxRef.current = currentIdx
     }
   }, [location, navigationType])
+
+  useEffect(() => {
+    const element = document.getElementById('initialLoader')
+    if (element) {
+      element.remove()
+    }
+  }, [])
 
   return (
     <div className={pageScroll.is_scroll ? 'isScroll' : ''} ref={scrollRef}>
