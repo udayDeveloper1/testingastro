@@ -1,142 +1,109 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChatMyAstroLoger - Talk to Astrologers Online</title>
-    <meta
-      name="description"
-      content="ChatMyAstrologer connects you with expert astrologers online for personalized readings. Get accurate predictions and guidance for your future."
-    />
-    <meta
-      name="keywords"
-      content="ChatMyAstrologer, astrology, astrologers, horoscope, zodiac, predictions, kundli, tarot reading, online astrologer"
-    />
-    <meta name="author" content="ChatMyAstrologer" />
-    <meta
-      property="og:title"
-      content="ChatMyAstrologer - Talk to Astrologers Online"
-    />
-    <meta
-      property="og:description"
-      content="Get accurate astrology predictions and insights from expert astrologers. Talk to astrologers online anytime, anywhere."
-    />
-    <meta property="og:image" content="/astrotalk-preview.jpg" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Astrotalk - Talk to Astrologers Online"
-    />
-    <meta
-      name="twitter:description"
-      content="Get accurate astrology predictions and insights from expert astrologers."
-    />
-    <meta name="twitter:image" content="/astrotalk-preview.jpg" />
-    <meta name="theme-color" content="#E3725D" />
-    <link
-      rel="preload"
-      as="image"
-      href="/homepage/homeBackgroundImage.webp"
-      type="image/webp"
-    />
-    <link
-      rel="preload"
-      as="image"
-      href="/assets/img/banner/homeBackgroundImage_mobile.webp"
-      type="image/webp"
-      media="(max-width: 412px)"
-    />
 
-    <script type="text/javascript">
-      ;(function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            ;(c[a].q = c[a].q || []).push(arguments)
-          }
-        t = l.createElement(r)
-        t.async = 1
-        t.src = 'https://www.clarity.ms/tag/' + i
-        y = l.getElementsByTagName(r)[0]
-        y.parentNode.insertBefore(t, y)
-      })(window, document, 'clarity', 'script', 'rxnu4zm6aj')
-    </script>
-    <style>
-      .initialLoader {
-        width: 48px;
-        height: 48px;
-        border: 5px solid;
-        border-color: #ff3d00 transparent;
-        border-radius: 50%;
-        display: inline-block;
-        box-sizing: border-box;
-        animation: rotation 1s linear infinite;
-        position: fixed;
-        z-index: -1;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.webp" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatMyAstroLoger - Talk to Astrologers Online</title>
+  <meta name="description"
+    content="ChatMyAstrologer connects you with expert astrologers online for personalized readings. Get accurate predictions and guidance for your future." />
+  <meta name="keywords"
+    content="ChatMyAstrologer, astrology, astrologers, horoscope, zodiac, predictions, kundli, tarot reading, online astrologer" />
+  <meta name="author" content="ChatMyAstrologer" />
+  <meta property="og:title" content="ChatMyAstrologer - Talk to Astrologers Online" />
+  <meta property="og:description"
+    content="Get accurate astrology predictions and insights from expert astrologers. Talk to astrologers online anytime, anywhere." />
+  <meta property="og:image" content="/astrotalk-preview.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Astrotalk - Talk to Astrologers Online" />
+  <meta name="twitter:description" content="Get accurate astrology predictions and insights from expert astrologers." />
+  <meta name="twitter:image" content="/astrotalk-preview.jpg" />
+  <meta name="theme-color" content="#E3725D" />
+  <link rel="preload" as="image" href="/homepage/homeBackgroundImage.webp" type="image/webp" />
+  <link rel="preload" as="image" href="/assets/img/banner/homeBackgroundImage_mobile.webp" type="image/webp" media="(max-width: 412px)" />
+  <style>
+    .initialLoader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid;
+      border-color: #ff3d00 transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+      position: fixed;
+      z-index: -1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
       }
 
-      @keyframes rotation {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+      100% {
+        transform: rotate(360deg);
       }
+    }
+  </style>
+</head>
 
-      @keyframes rotation {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+<body>
+  <div class="initialLoader" id="initialLoader"></div>
+  <div id="root"></div>
+  <script type="text/javascript" defer>
+    (function (c, l, a, r, i, t, y) {
+      c[a] =
+        c[a] ||
+        function () {
+          (c[a].q = c[a].q || []).push(arguments);
+        };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "rxnu4zm6aj");
+  </script>
+  <script defer>
+    window.addEventListener("load", function () {
+      var script = document.createElement("script");
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-6V1TW3XYFY";
+      script.async = true;
+      document.body.appendChild(script);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
-    </style>
-  </head>
+      gtag("js", new Date());
+      gtag("config", "G-6V1TW3XYFY");
+    });
+  </script>
+  <script type="module" defer>
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBd_mTQ7hcb-ZpcgMVHvOED1eV98mpffE4",
+      authDomain: "chatmyastrologern.firebaseapp.com",
+      projectId: "chatmyastrologern",
+      storageBucket: "chatmyastrologern.firebasestorage.app",
+      messagingSenderId: "288851431622",
+      appId: "1:288851431622:web:9a8f12695867dcb42f47c7",
+      measurementId: "G-QVC1CV2RZB",
+    };
 
-  <body>
-    <div id="root"></div>
-    <div class="initialLoader" id="initialLoader"></div>
-    <script>
-      window.addEventListener('load', function () {
-        var script = document.createElement('script')
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-6V1TW3XYFY'
-        script.async = true
-        document.body.appendChild(script)
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 
-        window.dataLayer = window.dataLayer || []
-        function gtag() {
-          dataLayer.push(arguments)
-        }
-        gtag('js', new Date())
-        gtag('config', 'G-6V1TW3XYFY')
-      })
-    </script>
-    <script type="module">
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js'
-      import { getAnalytics } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js'
-      const firebaseConfig = {
-        apiKey: 'AIzaSyBd_mTQ7hcb-ZpcgMVHvOED1eV98mpffE4',
-        authDomain: 'chatmyastrologern.firebaseapp.com',
-        projectId: 'chatmyastrologern',
-        storageBucket: 'chatmyastrologern.firebasestorage.app',
-        messagingSenderId: '288851431622',
-        appId: '1:288851431622:web:9a8f12695867dcb42f47c7',
-        measurementId: 'G-QVC1CV2RZB'
-      }
+  <script type="module" src="/src/main.jsx" defer></script>
+</body>
 
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig)
-      const analytics = getAnalytics(app)
-    </script>
-
-    <script type="module" src="/src/main.jsx" defer></script>
-  </body>
 </html>

@@ -8,25 +8,13 @@ import './assets/css/main.css'
 import './assets/css/main2.css'
 
 import ScrollToTopButton from './component/Custom/ScrollToTopButton'
-import {
-  DashboardLayout,
-  PublicLayout,
-  RootLayout,
-  WithoutHeaderFooter
-} from './routers/DashboardLayouts'
-import { PathRedirection } from './routers/PathRedirection'
+import { DashboardLayout, PublicLayout, RootLayout, WithoutHeaderFooter } from './routers/DashboardLayouts'
 import { LanguageInitializer } from './routers/LanguageInitializer'
+import { PathRedirection } from './routers/PathRedirection'
 
 function App() {
 
   const scrolltoTopRef = useRef()
-
-  // Optional: Only remove preloader if it exists
-  // useEffect(() => {
-  //   const preloader = document.getElementById('preloader')
-  //   if (preloader) preloader.remove()
-  // }, [])
-
   useEffect(() => {
     if (scrolltoTopRef.current) {
       scrolltoTopRef.current.scrollIntoView({ behavior: 'smooth' })
@@ -79,13 +67,7 @@ function App() {
           )}
 
           {noLayoutRoutes.length > 0 && (
-            <Route element={<WithoutHeaderFooter />}>
-              {noLayoutRoutes.map(({ path, element }, index) =>
-                path && element ? (
-                  <Route key={index} path={path} element={element} />
-                ) : null
-              )}
-            </Route>
+            <Route element={<WithoutHeaderFooter />}> {noLayoutRoutes.map(({ path, element }, index) => path && element ? (<Route key={index} path={path} element={element} />) : null)} </Route>
           )}
 
         </Route>
