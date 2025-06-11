@@ -7,39 +7,91 @@ const cron = require("node-cron");
 const express = require("express");
 const app = express();
 
-const hostname = "https://ipo-trend.com/";
+const hostname = "https://devweb.chatmyastrologer.com";
 
 const staticLinks = [
   { url: "/", },
-  { url: "/?ipo=upcoming", },
-  { url: "/?ipo=live", },
-  { url: "/?ipo=listed", },
-
-  { url: "/live/mainboard/" },
-  { url: "/live/sme/" },
-
-  { url: "/upcoming/mainboard" },
-  { url: "/upcoming/sme" },
-
-  { url: "/listed/mainboard/1" },
-  { url: "/listed/mainboard/2" },
-  { url: "/listed/mainboard/3" },
-  { url: "/listed/mainboard/4" },
-  { url: "/listed/mainboard/5" },
-  { url: "/listed/mainboard/6" },
-  { url: "/listed/mainboard/7" },
-  { url: "/listed/mainboard/8" },
-
-  { url: "/ipo-news/1" },
-  { url: "/ipo-news/2" },
-  { url: "/ipo-news/3" },
-
-  { url: "/about-us" },
+  { url: "/chatWithAstrologer", },
+  { url: "/freeKundli", },
+  { url: "/kundaliMatching", },
+  { url: "/todaysPanchang" },
+  { url: "/general_prediction" },
+  { url: "/kundali_prediction" },
+  { url: "/horoscope/daily-horoscope" },
+  { url: "/horoscope/yesterday-horoscope" },
+  { url: "/horoscope/tomorrow-horoscope" },
+  { url: "/horoscope/weekly-horoscope" },
+  { url: "/horoscope/yearly-horoscope" },
+  { url: "/blog" },
+  { url: "/marrigeMuhurat" },
+  { url: "/bhumipujaMuhurat" },
+  { url: "/namkaranMuhurat" },
+  { url: "/rahuKaal" },
+  { url: "/profileSetting" },
+  { url: "/transactionWallet" },
+  { url: "/orderHistorycall" },
+  { url: "/ourAstrologer" },
   { url: "/contactUs" },
-  { url: "/login" },
   { url: "/privacyPolicy" },
-  { url: "/termsAndConditions" },
-  { url: "/faqs" },
+  { url: "/termsConditions" },
+  { url: "/aboutus" },
+];
+
+const LanguageOption = {
+  ENGLISH: 'en',
+  GUJRATI: 'gu',
+  HINDI: 'hi',
+};
+
+const horoscopeList = [
+  {
+    id: 1,
+    name: "Aries",
+  },
+  {
+    id: 2,
+    name: "Taurus",
+  },
+  {
+    name: "Gemini",
+    id: 3,
+  },
+  {
+    name: "Cancer",
+    id: 4
+  },
+  {
+    name: "Leo",
+    id: 5,
+  },
+  {
+    name: "Virgo",
+    id: 6,
+  },
+  {
+    name: "Libra",
+    id: 7,
+  },
+  {
+    name: "Scorpio",
+    id: 8,
+  },
+  {
+    name: "Sagittarius",
+    id: 9,
+  },
+  {
+    name: "Capricorn",
+    id: 10,
+  },
+  {
+    name: "Aquarius",
+    id: 11,
+  },
+  {
+    name: "Pisces",
+    id: 12,
+  },
 ];
 
 const brokerData = [
@@ -197,40 +249,51 @@ const formatNewsTitle = (title) => {
 
 const fetchDynamicRoutes = async () => {
   try {
-    const response = await axios.get(`https://api.ipo-trend.com/ipo/sitemap/`);
 
-    const transformedDataIPO = response?.data?.data?.results?.ipo_data?.flatMap(company => {
-      const baseUrl = `https://ipo-trend.com/ipo/${transformCompanyName(company.company_name)}/${company.symbol.toLowerCase()}`;
-      return [
-        { url: baseUrl },
-        { url: `${baseUrl}/ipo-details` },
-        { url: `${baseUrl}/ipo-subscription` },
-        { url: `${baseUrl}/ipo-news` },
-        { url: `${baseUrl}/ipo-gmp` },
-        { url: `${baseUrl}/ipo-allotnment` },
-      ];
-    }) || [];
+    const blogResponse = await axios.post(
+      `https://devapi.chatmyastrologer.com/api/v1/app/home/blog_listing`,
+      {
+        headers: {
+          'api-key': 'astrotalk@tracewave', // or whatever key name the API expects
+          // You can add other headers if needed
+        }
+      }
+    );
 
-    const transformedDataNews = response.data?.data?.results?.news_data?.flatMap(news => {
-      const formattedTitle = formatNewsTitle(news?.title);
-      return [
-        { url: `https://ipo-trend.com/ipo-news/${formattedTitle}/${news.id}` },
-        { url: `https://ipo-trend.com/marketNews/${formattedTitle}/${news.id}` }
-      ];
-    }) || [];
+    console.log('blogResponce', blogResponse.data);
 
+    const horoscopeDynamicData = horoscopeList?.flatMap(data => [
+      {
+        url: `/daily-horoscope/${data?.name}`,
+      },
+      {
+        url: `/yesterday-horoscope/${data?.name}`,
+      },
+      {
+        url: `/tomorrow-horoscope/${data?.name}`,
+      },
+      {
+        url: `/weekly-horoscope/${data?.name}`,
+      },
+      {
+        url: `/yearly-horoscope/${data?.name}`,
+      }
+    ]) || [];
 
-    const transformedDataBrokers = brokerData?.map(broker => ({
-      url: `https://ipo-trend.com/${broker?.navigation}`,
-    })) || [];
+    // const count = response.data?.data?.results?.all_ipo_count || 0;
+    // const transformedPageData = Array.from({ length: count }, (_, i) => ({
+    //   url: `https://ipo-trend.com/listed/All%20ipo/${i + 1}`,
+    // }));
 
-    const count = response.data?.data?.results?.all_ipo_count || 0;
+    // const transformedDataNews = response.data?.data?.results?.news_data?.flatMap(news => {
+    //   const formattedTitle = formatNewsTitle(news?.title);
+    //   return [
+    //     { url: `${hostname}/${formattedTitle}/${news.id}` },
+    //     { url: `${hostname}/${formattedTitle}/${news.id}` }
+    //   ];
+    // }) || [];
 
-    const transformedPageData = Array.from({ length: count }, (_, i) => ({
-      url: `https://ipo-trend.com/listed/All%20ipo/${i + 1}`,
-    }));
-
-    return [...transformedDataIPO, ...transformedDataNews, ...transformedDataBrokers, ...transformedPageData];
+    return [...horoscopeDynamicData];
 
   } catch (error) {
     console.error("Error fetching dynamic routes:", error);
@@ -244,11 +307,26 @@ const generateSitemap = async () => {
 
   const allLinks = [...staticLinks, ...dynamicLinks];
 
-  const sitemap = new SitemapStream({ hostname });
+  // console.log("All Links:", allLinks);
 
-  // Write each link to the sitemap stream
-  allLinks.forEach((link) => sitemap.write(link));
+  const languageUpdation = allLinks?.flatMap(data => [
+    {
+      url: `${hostname}/${LanguageOption.ENGLISH}${data.url}`,
+    },
+    {
+      url: `${hostname}/${LanguageOption.GUJRATI}${data.url}`,
+    },
+    {
+      url: `${hostname}/${LanguageOption.HINDI}${data.url}`,
+    }
+  ]) || [];
+
+  const sitemap = new SitemapStream({ hostname });
+  languageUpdation?.forEach((link) => sitemap.write(link));
   sitemap.end();
+
+
+  // console.log('languageUpdation', languageUpdation);
 
   // Convert stream to XML
   const sitemapXML = await streamToPromise(sitemap);
@@ -256,7 +334,7 @@ const generateSitemap = async () => {
   // // Write the XML to a file
   // fs.writeFileSync(path.join(__dirname, "dist", "sitemap.xml"), sitemapXML);
 
-  const distDir = path.join(__dirname, '..', "build");
+  const distDir = path.join(__dirname, '..', "dist");
 
   if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir, { recursive: true }); // recursive ensures nested folders get created
@@ -264,6 +342,7 @@ const generateSitemap = async () => {
 
   const sitemapPath = path.join(distDir, "sitemap.xml");
   fs.writeFileSync(sitemapPath, sitemapXML);
+  console.log("Sitemap generated successfully!");
 };
 
 const PORT = 3838;  // Use environment variable, fallback to 3838
@@ -284,6 +363,8 @@ app.get(`/generate-sitemap`, async (req, res) => {
 
 app.listen(PORT, () => {
   generateSitemap();
+  console.log(`🚀 Server is running`);
+  console.log(`Sitemap will be generated at: ${hostname}:${PORT}/generate-sitemap`);
 });
 
 // Call the function
