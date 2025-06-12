@@ -5,7 +5,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -31,12 +30,7 @@ import moment from 'moment'
 import PhoneAuthModal from '../component/auth/PhoneAuthModals'
 import { UpdatedPaths } from '../routers/Paths'
 import {
-  blogListingThunk,
   changeLanguage,
-  generateMuhuratBlogThunk,
-  getAstrologerList,
-  getDashboardCount,
-  getFilterListing,
   getGeoSearchLoaction,
   // resetStore,
   setFilterSearch,
@@ -79,13 +73,7 @@ function NavBar() {
   const AUTH_KEY = JSON.parse(localStorage.getItem(Constatnt?.AUTH_KEY))
   const loginUser = useSelector(state => state?.masterSlice?.loginUser)
   const modal = useSelector(state => state?.masterSlice?.modal)
-  const homapageData = useSelector(state => state.HomePageSlice?.homapageList?.data || [])
-  const { contentList: data } = useSelector(state => state?.masterSlice?.getFilterList)
-  const astrologersList = useSelector((state) => state?.masterSlice?.astrologerListData);
-  const muhratData = useSelector(state => state?.masterSlice?.muhratData)
-
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
-
   const labels = useMemo(
     () => ({
       chat: t('chat_with_astrologer'),
@@ -110,12 +98,6 @@ function NavBar() {
 
   const topNavItems = useMemo(
     () => [
-      // {
-      //   key: 'offers',
-      //   label: labels.offers,
-      //   to: null,
-      //   type: 'link'
-      // },
       {
         key: 'blog',
         label: labels.blog,
@@ -263,51 +245,59 @@ function NavBar() {
         key: 'chat',
         label: labels.chat,
         to: PATHS?.CHATWITHASTROLOGERS,
-        type: 'link'
+        type: 'link',
+        highLightClass: ""
       },
       {
         key: 'kundli',
         label: labels.kundli,
         to: PATHS?.FREEKUNDALI,
-        type: 'link'
+        type: 'link',
+        highLightClass: ""
       },
       {
         key: 'match',
         label: labels.match,
         to: PATHS?.KUNDALI_MATCHING,
-        type: 'link'
+        type: 'link',
+        highLightClass: ""
       },
       {
         key: 'panchang',
         label: labels.panchang,
         type: 'link',
-        to: PATHS?.TODAYS_PANCHANGAM
+        to: PATHS?.TODAYS_PANCHANGAM,
+        highLightClass: ""
       },
       {
         key: 'prediction',
         label: labels.prediction,
         type: 'dropdown',
-        children: predictionChildren
+        children: predictionChildren,
+        highLightClass: "highlight_tab_nav_item"
       },
       {
         key: 'horoscope',
         label: labels.horoscopes,
         type: 'dropdown',
         value: '/horoscope/',
-        children: horoscopeChildren
+        children: horoscopeChildren,
+        highLightClass: ""
       },
       {
         key: 'muhurat',
         label: labels.muhurat,
         type: 'dropdown',
-        children: muhuratChildren
+        children: muhuratChildren,
+        highLightClass: ""
       },
       {
         key: 'login',
         label: labels.login,
         type: 'button',
         show: !LOGIN_KEY,
-        onClick: openLoginModal
+        onClick: openLoginModal,
+        highLightClass: ""
       }
     ],
     [t, LOGIN_KEY, navigate]
@@ -344,22 +334,26 @@ function NavBar() {
     {
       label: 'Home',
       type: 'link',
-      to: PATHS?.HOMEPAGE
+      to: PATHS?.HOMEPAGE,
+      highLightClass: ""
     },
     {
       label: t('chat_with_astrologer'),
       type: 'link',
-      to: PATHS?.CHATWITHASTROLOGERS
+      to: PATHS?.CHATWITHASTROLOGERS,
+      highLightClass: ""
     },
     {
       label: t('free_kundli'),
       type: 'link',
-      to: PATHS?.FREEKUNDALI
+      to: PATHS?.FREEKUNDALI,
+      highLightClass: ""
     },
     {
       label: t('kundli_matching'),
       type: 'link',
-      to: PATHS?.KUNDALI_MATCHING
+      to: PATHS?.KUNDALI_MATCHING,
+      highLightClass: ""
     },
     {
       label: t('horoscopes'),
@@ -420,12 +414,14 @@ function NavBar() {
             ),
           to: `${getBasePath(PATHS?.ALL_HOROSCOPE)}/yearly-horoscope`
         }
-      ]
+      ],
+      highLightClass: ""
     },
     {
       label: t('Todays_Panchang'),
       type: 'link',
-      to: PATHS?.TODAYS_PANCHANGAM
+      to: PATHS?.TODAYS_PANCHANGAM,
+      highLightClass: ""
     },
     {
       label: t('Muhurat'),
@@ -446,18 +442,15 @@ function NavBar() {
           type: 'link',
           to: PATHS?.NAMKARAN_MUHURAT
         }
-      ]
+      ],
+      highLightClass: ""
     },
     {
       label: t('blog'),
       type: 'link',
-      to: PATHS?.BLOG
+      to: PATHS?.BLOG,
+      highLightClass: ""
     },
-    // {
-    //   label: t('prediction'),
-    //   type: 'link',
-    //   to: PATHS.PREDICTION
-    // }
     {
       label: t('prediction'),
       type: 'dropdown',
@@ -473,7 +466,8 @@ function NavBar() {
           to: PATHS?.PREDICTION
         }
 
-      ]
+      ],
+      highLightClass: "highlight_tab_nav_item"
     },
   ]
 
@@ -564,15 +558,15 @@ function NavBar() {
         item.key === 'horoscope'
           ? buildDropdownItems(horoscopeChildren)
           : buildDropdownItems(item.children || [])
-      // item.key === 'horoscope' ? horoscopeDropdownItems : item.children
 
       return (
-        <li key={item.key}>
+        <li key={item.key} className={item.highLightClass}>
           <Dropdown menu={{ items: dropdownItems }} trigger={['hover']}>
             <div
               className={`cursor-pointer flex items-center gap-[5px] ${baseClasses} ${isActive ? 'active' : ''
                 }`}
             >
+              {item.highLightClass && <span class="inline-block new_tag text-[9px] bg-gradient-to-r from-[#c32853] to-[#ee7e49] text-white px-2 pt-[2.3px] pb-[1px] rounded-full font-bold animate-pulse leading-tight">NEW</span>}
               <span className=''>{item.label}</span>
               <DownOutlined className='mr-1 text-sm' />
             </div>
@@ -653,13 +647,17 @@ function NavBar() {
         const isOpen = openDropdownIndex === idx
 
         return (
-          <li key={idx}>
+          <li key={idx} className={`${item.highLightClass} mobile_nav_items_class`}>
             <button
               onClick={() => toggleDropdown(idx)}
               type='button'
-              className='flex justify-between items-center w-full px-4 py-3 text-[#C32853] tracking-wide cursor-pointer rounded-[10px] hover:bg-gradient-to-r from-[#C32853] to-[#EE7E49] hover:text-white transition duration-200'
+              className={`flex  justify-between items-center w-full px-4 py-3 text-[#C32853] tracking-wide cursor-pointer rounded-[10px] hover:bg-gradient-to-r from-[#C32853] to-[#EE7E49] hover:text-white transition duration-200`}
             >
-              {item.label}
+              <div className={``}>      {item.label}
+
+                {item.highLightClass && <span class="inline-block new_tag text-[9px] bg-gradient-to-r from-[#c32853] to-[#ee7e49] text-white px-2 pt-[2.3px] pb-[1px] rounded-full font-bold animate-pulse leading-tight">NEW</span>}
+
+              </div>
               {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
             </button>
 
@@ -712,51 +710,6 @@ function NavBar() {
         return null
     }
   }
-
-  //   const NavButtons = React.memo(({ t, LOGIN_KEY, setIsModalOpen, setIsSidebarOpen, setShowModal }) => {
-  //   const handleLoginClick = useCallback(() => {
-  //     setIsModalOpen(true)
-  //     setIsSidebarOpen(false)
-  //   }, [setIsModalOpen, setIsSidebarOpen])
-
-  //   const handleLogoutClick = useCallback(() => {
-  //     setShowModal(true)
-  //     setIsSidebarOpen(false)
-  //   }, [setShowModal, setIsSidebarOpen])
-
-  //   const handleChatClick = useCallback(() => {
-  //     setIsSidebarOpen(false)
-  //   }, [setIsSidebarOpen])
-
-  //   return (
-  //     <div className='px-4 pb-4 border-t border-gray-200 pt-4 nav_btns'>
-  //       {!LOGIN_KEY ? (
-  //         <CustomButton
-  //           className='w-full text-white bg_website_color hover:bg-[#63378A] px-4 py-3 rounded-[10px] transition'
-  //           onClick={handleLoginClick}
-  //         >
-  //           {t('login')}
-  //         </CustomButton>
-  //       ) : (
-  //         <>
-  //           <Link
-  //             to={PATHS?.CHATWITHASTROLOGERS}
-  //             onClick={handleChatClick}
-  //             className='block text-center bg-white border border-[#E3725D] website_color px-4 py-2 rounded-md font-bold transition hover:!bg-[#E3725D] hover:!text-white'
-  //           >
-  //             {t('CHAT NOW')}
-  //           </Link>
-  //           <button
-  //             onClick={handleLogoutClick}
-  //             className='mt-3 w-full text-white cursor-pointer font-bold bg_website_color border border-[#E3725D] px-4 py-[9px] rounded-md transition uppercase tracking-[1px] hover:!bg-white'
-  //           >
-  //             {t('logout')}
-  //           </button>
-  //         </>
-  //       )}
-  //     </div>
-  //   )
-  // })
 
   const NavButtons = React.memo(
     ({ t, isLoggedIn, setIsModalOpen, setIsSidebarOpen, setShowModal }) => {
@@ -1021,7 +974,6 @@ function NavBar() {
 
       {/* ------------------------------------------------------------------------------------ mobile Logic --------------------------------------------------------------------- */}
 
-      {/* Mobile Sidebar Overlay (Blurred Glass Effect) */}
       {isSidebarOpen && (
         <div
           className='fixed inset-0 bg-opacity-40 backdrop-blur-md z-40 transition-opacity duration-300 mobileMenuDisplay'
@@ -1029,9 +981,8 @@ function NavBar() {
         />
       )}
 
-      {/* Mobile Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-[80%] md:w-[50%] mobileMenuDisplay  h-full bg-white shadow-2xl transform ${isSidebarOpen
+        className={`fixed top-0 left-0 w-[300px] md:w-[320px] mobileMenuDisplay  h-full bg-white shadow-2xl transform ${isSidebarOpen
           ? 'translate-x-0 scale-100'
           : '-translate-x-full scale-95'
           } transition-all duration-300 ease-in-out z-40 rounded-r-xl flex flex-col`}
@@ -1083,40 +1034,6 @@ function NavBar() {
             </Link>
           </div>
         </div>
-
-        {/* Footer Actions */}
-        {/* <div className='px-4 pb-4 border-t border-gray-200 pt-4 nav_btns'>
-          {!LOGIN_KEY ? (
-            <CustomButton
-              className='w-full text-white bg_website_color hover:bg-[#63378A] px-4 py-3  rounded-[10px]  transition '
-              onClick={() => {
-                setIsModalOpen(true)
-                setIsSidebarOpen(false)
-              }}
-            >
-              {t('login')}
-            </CustomButton>
-          ) : (
-            <>
-              <Link
-                to={PATHS?.CHATWITHASTROLOGERS}
-                onClick={() => setIsSidebarOpen(false)}
-                className='hover:!bg-[#E3725D]  hover:!text-white block text-center bg-white border border-[#E3725D] website_color px-4 py-2 rounded-md font-bold  transition   '
-              >
-                {t('CHAT NOW')}
-              </Link>
-              <button
-                onClick={() => {
-                  setShowModal(true)
-                  setIsSidebarOpen(false)
-                }}
-                className='hover:!bg-white  mt-3 w-full text-white cursor-pointer font-bold bg_website_color border border-[#E3725D] px-4 py-[9px] rounded-md  transition  uppercase tracking-[1px]'
-              >
-                {t('logout')}
-              </button>
-            </>
-          )}
-        </div> */}
         <NavButtons
           t={t}
           isLoggedIn={LOGIN_KEY}
@@ -1135,145 +1052,3 @@ function NavBar() {
 }
 
 export default React.memo(NavBar)
-
-// const fetchData = useCallback(async () => {
-//   try {
-//     const cityName = await getCurrentCity()
-//     let request = {
-//       type: 'marriage muhurat',
-//       year: moment().year(),
-//       lang: LocalLanguage
-//     }
-//     await Promise.all([
-//       dispatch(getHomePageListing()),
-//       dispatch(getFAQList({ per_page: 1000 })),
-//       dispatch(getFilterListing()),
-//       dispatch(getDashboardCount()),
-//       dispatch(
-//         blogListingThunk({
-//           page: 1,
-//           per_page: Constatnt?.PER_PAGE_DATA
-//         })
-//       ),
-//       dispatch(getGeoSearchLoaction({ city: cityName })),
-//       dispatch(
-//         getAstrologerList({
-//           page: 1,
-//           per_page: Constatnt?.PER_PAGE_DATA
-//         })
-//       ),
-//       dispatch(generateMuhuratBlogThunk(request))
-//     ])
-//   } catch (error) {
-//     console.error('Error fetching data:', error)
-//   } finally {
-//   }
-// }, [])
-
-{
-  /* {mobileNavItems.map((item, idx) => {
-              const isActive = item.to && location?.pathname === item.to
-              const baseClasses = `block w-full text-left py-3 px-4 rounded-[10px] transition duration-200 ${isActive
-                ? 'bg_website_color text-white'
-                : 'hover:bg-gradient-to-r from-[#C32853] to-[#EE7E49] hover:text-white'
-                }`
-
-              if (item.type === 'link') {
-                return (
-                  <li key={idx}>
-                    <Link
-                      to={item.to}
-                      onClick={() => setIsSidebarOpen(false)}
-                      className={baseClasses}
-                    >
-                      {t(item.label)}
-                    </Link>
-                  </li>
-                )
-              }
-
-              if (item.type === 'action') {
-                return (
-                  <li key={idx}>
-                    <div
-                      onClick={() => {
-                        item.onClick()
-                        setIsSidebarOpen(false)
-                      }}
-                      className={`${baseClasses} cursor-pointer`}
-                    >
-                      {t(item.label)}
-                    </div>
-                  </li>
-                )
-              }
-
-              if (item.type === 'dropdown') {
-                const isOpen = openDropdownIndex === idx
-
-                return (
-                  <li key={idx}>
-                    <button
-                      onClick={() => toggleDropdown(idx)}
-                      className='flex justify-between items-center w-full px-4 py-3 text-[#C32853]  tracking-wide cursor-pointer rounded-[10px] hover:bg-gradient-to-r from-[#C32853] to-[#EE7E49] hover:text-white transition duration-200'
-                      type='button'
-                    >
-                      {t(item.label)}
-                      {isOpen ? (
-                        <ChevronUp size={18} />
-                      ) : (
-                        <ChevronDown size={18} />
-                      )}
-                    </button>
-                    {isOpen && (
-                      <ul className='pl-4 border-l border-gray-200 ml-3 space-y-1'>
-                        {item.children.map((child, childIdx) => {
-                          const isActive =
-                            child.to && location?.pathname === child.to
-                          const childClasses = `block w-full text-left py-2 px-3 rounded-[10px] transition duration-150 text-[14px] ' +
-                            'hover:bg-gradient-to-r from-[#C32853] to-[#EE7E49] hover:text-white ${isActive
-                              ? 'bg_website_color text-white'
-                              : 'hover:bg-gradient-to-r from-[#C32853] to-[#EE7E49] hover:text-white'
-                            }`
-
-                          if (child.type === 'link') {
-                            return (
-                              <li key={childIdx}>
-                                <Link
-                                  to={child.to}
-                                  onClick={() => setIsSidebarOpen(false)}
-                                  className={`${childClasses}`}
-                                >
-                                  {t(child.label)}
-                                </Link>
-                              </li>
-                            )
-                          }
-
-                          if (child.type === 'action') {
-                            return (
-                              <li key={childIdx}>
-                                <div
-                                  onClick={() => {
-                                    child.onClick()
-                                    setIsSidebarOpen(false)
-                                  }}
-                                  className={`${childClasses} cursor-pointer`}
-                                >
-                                  {t(child.label)}
-                                </div>
-                              </li>
-                            )
-                          }
-
-                          return null
-                        })}
-                      </ul>
-                    )}
-                  </li>
-                )
-              }
-
-              return null
-            })} */
-}

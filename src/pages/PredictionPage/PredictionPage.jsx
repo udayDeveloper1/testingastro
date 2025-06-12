@@ -119,19 +119,19 @@ const PredictionPage = () => {
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: false,
     mode: 'free',
-    slides: { perView: 5, spacing: 15 },
+    slides: { perView: 5.5, spacing: 15 },
     breakpoints: {
       '(max-width: 1440px)': {
-        slides: { perView: 3, spacing: 15 }
+        slides: { perView: 3.5, spacing: 15 }
       },
       '(max-width: 1024px)': {
-        slides: { perView: 3, spacing: 15 }
+        slides: { perView: 3.5, spacing: 15 }
       },
       '(max-width: 768px)': {
-        slides: { perView: 3, spacing: 10 }
+        slides: { perView: 2.5, spacing: 10 }
       },
       '(max-width: 480px)': {
-        slides: { perView: 2, spacing: 8 }
+        slides: { perView: 1.5, spacing: 8 }
       }
     }
   })
@@ -139,13 +139,13 @@ const PredictionPage = () => {
   const [sliderRef2, instanceRef2] = useKeenSlider({
     loop: false,
     mode: 'free',
-    slides: { perView: 5, spacing: 15 },
+    slides: { perView: 5.5, spacing: 15 },
     breakpoints: {
       '(max-width: 768px)': {
-        slides: { perView: 3, spacing: 10 }
+        slides: { perView: 2.5, spacing: 10 }
       },
       '(max-width: 480px)': {
-        slides: { perView: 2, spacing: 8 }
+        slides: { perView: 1.5, spacing: 8 }
       }
     }
   })

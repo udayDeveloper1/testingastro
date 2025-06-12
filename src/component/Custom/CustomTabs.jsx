@@ -481,7 +481,7 @@ const CustomTabs = () => {
                   key={item.key}
                   className={`min-w-max cursor-pointer custom-tab ${isActive ? "active" : ""
                     } ${isFirst ? "rounded-l-full" : ""} ${isLast ? "rounded-r-full" : ""
-                    }`}
+                    } ${item.highlightClass}`}
                   onClick={(e) => {
                     setActiveKey(item.key);
                     navigate(
@@ -497,6 +497,11 @@ const CustomTabs = () => {
                   }}
                 >
                   {t(`${item.key}`)}
+                  {item.highlightClass === 'highlight_Tab' && (
+                    <span className="absolute -top-2 -right-2 text-[10px] bg-gradient-to-r from-[#c32853] to-[#ee7e49] text-white px-2 py-[1px] rounded-full font-semibold shadow-sm">
+                      NEW
+                    </span>
+                  )}
                 </div>
               );
             })}

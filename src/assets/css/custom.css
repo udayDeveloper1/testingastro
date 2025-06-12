@@ -254,3 +254,104 @@ body:has(.chat_section) header {
   background: url(../img/transaction/wallet_bg.webp) no-repeat;
   background-size: cover;
 }
+
+/* .highlight_Tab{
+  background: linear-gradient(90deg, rgba(195, 40, 83, 0.15) 0%, rgba(238, 126, 73, 0.15) 100%);
+} */
+
+.highlight_Tab {
+  position: relative;
+  animation: pulseBorder 1s infinite;
+  border: 2px solid #C32853; /* pink/red border */
+  box-shadow: 0 0 0 2px rgb(238, 126, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.highlight_Tab:hover {
+  transform: scale(1.03);
+}
+
+/* Optional animated pulse effect */
+@keyframes pulseBorder {
+  0% {
+    
+    box-shadow: 0 0 0 0 rgba(195, 40, 83, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(232, 62, 140, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(232, 62, 140, 0);
+  }
+}
+
+.highlight_tab_nav_item {
+  position: relative;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(227, 52, 91, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(227, 52, 91, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(227, 52, 91, 0);
+  }
+}
+
+.highlight_tab_nav_item {
+  animation: pulse-glow 2s infinite;
+  border-radius: 8px;
+}
+
+.highlight_tab_nav_item .new_tag{
+      position: absolute;
+    top: -22px;
+    right: 0px;
+}
+
+/* 
+.highlight_tab_nav_item::after {
+    content: "NEW";
+    position: absolute;
+    top: -24px;
+    right: 1px;
+    background: linear-gradient(90deg, #c32853, #ee7e49);
+    color: white;
+    font-size: 8px;
+    font-weight: 400 !important;
+    padding: 4.5px 6px 3px 6px;
+    border-radius: 999px;
+    animation: pulseGlow 2s ease-in-out infinite;
+    box-shadow: 0 0 6px rgba(255, 100, 150, 0.6);
+    line-height: 1;
+    text-transform: uppercase;
+    transform: translateY(-4px);
+}
+
+.highlight_tab_nav_item:hover::after {
+  transform: translateY(-1px);
+}
+
+.highlight_tab_nav_item.mobile_nav_items_class::after {
+    right: -30px;
+    top: -15px;
+}
+@keyframes pulseGlow {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(255, 100, 150, 0.6);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 100, 150, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(255, 100, 150, 0.6);
+  }
+}
+
+ */
