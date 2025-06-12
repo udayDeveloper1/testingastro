@@ -112,7 +112,6 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
   }
 
   const RenderCard1 = React.memo(({ astrologer, index }) => {
-
     
     return (
       <div
@@ -143,8 +142,8 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
                     }
                     loading='lazy'
                     decoding='async'
-                    width={60}
-                    height={60}
+                    width={80}
+                    height={80}
                   />
                 </div>
 
@@ -257,7 +256,7 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
                       height={15}
                     />
                     <span className='website_new_color text-left'>
-                      ₹{astrologer?.call_rate || astrologer?.rate || 100} /{' '}
+                      ₹{astrologer?.call_rate || astrologer?.rate || 0} /{' '}
                       {t('Min')}
                     </span>
                   </div>
@@ -302,7 +301,7 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
         </div>
       </div>
     )
-  }, [])
+  }, [t])
 
 
   return (

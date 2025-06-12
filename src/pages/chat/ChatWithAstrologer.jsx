@@ -104,7 +104,7 @@ function ChatWithAstrologer () {
 
   useEffect(() => {
     fetchAstrologers()
-  }, [fetchAstrologers])
+  }, [fetchAstrologers ,t])
 
   useEffect(() => {
     if (!data?.length) {

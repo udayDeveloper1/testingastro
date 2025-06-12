@@ -44,15 +44,10 @@ export const Constatnt = {
   KUNDLI_KEY: 'Kundli_details',
   PANCHANGE_KEY: 'panchang_details',
 
-
   // -------------------------- Static content -----------------------------------------
 
-  LANGUAGE: localStorage.getItem('ASTRO_language')
-    ? localStorage.getItem('ASTRO_language')
-    : 'en',
-  IS_LOGIN_USER: localStorage.getItem('ASTRO_is_login')
-    ? localStorage.getItem('ASTRO_is_login')
-    : false,
+  LANGUAGE: localStorage.getItem('ASTRO_language') ? localStorage.getItem('ASTRO_language') : 'en',
+  IS_LOGIN_USER: localStorage.getItem('ASTRO_is_login') ? localStorage.getItem('ASTRO_is_login') : false,
 
   ROLE: 'astro_website',
 
@@ -65,7 +60,7 @@ export const Constatnt = {
   COUNT_PER_PAGE: 10,
 
   //----------------  socket url  -----------------------
-  
+
   SOCKETURL: import.meta.env.VITE_APP_SOCKETURL,
 
   // -------------------- Api for i love pdf-------------------------------------------

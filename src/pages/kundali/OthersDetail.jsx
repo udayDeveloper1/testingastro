@@ -25,8 +25,6 @@ const OthersDetail = ({ allKundliDetails }) => {
   const { ashtakvarga, shadBala, friendShip } = allKundliDetails || {};
   const { t } = useTranslation();
   const undefine = useSelector((state) => state?.masterSlice?.undefine);
-console.log(undefine);
-
   const items = [
     // Uncomment as per release plan
     // { label: t("Chalit"), key: "1" },

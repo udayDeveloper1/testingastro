@@ -308,8 +308,6 @@ const PredictionPage = () => {
     ));
   };
 
-  console.log('loginUserData?._id', loginUserData?._id);
-
   return (
     <>
       <CommonBanner text={PATHS?.PREDICTION === location?.pathname ? t('kundali_prediction') : PATHS?.GENERAL_PREDICTION === location?.pathname ? t('genral_prediction') : t('prediction')} />

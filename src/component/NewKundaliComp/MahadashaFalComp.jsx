@@ -14,7 +14,7 @@ export default function MahadashaFalComp({ mahaDashaPrediction }) {
         </h2>
 
         <div>
-          {mahaDashaPrediction?.dashas?.map((item, index) => (
+          { mahaDashaPrediction?.dashas?.map((item, index) => (
             <div
               key={index}
               className="space-y-2 new_border_bottom pb-[30px] mb-[30px]"

@@ -31,6 +31,7 @@ function OurAstrologer({ AstrologerList, viewAll }) {
                         alt={astro?.name}
                         className='homeAstroImage rounded-full object-contain'
                         decoding='async'
+                        loading='lazy'
                         width={80}
                         height={80}
                       />

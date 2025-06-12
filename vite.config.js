@@ -5,7 +5,7 @@ import viteCompression from 'vite-plugin-compression'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
-  base: './',
+  base: '/',
   cacheDir: 'vite_cache',
 
   plugins: [
@@ -62,12 +62,13 @@ export default defineConfig({
     // Separate vendor code
     rollupOptions: {
       output: {
-        manualChunks (id) {
+        manualChunks(id) {
           if (id.includes('node_modules')) {
             return 'vendor'
           }
         }
       }
     }
+
   }
 })

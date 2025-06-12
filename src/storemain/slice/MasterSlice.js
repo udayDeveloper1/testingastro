@@ -105,8 +105,6 @@ export const generateMuhuratBlogThunk = createAsyncThunk(
 export const blogListingThunk = createAsyncThunk(
     "blogListing",
     async (submitData, { dispatch }) => {
-        console.log(submitData);
-        
         try {
             // dispatch(setLoading({ is_loading: true, loding_type: 'homepage' }))
             const { data } = await blogListing(submitData);
@@ -152,6 +150,7 @@ const initialState = {
     muhratData: {},
     blogListData: [],
     undefine:false,
+    cropIamge:null,
 };
 
 const masterSlice = createSlice({
@@ -208,7 +207,10 @@ const masterSlice = createSlice({
         },
         setUndefine:(state , action)=>{
             state.undefine = action.payload;
-        }
+        },
+         setCropIamge:(state , action)=>{
+            state.cropIamge = action.payload;
+        },
 
         // resetStore: () => initialState
     },
@@ -267,5 +269,5 @@ const masterSlice = createSlice({
 },
 );
 
-export const { setLoading, setModel, changeLanguage, setIsScroll, setUserLoginData, resetStore, setKundliDetailsData, setFilterValue, setShortValue, setOnSubmitFilter, setFilterSearch, setPageScroll, setPanchangDetails,setUndefine } = masterSlice.actions;
+export const { setLoading, setModel, changeLanguage, setIsScroll, setUserLoginData, resetStore, setKundliDetailsData, setFilterValue, setShortValue, setOnSubmitFilter, setFilterSearch, setPageScroll, setPanchangDetails,setUndefine,setCropIamge } = masterSlice.actions;
 export default masterSlice.reducer;

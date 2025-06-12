@@ -1,21 +1,13 @@
-import goldBuyingMuhurat from "../../assets/img/banner/goldBuyingMuhurat.webp";
-import { useEffect, useState } from 'react'
-import CommonBanner from '../../component/CommonBanner'
-import CommonQuestionComp from '../../component/CommonQuestionComp'
-import DynamicCard from '../../component/Dynemic/DynamicCard'
-import NewsletterComp from '../../component/Homepage/NewsLatterComp'
-import GoldBuyingMuhuratcomp from '../../component/Muhurat/GoldBuyingMuhuratcomp'
-import Footer from '../../Layout/Footer'
-import { generateMuhuratBlog } from '../../services/api/api.services'
-import { useDispatch, useSelector } from 'react-redux'
-import { Codes } from '../../utils/CommonVariable'
-import { closeLoder, openLoader, TOAST_ERROR } from '../../utils/CommonFunction'
-import { setMarriageMuhuratData } from '../../storemain/slice/muhuratDataSlice'
 import moment from "moment";
-import { Constatnt } from "../../utils/Constent";
-import { generateMuhuratBlogThunk } from "../../storemain/slice/MasterSlice";
-import Loader from "../../component/loader/Loader";
+import { useEffect } from 'react';
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from 'react-redux';
+import CommonBanner from '../../component/CommonBanner';
+import DynamicCard from '../../component/Dynemic/DynamicCard';
+import Loader from "../../component/loader/Loader";
+import { generateMuhuratBlogThunk } from "../../storemain/slice/MasterSlice";
+import { openLoader } from '../../utils/CommonFunction';
+import { Constatnt } from "../../utils/Constent";
 
 function MarriageMuhurat() {
 

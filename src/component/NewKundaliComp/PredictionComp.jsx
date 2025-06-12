@@ -14,45 +14,98 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import DataWrapper from '../Custom/DataWrapper'
 
-const matchList = [
-  { id: 'life', nameKey: 'life', img: life },
-  { id: 'career', nameKey: 'career', img: career },
-  { id: 'love', nameKey: 'love', img: love },
-  { id: 'marriage', nameKey: 'marriage', img: marriage },
-  { id: 'finance', nameKey: 'money', img: finance },
-  { id: 'health', nameKey: 'helth', img: health },
-  { id: 'education', nameKey: 'education', img: education },
-  { id: 'travel', nameKey: 'travel', img: travel }
-]
+
 
 export default function PredictionComp({ kundliPredication }) {
   const undefine = useSelector(state => state?.masterSlice?.undefine)
   const { t } = useTranslation()
 
-  const dailyDataOutput = useCallback((data) => {
-    if (!data) return ""
-
-    let outputDiv = ''
-    for (let key in data) {
-      const content = data[key]
-      let findName = matchList.find(ele => ele.id === key)
-
-      outputDiv += `
-        <div class="flex gap-[10px] md:gap-[20px] flex-col md:flex-row items-start justify-start">
-          <div class="flex items-center justify-center w-[60px] h-[60px] min-h-[60px] min-w-[60px] commonLightBack rounded-full">
-            ${findName ? `<img src="${findName.img}" alt="${t(findName.nameKey)}" />` : ''}
-          </div>
-          <div>
-            <div class="flex flex-col items-start gap-0">
-              <h2 class="rashiHeading">${findName ? t(findName.nameKey) : key}</h2>
-              <p class="commonQuesP">${content}</p>
-            </div>
-          </div>
-        </div>`
+const matchList = [
+    {
+      id: 'life',
+      name: t('life'),
+      img: life
+    },
+    {
+      id: 'career',
+      name: t('career'),
+      img: career
+    },
+    {
+      id: 'love',
+      name: t('love'),
+      img: love
+    },
+    {
+      id: 'marriage',
+      name: t('marriage'),
+      img: marriage
+    },
+    {
+      id: 'finance',
+      name: t('money'),
+      img: finance
+    },
+    {
+      id: 'health',
+      name: t('helth'),
+      img: health
+    },
+    {
+      id: 'education',
+      name: t('education'),
+      img: education
+    },
+    {
+      id: 'travel',
+      name: t('travel'),
+      img: travel
     }
+  ]
 
-    return outputDiv
-  }, [t])
+
+  const dailyDataOutput = useCallback((data) => {
+    // if (!data) return ""
+    if (data) {
+      // let parsedData = isValidJSON(data) ? JSON.parse(data) : '';
+      let outputDiv = ''
+
+      for (let key in data) {
+        const content = data[key]
+        let findName = matchList?.find(ele => ele.id === key)
+
+        // If content includes a colon, treat it as structured
+        if (content.includes(':')) {
+          outputDiv += `<div class="flex gap-[10px] md:gap-[20px] flex-col md:flex-row items-start justify-start">
+   <div class="flex items-center justify-center w-[60px] h-[60px] min-h-[60px] min-w-[60px] commonLightBack rounded-full ">
+     ${findName ? `<img src="${findName.img}" alt="${findName.name}" />` : ''}
+    </div>
+   <div>
+      <div class="flex flex-col items-start gap-0">
+         <h2 class="rashiHeading">${findName ? findName.name : key}</h2>
+         <p class="commonQuesP">${content}</p>
+      </div>
+   </div>
+</div>`
+        } else {
+          outputDiv += `<div class="flex gap-[10px] md:gap-[20px] flex-col md:flex-row items-start justify-start">
+   <div class="flex items-center justify-center w-[60px] h-[60px] min-h-[60px] min-w-[60px] commonLightBack rounded-full ">
+     ${findName ? `<img src="${findName.img}" alt="${findName.name}" />` : ''}
+    </div>
+   <div>
+      <div class="flex flex-col items-start gap-0">
+         <h2 class="rashiHeading">${findName ? findName.name : key}</h2>
+         <p class="commonQuesP">${content}</p>
+      </div>
+   </div>
+</div>`
+        }
+      }
+
+      return outputDiv
+    }
+    return ""
+  }, [kundliPredication?.daily, kundliPredication?.monthly, kundliPredication?.life])
 
   const items = useMemo(() => [
     {

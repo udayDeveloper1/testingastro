@@ -565,7 +565,9 @@ const ChatUI = () => {
         >
           <div className='flex flex-col items-start'>
             <div
-              className={`max-w-md px-5 py-3 text-[16px] font-medium rounded-lg leading-[180%] ChatMessage
+              className={`max-w-md px-5 py-3 text-[16px] font-medium 
+                ${isUser ? "rounded-s-lg" : "rounded-e-lg"} 
+                  leading-[180%] ChatMessage
           ${
             isUser
               ? 'bg_website_color text-white rounded-br-none self-end'

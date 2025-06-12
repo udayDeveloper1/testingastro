@@ -55,7 +55,7 @@ function Numbers () {
                 src={logoWeb}
                 alt='stat icon'
                 className='w-[50px] h-[50px] lg:w-[60px] lg:h-[60px] xl:w-[78px] xl:h-[78px] object-contain'
-                // loading='lazy'
+                loading='lazy'
                 decoding='async'
                 width={78}
                 height={78}

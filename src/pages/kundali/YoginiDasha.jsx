@@ -8,6 +8,7 @@ import YoginiDashaComp from "../../component/NewKundaliComp/YoginiDashaComp";
 
 const YoginiDasha = ({ allKundliDetails }) => {
   const { yoginiDashaSub = [] } = allKundliDetails;
+  
   return (
     <>
       <section>

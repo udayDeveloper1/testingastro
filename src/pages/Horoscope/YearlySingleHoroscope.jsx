@@ -266,7 +266,6 @@ function YearlySingleHoroscope() {
           <h2 className="commonQuesH2">{title}</h2>
           <div className="flex flex-col gap-3 horoscopeContent">
             {content?.map((paragraph, index) => {
-              console.log("Paragraph:", paragraph);
               const normalizedLabel = normalizeLabel(paragraph?.key);
               const icon = iconMap[normalizedLabel];
               return (

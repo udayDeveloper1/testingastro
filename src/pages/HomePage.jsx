@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 
 import moment from 'moment'
@@ -9,7 +9,7 @@ import 'slick-carousel/slick/slick.css'
 import '../assets/css/homepage.css'
 import '../assets/css/newHomePage.css'
 import backImg from '/homepage/homeBackgroundImage.webp'
-import backImgMobile from '../assets/img/banner/homeBackgroundImage_mobile.webp'
+import backImgMobile from '/homepage/homeBackgroundImage_mobile.webp'
 import {
   getDashboardCount,
   getDashboardPanchang,

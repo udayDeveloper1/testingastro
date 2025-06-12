@@ -47,9 +47,11 @@ import { useTranslation } from 'react-i18next'
 import edit_icon from '../../assets/img/Profile/edit_icon.svg'
 import '../../assets/css/userProfileForm.css'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import ProfileImageCropper from './ProfileImageCropper'
   dayjs.extend(customParseFormat)
 const UserProfileForm = () => {
   const dispatch = useDispatch()
+const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
 
   const [timeValue, setTimeValue] = useState(null)
   const loginUser = useSelector(state => state?.masterSlice?.loginUser)
@@ -225,21 +227,74 @@ const UserProfileForm = () => {
     }
   }
 
-  const handleImageChange = async({ file }) => {
-    if (file) {
-      if (!allowedTypes.includes(file?.type)) {
-        TOAST_ERROR('Only PNG, JPG, JPEG, GIF, or WEBP images are allowed.')
-        return
-      }
-         console.log(file);
-        const resizedFile = await compressAndResizeImage(file);
-        console.log(resizedFile);
+  // const handleImageChange = async({ file }) => {
+  //   if (file) {
+  //     if (!allowedTypes.includes(file?.type)) {
+  //       TOAST_ERROR('Only PNG, JPG, JPEG, GIF, or WEBP images are allowed.')
+  //       return
+  //     }
+  //        console.log(file);
+  //       const resizedFile = await compressAndResizeImage(file);
+  //       console.log(resizedFile);
         
-      const imageUrl = URL.createObjectURL(resizedFile)
-      setPreviewImage(imageUrl)
-      setImageFile(resizedFile)
-    }
+  //     const imageUrl = URL.createObjectURL(resizedFile)
+  //     setPreviewImage(imageUrl)
+  //     setImageFile(resizedFile)
+  //   }
+  // }
+
+ const [cropFile, setCropFile] = useState(null)
+
+const handleImageChange = ({ file }) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp']
+  if (!allowedTypes.includes(file?.type)) {
+    TOAST_ERROR('Only PNG, JPG, JPEG, GIF, or WEBP images are allowed.')
+    return
   }
+  setCropFile(file) // show crop modal
+   setImageFile(cropIamge)
+}
+
+const centerCropToSquare = (file, outputSize = 300) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const img = new Image()
+      img.src = reader.result
+
+      img.onload = () => {
+        const side = Math.min(img.width, img.height)
+
+        const canvas = document.createElement('canvas')
+        canvas.width = outputSize
+        canvas.height = outputSize
+
+        const ctx = canvas.getContext('2d')
+        ctx.drawImage(
+          img,
+          (img.width - side) / 2,
+          (img.height - side) / 2,
+          side,
+          side,
+          0,
+          0,
+          outputSize,
+          outputSize
+        )
+
+        canvas.toBlob((blob) => {
+          const croppedFile = new File([blob], file.name, {
+            type: file.type,
+            lastModified: Date.now(),
+          })
+          resolve(croppedFile)
+        }, file.type)
+      }
+    }
+  })
+}
+
 
   const handleSearchPlace = value => {
     isPlaceSelected.current = false
@@ -309,16 +364,6 @@ const UserProfileForm = () => {
     closeLoder(dispatch)
   }
 
-
-  const handleRemoveImage = () => {
-    setPreviewImage(profile_image)
-    setImageFile(null)
-  }
-
-  const handleDeleteModal = async () => {
-    openModel(dispatch, 'handleDeleteProfile')
-  }
-
   const handleTimeChange = value => {
     setTimeValue(value)
   }
@@ -382,6 +427,19 @@ const UserProfileForm = () => {
                     {t('CHANGE_PHOTO')}
                   </CustomWhiteButton>
                 </Upload>
+
+          {cropFile ? (
+  <ProfileImageCropper
+    file={cropFile}
+    onCropDone={(blob) => {
+      const url = URL.createObjectURL(blob)
+      setPreviewImage(url)
+      setImageFile(blob)
+      setCropFile(null)
+    }}
+    onCancel={() => setCropFile(null)}
+  />
+) : null}
               </div>
             </div>
             <div className='text-center sm:text-left '>

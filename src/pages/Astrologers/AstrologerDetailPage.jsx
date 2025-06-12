@@ -26,9 +26,7 @@ function AstrologerDetailPageComponent() {
   const fetchAstrologerDetails = useCallback(async () => {
     if (isFetched.current) return;
     isFetched.current = true;
-
     dispatch(setLoading({ is_loading: true, loding_type: "astro_details" }));
-
     try {
       const request = { uniqueID: id };
 
@@ -48,10 +46,10 @@ function AstrologerDetailPageComponent() {
 
   useEffect(() => {
     if (id) {
-      isFetched.current = false;
+      // isFetched.current = false;
       fetchAstrologerDetails();
     }
-  }, [fetchAstrologerDetails, id]);
+  }, [fetchAstrologerDetails, id, t]);
 
   return (
     <>

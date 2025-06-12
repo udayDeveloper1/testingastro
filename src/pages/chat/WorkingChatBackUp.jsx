@@ -194,8 +194,6 @@ const ChatUI = () => {
   }
 
   const formatDateLabel = date => {
-    console.log('askjdhklasdaskdjaksjdalksjd')
-
     if (isSameDate(date, today)) return 'Today'
     if (isSameDate(date, yesterday)) return 'Yesterday'
     return date.toLocaleDateString('en-GB', {

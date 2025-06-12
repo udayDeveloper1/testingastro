@@ -4,6 +4,7 @@ import { allHoroScopeDetailsNavigation } from "../../utils/navigations/Navigatio
 import { useNavigate } from "react-router";
 import { UpdatedPaths } from "../../routers/Paths";
 import { useTranslation } from "react-i18next";
+import CustomButton from "../Homepage/CustomButton";
 
 const ZodiacCard = React.memo(({ iconUrl, sign, description, id, type, keyData }) => {
   const navigate = useNavigate();
@@ -26,12 +27,13 @@ const ZodiacCard = React.memo(({ iconUrl, sign, description, id, type, keyData }
         </div>
 
         {/* Button */}
-        <button
-          className="w-full bg_website_color rounded-b-lg text-white text-sm font-semibold py-4 flex items-center justify-center gap-2 transition-all cursor-pointer"
+        <CustomButton
+        parentClassName="!rounded-b-[10px] !rounded-t-none"
+          className="w-full bg_website_color  text-white !rounded-b-[10px] !rounded-t-none text-[15px] font-semibold py-4 flex items-center justify-center gap-2 transition-all cursor-pointer"
           onClick={() => allHoroScopeDetailsNavigation(navigate, type, sign, id, PATHS?.ALL_HOROSCOPE_DETAILS)}
         >
           {t('read_more')}<ArrowRight size={16} />
-        </button>
+        </CustomButton>
       </div>
     </div>
   );

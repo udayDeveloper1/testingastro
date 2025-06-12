@@ -72,7 +72,7 @@ function TalkWithAstrologer() {
 
   useEffect(() => {
     fetchAstrologers();
-  }, [fetchAstrologers]);
+  }, [fetchAstrologers, t]);
 
   useEffect(() => {
     if (filterSearchValue.trim() || onSubmitFilter || filterValue) {
@@ -138,7 +138,7 @@ function TalkWithAstrologer() {
         <div className="container mx-auto padding50  flex flex-col gap-5 ">
           <CommonQuestionComp
             heading={t('How_Chatting_with_an_astrologer_can_help_you')}
-            content={t('astro_para', {returnObjects: true})}
+            content={t('astro_para', { returnObjects: true })}
           />
         </div>
       </section>

@@ -23,7 +23,8 @@
   <meta name="twitter:image" content="/astrotalk-preview.jpg" />
   <meta name="theme-color" content="#E3725D" />
   <link rel="preload" as="image" href="/homepage/homeBackgroundImage.webp" type="image/webp" />
-  <link rel="preload" as="image" href="/assets/img/banner/homeBackgroundImage_mobile.webp" type="image/webp" media="(max-width: 412px)" />
+  <link rel="preload" as="image" href="/assets/img/banner/homeBackgroundImage_mobile.webp" type="image/webp"
+    media="(max-width: 412px)" />
   <style>
     .initialLoader {
       width: 48px;
@@ -56,7 +57,7 @@
 <body>
   <div class="initialLoader" id="initialLoader"></div>
   <div id="root"></div>
-  <script type="text/javascript" defer>
+  <!-- <script type="text/javascript" defer>
     (function (c, l, a, r, i, t, y) {
       c[a] =
         c[a] ||
@@ -69,8 +70,8 @@
       y = l.getElementsByTagName(r)[0];
       y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "rxnu4zm6aj");
-  </script>
-  <script defer>
+  </script> -->
+  <!-- <script defer>
     window.addEventListener("load", function () {
       var script = document.createElement("script");
       script.src = "https://www.googletagmanager.com/gtag/js?id=G-6V1TW3XYFY";
@@ -84,6 +85,33 @@
       gtag("js", new Date());
       gtag("config", "G-6V1TW3XYFY");
     });
+  </script> -->
+
+
+  <script type="module" src="/src/main.jsx"></script>
+
+
+
+  <script>
+    requestIdleCallback(() => {
+      const clarity = document.createElement('script');
+      clarity.src = "https://www.clarity.ms/tag/rxnu4zm6aj";
+      document.body.appendChild(clarity);
+    });
+
+    requestIdleCallback(() => {
+      const ga = document.createElement('script');
+      ga.src = "https://www.googletagmanager.com/gtag/js?id=G-6V1TW3XYFY";
+      document.body.appendChild(ga);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-6V1TW3XYFY");
+    });
+
   </script>
   <script type="module" defer>
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
@@ -102,8 +130,6 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
   </script>
-
-  <script type="module" src="/src/main.jsx" defer></script>
 </body>
 
 </html>

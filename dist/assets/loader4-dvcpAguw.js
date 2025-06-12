@@ -1,1 +1,0 @@
-const e=""+new URL("../loader/loader1.webp",import.meta.url).href,r=""+new URL("../loader/loader2.webp",import.meta.url).href,a=""+new URL("../loader/loader3.webp",import.meta.url).href,o=""+new URL("../loader/loader4.webp",import.meta.url).href;export{r as a,a as b,o as c,e as l};

@@ -62,7 +62,7 @@ const CustomTabs = () => {
   const tabContainerRef = useRef(null);
 
   const navigationData = location.state?.kundliData;
-  const kundliDetailsData = useSelector( (state) => state?.masterSlice?.kundliDetailsData );
+  const kundliDetailsData = useSelector((state) => state?.masterSlice?.kundliDetailsData);
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     : LanguageOption?.ENGLISH;
   const loder = useSelector((state) => state?.masterSlice?.loader);
@@ -123,14 +123,11 @@ const CustomTabs = () => {
   };
 
   const [predicatioinApi, setPredicationApi] = useState({});
-console.log('dsdsjddsdsjddsdsjd',hasAtLeastOneResponseData(allKundliDetails?.panchangeDetails));
-console.log("dsdsjd");
 
-if (hasAtLeastOneResponseData(allKundliDetails?.panchangeDetails)) {
+  // if (hasAtLeastOneResponseData(!allKundliDetails?.panchangeDetails)) {
   dispatch(setUndefine(true));
-}
+  // }
 
-console.log(allKundliDetails);
 
   const tabConfigWithProps = kundliTabConfig?.map((tab) => ({
     ...tab,
@@ -144,14 +141,12 @@ console.log(allKundliDetails);
 
   // -----------------------------------------------------------------  Half Api Calling ---------------------------------------------------------------------------------------------------
   const kundliDetailsApiCalling = async data => {
-  console.log(data);
-  
-// if (!data) {
-//   dispatch(setUndefine(true))
-// }
+
+    // if (!data) {
+    //   dispatch(setUndefine(true))
+    // }
 
 
-    console.log('kundliDetailsApiCalling data', data);
     let updatedRequest = {
       dob: data?.date,
       tob: formatTime(data?.time, TimeFormat?.TIME_24_HOUR_FORMAT),
@@ -412,7 +407,7 @@ console.log(allKundliDetails);
       Object.keys(KundliItem)?.length !== 24
     ) {
       openLoader(dispatch, 'freeKundli_details')
-      if(KundliItem?.panchangeDetails?.request){
+      if (KundliItem?.panchangeDetails?.request) {
         kundliDetailsApiCalling(KundliItem?.panchangeDetails?.request)
       }
       hasCalledApi.current = true

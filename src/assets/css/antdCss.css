@@ -640,3 +640,35 @@ border: none !important;
 .ant-picker-cell-hover .ant-picker-cell-inner{
   background: linear-gradient(90deg, #c32853 0%, #ee7e49 100%) !important;
 }
+
+.ant-slider .ant-slider-handle::after, .ant-slider .ant-slider-handle:focus::after{
+      box-shadow: 0 0 0 2px #c32853;
+      outline: 6px solid #c3285428;
+      /* linear-gradient(90deg, #c32853, #ee7e49) */
+}
+.ant-slider .ant-slider-handle:hover::after{
+       box-shadow: 0 0 0 2px #ee7e49;
+      outline: 6px solid #ee7d491f;
+}
+.ant-slider .ant-slider-track {
+    background:  linear-gradient(90deg, #c32853, #ee7e49);
+}
+
+.Cropper_sec .ant-modal-footer > button:last-child {
+    background:  linear-gradient(90deg, #c32853, #ee7e49);
+    border: 1px solid #ee7e49;
+}
+
+.Cropper_sec .ant-modal-footer > button:last-child:hover{
+  color: #C32853;
+}
+
+.Cropper_sec .ant-modal-footer > button:first-child{
+  border: 1px solid #e3725d;
+  color: #C32853;
+}
+
+.Cropper_sec .ant-modal-footer > button:first-child:hover{
+    color: #fff !important;
+    background:  linear-gradient(90deg, #c32853, #ee7e49);
+}

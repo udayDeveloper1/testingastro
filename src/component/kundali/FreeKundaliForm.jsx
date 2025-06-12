@@ -157,7 +157,6 @@ const FreeKundali = () => {
 
   const kundliDetailsApiCalling = async data => {
 
-    console.log('data kundliDetailsApiCalling', data);
     openLoader(dispatch, 'freeKundli_form')
 
     let updatedRequest = {
@@ -455,8 +454,6 @@ const FreeKundali = () => {
   // 06/06/2025
   const onFinish = async value => {
 
-    console.log('onFinishonFinish 00000000', value);
-
     openLoader(dispatch, 'freeKundli_form')
     let request_2 = {
       [value?.gender]: {
@@ -493,8 +490,6 @@ const FreeKundali = () => {
       lang: myLanguage || LanguageOption?.ENGLISH // myLanguage,
     }
 
-    console.log('requestrequest', request_2);
-    // return
     try {
       if (loginUser?.is_login) {
         if (freeKundliEdit) {
@@ -568,7 +563,6 @@ const FreeKundali = () => {
         if (response?.code === Codes?.SUCCESS) {
           TOAST_SUCCESS(response?.message)
           const kundliData = await kundliDetailsApiCalling(request)
-          console.log('kundliData kundliDetailsApiCalling', kundliData);
           if (hasAtLeastOneResponseData(kundliData?.panchangeDetails)) {
 
             localStorage.setItem(Constatnt?.KUNDLI_KEY, JSON.stringify(kundliData))
@@ -665,19 +659,6 @@ const FreeKundali = () => {
     // if (formRef.current) {
     //   formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     // }
-    console.log('handleListItemClick Data', {
-      name: Data?.place_of_birth,
-      alternate_name: Data?.place_of_birth,
-      country: '',
-      country_name: '',
-      full_name: Data?.place_of_birth,
-      coordinates: [Data?.latitude, Data?.longitude],
-      tz: Data?.timezone,
-      tz_dst: Data?.timezone,
-      current_dst: false,
-      tzone: ['Asia/Kolkata'],
-      value: Data?.place_of_birth
-    });
     // return
     let req = {
       [InputTypesEnum?.ID]: Data?._id,
@@ -697,7 +678,6 @@ const FreeKundali = () => {
       [InputTypesEnum?.LOCATION]: Data?.place_of_birth, // e.g., "45"
       [InputTypesEnum?.GENDER]: Data?.gender
     }
-    console.log('handleListItemClick req', req);
     // return
     form?.setFieldsValue({
       [InputTypesEnum?.ID]: Data?._id,
@@ -718,7 +698,6 @@ const FreeKundali = () => {
       [InputTypesEnum?.GENDER]: Data?.gender
     })
 
-    console.log('selecteLocation', selecteLocation);
 
     setSelectedLocation({
       name: Data?.place_of_birth,

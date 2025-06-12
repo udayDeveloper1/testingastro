@@ -110,12 +110,12 @@ function NavBar() {
 
   const topNavItems = useMemo(
     () => [
-      {
-        key: 'offers',
-        label: labels.offers,
-        to: null,
-        type: 'link'
-      },
+      // {
+      //   key: 'offers',
+      //   label: labels.offers,
+      //   to: null,
+      //   type: 'link'
+      // },
       {
         key: 'blog',
         label: labels.blog,
@@ -542,7 +542,6 @@ function NavBar() {
       console.error('Error fetching data:', error)
     }
   }, [LocalLanguage])
-
 
 
   const NavItem = React.memo(({ item, horoscopeDropdownItems }) => {

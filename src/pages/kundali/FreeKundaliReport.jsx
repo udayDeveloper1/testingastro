@@ -1,12 +1,6 @@
-import React, { lazy, useState } from "react";
-import KundaliReportGeneral from "../../assets/img/banner/KundaliReportGeneral.webp";
-import KundaliReportRemedies from "../../assets/img/banner/KundaliReportRemedies.webp";
-import kundaliRemediesGemstone from "../../assets/img/banner/kundaliRemediesGemstone.webp";
-import kundaliReportDashaSadesthi from "../../assets/img/banner/kundaliReportDashaSadesthi.webp";
-import kundaliReportDoshaKalpasara from "../../assets/img/banner/kundaliReportDoshaKalpasara.webp";
-import kundaliReportDoshaManglik from "../../assets/img/banner/kundaliReportDoshaManglik.webp";
+import { lazy, useState } from "react";
+import { useTranslation } from "react-i18next";
 import CommonBanner from "../../component/CommonBanner";
-const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
 import Kalpasara from "../../component/kundali/FreeKundaliReport/Dosha/Kalpasara";
 import Manglik from "../../component/kundali/FreeKundaliReport/Dosha/Manglik";
 import Sadesati from "../../component/kundali/FreeKundaliReport/Dosha/Sadesati";
@@ -17,12 +11,12 @@ import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
 import KundliReport from "../../component/kundali/KundliReport";
 import KundliStepper from "../../component/kundali/KundliStepper";
 import TabNavigation from "../../component/kundali/TabNavigation";
-import { useTranslation } from "react-i18next";
+const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
 
 function FreeKundaliReport() {
   const [active, setActive] = useState("0");
   const [activeSubTab, setActiveSubTab] = useState("1");
-    const { t } = useTranslation()
+  const { t } = useTranslation()
   const sections = [
     {
       title: "Description",
@@ -253,11 +247,10 @@ function FreeKundaliReport() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
             <div>
               <CustomButton
-                className={`w-full py-2 border font-semibold text-[16px] leading-[100%] transition-all ${
-                  active === "0"
-                    ? " !bg-[#e3725d] !border-[#e3725d] !text-[#fff]"
-                    : "!bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
-                }`}
+                className={`w-full py-2 border font-semibold text-[16px] leading-[100%] transition-all ${active === "0"
+                  ? " !bg-[#e3725d] !border-[#e3725d] !text-[#fff]"
+                  : "!bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
+                  }`}
                 onClick={() => {
                   setActive("0");
                 }}
@@ -267,11 +260,10 @@ function FreeKundaliReport() {
             </div>
             <div>
               <CustomButton
-                className={`w-full py-2 border font-semibold text-[16px] leading-[100%] transition-all ${
-                  active === "1"
-                    ? " !bg-[#e3725d] !border-[#e3725d] !text-[#fff]"
-                    : "!bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
-                }`}
+                className={`w-full py-2 border font-semibold text-[16px] leading-[100%] transition-all ${active === "1"
+                  ? " !bg-[#e3725d] !border-[#e3725d] !text-[#fff]"
+                  : "!bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
+                  }`}
                 onClick={() => {
                   setActive("1");
                 }}
@@ -281,11 +273,10 @@ function FreeKundaliReport() {
             </div>
             <div>
               <CustomButton
-                className={`w-full py-2 border font-semibold text-[16px] leading-[100%] transition-all ${
-                  active === "2"
-                    ? " !bg-[#e3725d] !border-[#e3725d] !text-[#fff]"
-                    : "!bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
-                }`}
+                className={`w-full py-2 border font-semibold text-[16px] leading-[100%] transition-all ${active === "2"
+                  ? " !bg-[#e3725d] !border-[#e3725d] !text-[#fff]"
+                  : "!bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
+                  }`}
                 onClick={() => {
                   setActive("2");
                 }}

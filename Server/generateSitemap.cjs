@@ -357,7 +357,6 @@ const generateSitemap = async () => {
 
   const sitemapPath = path.join(distDir, "sitemap.xml");
   fs.writeFileSync(sitemapPath, sitemapXML);
-  console.log("Sitemap generated successfully!");
 };
 
 const PORT = 3838;  // Use environment variable, fallback to 3838
@@ -378,8 +377,6 @@ app.get(`/generate-sitemap`, async (req, res) => {
 
 app.listen(PORT, () => {
   generateSitemap();
-  console.log(`🚀 Server is running`);
-  console.log(`Sitemap will be generated at: ${hostname}:${PORT}/generate-sitemap`);
 });
 
 // Call the function

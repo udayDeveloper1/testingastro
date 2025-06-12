@@ -1,11 +1,11 @@
-import { memo } from 'react';
-import { useSelector } from 'react-redux';
-import '../../assets/css/kundli/KundliParts.css';
-import DoshaReportComp from '../../component/NewKundaliComp/DoshaReportComp';
-import DataWrapper from '../../component/Custom/DataWrapper';
+import { memo } from "react";
+import { useSelector } from "react-redux";
+import "../../assets/css/kundli/KundliParts.css";
+import DoshaReportComp from "../../component/NewKundaliComp/DoshaReportComp";
+import DataWrapper from "../../component/Custom/DataWrapper";
 
 const DoshaReport = ({ allKundliDetails }) => {
-  const undefine = useSelector(state => state?.masterSlice?.undefine);
+  const undefine = useSelector((state) => state?.masterSlice?.undefine);
 
   const {
     mangalikDosh,

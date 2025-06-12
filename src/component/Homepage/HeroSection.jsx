@@ -3,6 +3,7 @@ import FreeKundali from '../kundali/FreeKundaliForm'
 
 const HeroSection = ({ backImg, cardData, navigate, t }) => {
   const handleNavigate = useCallback(path => () =>{
+    
     navigate(path)}, [navigate])
 
   return (
@@ -44,7 +45,7 @@ const HeroSection = ({ backImg, cardData, navigate, t }) => {
                           src={card.icon}
                           alt='icon'
                           className='w-[28px] h-[28px] object-contain'
-                          // loading='lazy'
+                          loading='lazy'
                           decoding='async'
                           width={20}
                           height={20}

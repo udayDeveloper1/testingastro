@@ -28,6 +28,7 @@ import {
   TimeFormat
 } from './CommonVariable'
 import { getDispatcher } from './navigations/NavigationService'
+import axios from 'axios'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -328,11 +329,11 @@ const convertToBase64 = async file => {
 // ------------------------------------------------------- Page Loadable manage ------------------------------------------------------------------------------------
 
 export const Loadable = Component => props =>
-  (
-    <Suspense fallback={<></>}>
-      <Component {...props} />
-    </Suspense>
-  )
+(
+  <Suspense fallback={<></>}>
+    <Component {...props} />
+  </Suspense>
+)
 
 // ------------------------------------------------------- Manage maodels ------------------------------------------------------------------------------------
 
@@ -374,24 +375,24 @@ export const getLocationValidationRule = (
   t,
   selecteLocation
 ) => [
-  { required: true, message: t('enter_place_of_birth') },
-  {
-    validator: (_, value) => {
-      if (!value) return Promise.resolve()
+    { required: true, message: t('enter_place_of_birth') },
+    {
+      validator: (_, value) => {
+        if (!value) return Promise.resolve()
 
-      if (
-        !isPlaceSelectedRef.current &&
-        Object.keys(selecteLocation).length === 0
-      ) {
-        return Promise.reject(
-          new Error(t('please_select_place_from_suggestion'))
-        )
+        if (
+          !isPlaceSelectedRef.current &&
+          Object.keys(selecteLocation).length === 0
+        ) {
+          return Promise.reject(
+            new Error(t('please_select_place_from_suggestion'))
+          )
+        }
+
+        return Promise.resolve()
       }
-
-      return Promise.resolve()
     }
-  }
-]
+  ]
 
 export const FORM_RULS = {
   [InputTypesEnum?.NAME]: [
@@ -560,7 +561,7 @@ export const formatThirdPartyContent = (stringData = '') => {
     .replace(/<\/b><br\s*\/?>/g, '</b>')
 }
 
-export function isValidJSON (str) {
+export function isValidJSON(str) {
   try {
     JSON.parse(str)
     return true
@@ -594,18 +595,60 @@ export const SEOTITLE = ({ title, description, keyword }) => {
   )
 }
 
+// export const getCurrentCity = async () => {
+//   return new Promise((resolve, reject) => {
+//     navigator.geolocation.getCurrentPosition(
+//       async position => {
+//         try {
+//           const lat = position.coords.latitude
+//           const lon = position.coords.longitude
+
+//           const response = await fetch(
+//             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+//           )
+//           const data = await response.json()
+
+//           const cityName =
+//             data.address.state_district ||
+//             data.address.city ||
+//             data.address.town ||
+//             data.address.village ||
+//             data.address.state ||
+//             ''
+//           resolve(cityName)
+//         } catch (err) {
+//           resolve('Ahmedabad')
+//         }
+//       },
+//       geoError => {
+//         resolve('Ahmedabad')
+//       }
+//     )
+//   })
+// }
+
 export const getCurrentCity = async () => {
-  return new Promise((resolve, reject) => {
+  return `Ahmedabad`
+
+  new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       async position => {
         try {
-          const lat = position.coords.latitude
-          const lon = position.coords.longitude
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
 
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
-          )
-          const data = await response.json()
+          const response = await axios.get(
+            'https://nominatim.openstreetmap.org/reverse',
+            {
+              params: {
+                format: 'json',
+                lat,
+                lon
+              }
+            }
+          );
+
+          const data = response.data;
 
           const cityName =
             data.address.state_district ||
@@ -613,20 +656,19 @@ export const getCurrentCity = async () => {
             data.address.town ||
             data.address.village ||
             data.address.state ||
-            ''
-          resolve(cityName)
+            '';
+
+          resolve(cityName);
         } catch (err) {
-          resolve('Ahmedabad')
+          resolve('Ahmedabad');
         }
       },
       geoError => {
-        resolve('Ahmedabad')
+        resolve('Ahmedabad');
       }
-    )
-  })
-}
-
-
+    );
+  });
+};
 
 export const compressAndResizeImage = async (file, width = 184, height = 184) => {
   // Step 1: Compress
@@ -679,3 +721,64 @@ export default {
   // ExportToExcel,
   // ExportToPdf
 }
+
+
+
+// -------------------------corp image
+
+
+// utils/CommonFunction.js or cropUtils.js
+export const getCroppedImg = (imageSrc, pixelCrop) => {
+  return new Promise((resolve, reject) => {
+    const image = new Image()
+    image.src = imageSrc
+    image.crossOrigin = 'anonymous'
+
+    image.onload = () => {
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+
+      canvas.width = pixelCrop.width
+      canvas.height = pixelCrop.height
+
+      // Draw circular clipping path
+      ctx.beginPath()
+      ctx.arc(
+        pixelCrop.width / 2,
+        pixelCrop.height / 2,
+        pixelCrop.width / 2,
+        0,
+        2 * Math.PI
+      )
+      ctx.closePath()
+      ctx.clip()
+
+      ctx.drawImage(
+        image,
+        pixelCrop.x,
+        pixelCrop.y,
+        pixelCrop.width,
+        pixelCrop.height,
+        0,
+        0,
+        pixelCrop.width,
+        pixelCrop.height
+      )
+
+      // Compress with 70% quality (0.7)
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) return reject(new Error('Canvas is empty'))
+          resolve(blob)
+        },
+        'image/jpeg',
+        0.7 // <-- compression quality (range: 0 to 1)
+      )
+    }
+
+    image.onerror = (err) => reject(err)
+  })
+}
+
+
+

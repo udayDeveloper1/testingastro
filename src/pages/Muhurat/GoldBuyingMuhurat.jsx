@@ -1,22 +1,16 @@
-import React from "react";
 // import goldBuyingMuhurat from "../../assets/img/banner/goldBuyingMuhurat.webp";
 import CommonBanner from "../../component/CommonBanner";
 import CommonQuestionComp from "../../component/CommonQuestionComp";
-import FestivalMonthTable from "../../component/Muhurat/FestivalMonthTable";
-import HinduCalendarStructure from "../../component/Muhurat/HinduCalendarStructure";
-import IndianSolarCalender from "../../component/Muhurat/IndianSolarCalender";
-import TypesofCalendars from "../../component/Muhurat/TypesofCalendars";
-import Footer from "../../Layout/Footer";
-import NewsletterComp from "../../component/Homepage/NewsLatterComp";
-import HomeFAQs from "../../component/Homepage/HomeFAQs";
-import GoldBuyingMuhuratcomp from "../../component/Muhurat/GoldBuyingMuhuratcomp";
 import DynamicCard from "../../component/Dynemic/DynamicCard";
+import NewsletterComp from "../../component/Homepage/NewsLatterComp";
+import GoldBuyingMuhuratcomp from "../../component/Muhurat/GoldBuyingMuhuratcomp";
+import Footer from "../../Layout/Footer";
 
 function GoldBuyingMuhurat() {
   const content1 = [
     "In Hindu culture, buying gold is considered an auspicious activity, symbolizing wealth, prosperity, and good fortune. The selection of the right Gold Buying Muhurat in 2025 holds immense importance, as it is believed that making this purchase during an astrologically favorable time can enhance the financial well-being of the individual and family. Astrologers calculate these special times based on the alignment of celestial bodies, Tithis, and Nakshatras, ensuring that the transaction is aligned with positive cosmic energies.",
   ];
- 
+
 
   const content2 = [
     "The right Muhurat for buying gold ensures that the wealth accumulated brings prosperity and stability, while also protecting the individual from any negative influences. It is believed that buying gold during an auspicious time strengthens the foundation of financial security and invites blessings of Lakshmi, the Goddess of wealth.",
@@ -59,7 +53,7 @@ function GoldBuyingMuhurat() {
         "Buying gold on Dhanteras ensures divine blessings for abundance in the coming year. Diwali is also a prime time to buy gold as it ushers in good fortune.",
     },
   ];
-  
+
   const goldMuhuratData2 = [
     {
       title: "April 29 (Tuesday)",
@@ -86,7 +80,7 @@ function GoldBuyingMuhurat() {
       description: "06:24 AM to 01:51 PM",
     },
   ];
- 
+
   return (
     <>
       <section>
@@ -103,37 +97,37 @@ function GoldBuyingMuhurat() {
             heading=""
             content={content1}
           />
-           <CommonQuestionComp
+          <CommonQuestionComp
             heading="Why Gold Buying Muhurat Matters in 2025"
             content={content2}
           />
         </div>
       </section>
 
-       <section>
-       <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
-       <DynamicCard
-        title="Key Gold Buying Muhurats For 2025"
-        introText=""
-        data={goldMuhuratData1}
-        listStyle="decimal"
-      />
-      
-      <GoldBuyingMuhuratcomp 
-      title="Key Gold Buying Muhurats For 2025" 
-      data={goldMuhuratData2}  
-      introText={`Akshaya Tritiya is considered an auspicious day in Hindu culture, symbolizing wealth, prosperity, and good fortune. It is believed that buying gold on this day brings lasting benefits and attracts wealth. The word "Akshaya" means "never diminishing," signifying that any investments made on this day, especially gold, will continue to grow and never lose value. Therefore, many people choose to buy gold on Akshaya Tritiya to ensure lasting prosperity and financial growth.`}
-      footerText=" These timings are considered highly auspicious for making gold
-          purchases, associated with wealth and prosperity."
-      />
-       </div>
-       </section>
+      <section>
+        <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
+          <DynamicCard
+            title="Key Gold Buying Muhurats For 2025"
+            introText=""
+            data={goldMuhuratData1}
+            listStyle="decimal"
+          />
 
-      <NewsletterComp/>
-       {/* Footer */}
-       <footer>
-         <Footer/>
-        </footer>
+          <GoldBuyingMuhuratcomp
+            title="Key Gold Buying Muhurats For 2025"
+            data={goldMuhuratData2}
+            introText={`Akshaya Tritiya is considered an auspicious day in Hindu culture, symbolizing wealth, prosperity, and good fortune. It is believed that buying gold on this day brings lasting benefits and attracts wealth. The word "Akshaya" means "never diminishing," signifying that any investments made on this day, especially gold, will continue to grow and never lose value. Therefore, many people choose to buy gold on Akshaya Tritiya to ensure lasting prosperity and financial growth.`}
+            footerText=" These timings are considered highly auspicious for making gold
+          purchases, associated with wealth and prosperity."
+          />
+        </div>
+      </section>
+
+      <NewsletterComp />
+      {/* Footer */}
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }

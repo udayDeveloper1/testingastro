@@ -104,12 +104,12 @@ function Footer() {
         path: PATHS?.ALL_HOROSCOPE,
         translatedLabel: t('weekly_horoscop')
       },
-      {
-        label: 'monthly_horoscop',
-        slug: 'daily-horoscope',
-        path: PATHS?.ALL_HOROSCOPE,
-        translatedLabel: t('monthly_horoscop')
-      },
+      // {
+      //   label: 'monthly_horoscop',
+      //   slug: 'daily-horoscope',
+      //   path: PATHS?.ALL_HOROSCOPE,
+      //   translatedLabel: t('monthly_horoscop')
+      // },
       {
         label: 'yearly_horoscop',
         slug: 'yearly-horoscope',

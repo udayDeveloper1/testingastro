@@ -30,9 +30,7 @@ import NoDataFound from "../NoDataFound/NoDataFound";
 // Lazy load heavy components
 const CommonBalanceBar = lazy(() => import("../../component/CommonBalanceBar"));
 const CommonBanner = lazy(() => import("../../component/CommonBanner"));
-const ChatWithAstrologerCard = lazy(() =>
-  import("../../component/CommonChatTalkAstrologerCard")
-);
+const ChatWithAstrologerCard = lazy(() => import("../../component/CommonChatTalkAstrologerCard"));
 const CommonQuestionComp = lazy(() =>
   import("../../component/CommonQuestionComp")
 );
@@ -82,7 +80,6 @@ function AstrologerListPage() {
 
   const fetchAstrologers = useCallback(() => {
     openLoader(dispatch, "chat_with_astrologer");
-
     let request = {
       page: currentPage,
       per_page: perPage,
@@ -114,7 +111,7 @@ function AstrologerListPage() {
 
   useEffect(() => {
     fetchAstrologers();
-  }, [fetchAstrologers]);
+  }, [fetchAstrologers , t]);
 
   // Reset page on filter/search change
   useEffect(() => {

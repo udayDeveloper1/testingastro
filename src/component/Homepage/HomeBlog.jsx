@@ -27,10 +27,10 @@ function HomeBlog ({ BlogList }) {
                 src={blog?.cover_image}
                 alt={blog?.title}
                 className='w-full h-full object-cover'
-                width={332}
-                height={240}
+                width={300}
+                height={176}
                 decoding='async'
-                // loading='lazy'
+                loading='lazy'
               />
               <div className='homeBlogImageDivDate text-center'>
                 {getFormattedDay(blog?.created_at)}{' '}
