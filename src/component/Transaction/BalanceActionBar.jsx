@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router";
 // import { PATHS } from "../../routers/Paths";
-import CustomButton from "../Homepage/CustomButton";
-import { UpdatedPaths } from "../../routers/Paths";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import { UpdatedPaths } from "../../routers/Paths";
+import CustomButton from "../Homepage/CustomButton";
 
-export default function BalanceActionBar({
+function BalanceActionBar({
   balance = 0,
-  onDeleteAll = () => {},
+  onDeleteAll = () => { },
 }) {
   const { t } = useTranslation()
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function BalanceActionBar({
   const onRecharge = async () => {
     navigate(PATHS.MONEY_WALLET);
   };
-  
+
   return (
     <div className="flex justify-between items-center bg-white p-4  rounded-[10px] box_shadow_common new_border gap-3">
       {/* Left Side: Balance */}
@@ -49,3 +50,5 @@ export default function BalanceActionBar({
     </div>
   );
 }
+
+export default memo(BalanceActionBar)

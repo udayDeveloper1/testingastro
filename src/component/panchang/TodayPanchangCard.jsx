@@ -1,9 +1,9 @@
-import React from 'react';
+import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
+import moon from "../../assets/img/panchang/moon.svg";
+import sunrise from "../../assets/img/panchang/sunrise.svg";
 import { formatDate } from '../../utils/CommonFunction';
 import { DateFormat } from '../../utils/CommonVariable';
-import { useTranslation } from 'react-i18next';
-import sunrise from "../../assets/img/panchang/sunrise.svg"
-import moon from "../../assets/img/panchang/moon.svg"
 
 const TodayPanchangCard = ({ todayPanchangcardData, location, todayRequest }) => {
     const { t } = useTranslation();
@@ -59,4 +59,4 @@ const TodayPanchangCard = ({ todayPanchangcardData, location, todayRequest }) =>
   );
 };
 
-export default TodayPanchangCard;
+export default memo(TodayPanchangCard);

@@ -1,13 +1,11 @@
-import React, { lazy, useEffect, useRef, useState } from "react";
-import { AutoComplete, DatePicker, Form } from "antd";
-import close from "../../assets/img/panchang/close.png";
-import { geo_search } from "../../services/api/api.services";
-import { useTranslation } from "react-i18next";
-import { CalendarOutlined } from "@ant-design/icons";
-import calender from "../../assets/img/rahukaal/calender.svg";
-import { Codes, DateFormat } from "../../utils/CommonVariable";
-import moment from "moment";
+import { AutoComplete, DatePicker } from "antd";
 import dayjs from "dayjs";
+import { lazy, memo, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import close from "../../assets/img/panchang/close.png";
+import calender from "../../assets/img/rahukaal/calender.svg";
+import { geo_search } from "../../services/api/api.services";
+import { Codes, DateFormat } from "../../utils/CommonVariable";
 import { Constatnt } from "../../utils/Constent";
 const CustomButton = lazy(() => import("../Homepage/CustomButton"));
 const RahuKaalForm = ({
@@ -20,9 +18,9 @@ const RahuKaalForm = ({
   showButton = false, // Optional prop if you want to include a GET PANCHANG button
   showDate = false,
   onSubmit,
-  setIs_default_location,
   selectedDate,
   setSelectedDate,
+  form_button_text = ""
 }) => {
 
   const { t } = useTranslation();
@@ -30,6 +28,9 @@ const RahuKaalForm = ({
   const isPlaceSelected = useRef(false);
   const searchTimeoutRef = useRef(null);
   const [autoSubmit, setAutoSubmit] = useState(false);
+  const [error, setError] = useState("");
+
+
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
   const handleSearch = (val) => {
     isPlaceSelected.current = false;
@@ -79,7 +80,6 @@ const RahuKaalForm = ({
             ...item,
             value: item.full_name,
           }));
-
           setOptions(formattedOptions);
           const mumbaiOption = formattedOptions.find((item) =>
             item?.full_name?.toLowerCase()?.includes("ahmedabad")
@@ -99,18 +99,13 @@ const RahuKaalForm = ({
     setDefaultCity();
   }, [LocalLanguage]);
 
-  useEffect(() => {
-    if (autoSubmit) {
-      onSubmit();
-      setAutoSubmit(false); // prevent re-submit
-    }
-  }, [autoSubmit, LocalLanguage]);
-
   const handleDateChange = (date, dateString) => {
     const formatted = date ? date.format(DateFormat?.DATE_DASH_FORMAT) : null;
     setSelectedDate(formatted)
   };
-
+  useEffect(() => {
+    setError("");
+  }, [isPlaceSelected.current])
   return (
     <div
       className={`p-4 md:p-10  rounded-[10px] flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 ${className} commonLightBack geoSearchInputDiv`}
@@ -125,9 +120,9 @@ const RahuKaalForm = ({
           <DatePicker
             placeholder={t('select_date')}
             value={dayjs(selectedDate, DateFormat?.DATE_DASH_FORMAT)}
-            format={DateFormat?.DATE_DASH_FORMAT || 'YYYY-MM-DD'}
+            format={DateFormat?.DATE_SLASH_FORMAT || 'YYYY-MM-DD'}
             onChange={handleDateChange}
-             allowClear={false} 
+            allowClear={false}
             // suffixIcon={<CalendarOutlined style={{ color: '#e94057' }} />}
             suffixIcon={
               <img
@@ -136,33 +131,34 @@ const RahuKaalForm = ({
                 style={{ width: "24px", height: "24px", objectFit: "contain" }}
               />
             }
-            className="w-full rounded-[10px] flex-1 outline-none geoSearchInput border-none py-3 ps-[27px] pe-[16px]"
+            className="w-full rounded-[10px] flex-1 outline-none geoSearchInput border-none py-[11px] md:py-3 md:ps-[16px] md:pe-[16px]"
           />
         )}
-
-        <AutoComplete
-          options={!isPlaceSelected.current ? options : []}
-          onSearch={handleSearch}
-          onSelect={handleSelect}
-          onChange={(val) => {
-            onChange?.(val);
-            isPlaceSelected.current = false;
-          }}
-          value={value}
-          placeholder={placeholder}
-          className="w-full rounded-[10px] py-2 md:py-3 px-4 md:px-4 text-xs md:text-sm bg-white h-full outline-none geoSearchInput flex-2"
-          open={!isPlaceSelected.current && options.length > 0}
-          dropdownStyle={{
-            maxWidth: "95vw",
-            overflow: "auto",
-          }}
-        />
-
+        <div className="flex-2">
+          <AutoComplete
+            options={!isPlaceSelected.current ? options : []}
+            onSearch={handleSearch}
+            onSelect={handleSelect}
+            onChange={(val) => {
+              onChange?.(val);
+              isPlaceSelected.current = false;
+            }}
+            value={value}
+            placeholder={placeholder}
+            className="w-full rounded-[10px] py-2 md:py-3 px-[11px] md:px-4 text-xs md:text-sm bg-white h-full outline-none geoSearchInput "
+            open={!isPlaceSelected.current && options.length > 0}
+          // dropdownStyle={{
+          //   maxWidth: "95vw",
+          //   overflow: "auto",
+          // }}
+          />
+          {error && <span className="text-red-500 text-xs">{error}</span>}
+        </div>
         {showClear && value && (
           <img
             src={close}
             alt="clear"
-            className="absolute top-1/2 right-2 md:right-4 -translate-y-1/2 cursor-pointer close_img_rahukaal"
+            className="absolute top-1/2 right-[13px] md:right-4 -translate-y-1/2 cursor-pointer close_img_rahukaal"
             style={{ width: "16px", height: "16px" }}
             onClick={() => {
               onChange("");
@@ -176,13 +172,22 @@ const RahuKaalForm = ({
       {/* Button */}
       {showButton && (
         <div className="w-full md:w-auto mt-2 md:mt-0 h-full flex justify-center items-center">
-          <CustomButton
-            className="text-white text-sm md:text-[16px] font-semibold px-4 md:px-20 py-2 md:py-4 font-medium w-full md:w-auto text-center"
-            parentClassName="w-full"
-            onClick={onSubmit}
-          >
-            {t("Get_rahu_kaal")}
-          </CustomButton>
+          <Suspense fallback={<></>}>
+            <CustomButton
+              className="text-white text-sm md:text-[16px] font-semibold px-4 md:px-20 py-2 md:py-4 w-full md:w-auto text-center"
+              parentClassName="w-full"
+              onClick={() => {
+                if (!value?.trim() && !isPlaceSelected.current) {
+                  setError("Location is required");
+                  return;
+                }
+                onSubmit();
+              }}
+            >
+              {form_button_text || t("Get_rahu_kaal")}
+            </CustomButton>
+          </Suspense>
+
         </div>
       )}
     </div>
@@ -190,4 +195,4 @@ const RahuKaalForm = ({
 
 };
 
-export default RahuKaalForm;
+export default memo(RahuKaalForm);

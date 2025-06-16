@@ -7,6 +7,9 @@ import appStore from '/homepage/applePlay.svg'
 import footerLogo from '/homepage/footerLogo.svg'
 import googlePlay from '/homepage/googlePlay.svg'
 import right_arrow_news_letter from '/homepage/right_arrow_news_letter.svg'
+import { BsThreads } from "react-icons/bs";
+import { FaWhatsapp } from "react-icons/fa";
+
 
 import { Link, useNavigate } from 'react-router'
 import '../assets/css/footer.css'
@@ -117,12 +120,6 @@ function Footer() {
         translatedLabel: t('yearly_horoscop')
       },
       {
-        label: 'contact_us',
-        slug: null,
-        path: PATHS?.CONTACT_US,
-        translatedLabel: t('contact_us')
-      },
-      {
         label: 'privarcy_policy',
         slug: null,
         path: PATHS?.PRIVACY_POLICY,
@@ -133,10 +130,24 @@ function Footer() {
         slug: null,
         path: PATHS?.TERMS_CONDITIONS,
         translatedLabel: t('terms_conditions')
-      }
+      },
+      {
+        label: 'aboutus',
+        slug: null,
+        path: PATHS?.ABOUT_US,
+        translatedLabel: t('about_us')
+      },
+
+      {
+        label: 'contact_us',
+        slug: null,
+        path: PATHS?.CONTACT_US,
+        translatedLabel: t('contact_us')
+      },
     ],
     [PATHS, t]
   )
+
   const handleHoroscopeNavigate = useCallback(
     (slug, path) => {
       if (slug) {
@@ -189,11 +200,12 @@ function Footer() {
   )
 
   const socialLinks = [
-    { href: 'https://facebook.com', icon: facebookIcon, alt: 'Facebook' },
-    { href: 'https://instagram.com', icon: instagram, alt: 'Instagram' },
-    { href: 'https://x.com', icon: twitter, alt: 'Twitter' },
-    { href: 'https://youtube.com', icon: youtube, alt: 'YouTube' }
+    { href: 'https://www.facebook.com/people/Chat-My-Astrologer/61577001614547/', icon: facebookIcon, alt: 'Facebook' },
+    { href: 'https://www.instagram.com/chatmyastrologer/', icon: instagram, alt: 'Instagram' },
+    { href: 'https://x.com/chatmyastro', icon: twitter, alt: 'Twitter' },
+    { href: 'https://www.youtube.com/@ChatMyAstrologer', icon: youtube, alt: 'YouTube' }
   ]
+
   const FooterLeftColumn = React.memo(({ t }) => {
     const socialIcons = useMemo(
       () =>
@@ -236,6 +248,26 @@ function Footer() {
 
         <div className='flex justify-center md:justify-start space-x-3 md:mt-[20px]'>
           {socialIcons}
+          <a
+            key={"thread"}
+            href={"https://www.threads.com/@chatmyastrologer"}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='w-10 h-10 flex items-center justify-center rounded-full transition'
+          >
+            <div className='footer_socilaIcon_border'>
+              <BsThreads className="footer_social_icon " />
+            </div></a>
+          <a
+            key={"whats-app"}
+            href={"https://whatsapp.com/channel/0029VbAomKXBPzjdTLei0j1I"}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='w-10 h-10 flex items-center justify-center rounded-full transition'
+          >
+            <div className='footer_socilaIcon_border'>
+              <FaWhatsapp className="footer_social_icon " />
+            </div></a>
         </div>
       </div>
     )
@@ -246,7 +278,7 @@ function Footer() {
   }, [location.pathname])
 
   return (
-    <>
+    <footer>
       <div className='footerBackground '>
         <div className=''>
           {/* <NewsletterComp /> */}
@@ -431,12 +463,11 @@ function Footer() {
       <div className=' text-white text-center p-4 bg_website_color footer_line_2'>
         <Link to={'/'}>
           <p className='mb-0'>
-            &copy; {new Date().getFullYear()} Chat My Astrologer Services Pvt.
-            Ltd. All rights reserved.
+            &copy; {new Date().getFullYear()} Tracewave Transparency PVT LTD. All Rights Reserved.
           </p>
         </Link>
       </div>
-    </>
+    </footer>
   )
 }
 

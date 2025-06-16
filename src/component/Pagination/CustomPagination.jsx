@@ -1,6 +1,6 @@
-import React from "react";
-import { Pagination } from "antd";
 import { RightOutlined } from "@ant-design/icons";
+import { Pagination } from "antd";
+import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { setPageScroll } from "../../storemain/slice/MasterSlice";
 
@@ -30,4 +30,4 @@ const CustomPagination = ({ current, total, onChange, perpage }) => {
     />
   );
 };
-export default CustomPagination;
+export default memo(CustomPagination);

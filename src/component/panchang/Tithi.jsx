@@ -1,5 +1,5 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 
 const { Title, Paragraph } = Typography;
 
@@ -13,11 +13,11 @@ const Tithi = ({ title, introText, data, footerText, arrayTitle, listStyle }) =>
       <div className="flex flex-col gap-5">
         {/* Intro Text */}
         {Array.isArray(introText) &&
-  introText.map((text, idx) => (
-    <Paragraph key={idx} className=" new_body_font commonQuesP mb-0">
-      {text}
-    </Paragraph>
-))}
+          introText.map((text, idx) => (
+            <Paragraph key={idx} className=" new_body_font commonQuesP mb-0">
+              {text}
+            </Paragraph>
+          ))}
 
         {/* List Section Title */}
         {arrayTitle && (
@@ -49,4 +49,4 @@ const Tithi = ({ title, introText, data, footerText, arrayTitle, listStyle }) =>
   );
 };
 
-export default Tithi;
+export default memo(Tithi);

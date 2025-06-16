@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChatMyAstroLoger - Talk to Astrologers Online</title>
+    <title>ChatMyAstroLoger - Talk to Astrologers Online</title>
   <meta name="description"
     content="ChatMyAstrologer connects you with expert astrologers online for personalized readings. Get accurate predictions and guidance for your future." />
   <meta name="keywords"
@@ -25,6 +23,7 @@
   <link rel="preload" as="image" href="/homepage/homeBackgroundImage.webp" type="image/webp" />
   <link rel="preload" as="image" href="/assets/img/banner/homeBackgroundImage_mobile.webp" type="image/webp"
     media="(max-width: 412px)" />
+
   <style>
     .initialLoader {
       width: 48px;
@@ -57,40 +56,8 @@
 <body>
   <div class="initialLoader" id="initialLoader"></div>
   <div id="root"></div>
-  <!-- <script type="text/javascript" defer>
-    (function (c, l, a, r, i, t, y) {
-      c[a] =
-        c[a] ||
-        function () {
-          (c[a].q = c[a].q || []).push(arguments);
-        };
-      t = l.createElement(r);
-      t.async = 1;
-      t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0];
-      y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "rxnu4zm6aj");
-  </script> -->
-  <!-- <script defer>
-    window.addEventListener("load", function () {
-      var script = document.createElement("script");
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-6V1TW3XYFY";
-      script.async = true;
-      document.body.appendChild(script);
-
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-6V1TW3XYFY");
-    });
-  </script> -->
-
 
   <script type="module" src="/src/main.jsx"></script>
-
-
 
   <script>
     requestIdleCallback(() => {
@@ -111,8 +78,8 @@
       gtag("js", new Date());
       gtag("config", "G-6V1TW3XYFY");
     });
-
   </script>
+
   <script type="module" defer>
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
@@ -130,6 +97,7 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
   </script>
+
 </body>
 
 </html>

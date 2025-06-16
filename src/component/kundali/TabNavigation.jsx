@@ -1,11 +1,11 @@
-import React from 'react';
 import { Tabs } from 'antd';
+import { memo } from 'react';
 
-const TabNavigation = ({ 
-  items, 
-  defaultActiveKey = '1', 
-  onChange, 
-  activeKey, 
+const TabNavigation = ({
+  items,
+  defaultActiveKey = '1',
+  onChange,
+  activeKey,
   centered = false,
   tabBarExtraContent,
   destroyInactiveTabPane = false,
@@ -18,7 +18,7 @@ const TabNavigation = ({
       onChange(key);
     }
   };
- 
+
   return (
     <div className={`custom-tabs-container ${className}`}>
       <Tabs
@@ -39,4 +39,4 @@ const TabNavigation = ({
   );
 };
 
-export default TabNavigation;
+export default memo(TabNavigation);

@@ -1,5 +1,5 @@
-import React from "react";
-import NotesDosha from "./NotesDosha";
+import { lazy, memo, Suspense } from "react";
+const NotesDosha = lazy(() => import("./NotesDosha"))
 
 function Kalpasara() {
   const doshaData = [
@@ -15,6 +15,7 @@ function Kalpasara() {
       <div>
         <h2 className="commonQuesH2">Manglik Analysis</h2>
 
+        <Suspense fallback={<></>}>
         {doshaData.map((item, index) => (
           <NotesDosha
             key={index}
@@ -23,9 +24,10 @@ function Kalpasara() {
             content={item.content}
           />
         ))}
+        </Suspense>
       </div>
     </>
   );
 }
 
-export default Kalpasara;
+export default memo(Kalpasara);

@@ -1,13 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, memo, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 // import chatWithAstrologerBg from '../../assets/img/chat/chatWithAstrologerBanner.webp'
 import { useTranslation } from 'react-i18next'
-import CommonBalanceBar from '../../component/CommonBalanceBar'
-import CommonBanner from '../../component/CommonBanner'
-import ChatWithAstrologerCard from '../../component/CommonChatTalkAstrologerCard'
-import CommonQuestionComp from '../../component/CommonQuestionComp'
-import HomeFAQs from '../../component/Homepage/HomeFAQs'
-import CustomPagination from '../../component/Pagination/CustomPagination'
 import {
   getAstrologerList,
   getFilterListing,
@@ -16,10 +10,17 @@ import {
 import { closeFilter, closeLoder } from '../../utils/CommonFunction'
 import { Constatnt } from '../../utils/Constent'
 import useDebounce from '../hooks/useDebounce'
-import NoDataFound from '../NoDataFound/NoDataFound'
-import Loader2 from '../../component/loader/Loader2'
 
-function ChatWithAstrologer () {
+const CommonBalanceBar = lazy(() => import('../../component/CommonBalanceBar'));
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const ChatWithAstrologerCard = lazy(() => import('../../component/CommonChatTalkAstrologerCard'));
+const CommonQuestionComp = lazy(() => import('../../component/CommonQuestionComp'));
+const HomeFAQs = lazy(() => import('../../component/Homepage/HomeFAQs'));
+const Loader2 = lazy(() => import('../../component/loader/Loader2'));
+const CustomPagination = lazy(() => import('../../component/Pagination/CustomPagination'));
+const NoDataFound = lazy(() => import('../NoDataFound/NoDataFound'));
+
+function ChatWithAstrologer() {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
 
@@ -33,8 +34,8 @@ function ChatWithAstrologer () {
     ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     : LanguageOption?.ENGLISH
 
-  const { is_login, loginUserData } = useSelector( (state) => state?.masterSlice?.loginUser );
-  const { contentList: data } = useSelector(state => state?.masterSlice?.getFilterList)
+  const { is_login, loginUserData } = useSelector((state) => state?.masterSlice?.loginUser);
+  // const { contentList: data } = useSelector(state => state?.masterSlice?.getFilterList)
   const filterValue = useSelector((state) => state?.masterSlice?.filter_value);
   const shortValue = useSelector((state) => state?.masterSlice?.sort_by_value);
 
@@ -104,13 +105,13 @@ function ChatWithAstrologer () {
 
   useEffect(() => {
     fetchAstrologers()
-  }, [fetchAstrologers ,t])
+  }, [fetchAstrologers, t])
 
   useEffect(() => {
-    if (!data?.length) {
-      dispatch(getFilterListing());
-    }
-  }, [astrologersList]);
+    // if (!data?.length) {
+    dispatch(getFilterListing());
+    // }
+  }, [t]);
 
   useEffect(() => {
     if (filterSearchValue.trim() || onSubmitFilter || filterValue) {
@@ -129,18 +130,20 @@ function ChatWithAstrologer () {
 
   return (
     <>
+
       <section>
         <CommonBanner text={t('Chat_With')} highlight={t('Astrologer')} />
       </section>
+     <Suspense fallback={<div className='min-h-[100vh]'></div>}>
 
       <section>
         <div className='container mx-auto paddingTop50 flex flex-col gap-5 pb-5'>
           <CommonBalanceBar
             balance={loginUserData?.total_wallet_balance}
-            onSearch={e => {}}
-            onRecharge={() => {}}
-            onFilter={() => {}}
-            onSort={() => {}}
+            onSearch={e => { }}
+            onRecharge={() => { }}
+            onFilter={() => { }}
+            onSort={() => { }}
           />
         </div>
       </section>
@@ -164,7 +167,7 @@ function ChatWithAstrologer () {
 
               {!loading &&
                 astrologersList?.totalAstrologerList >
-                  astrologersList?.perPage && (
+                astrologersList?.perPage && (
                   <div className='pt-5'>
                     <CustomPagination
                       current={astrologersList?.currentPage}
@@ -199,8 +202,9 @@ function ChatWithAstrologer () {
           />
         </>
       )}
+      </Suspense>
     </>
   )
 }
 
-export default ChatWithAstrologer
+export default memo(ChatWithAstrologer)

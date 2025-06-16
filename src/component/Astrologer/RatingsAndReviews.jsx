@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { Suspense, useCallback, useMemo, useState } from 'react'
 const SearchSortBar = React.lazy(() => import('../Blog/SearchSortBar'));
 
 // Optimized RatingsAndReviews Component
@@ -24,12 +24,14 @@ const RatingsAndReviews = React.memo(() => {
 
   return (
     <div className='flex justify-between items-center rounded-lg'>
+      <Suspense fallback={<></>}>
       <SearchSortBar
         showSearchInput={false}
         searchValue={search}
         onSearchChange={onSearchChange}
         sortOptions={filterOptions}
       />
+      </Suspense>
     </div>
   )
 })

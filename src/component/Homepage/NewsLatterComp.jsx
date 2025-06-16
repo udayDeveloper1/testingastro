@@ -1,4 +1,4 @@
-import { lazy, useEffect } from 'react'
+import { lazy, memo, Suspense, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
@@ -92,12 +92,12 @@ const NewsletterComp = () => {
                       }
                     })}
                   />
-                  <CustomButton
+               <Suspense fallback={<></>}>   <CustomButton
                     className='py-[13px] px-[30px] text-center  font-semibold ronded-[10px] !border-none h-full'
                     parentClassName=''
                   >
                     {t('subscribe')}
-                  </CustomButton>
+                  </CustomButton></Suspense>
                 </div>
 
                 {/* Error Message */}
@@ -113,4 +113,4 @@ const NewsletterComp = () => {
   )
 }
 
-export default NewsletterComp
+export default memo(NewsletterComp)

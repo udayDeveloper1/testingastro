@@ -1,10 +1,10 @@
-import { memo } from 'react'
-import '../../assets/css/kundli/KundliParts.css'
-import BasicBirthDetailsCard from '../../component/NewKundaliComp/BasicBirthDetailsCard'
+import { lazy, memo } from 'react';
+import '../../assets/css/kundli/KundliParts.css';
 // import CustomTabs from "../../component/Custom/CustomTabs";
+const BasicBirthDetailsCard = lazy(() => import("../../component/NewKundaliComp/BasicBirthDetailsCard"));
 
 const FreeKundliKundliDetailsBasic = ({ allKundliDetails }) => {
-  const { panchangeDetails, planetDetails } = allKundliDetails
+  const { planetDetails } = allKundliDetails
 
   return (
     <>

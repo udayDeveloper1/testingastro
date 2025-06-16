@@ -1,5 +1,5 @@
 import { Modal, Radio, Typography } from 'antd'
-import { useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import close from '../../assets/img/common/close.webp'
@@ -7,11 +7,11 @@ import { setShortValue } from '../../storemain/slice/MasterSlice'
 
 const { Title } = Typography
 
-function SortBy ({ isOpen, onSortChange, onClose }) {
+function SortBy({ isOpen, onSortChange, onClose }) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const shortValue = useSelector(state => state?.masterSlice?.sort_by_value)
-  const { contentList: data } = useSelector( state => state?.masterSlice?.getFilterList )
+  const { contentList: data } = useSelector(state => state?.masterSlice?.getFilterList)
 
   const sortByCategory = data?.find(item => item.value === 'Sortby')
   const subCategories = sortByCategory
@@ -87,4 +87,4 @@ function SortBy ({ isOpen, onSortChange, onClose }) {
   )
 }
 
-export default SortBy
+export default memo(SortBy)

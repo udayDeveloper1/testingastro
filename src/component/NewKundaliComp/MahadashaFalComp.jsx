@@ -1,9 +1,7 @@
-import React from "react";
-import NoDataFound from "../../pages/NoDataFound/NoDataFound";
-import Loader2 from "../loader/Loader2";
-import DataWrapper from "../Custom/DataWrapper";
+import { lazy, memo } from "react";
+const DataWrapper = lazy(() => import("../Custom/DataWrapper"));
 
-export default function MahadashaFalComp({ mahaDashaPrediction }) {
+function MahadashaFalComp({ mahaDashaPrediction }) {
   const hasData = mahaDashaPrediction?.dashas?.length > 0;
 
   return (
@@ -14,7 +12,7 @@ export default function MahadashaFalComp({ mahaDashaPrediction }) {
         </h2>
 
         <div>
-          { mahaDashaPrediction?.dashas?.map((item, index) => (
+          {mahaDashaPrediction?.dashas?.map((item, index) => (
             <div
               key={index}
               className="space-y-2 new_border_bottom pb-[30px] mb-[30px]"
@@ -32,3 +30,5 @@ export default function MahadashaFalComp({ mahaDashaPrediction }) {
     </DataWrapper>
   );
 }
+
+export default memo(MahadashaFalComp)

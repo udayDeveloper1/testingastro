@@ -1,14 +1,13 @@
-import React, { lazy, useState } from 'react'
-import { Modal, Button } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-const CustomButton = lazy(() => import('../Homepage/CustomButton'))
-import CustomWhiteButton from '../Homepage/CustomWhiteButton'
-import MoneyWallet from '../../pages/PaymentScreen/MoneyWallet'
-import PaymentDetails from '../../pages/PaymentScreen/PaymentDetails'
-import { closeModel } from '../../utils/CommonFunction'
+import { Modal } from 'antd'
+import { lazy, Suspense, useState } from 'react'
 import { useDispatch } from 'react-redux'
+const MoneyWallet = lazy(() => import('../../pages/PaymentScreen/MoneyWallet'))
+const PaymentDetails = lazy(() => import('../../pages/PaymentScreen/PaymentDetails'))
+const CustomWhiteButton = lazy(() => import('../Homepage/CustomWhiteButton'))
+const CustomButton = lazy(() => import('../Homepage/CustomButton'))
 
-export default function PaymentModal ({
+export default function PaymentModal({
   isOpen,
   title = 'Are you sure?',
   description = 'This action cannot be undone.',
@@ -18,7 +17,7 @@ export default function PaymentModal ({
   imageSrc = '',
   imgClass = '',
   onPaymentSuccess,
-  className=""
+  className = ""
 }) {
   const [showWallet, setShowWallet] = useState(false)
   const [paymentDetailsData, setPaymentDetailsData] = useState({})
@@ -38,9 +37,9 @@ export default function PaymentModal ({
             <ExclamationCircleOutlined className='text-[#E3725D] text-xl' />
             {title}
           </div>
-          
+
         </>
-      } 
+      }
       onCancel={onCancel}
       footer={[
         <>
@@ -51,11 +50,10 @@ export default function PaymentModal ({
                   <CustomWhiteButton
                     key='cancel'
                     onClick={onCancel}
-                    className={`rounded-md border px-5 py-2 ${
-                      showPaymentDetails || showWallet
-                        ? ' '
-                        : ''
-                    }`}
+                    className={`rounded-md border px-5 py-2 ${showPaymentDetails || showWallet
+                      ? ' '
+                      : ''
+                      }`}
                   >
                     {cancelText}
                   </CustomWhiteButton>
@@ -77,27 +75,32 @@ export default function PaymentModal ({
       centered
       className={`custom-confirm-modal custom_payment_modal ${className}`}
     >
-    {showWallet && (
-            <MoneyWallet
-              openInModel={true}
-              handlePriceCardClick={data => {
-                setPaymentDetailsData(data)
-                setShowPaymentDetails(true)
-                setShowWallet(false)
-              }}
-            />
-          )}
-          {showPaymentDetails && (
-            <PaymentDetails
-              paymentDetailsData={paymentDetailsData}
-              openInModel={true}
-              onPaymentSuccess={() => {
-                onPaymentSuccess()
-                setShowWallet(false)
-                setShowPaymentDetails(false)
-              }}
-            />
-          )}
+      <Suspense fallback={<></>}>
+      <>
+        {showWallet && (
+          <MoneyWallet
+            openInModel={true}
+            handlePriceCardClick={data => {
+              setPaymentDetailsData(data)
+              setShowPaymentDetails(true)
+              setShowWallet(false)
+            }}
+          />
+        )}
+
+        {showPaymentDetails && (
+          <PaymentDetails
+            paymentDetailsData={paymentDetailsData}
+            openInModel={true}
+            onPaymentSuccess={() => {
+              onPaymentSuccess()
+              setShowWallet(false)
+              setShowPaymentDetails(false)
+            }}
+          />
+        )}
+       </>
+      </Suspense>
     </Modal>
   )
 }

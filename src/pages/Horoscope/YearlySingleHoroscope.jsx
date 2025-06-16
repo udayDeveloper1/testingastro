@@ -1,62 +1,49 @@
 import moment from "moment";
 import React, {
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
+  memo,
   Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
 import { useNavigate, useParams } from "react-router";
 // import singleHoroscopeBanner from "../../assets/img/banner/singleHoroscopeBanner.webp";
+import { useTranslation } from "react-i18next";
+import AlsoCheckBanner from "../../component/AlsoCheckBanner";
+import { UpdatedPaths } from "../../routers/Paths";
 import {
   getHoroscope,
   getWeeklyHoroscope,
   getYearlyHoroscope,
 } from "../../services/api/api.services";
 import { Codes, LanguageOption } from "../../utils/CommonVariable";
-import { horoscopeTab } from "./HororScopVariable";
-import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
-import AlsoCheckBanner from "../../component/AlsoCheckBanner";
 import {
-  allHoroScopeDetailsNavigation,
-  allHoroScopeNavigation,
+  allHoroScopeDetailsNavigation
 } from "../../utils/navigations/NavigationPage";
-import { UpdatedPaths } from "../../routers/Paths";
 import { useHoroscopeList } from "../hooks/useAllRashiInfo";
 
-import love from "../../assets/img/newIcon/love.svg";
 import career from "../../assets/img/newIcon/career.svg";
 import education from "../../assets/img/newIcon/education.svg";
+import family from "../../assets/img/newIcon/family.svg";
 import finance from "../../assets/img/newIcon/finance.svg";
+import { default as friend, default as friends } from "../../assets/img/newIcon/friend.svg";
 import health from "../../assets/img/newIcon/health.svg";
 import life from "../../assets/img/newIcon/life.svg";
-import travel from "../../assets/img/newIcon/travel.svg";
-import family from "../../assets/img/newIcon/family.svg";
+import love from "../../assets/img/newIcon/love.svg";
 import physique from "../../assets/img/newIcon/physique.svg";
-import friend from "../../assets/img/newIcon/friend.svg";
-import friends from "../../assets/img/newIcon/friend.svg";
+import travel from "../../assets/img/newIcon/travel.svg";
 
 import { Constatnt } from "../../utils/Constent";
 
 // Lazy loaded components
 const CommonBanner = React.lazy(() => import("../../component/CommonBanner"));
-const CommonQuestionComp = React.lazy(() =>
-  import("../../component/CommonQuestionComp")
-);
+const CommonQuestionComp = React.lazy(() => import("../../component/CommonQuestionComp") );
 const HomeFAQs = React.lazy(() => import("../../component/Homepage/HomeFAQs"));
-const CircularCharts = React.lazy(() =>
-  import("../../component/Horoscope/CircularCharts")
-);
-const HoroscopeGrid = React.lazy(() =>
-  import("../../component/kundali/HoroscopeGrid")
-);
-const HoroScopDetailBanner = React.lazy(() =>
-  import("../../component/Horoscope/HoroScopDetailBanner")
-);
-const LuckyInfoCard = React.lazy(() =>
-  import("../../component/Horoscope/LuckyInfoCard ")
-);
+const CircularCharts = React.lazy(() => import("../../component/Horoscope/CircularCharts") );
+const HoroscopeGrid = React.lazy(() => import("../../component/kundali/HoroscopeGrid") );
+const HoroScopDetailBanner = React.lazy(() => import("../../component/Horoscope/HoroScopDetailBanner") );
+const LuckyInfoCard = React.lazy(() => import("../../component/Horoscope/LuckyInfoCard ") );
 
 // Moved static content outside the component
 function YearlySingleHoroscope() {
@@ -89,18 +76,10 @@ function YearlySingleHoroscope() {
     [name]
   );
 
-  // Memoized horoscope tab label
-  const horoscopeTabLabel = useMemo(
-    () => horoscopeTab.find((item) => item?.type === type)?.label,
-    [type]
-  );
-
   const zodiacSignName = useMemo(
     () => horoscopeList.find((item) => item?.name === name)?.key,
     [name]
   );
-
-
 
   const iconMap = {
     Love: love,
@@ -432,4 +411,4 @@ function YearlySingleHoroscope() {
   );
 }
 
-export default YearlySingleHoroscope;
+export default memo(YearlySingleHoroscope);

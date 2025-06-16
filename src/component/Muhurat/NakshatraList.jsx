@@ -1,9 +1,9 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 
 const { Title, Paragraph } = Typography;
 
-const NakshatraList = ({ title, nakshatras, summary,listStyle }) => {
+const NakshatraList = ({ title, nakshatras, summary, listStyle }) => {
   return (
     <Card bordered={false} className="shadow-sm p-5 bg-white rounded-lg">
       <Title level={4} className="font-semibold">{title}</Title>
@@ -22,4 +22,4 @@ const NakshatraList = ({ title, nakshatras, summary,listStyle }) => {
   );
 };
 
-export default NakshatraList;
+export default memo(NakshatraList);

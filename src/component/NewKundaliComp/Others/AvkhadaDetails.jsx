@@ -1,6 +1,6 @@
-import React from "react";
 import { Card } from "antd";
-import CustomTable from "../../Custom/CustomTable";
+import { lazy, memo } from "react";
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
 
 const AvkhadaDetails = () => {
   const data = [
@@ -46,7 +46,7 @@ const AvkhadaDetails = () => {
       render: (text) => <span className="newKundaliTableValue ">{text}</span>,
     },
   ];
-  
+
 
   return (
     <div className="flex flex-col gap-[24px]">
@@ -76,4 +76,4 @@ const AvkhadaDetails = () => {
   );
 };
 
-export default AvkhadaDetails;
+export default memo(AvkhadaDetails);

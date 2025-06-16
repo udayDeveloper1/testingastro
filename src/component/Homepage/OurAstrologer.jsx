@@ -1,4 +1,4 @@
-import { lazy } from 'react'
+import { lazy, memo, Suspense } from 'react'
 // import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router'
 import { astrologerDetailsRedirection } from '../../utils/navigations/NavigationPage'
@@ -10,7 +10,7 @@ function OurAstrologer({ AstrologerList, viewAll }) {
 
   // const { t } = useTranslation()
   const navigate = useNavigate()
-  
+
 
   return (
     <>
@@ -40,7 +40,8 @@ function OurAstrologer({ AstrologerList, viewAll }) {
                       <h3 className='homeAstrologerName mb-0'>{astro?.name}</h3>
                       <p className='commonQuesP mb-0'>{astro?.email}</p>
                       <div>
-                        <CustomButton
+                       
+                       <Suspense fallback={<></>}> <CustomButton
                           className='astroCardButton px-4 py-3'
                           onClick={() => {
                             // astrologerDetailsRedirection(navigate, astro?._id);
@@ -53,6 +54,7 @@ function OurAstrologer({ AstrologerList, viewAll }) {
                         >
                           View Profile
                         </CustomButton>
+                        </Suspense>
                       </div>
                     </div>
                   </div>
@@ -77,4 +79,4 @@ function OurAstrologer({ AstrologerList, viewAll }) {
   )
 }
 
-export default OurAstrologer
+export default memo(OurAstrologer)

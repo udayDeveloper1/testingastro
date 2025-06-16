@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router'
 import { UpdatedPaths } from '../../routers/Paths'
 import { getFormattedDay, getFormattedMonth } from '../../utils/CommonFunction'
 import { blogDetailsNavigation } from '../../utils/navigations/NavigationPage'
+import { memo } from 'react'
 
-function HomeBlog ({ BlogList }) {
+function HomeBlog({ BlogList }) {
   // const { t } = useTranslation()
   const navigate = useNavigate()
   const PATHS = UpdatedPaths()
@@ -19,7 +20,7 @@ function HomeBlog ({ BlogList }) {
             className='bg-white p-3 box_shadow_common rounded-[10px] flex flex-col items-center w-full blogBoxShodow homeBlogCard h-auto astroNewCard cursor-pointer'
             onClick={() => {
               // navigate(`${PATHS.BLOG_DETAILS}/${blog._id}`);
-              blogDetailsNavigation(navigate, PATHS.BLOG_DETAILS, blog.unique_id)
+              blogDetailsNavigation(navigate, PATHS.BLOG_DETAILS, blog.unique_id, blog?.title)
             }}
           >
             <div className='w-full h-44 overflow-hidden rounded-[10px] homeBlogImageDiv'>
@@ -58,4 +59,4 @@ function HomeBlog ({ BlogList }) {
   )
 }
 
-export default HomeBlog
+export default memo(HomeBlog)

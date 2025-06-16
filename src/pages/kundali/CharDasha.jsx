@@ -1,19 +1,10 @@
-import React, { memo, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+import { memo } from "react";
 import "../../assets/css/kundli/KundliParts.css";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
 import CharDashaComp from "../../component/NewKundaliComp/CharDashaComp";
 // import CustomTabs from "../../component/Custom/CustomTabs";
 
 const CharDasha = ({ allKundliDetails }) => {
   const { charDashaSub, charDashaMain } = allKundliDetails || {};
-  const location = useLocation();
-  const navigationData = location.state?.navigationData;
-  const navigate = useNavigate();
-  const loginUser = useSelector((state) => state?.masterSlice?.loginUser);
-  const [panchangDetailsData, setPanchangDetailsData] = useState({});
-
 
   return (
     <>

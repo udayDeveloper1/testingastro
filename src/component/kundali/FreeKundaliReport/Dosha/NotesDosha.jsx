@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import lineImg from '../../../../assets/img/kundali/line_chart.webp';
 
 const NotesDosha = ({ title = '', subTitle = '', content = '', disclaimer = '' }) => {
@@ -13,9 +13,9 @@ const NotesDosha = ({ title = '', subTitle = '', content = '', disclaimer = '' }
             {title}
           </div>
           <div className='ps-[20px]'>
-                      <img src={lineImg} alt='line-img' />
-                    </div>
-         
+            <img src={lineImg} alt='line-img' />
+          </div>
+
         </div>
       )}
 
@@ -29,4 +29,4 @@ const NotesDosha = ({ title = '', subTitle = '', content = '', disclaimer = '' }
   );
 };
 
-export default NotesDosha;
+export default memo(NotesDosha);

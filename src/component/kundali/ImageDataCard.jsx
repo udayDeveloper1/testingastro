@@ -1,21 +1,21 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 
 const { Title, Paragraph, Text } = Typography;
 
 const ImageDataCard = ({ title, period, content }) => {
   return (
-    <Card 
+    <Card
       title={
         <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">   
+          <div className="flex items-center gap-4">
             <span>{title}</span>
             {period && <Text type="secondary mb-0">({period})</Text>}
-            </div>
-         
+          </div>
+
         </div>
-      } 
-      bordered={false} 
+      }
+      bordered={false}
       className="structureHinduCalender"
     >
       <div className="flex flex-col gap-5">
@@ -30,4 +30,4 @@ const ImageDataCard = ({ title, period, content }) => {
 };
 
 
-export default ImageDataCard;
+export default memo(ImageDataCard);

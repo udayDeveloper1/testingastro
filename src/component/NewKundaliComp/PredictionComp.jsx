@@ -1,26 +1,25 @@
-import React, { useCallback, useMemo } from 'react'
-import DOMPurify from 'dompurify'
 import { Tabs } from 'antd'
+import DOMPurify from 'dompurify'
+import { lazy, memo, useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import '../../assets/css/dailyData.css'
-import love from '../../assets/img/newIcon/love.svg'
-import marriage from '../../assets/img/newIcon/marriage.svg'
 import career from '../../assets/img/newIcon/career.svg'
 import education from '../../assets/img/newIcon/education.svg'
 import finance from '../../assets/img/newIcon/finance.svg'
 import health from '../../assets/img/newIcon/health.svg'
 import life from '../../assets/img/newIcon/life.svg'
+import love from '../../assets/img/newIcon/love.svg'
+import marriage from '../../assets/img/newIcon/marriage.svg'
 import travel from '../../assets/img/newIcon/travel.svg'
-import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import DataWrapper from '../Custom/DataWrapper'
 
+const DataWrapper = lazy(() => import("../Custom/DataWrapper"));
 
-
-export default function PredictionComp({ kundliPredication }) {
+function PredictionComp({ kundliPredication }) {
   const undefine = useSelector(state => state?.masterSlice?.undefine)
   const { t } = useTranslation()
 
-const matchList = [
+  const matchList = [
     {
       id: 'life',
       name: t('life'),
@@ -48,7 +47,7 @@ const matchList = [
     },
     {
       id: 'health',
-      name: t('helth'),
+      name: t('health'),
       img: health
     },
     {
@@ -170,3 +169,5 @@ const matchList = [
     </div>
   )
 }
+
+export default memo(PredictionComp)

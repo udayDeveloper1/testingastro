@@ -11,7 +11,7 @@ import {
   Select
 } from 'antd'
 import moment from 'moment'
-import { lazy, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, memo, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router'
@@ -22,64 +22,32 @@ import checkLoginImage from '../../assets/img/kundali/kundalicheckLoginImage.web
 import Edit from '../../assets/img/kundali/kundli-icon-edit.svg'
 import useDebounce from '../../pages/hooks/useDebounce'
 // import { PATHS } from "../../routers/Paths";
+import { UpdatedPaths } from '../../routers/Paths'
 import {
   addKundliMatchDetails,
   editFreeKundliDetails,
   geo_search,
-  getAntarDashaTh,
-  getAshtakvargaTh,
-  getCharDashaMainTh,
-  getCharDashaSubTh,
-  getDivisionalChartTh,
-  getFriendShipTh,
-  getKaalsarpDoshTh,
-  getMahaDashaPredictionTh,
-  getMahaDashaTh,
-  getMangalDoshTh,
-  getMangalikDoshTh,
   getPanchangTh,
-  getPitraDoshTh,
-  getPlanetsDetailsTh,
-  getSadeSatiTh,
-  getShadbalaTh,
-  getYoginiDashaSubTh,
   kundliMatchDelete,
-  kundliMatchList,
-  kundliPredication
+  kundliMatchList
 } from '../../services/api/api.services'
 import {
   setKundliDetailsData,
   setModel
 } from '../../storemain/slice/MasterSlice'
-import {
-  closeLoder,
-  closeModel,
-  FORM_RULS,
-  formatDate,
-  formatTime,
-  getLocationValidationRule,
-  hasAtLeastOneResponseData,
-  openLoader,
-  openModel,
-  TOAST_ERROR,
-  TOAST_SUCCESS,
-  Translate
-} from '../../utils/CommonFunction'
+import { closeLoder, closeModel, FORM_RULS, formatTime, getLocationValidationRule, hasAtLeastOneResponseData, openLoader, openModel, TOAST_ERROR } from '../../utils/CommonFunction'
 import {
   Codes,
-  DateFormat,
   InputTypesEnum,
   LanguageOption,
   TimeFormat
 } from '../../utils/CommonVariable'
 import { Constatnt } from '../../utils/Constent'
 import { kundaliDetailsNavigate } from '../../utils/navigations/NavigationPage'
-import ConfirmModal from '../Modals/ConfirmModal'
-import { KundliChartType } from '../NewKundaliComp/KundliVariabls'
-import PhoneAuthModal from '../auth/PhoneAuthModals'
-import Loader from '../loader/Loader'
-import { UpdatedPaths } from '../../routers/Paths'
 const CustomButton = lazy(() => import('../Homepage/CustomButton'))
+const Loader = lazy(() => import('../loader/Loader'))
+const PhoneAuthModal = lazy(() => import('../auth/PhoneAuthModals'))
+const ConfirmModal = lazy(() => import('../Modals/ConfirmModal'))
 
 const { Option } = Select
 
@@ -109,9 +77,6 @@ const FreeKundali = () => {
   const loder = useSelector(state => state?.masterSlice?.loader)
   const loginUser = useSelector(state => state?.masterSlice?.loginUser)
   const localstorage_isLogin = localStorage.getItem(Constatnt?.LOGIN_KEY)
-  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-    ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-    : LanguageOption?.ENGLISH
   const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
 
   const [placeOptions, setPlaceOptions] = useState([])
@@ -156,7 +121,6 @@ const FreeKundali = () => {
   )
 
   const kundliDetailsApiCalling = async data => {
-
     openLoader(dispatch, 'freeKundli_form')
 
     let updatedRequest = {
@@ -294,7 +258,6 @@ const FreeKundali = () => {
         //   type: "life ",
         // })
       ])
-
       if (panchangRes?.code === Codes?.SUCCESS) {
         kundliDetails.panchangeDetails = panchangRes?.data
       } else {
@@ -451,9 +414,9 @@ const FreeKundali = () => {
       return kundliDetails
     }
   }
+
   // 06/06/2025
   const onFinish = async value => {
-
     openLoader(dispatch, 'freeKundli_form')
     let request_2 = {
       [value?.gender]: {
@@ -532,6 +495,7 @@ const FreeKundali = () => {
         } else {
           const response1 = await addKundliMatchDetails(request_2)
           if (response1?.code === Codes?.SUCCESS) {
+
             // TOAST_SUCCESS(response1?.message);
             const kundliData = await kundliDetailsApiCalling(request)
             // return
@@ -559,24 +523,25 @@ const FreeKundali = () => {
           }
         }
       } else {
-        const response = await getPanchangTh(request)
-        if (response?.code === Codes?.SUCCESS) {
-          TOAST_SUCCESS(response?.message)
-          const kundliData = await kundliDetailsApiCalling(request)
-          if (hasAtLeastOneResponseData(kundliData?.panchangeDetails)) {
 
-            localStorage.setItem(Constatnt?.KUNDLI_KEY, JSON.stringify(kundliData))
-            dispatch(setKundliDetailsData(kundliData))
-            // kundaliDetailsNavigate(navigate, "basic", kundliData); // Navigate after all done
-            kundaliDetailsNavigate(navigate, 'basic', kundliData, PATHS.FREEKUNDALI_DETAILS)
-          } else {
-            TOAST_ERROR('something went wrong.')
-            closeLoder(dispatch)
-          }
+        // const response = await getPanchangTh(request)
+        // if (response?.code === Codes?.SUCCESS) {
+        // TOAST_SUCCESS(response?.message)
+
+        const kundliData = await kundliDetailsApiCalling(request)
+        if (hasAtLeastOneResponseData(kundliData?.panchangeDetails)) {
+          localStorage.setItem(Constatnt?.KUNDLI_KEY, JSON.stringify(kundliData))
+          dispatch(setKundliDetailsData(kundliData))
+          // kundaliDetailsNavigate(navigate, "basic", kundliData); // Navigate after all done
+          kundaliDetailsNavigate(navigate, 'basic', kundliData, PATHS.FREEKUNDALI_DETAILS)
         } else {
-          TOAST_ERROR(response?.message)
-          closeLoder(dispatch);
+          TOAST_ERROR('something went wrong.')
+          closeLoder(dispatch)
         }
+        // } else {
+        //   TOAST_ERROR(response?.message)
+        //   closeLoder(dispatch);
+        // }
       }
     } catch (err) {
       console.error(err)
@@ -794,7 +759,6 @@ const FreeKundali = () => {
   }
 
   useEffect(() => {
-
     if (pathname == PATHS?.FREEKUNDALI) {
       if (loginUser?.is_login) {
         fetch()
@@ -813,7 +777,7 @@ const FreeKundali = () => {
           KundliMatchList: updatedList
         })
         closeModel(dispatch)
-        TOAST_SUCCESS(response?.message)
+        // TOAST_SUCCESS(response?.message)
       } else {
         TOAST_ERROR(response?.message)
       }
@@ -822,14 +786,10 @@ const FreeKundali = () => {
 
   return (
     <>
-      <div
-        className={`grid grid-cols-1 ${pathname == PATHS?.FREEKUNDALI ? 'lg:grid-cols-3' : ''
-          } gap-y-4 lg:gap-4 w-full`}
-        ref={formRef}
-      >
+      <div className={`grid grid-cols-1 ${pathname == PATHS?.FREEKUNDALI ? 'lg:grid-cols-3' : ''} gap-y-4 lg:gap-4 w-full`} ref={formRef} >
         <Card className='w-full col-span-3 lg:col-span-2 relative freeKundaliCardNew h-full '>
           {loder?.is_loading && loder?.loding_type === 'freeKundli_form' && (
-            <Loader />
+            <Suspense fallback={<></>}>  <Loader /></Suspense>
           )}
 
           <Form
@@ -1043,7 +1003,7 @@ const FreeKundali = () => {
 
             {/* Submit */}
             <Form.Item className='w-full mb-0'>
-              <CustomButton
+              <Suspense fallback={<></>}>  <CustomButton
                 type='primary'
                 htmltype='submit'
                 className='w-full  py-3 text-[16px] font-medium'
@@ -1051,7 +1011,7 @@ const FreeKundali = () => {
                 {freeKundliEdit
                   ? t('update_free_kundli')
                   : t('submit_free_kundli')}
-              </CustomButton>
+              </CustomButton></Suspense>
             </Form.Item>
           </Form>
         </Card>
@@ -1169,43 +1129,49 @@ const FreeKundali = () => {
                         alt='Login Required'
                         className='max-w-[263px] block mx-auto'
                       />
-                      <CustomButton
-                        className='text-white  py-3 uppercase font-semibold'
-                        parentClassName='mt-3 w-full'
-                        onClick={() =>
-                          dispatch(
-                            setModel({ is_model: true, model_type: 'login' })
-                          )
-                        }
-                      >
-                        {t('login')}
-                      </CustomButton>
+                      <Suspense fallback={<></>}>
+                        <CustomButton
+                          className='text-white  py-3 uppercase font-semibold'
+                          parentClassName='mt-3 w-full'
+                          onClick={() =>
+                            dispatch(
+                              setModel({ is_model: true, model_type: 'login' })
+                            )
+                          }
+                        >
+                          {t('login')}
+                        </CustomButton>
+                      </Suspense>
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Modals */}
-              <PhoneAuthModal
-                isPhoneModalOpen={
-                  modal?.is_model && modal?.model_type === 'login'
-                }
-                issetIsModalOpen={setShowModal}
-              />
+              <Suspense fallback={<></>}>
+                <PhoneAuthModal
+                  isPhoneModalOpen={
+                    modal?.is_model && modal?.model_type === 'login'
+                  }
+                  issetIsModalOpen={setShowModal}
+                />
+              </Suspense>
 
-              <ConfirmModal
-                isOpen={
-                  modal?.is_model && modal?.model_type === 'free_kundli_delete'
-                }
-                title='Delete Kundli?'
-                description='Are you sure you want to delete this Kundli? This action cannot be undone.'
-                okText='Delete'
-                cancelText='Cancel'
-                onConfirm={handleDelete}
-                onCancel={() => {
-                  closeModel(dispatch)
-                }}
-              />
+              <Suspense fallback={<></>}>
+                <ConfirmModal
+                  isOpen={
+                    modal?.is_model && modal?.model_type === 'free_kundli_delete'
+                  }
+                  title='Delete Kundli?'
+                  description='Are you sure you want to delete this Kundli? This action cannot be undone.'
+                  okText='Delete'
+                  cancelText='Cancel'
+                  onConfirm={handleDelete}
+                  onCancel={() => {
+                    closeModel(dispatch)
+                  }}
+                />
+              </Suspense>
             </Card>
           </>
         )}
@@ -1214,4 +1180,4 @@ const FreeKundali = () => {
   )
 }
 
-export default FreeKundali
+export default memo(FreeKundali)

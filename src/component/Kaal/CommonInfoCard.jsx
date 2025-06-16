@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from "react";
 
 const CommonInfoCard = ({ title, description, list = [], className = '', children }) => {
   return (
@@ -20,4 +20,4 @@ const CommonInfoCard = ({ title, description, list = [], className = '', childre
   );
 };
 
-export default CommonInfoCard;
+export default memo(CommonInfoCard);

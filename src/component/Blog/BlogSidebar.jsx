@@ -1,15 +1,16 @@
 
 import { CalendarOutlined } from "@ant-design/icons";
 import { AutoComplete, Input } from "antd";
-import React, { useMemo, useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 // import commonSearch from "../../assets/img/common/searchIcon.webp";
 import commonSearch from "../../assets/img/common/search.svg";
 // import { PATHS } from "../../routers/Paths";
+import { useTranslation } from "react-i18next";
+import { UpdatedPaths } from "../../routers/Paths";
 import { formatDate } from "../../utils/CommonFunction";
 import { DateFormat } from "../../utils/CommonVariable";
-import { UpdatedPaths } from "../../routers/Paths";
-import { useTranslation } from "react-i18next";
+import { blogDetailsNavigation } from "../../utils/navigations/NavigationPage";
 
 const BlogCard = React.memo(({ blog, onClick }) => (
 
@@ -39,7 +40,6 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
   const { t } = useTranslation()
 
   const [inputValue, setInputValue] = useState("");
-  const { blogId } = useParams();
   const navigate = useNavigate();
   const PATHS = UpdatedPaths()
 
@@ -47,11 +47,13 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
     return recentBlogs?.map((blog) => ({
       label: blog.title,
       value: blog.unique_id,
+      data: blog,
     }));
   }, [recentBlogs]);
 
-  const handleNavigate = (blogId) => {
-    navigate(`${PATHS.BLOG_DETAILS}/${blogId}`);
+  const handleNavigate = (blog) => {
+    // navigate(`${PATHS.BLOG_DETAILS}/${blogId}`);
+    blogDetailsNavigation(navigate, PATHS.BLOG_DETAILS, blog.unique_id, blog?.title)
     setInputValue("");
   };
 
@@ -59,6 +61,7 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
     <div className="bg-white p-6 rounded-lg box_shadow_common border border-gray-200">
       {/* Search Input */}
       <h3 className="commonQuesH2 pb-3">{t('Search')}</h3>
+
       <AutoComplete
         style={{ width: "100%" }}
         options={blogOptions}
@@ -66,10 +69,18 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
         placeholder="Try typing a blog title"
         onChange={(value) => {
           setInputValue(value);
-          const matchedBlog = blogOptions.find((blog) => blog.label === value);
-          if (matchedBlog) handleNavigate(matchedBlog.value);
+          // Check if typed value exactly matches a blog
+          const matchedBlog = blogOptions.find((blog) => blog.value === value);
+          if (matchedBlog) {
+            handleNavigate(matchedBlog.data); // send matched blog's data
+          }
         }}
-        onSelect={(value) => handleNavigate(value)}
+        onSelect={(value) => {
+          const matchedBlog = blogOptions.find((blog) => blog.value == value);
+          if (matchedBlog) {
+            handleNavigate(matchedBlog.data); // send matched blog's data
+          }
+        }}
         filterOption={(inputValue, option) =>
           option.label.toLowerCase().includes(inputValue.toLowerCase())
         }
@@ -81,7 +92,7 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
               <img src={commonSearch} alt='Search' className='object-contain w-[16px] h-[16px]' />
             </div>
           }
-          className="p-2 outline-none border rounded-lg "
+          className="p-2 outline-none border rounded-lg"
         />
       </AutoComplete>
 
@@ -92,7 +103,7 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
           <BlogCard
             key={blog._id}
             blog={blog}
-            onClick={() => handleNavigate(blog?.unique_id)}
+            onClick={() => handleNavigate(blog)}
           />
         ))}
       </div>
@@ -111,4 +122,4 @@ const BlogSidebar = ({ recentBlogs, relatedBlogs }) => {
   );
 };
 
-export default BlogSidebar;
+export default memo(BlogSidebar);

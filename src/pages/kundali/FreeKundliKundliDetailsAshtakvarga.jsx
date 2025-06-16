@@ -2,15 +2,16 @@
 import { useTranslation } from "react-i18next";
 import "../../assets/css/kundli/KundliParts.css";
 // import KundaliAstavarga from "../../assets/img/banner/KundaliAstavarga.webp";
+import { lazy, memo } from "react";
 import northIndianKundliImg from "../../assets/img/kundali/northIndianKundliSample.webp";
-import CommonBanner from "../../component/CommonBanner";
-import CommonQuestionComp from "../../component/CommonQuestionComp";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
-import KundliReport from "../../component/kundali/KundliReport";
-import KundliStepper from "../../component/kundali/KundliStepper";
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
+const HoroscopeGrid = lazy(() => import("../../component/kundali/HoroscopeGrid"));
+const KundliReport = lazy(() => import("../../component/kundali/KundliReport"));
+const KundliStepper = lazy(() => import("../../component/kundali/KundliStepper"));
 
 const FreeKundliKundliDetailsAshtakvarga = () => {
-    const { t } = useTranslation()
+  const { t } = useTranslation()
   let contentForP1 = [
     "Ashtakvarga is used to assess the strength and patterns that are present in a birth chart. The Ashtakvarga or Ashtakavarga is a numerical quantification or score of each planet placed in the chart with reference to the other 7 planets and the Lagna. In Sarva Ashtaka Varga the total scores of all the BAVs are overlaid and then totalled. This makes the SAV of the chart. The total of all the scores should be 337.",
   ];
@@ -113,7 +114,7 @@ const FreeKundliKundliDetailsAshtakvarga = () => {
 
       <section>
         <div className="container padding50">
-          <HoroscopeGrid heading={t('Choose_Your_Sign')} smallText="" type={''}/>
+          <HoroscopeGrid heading={t('Choose_Your_Sign')} smallText="" type={''} />
         </div>
       </section>
 
@@ -122,4 +123,4 @@ const FreeKundliKundliDetailsAshtakvarga = () => {
   );
 };
 
-export default FreeKundliKundliDetailsAshtakvarga;
+export default memo(FreeKundliKundliDetailsAshtakvarga);

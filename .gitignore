@@ -20,8 +20,9 @@ yarn-debug.log*
 yarn-error.log*
 
  
-/dist
 stats.html
 vite_cache
 
 .vite
+/dist
+dist/assets/Aboutus-tnvHTSWB.js

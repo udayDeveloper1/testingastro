@@ -1,4 +1,4 @@
-import { lazy } from 'react'
+import { lazy, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import filter from '../assets/img/common/filterIcon.svg'
 import sortby from '../assets/img/common/sortby.svg'
@@ -7,6 +7,8 @@ import commonSearch from '../assets/img/common/search.svg'
 
 import { useNavigate } from 'react-router'
 // import { PATHS } from '../routers/Paths'
+import { useTranslation } from 'react-i18next'
+import { UpdatedPaths } from '../routers/Paths'
 import { setAstroPaymentDetails } from '../storemain/slice/astroLogerDetailsSlice'
 import { setFilterSearch } from '../storemain/slice/MasterSlice'
 import {
@@ -15,15 +17,13 @@ import {
   openFilter,
   openModel
 } from '../utils/CommonFunction'
-import PhoneAuthModal from './auth/PhoneAuthModals'
-import Filter from './filter/Filter'
-import SortBy from './filter/SortBy'
-import { UpdatedPaths } from '../routers/Paths'
-import { useTranslation } from 'react-i18next'
+const Filter = lazy(() => import('./filter/Filter'))
+const SortBy = lazy(() => import('./filter/SortBy'))
 const CustomButton = lazy(() => import('./Homepage/CustomButton'))
+const PhoneAuthModal = lazy(() => import('./auth/PhoneAuthModals'))
 
 function CommonBalanceBar({ onSearch }) {
-    const { t } = useTranslation()
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const PATHS = UpdatedPaths()
@@ -45,8 +45,8 @@ function CommonBalanceBar({ onSearch }) {
       <div className='grid grid-cols-1 lg:grid-cols-4 items-center rounded-lg lg:border border-[#E3725D4D] gap-3 lg:gap-0'>
         {/* Mobile view: Balance on top */}
         <div className='lg:hidden text-center text-[16px] font-semibold lg:border-b border-[#E3725D4D]'>
-        
-            {t('Available_Balance')}:₹{is_login && loginUserData?.total_wallet_balance}
+
+          {t('Available_Balance')}:₹{is_login && loginUserData?.total_wallet_balance}
         </div>
 
         {/* Search Input border-x border-y lg:border-r lg:border-y-none lg:border-l-none */}
@@ -67,19 +67,19 @@ function CommonBalanceBar({ onSearch }) {
           />
         </div>
 
-        <div className='hidden lg:flex text-[16px] font-semibold h-full  lg:border-r border-[#E3725D4D] items-center justify-center col-span-1 new_body_font px-1 text-center'>
-                     {is_login ? (
-  <span>{t('Available_Balance')}: ₹{loginUserData?.total_wallet_balance}</span>
-) : (
-  <div>
-    <div className="">
-      {t('Login_to_check_balance') || 'Login to check balance'}
-    </div>
-  </div>
-)}
+        <div className='hidden lg:flex text-[16px] font-[400] h-full  lg:border-r border-[#E3725D4D] items-center justify-center col-span-1 new_body_font px-1 text-center'>
+          {is_login ? (
+            <span>{t('Available_Balance')}: ₹{loginUserData?.total_wallet_balance}</span>
+          ) : (
+            <div>
+              <div className="new_body_font !font-[400]">
+                {t('Login_to_check_balance') || 'Login to check balance'}
+              </div>
+            </div>
+          )}
 
         </div>
-      
+
 
         {/* Buttons - stacked on mobile, inline on desktop */}
         <div className='grid grid-cols-3 lg:col-span-2 h-full pt-2 lg:pt-0'>
@@ -159,4 +159,4 @@ function CommonBalanceBar({ onSearch }) {
   )
 }
 
-export default CommonBalanceBar
+export default memo(CommonBalanceBar)

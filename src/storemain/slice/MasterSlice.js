@@ -149,8 +149,8 @@ const initialState = {
     location: {},
     muhratData: {},
     blogListData: [],
-    undefine:false,
-    cropIamge:null,
+    undefine: false,
+    cropIamge: null,
 };
 
 const masterSlice = createSlice({
@@ -205,10 +205,10 @@ const masterSlice = createSlice({
         setPanchangDetails: (state, action) => {
             state.panchangDetails = action.payload;
         },
-        setUndefine:(state , action)=>{
+        setUndefine: (state, action) => {
             state.undefine = action.payload;
         },
-         setCropIamge:(state , action)=>{
+        setCropIamge: (state, action) => {
             state.cropIamge = action.payload;
         },
 
@@ -221,13 +221,13 @@ const masterSlice = createSlice({
                 state.getFilterList = action.payload;
             })
             .addCase(getFilterListing.rejected, (state, action) => {
-                state.getFilterList = [];
+                state.getFilterList = {};
             })
             .addCase(getDashboardCount.fulfilled, (state, action) => {
                 state.dashboardCount = action.payload;
             })
             .addCase(getDashboardCount.rejected, (state, action) => {
-                state.dashboardCount = [];
+                state.dashboardCount = {};
             })
 
             .addCase(getAstrologerList.fulfilled, (state, action) => {
@@ -269,5 +269,5 @@ const masterSlice = createSlice({
 },
 );
 
-export const { setLoading, setModel, changeLanguage, setIsScroll, setUserLoginData, resetStore, setKundliDetailsData, setFilterValue, setShortValue, setOnSubmitFilter, setFilterSearch, setPageScroll, setPanchangDetails,setUndefine,setCropIamge } = masterSlice.actions;
+export const { setLoading, setModel, changeLanguage, setIsScroll, setUserLoginData, resetStore, setKundliDetailsData, setFilterValue, setShortValue, setOnSubmitFilter, setFilterSearch, setPageScroll, setPanchangDetails, setUndefine, setCropIamge } = masterSlice.actions;
 export default masterSlice.reducer;

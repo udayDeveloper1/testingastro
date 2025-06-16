@@ -1,10 +1,10 @@
-import React from "react";
 import { ArrowRight } from "lucide-react";
-import { allHoroScopeDetailsNavigation } from "../../utils/navigations/NavigationPage";
+import React, { lazy, Suspense } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { UpdatedPaths } from "../../routers/Paths";
-import { useTranslation } from "react-i18next";
-import CustomButton from "../Homepage/CustomButton";
+import { allHoroScopeDetailsNavigation } from "../../utils/navigations/NavigationPage";
+const CustomButton  = lazy(() => import("../Homepage/CustomButton"))
 
 const ZodiacCard = React.memo(({ iconUrl, sign, description, id, type, keyData }) => {
   const navigate = useNavigate();
@@ -27,13 +27,15 @@ const ZodiacCard = React.memo(({ iconUrl, sign, description, id, type, keyData }
         </div>
 
         {/* Button */}
+        <Suspense fallback={<></>}>
         <CustomButton
-        parentClassName="!rounded-b-[10px] !rounded-t-none"
+          parentClassName="!rounded-b-[10px] !rounded-t-none"
           className="w-full bg_website_color  text-white !rounded-b-[10px] !rounded-t-none text-[15px] font-semibold py-4 flex items-center justify-center gap-2 transition-all cursor-pointer"
           onClick={() => allHoroScopeDetailsNavigation(navigate, type, sign, id, PATHS?.ALL_HOROSCOPE_DETAILS)}
         >
           {t('read_more')}<ArrowRight size={16} />
         </CustomButton>
+        </Suspense>
       </div>
     </div>
   );

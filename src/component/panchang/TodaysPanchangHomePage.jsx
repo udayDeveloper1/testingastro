@@ -74,7 +74,6 @@ const TodaysPanchangHomePage = () => {
                 title={t('Moonrise')}
                 time={panchangDetailsData?.response?.advanced_details?.moon_rise}
                 image={moon}
-
               />
             </div>
           </div>

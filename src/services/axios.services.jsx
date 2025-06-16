@@ -47,10 +47,7 @@
 
 import axios from 'axios';
 import { Constatnt } from '../utils/Constent';
-import {
-  logoutRedirection,
-  ManageTokan
-} from '../utils/CommonFunction';
+import { Decryption, Encryption, logoutRedirection, ManageTokan } from '../utils/CommonFunction';
 import { Codes } from '../utils/CommonVariable';
 
 // Create Axios instance
@@ -60,44 +57,53 @@ const AxiosClientApi = axios.create({
 
 // Request Interceptor
 AxiosClientApi.interceptors.request.use(request => {
+  if (Constatnt?.IS_ENCREPTION) {
+    request.data = Encryption(request.data, true);
+    request.headers['is-encript'] = true;
+    request.headers['platform'] = 'web';
+  } else {
+    request.headers['is-encript'] = false;
+  }
+
+  // Add headers to the request
   request.headers['token'] = localStorage.getItem(Constatnt.ACCESS_TOKEN_KEY) || '-';
   request.headers['accept-language'] = localStorage.getItem(Constatnt.LANGUAGE_KEY) || Constatnt.LANGUAGE;
   request.headers['role'] = Constatnt.ROLE;
   request.headers['api-key'] = Constatnt.API_KEY;
   request.headers['content-type'] = Constatnt.CONTENT_TYPE;
-  request.headers['is_encript'] = false;
+  // request.headers['is-encript'] = false;
   return request;
 });
 
 // Response Interceptor
-AxiosClientApi.interceptors.response.use(
-  async response => {
-    const resData = response?.data;
+AxiosClientApi.interceptors.response.use(async response => {
+  // const response = Decryption(responseData);
+  const resData = await Decryption(response?.data) //response?.data;
 
-    // ✅ Token expired based on response code (not HTTP error)
-    if (resData?.code === Codes.USER_SESSION_EXPIRE || resData?.code === -1) {
-      const originalRequest = response.config;
+  // ✅ Token expired based on response code (not HTTP error)
+  if (resData?.code === Codes.USER_SESSION_EXPIRE || resData?.code === -1) {
+    const originalRequest = response.config;
 
-      // Avoid infinite retry loop
-      if (!originalRequest._retry) {
-        originalRequest._retry = true;
-        try {
-          const tokenRefreshed = await ManageTokan();
+    // Avoid infinite retry loop
+    if (!originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const tokenRefreshed = await ManageTokan();
 
-          if (tokenRefreshed === true) {
-            originalRequest.headers['token'] = localStorage.getItem(Constatnt.ACCESS_TOKEN_KEY);
-            return AxiosClientApi(originalRequest);
-          } else {
-            logoutRedirection();
-          }
-        } catch (err) {
+        if (tokenRefreshed === true) {
+          originalRequest.headers['token'] = localStorage.getItem(Constatnt.ACCESS_TOKEN_KEY);
+          return AxiosClientApi(originalRequest);
+        } else {
           logoutRedirection();
         }
+      } catch (err) {
+        logoutRedirection();
       }
     }
+  }
 
-    return resData; // ✅ Return normal data if no retry
-  },
+  return resData; // ✅ Return normal data if no retry
+},
 
   // ❌ Handle HTTP error status (like 401)
   async error => {
@@ -129,8 +135,8 @@ AxiosClientApi.interceptors.response.use(
 
     return Promise.reject(error);
   }
-);
 
+);
 
 export default AxiosClientApi;
 

@@ -1,6 +1,6 @@
 
 import { Avatar, Card, Progress, Rate } from 'antd'
-import React, { useMemo } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import reviewImage from '../../assets/img/astrologer/reviewImage.webp'
 import { formatDate } from '../../utils/CommonFunction'
@@ -81,7 +81,9 @@ const ReviewsSection = React.memo(({ RATTING_REVEW_LIST, astrologerDetails }) =>
   return (
     <div className='flex flex-col gap-4 rounded-lg review'>
       <div>
+        <Suspense fallback={<></>}>
         <RatingsAndReviews />
+        </Suspense>
       </div>
       <div className='grid grid-cols-4 gap-4'>
 

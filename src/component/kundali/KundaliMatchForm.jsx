@@ -1,18 +1,18 @@
 import { AutoComplete, Avatar, Card, Form, Input, List, Select } from 'antd'
 import moment from 'moment'
-import React, { lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, memo, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
-import Delete from '../../assets/img/kundali/delete.svg'
-import searchIcon from '../../assets/img/common/searchIcon.webp'
-import boysvg from '../../assets/img/kundali/boySvg.svg'
-import boyImage from '../../assets/img/kundali/boyImage.webp'
-import girlImage from '../../assets/img/kundali/girlImage.webp'
-import personImage from '../../assets/img/kundali/personImg.svg'
-import useDebounce from '../../pages/hooks/useDebounce'
 import commonSearch from '../../assets/img/common/search.svg'
+import boyImage from '../../assets/img/kundali/boyImage.webp'
+import Delete from '../../assets/img/kundali/delete.svg'
+import girlImage from '../../assets/img/kundali/girlImage.webp'
+import useDebounce from '../../pages/hooks/useDebounce'
 
+import icon from '../../assets/img/common/suffixIcon.svg'
+import checkLoginImage from '../../assets/img/kundali/kundalicheckLoginImage.webp'
+import { UpdatedPaths } from '../../routers/Paths'
 import {
   addKundliMatchDetails,
   addKundliMetching,
@@ -25,7 +25,6 @@ import {
   closeLoder,
   closeModel,
   FORM_RULS,
-  formatDate,
   formatTime,
   getLocationValidationRule,
   openLoader,
@@ -35,22 +34,16 @@ import {
 } from '../../utils/CommonFunction'
 import {
   Codes,
-  DateFormat,
   InputTypesEnum,
   LanguageOption,
   TimeFormat
 } from '../../utils/CommonVariable'
 import { Constatnt } from '../../utils/Constent'
 import { kundlimatchingRedirection } from '../../utils/navigations/NavigationPage'
-import PhoneAuthModal from '../auth/PhoneAuthModals'
 const CustomButton = lazy(() => import('../Homepage/CustomButton'))
-import Loader from '../loader/Loader'
-import ConfirmModal from '../Modals/ConfirmModal'
-import checkLoginImage from '../../assets/img/kundali/kundalicheckLoginImage.webp'
-import icon from '../../assets/img/common/suffixIcon.svg'
-import { UpdatedPaths } from '../../routers/Paths'
-import dayjs from 'dayjs'
-
+const Loader = lazy(() => import('../loader/Loader'))
+const ConfirmModal = lazy(() => import('../Modals/ConfirmModal'))
+const PhoneAuthModal = lazy(() => import('../auth/PhoneAuthModals'))
 const { Option } = Select
 
 const KundaliMatchForm = () => {
@@ -498,7 +491,7 @@ const KundaliMatchForm = () => {
     <>
       {/* {loder?.is_loading && loder?.loding_type === 'freeKundli_match_form' && <Loader />} */}
       {loder?.is_loading && loder?.loding_type === 'freeKundli_match_form' && (
-        <Loader />
+        <Suspense fallback={<></>}>    <Loader /></Suspense>
       )}
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-y-5 lg:gap-4 w-full'>
@@ -886,13 +879,15 @@ const KundaliMatchForm = () => {
             </div>
 
             <Form.Item className='!mb-0'>
-              <CustomButton
-                type='primary'
-                htmltype='submit'
-                className='text-[16px] font-medium w-full py-3'
-              >
-                {t('kundli_matching_report')}
-              </CustomButton>
+              <Suspense fallback={<></>}>
+                <CustomButton
+                  type='primary'
+                  htmltype='submit'
+                  className='text-[16px] font-medium w-full py-3'
+                >
+                  {t('kundli_matching_report')}
+                </CustomButton>
+              </Suspense>
             </Form.Item>
           </Form>
 
@@ -1044,25 +1039,27 @@ const KundaliMatchForm = () => {
               </div>
             </>
           )}
-
-          <PhoneAuthModal
-            isPhoneModalOpen={modal?.is_model && modal?.model_type == 'login'}
-            issetIsModalOpen={setShowModal}
-          />
-
-          <ConfirmModal
-            isOpen={
-              modal?.is_model && modal?.model_type == 'free_kundli_delete'
-            }
-            title='Delete Astrologer?'
-            description='Are you sure you want to delete this astrologer? This action cannot be undone.'
-            okText='Delete'
-            cancelText='Cancel'
-            onConfirm={handleDelete}
-            onCancel={() => {
-              closeModel(dispatch)
-            }}
-          />
+          <Suspense fallback={<></>}>
+            <PhoneAuthModal
+              isPhoneModalOpen={modal?.is_model && modal?.model_type == 'login'}
+              issetIsModalOpen={setShowModal}
+            />
+          </Suspense>
+          <Suspense fallback={<></>}>
+            <ConfirmModal
+              isOpen={
+                modal?.is_model && modal?.model_type == 'free_kundli_delete'
+              }
+              title='Delete Astrologer?'
+              description='Are you sure you want to delete this astrologer? This action cannot be undone.'
+              okText='Delete'
+              cancelText='Cancel'
+              onConfirm={handleDelete}
+              onCancel={() => {
+                closeModel(dispatch)
+              }}
+            />
+          </Suspense>
         </Card>
 
         <ConfirmModal
@@ -1081,4 +1078,4 @@ const KundaliMatchForm = () => {
   )
 }
 
-export default KundaliMatchForm
+export default memo(KundaliMatchForm)

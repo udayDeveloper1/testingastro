@@ -5,43 +5,53 @@ const axios = require("axios");
 const fs = require("fs");
 const cron = require("node-cron");
 const express = require("express");
+const cors = require('cors');
 const app = express();
-
-const hostname = "https://devweb.chatmyastrologer.com";
-
-const staticLinks = [
-  { url: "/", },
-  { url: "/chat-with-astrologer", },
-  { url: "/free-kundli", },
-  { url: "/kundali-matching", },
-  { url: "/todays-panchang" },
-  { url: "/general-prediction" },
-  { url: "/kundali-prediction" },
-  { url: "/horoscope/daily-horoscope" },
-  { url: "/horoscope/yesterday-horoscope" },
-  { url: "/horoscope/tomorrow-horoscope" },
-  { url: "/horoscope/weekly-horoscope" },
-  { url: "/horoscope/yearly-horoscope" },
-  { url: "/blog" },
-  { url: "/marriage-muhurat" },
-  { url: "/bhoomi-puja-muhurat" },
-  { url: "/namkaran-muhurat" },
-  { url: "/rahu-kaal" },
-  { url: "/profile-setting" },
-  { url: "/transaction-wallet" },
-  { url: "/order-history-call" },
-  { url: "/our-astrologer" },
-  { url: "/contact-us" },
-  { url: "/privacy-policy" },
-  { url: "/terms-conditions" },
-  { url: "/about-us" },
-];
+app.use(cors()); // Allow all origins (development)
+const hostname = "https://chatmyastrologer.com";
 
 const LanguageOption = {
   ENGLISH: 'en',
   GUJRATI: 'gu',
   HINDI: 'hi',
 };
+
+const homepageStaticLink = [
+  { url: `${hostname}` },
+  { url: `${hostname}/${LanguageOption?.GUJRATI}` },
+  { url: `${hostname}/${LanguageOption?.HINDI}` }
+]
+
+const staticLinks = [
+  // { url: "", },
+  { url: "chat-with-astrologer", },
+  { url: "free-kundli", },
+  { url: "kundali-matching", },
+  { url: "todays-panchang" },
+  { url: "general-prediction" },
+  { url: "kundali-prediction" },
+  { url: "horoscope/daily-horoscope" },
+  { url: "horoscope/yesterday-horoscope" },
+  { url: "horoscope/tomorrow-horoscope" },
+  { url: "horoscope/weekly-horoscope" },
+  { url: "horoscope/yearly-horoscope" },
+  { url: "blog" },
+  { url: "marriage-muhurat" },
+  { url: "bhoomi-pooja-muhurat" },
+  { url: "namkaran-muhurat" },
+  { url: "rahu-kaal" },
+  { url: "choghadiya" },
+  { url: "profile-setting" },
+  { url: "transaction-wallet" },
+  { url: "order-history-call" },
+  { url: "our-astrologer" },
+  { url: "contact-us" },
+  { url: "privacy-policy" },
+  { url: "terms-conditions" },
+  { url: "about-us" },
+];
+
+
 
 const horoscopeList = [
   {
@@ -229,22 +239,8 @@ const brokerData = [
   }
 ]
 
-const transformCompanyName = (companyName) => {
-  return companyName
-    ?.split(/\s+/) // Split by spaces
-    .slice(0, 2) // Get the first two words
-    .join('-') // Join with hyphen
-    .toLowerCase() + '-ipo';
-}
-
-const transformNewsName = (title) => {
-  const words = title.toLowerCase().split(" ");
-  return words.slice(0, 2).join("_");
-}
-
-const formatNewsTitle = (title) => {
-  const words = title.toLowerCase().split(" ");
-  return words.slice(0, 3).join("_") + '_news';
+function transformBlogName(blog) {
+  return blog?.split(/\s+/).slice(0, 2).join('-').toLowerCase();
 }
 
 const fetchDynamicRoutes = async () => {
@@ -265,7 +261,7 @@ const fetchDynamicRoutes = async () => {
     );
 
     const transformedBlogData = blogResponse?.data?.data?.blogList?.flatMap(blog => {
-      const baseUrl = `/blog-details/${blog?.unique_id?.toLowerCase()}`;
+      const baseUrl = `blog-details/${transformBlogName(blog?.title)}/${blog?.unique_id?.toLowerCase()}`;
       return [
         { url: baseUrl },
         // { url: `${baseUrl}/ipo-details` },
@@ -286,7 +282,7 @@ const fetchDynamicRoutes = async () => {
     );
 
     const transformedAstrologerData = astrologerDetailsResponce?.data?.data?.astrologerList?.flatMap(astro => {
-      const baseUrl = `/astrologer-detail-page/${astro?.uniqueID?.toLowerCase()}`;
+      const baseUrl = `astrologer-detail-page/${astro?.uniqueID?.toLowerCase()}`;
       return [
         { url: baseUrl },
       ];
@@ -294,21 +290,23 @@ const fetchDynamicRoutes = async () => {
 
     const horoscopeDynamicData = horoscopeList?.flatMap(data => [
       {
-        url: `/daily-horoscope/${data?.name}`,
+        url: `horoscope-details/daily-horoscope/${data?.name}`,
       },
       {
-        url: `/yesterday-horoscope/${data?.name}`,
+        url: `horoscope-details/yesterday-horoscope/${data?.name}`,
       },
       {
-        url: `/tomorrow-horoscope/${data?.name}`,
+        url: `horoscope-details/tomorrow-horoscope/${data?.name}`,
       },
       {
-        url: `/weekly-horoscope/${data?.name}`,
+        url: `horoscope-details/weekly-horoscope/${data?.name}`,
       },
       {
-        url: `/yearly-horoscope/${data?.name}`,
+        url: `horoscope-details/yearly-horoscope/${data?.name}`,
       }
     ]) || [];
+
+    // console.log('horoscopeDynamicData', horoscopeDynamicData);
 
     return [...horoscopeDynamicData, ...transformedBlogData, ...transformedAstrologerData];
 
@@ -320,28 +318,31 @@ const fetchDynamicRoutes = async () => {
 
 // Function to generate the sitemap
 const generateSitemap = async () => {
+
   const dynamicLinks = await fetchDynamicRoutes();
 
+
   const allLinks = [...staticLinks, ...dynamicLinks];
-  
+
   const languageUpdation = allLinks?.flatMap(data => [
     {
       url: `${hostname}/${data.url}`,
     },
     {
-      url: `${hostname}/${LanguageOption.GUJRATI}${data.url}`,
+      url: `${hostname}/${LanguageOption.GUJRATI}/${data.url}`,
     },
     {
-      url: `${hostname}/${LanguageOption.HINDI}${data.url}`,
+      url: `${hostname}/${LanguageOption.HINDI}/${data.url}`,
     }
   ]) || [];
 
+  const allUpdatedLinks = [...homepageStaticLink, ...languageUpdation];
+
+  // console.log('dynamicLinks', allUpdatedLinks);
+
   const sitemap = new SitemapStream({ hostname });
-  languageUpdation?.forEach((link) => sitemap.write(link));
+  allUpdatedLinks?.forEach((link) => sitemap.write(link));
   sitemap.end();
-
-
-  // console.log('languageUpdation', languageUpdation);
 
   // Convert stream to XML
   const sitemapXML = await streamToPromise(sitemap);
@@ -354,12 +355,11 @@ const generateSitemap = async () => {
   if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir, { recursive: true }); // recursive ensures nested folders get created
   }
-
   const sitemapPath = path.join(distDir, "sitemap.xml");
   fs.writeFileSync(sitemapPath, sitemapXML);
 };
 
-const PORT = 3838;  // Use environment variable, fallback to 3838
+const PORT = 1819;  // Use environment variable, fallback to 3838
 const DOMAIN = "http://localhost"; // Default to localhost
 
 cron.schedule("0 0 * * *", () => {
@@ -377,6 +377,7 @@ app.get(`/generate-sitemap`, async (req, res) => {
 
 app.listen(PORT, () => {
   generateSitemap();
+  console.log('Sitemap Genratet successfully');
 });
 
 // Call the function

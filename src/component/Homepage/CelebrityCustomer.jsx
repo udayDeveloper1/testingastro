@@ -1,5 +1,5 @@
 import { Modal } from 'antd'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import ReactPlayer from 'react-player'
 import poster1 from '/homepage/video1.webp'
 
@@ -71,15 +71,6 @@ const CelebrityCustomer = ({ CelebrityList }) => {
     </div>
   )
 
-  const slickSettings = {
-    dots: true,
-    arrow: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  }
-
   return (
     <>
       {/* Mobile Slick Slider */}
@@ -118,4 +109,4 @@ const CelebrityCustomer = ({ CelebrityList }) => {
   )
 }
 
-export default CelebrityCustomer
+export default memo(CelebrityCustomer)

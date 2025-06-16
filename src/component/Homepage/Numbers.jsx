@@ -1,15 +1,12 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { shallowEqual, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import '../../assets/css/numbers.css'
 import logoWeb from '../../assets/img/logo/logoWeb.png'
 
-function Numbers () {
+function Numbers() {
   const { t } = useTranslation()
-  const dashboardCount = useSelector(
-    state => state?.masterSlice?.dashboardCount,
-    shallowEqual
-  )
+  const dashboardCount = useSelector(state => state?.masterSlice?.dashboardCount)
 
   const numbers = useMemo(
     () => [
@@ -43,13 +40,12 @@ function Numbers () {
             {/* Content Block */}
             <div
               className={`flex flex-col md:flex-row items-center gap-[10px] lg:gap-[20px] w-full 
-            ${
-              index === 0
-                ? 'justify-start'
-                : index === 1
-                ? 'justify-center'
-                : 'justify-end'
-            }`}
+            ${index === 0
+                  ? 'justify-start'
+                  : index === 1
+                    ? 'justify-center'
+                    : 'justify-end'
+                }`}
             >
               <img
                 src={logoWeb}

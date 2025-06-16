@@ -1,5 +1,5 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 
 const { Title, Text } = Typography;
 
@@ -61,4 +61,4 @@ const NamingMuhuratList = ({ muhuratData }) => {
   );
 };
 
-export default NamingMuhuratList;
+export default memo(NamingMuhuratList);

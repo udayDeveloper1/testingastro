@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import loader1 from "/loader/loader1.webp";
 import loader2 from "/loader/loader2.webp";
 import loader3 from "/loader/loader3.webp";
@@ -25,4 +25,4 @@ const Loader3 = ({classList = ""}) => {
     )
 }
 
-export default Loader3
+export default memo(Loader3)

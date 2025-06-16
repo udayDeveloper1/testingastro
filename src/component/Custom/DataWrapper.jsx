@@ -1,7 +1,11 @@
 // components/DataWrapper.jsx
-import React from 'react';
-import Loader2 from '../loader/Loader2';
-import NoDataFound from '../../pages/NoDataFound/NoDataFound';
+// import NoDataFound from '../../pages/NoDataFound/NoDataFound';
+
+import React, { memo, Suspense } from 'react';
+
+// import Loader2 from '../loader/Loader2';
+const NoDataFound = React.lazy(() => import('../../pages/NoDataFound/NoDataFound'));
+const Loader2 = React.lazy(() => import('../loader/Loader2'));
 
 const DataWrapper = ({ data, undefine, children }) => {
   const isEmptyArray = Array.isArray(data) && data.length === 0;
@@ -9,13 +13,16 @@ const DataWrapper = ({ data, undefine, children }) => {
 
   if ((!data)) {
     return (
-      <div className="pb-10 pt-24 min-h-[100vh]">
-        <Loader2 />
-      </div>
+
+      <Suspense fallback={<></>}>
+        <div className="pb-10 pt-24 min-h-[100vh]">
+          <Loader2 />
+        </div>
+      </Suspense>
     );
   } else if ((!data && isEmptyArray && isEmptyObject)) {
 
-    return <NoDataFound />;
+    return <Suspense fallback={<></>}> <NoDataFound /> </Suspense>;
 
   } else {
     return <>{children}</>;
@@ -27,4 +34,4 @@ const DataWrapper = ({ data, undefine, children }) => {
 
 };
 
-export default DataWrapper;
+export default memo(DataWrapper);

@@ -1,10 +1,10 @@
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { Modal } from 'antd'
-import { lazy } from 'react'
-import CustomWhiteButton from '../Homepage/CustomWhiteButton'
+import { lazy, memo, Suspense } from 'react'
+const CustomWhiteButton = lazy(() => import('../Homepage/CustomWhiteButton'))
 const CustomButton = lazy(() => import('../Homepage/CustomButton'))
 
-export default function ConfirmModal({
+ function ConfirmModal({
   isOpen,
   title = 'Are you sure?',
   description = 'This action cannot be undone.',
@@ -40,6 +40,7 @@ export default function ConfirmModal({
           <>
             {(cancelText !== '' || okText !== '') && (
               <div className='flex justify-end gap-3'>
+                <Suspense fallback={<></>}>
                 {cancelText !== '' && (
                   <CustomWhiteButton
                     key='cancel'
@@ -59,6 +60,7 @@ export default function ConfirmModal({
                     {okText}
                   </CustomButton>
                 )}
+                </Suspense>
               </div>
             )}
           </>{' '}
@@ -72,3 +74,5 @@ export default function ConfirmModal({
     </Modal>
   )
 }
+
+export default memo(ConfirmModal)

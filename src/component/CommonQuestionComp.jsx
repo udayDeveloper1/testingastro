@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const CommonQuestionComp = ({ heading, content }) => {
   return (
     <>
@@ -17,4 +19,4 @@ const CommonQuestionComp = ({ heading, content }) => {
     </>
   );
 };
-export default CommonQuestionComp;
+export default memo(CommonQuestionComp);

@@ -1,52 +1,80 @@
-import { useEffect, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
 import { UpdatedPaths } from '../../routers/Paths'
-import { pageOption } from '../../utils/CommonVariable'
 
 const HomeFAQs = ({ highlightText, text, subHeading }) => {
   const [activeIndex, setActiveIndex] = useState(null)
   const PATHS = UpdatedPaths()
   const location = useLocation()
   const listFAQs = useSelector(state => state.HomePageSlice?.listFAQs) || {}
-  const [updatedFaqs, setUpdatedFaqs] = useState([])
 
-  useEffect(() => {
-    if (location.pathname === PATHS.HOMEPAGE) {
-      const filterFAQs = listFAQs?.data?.faqList?.filter(
-        faq => faq.type == 'home_screen'
-      )
-      setUpdatedFaqs(filterFAQs)
-    } else if (
-      location.pathname === PATHS.FREEKUNDALI ||
-      location.pathname === PATHS.KUNDALI_MATCHING ||
-      location.pathname === PATHS.CHATWITHASTROLOGERS
-    ) {
-      const filterFAQs = listFAQs?.data?.faqList?.filter(
-        faq => faq.type == 'kundli_matching'
-      )
-      setUpdatedFaqs(filterFAQs)
-    } else if (location.pathname.split('/')[1] === 'horoscope') {
-      const filterFAQs = listFAQs?.data?.faqList?.filter(
-        faq => faq.type == 'horoscope'
-      )
-      setUpdatedFaqs(filterFAQs)
-    } else if (location.pathname == PATHS.TODAYS_PANCHANGAM) {
-      const filterFAQs = listFAQs?.data?.faqList?.filter(
-        faq => faq.type == 'today_panchang'
-      )
-      setUpdatedFaqs(filterFAQs)
-    } else {
-      const filterFAQs = listFAQs?.data?.faqList?.filter(
-        faq => faq.type == 'home_screen'
-      )
-      setUpdatedFaqs(filterFAQs)
-    }
-  }, [listFAQs, pageOption, location.pathname])
+  // const [updatedFaqs, setUpdatedFaqs] = useState([])
 
-  const toggleAccordion = index => {
-    setActiveIndex(activeIndex === index ? null : index)
-  }
+  const updatedFaqs = useMemo(() => {
+    const typeMap = {
+      [PATHS.HOMEPAGE]: 'home_screen',
+      [PATHS.FREEKUNDALI]: 'kundli_matching',
+      [PATHS.KUNDALI_MATCHING]: 'kundli_matching',
+      [PATHS.CHATWITHASTROLOGERS]: 'kundli_matching',
+      [PATHS.TODAYS_PANCHANGAM]: 'today_panchang',
+    };
+
+    const pathname = location.pathname;
+    const faqType = pathname.split('/')[1] === 'horoscope' ? 'horoscope' : typeMap[pathname] || 'home_screen';
+
+    return listFAQs?.data?.faqList?.filter((faq) => faq.type === faqType) || [];
+  }, [listFAQs, location.pathname, PATHS]);
+
+  // useEffect(() => {
+  //   if (location.pathname === PATHS.HOMEPAGE) {
+  //     const filterFAQs = listFAQs?.data?.faqList?.filter(
+  //       faq => faq.type == 'home_screen'
+  //     )
+  //     setUpdatedFaqs(filterFAQs)
+  //   } else if (
+  //     location.pathname === PATHS.FREEKUNDALI ||
+  //     location.pathname === PATHS.KUNDALI_MATCHING ||
+  //     location.pathname === PATHS.CHATWITHASTROLOGERS
+  //   ) {
+  //     const filterFAQs = listFAQs?.data?.faqList?.filter(
+  //       faq => faq.type == 'kundli_matching'
+  //     )
+  //     setUpdatedFaqs(filterFAQs)
+  //   } else if (location.pathname.split('/')[1] === 'horoscope') {
+  //     const filterFAQs = listFAQs?.data?.faqList?.filter(
+  //       faq => faq.type == 'horoscope'
+  //     )
+  //     setUpdatedFaqs(filterFAQs)
+  //   } else if (location.pathname == PATHS.TODAYS_PANCHANGAM) {
+  //     const filterFAQs = listFAQs?.data?.faqList?.filter(
+  //       faq => faq.type == 'today_panchang'
+  //     )
+  //     setUpdatedFaqs(filterFAQs)
+  //   } else {
+  //     const filterFAQs = listFAQs?.data?.faqList?.filter(
+  //       faq => faq.type == 'home_screen'
+  //     )
+  //     setUpdatedFaqs(filterFAQs)
+  //   }
+  // }, [listFAQs, pageOption, location.pathname])
+
+
+
+
+
+
+
+
+
+
+  // const toggleAccordion = index => {
+  //   setActiveIndex(activeIndex === index ? null : index)
+  // }
+
+  const toggleAccordion = useCallback((index) => {
+    setActiveIndex((prev) => (prev === index ? null : index));
+  }, []);
 
   return (
     <section className=''>
@@ -96,4 +124,4 @@ const HomeFAQs = ({ highlightText, text, subHeading }) => {
   )
 }
 
-export default HomeFAQs
+export default memo(HomeFAQs)

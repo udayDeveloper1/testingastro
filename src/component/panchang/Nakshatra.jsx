@@ -1,5 +1,5 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph } = Typography;
@@ -28,12 +28,12 @@ const Nakshatra = ({ title, introText, data, tableTitle }) => {
         {/* Table Title */}
         {tableTitle && (
           <Title level={5} className="text-lg font-semibold " >
-           <span className="new_body_font text-[16px] font-semibold">{tableTitle}</span> 
+            <span className="new_body_font text-[16px] font-semibold">{tableTitle}</span>
           </Title>
         )}
-         <Title level={5} className="text-lg font-semibold " >
-           <span className=" text-[16px] font-medium">{t('No_English_Name_Devanagari_Name_Tamil_Name_Malayalam_Name')}</span> 
-          </Title>
+        <Title level={5} className="text-lg font-semibold " >
+          <span className=" text-[16px] font-medium">{t('No_English_Name_Devanagari_Name_Tamil_Name_Malayalam_Name')}</span>
+        </Title>
         {/* Grid Table */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[leftColumn, rightColumn].map((col, colIndex) => (
@@ -60,4 +60,4 @@ const Nakshatra = ({ title, introText, data, tableTitle }) => {
   );
 };
 
-export default Nakshatra;
+export default memo(Nakshatra);

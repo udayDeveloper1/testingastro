@@ -1,9 +1,9 @@
 import { Card } from 'antd'
+import { lazy, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatTime } from '../../utils/CommonFunction'
 import { TimeFormat } from '../../utils/CommonVariable'
-import CustomTable from '../Custom/CustomTable'
-
+const CustomTable = lazy(() => import("../Custom/CustomTable"))
 const columns = [
   {
     // title: 'Field',
@@ -26,7 +26,7 @@ const columns = [
   }
 ]
 
-export default function BasicBirthDetailsCard({
+function BasicBirthDetailsCard({
   panchangeDetails,
   planetDetails
 }) {
@@ -220,3 +220,5 @@ export default function BasicBirthDetailsCard({
     </>
   )
 }
+
+export default memo(BasicBirthDetailsCard)

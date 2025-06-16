@@ -1,37 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import cricket from '../../assets/img/prediction/cricket.png'
-import stockmarket from '../../assets/img/prediction/stockmarket.png'
-import CommonBanner from '../../component/CommonBanner'
+import React, { useEffect, useState, lazy, Suspense } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import moment from 'moment';
+import 'keen-slider/keen-slider.min.css';
+import { useKeenSlider } from 'keen-slider/react';
 
-import 'keen-slider/keen-slider.min.css'
-import { useKeenSlider } from 'keen-slider/react'
-import moment from 'moment'
-import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
-import Loader2 from '../../component/loader/Loader2'
-import ConfirmModal from '../../component/Modals/ConfirmModal'
-import { KundliChartType } from '../../component/NewKundaliComp/KundliVariabls'
-import { UpdatedPaths } from '../../routers/Paths'
+// Static assets
+import cricket from '../../assets/img/prediction/cricket.png';
+import stockmarket from '../../assets/img/prediction/stockmarket.png';
+
+// Lazy-loaded components
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const Loader2 = lazy(() => import('../../component/loader/Loader2'));
+const ConfirmModal = lazy(() => import('../../component/Modals/ConfirmModal'));
+const NoDataFound = lazy(() => import('../NoDataFound/NoDataFound'));
+
+// Regular import (used inside logic, not as a component)
+import { KundliChartType } from '../../component/NewKundaliComp/KundliVariabls';
+
+// API services
 import {
   genralPrediction,
   genralPredictionDetails,
   getDivisionalChartTh
-} from '../../services/api/api.services'
+} from '../../services/api/api.services';
+
+// Utils
 import {
+  openLoader,
   closeLoder,
   formatDate,
-  formatTime,
-  openLoader
-} from '../../utils/CommonFunction'
+  formatTime
+} from '../../utils/CommonFunction';
 import {
   Codes,
   DateFormat,
   LanguageOption,
   TimeFormat
-} from '../../utils/CommonVariable'
-import { Constatnt } from '../../utils/Constent'
-import NoDataFound from '../NoDataFound/NoDataFound'
+} from '../../utils/CommonVariable';
+import { Constatnt } from '../../utils/Constent';
+import { UpdatedPaths } from '../../routers/Paths';
+
 
 const PredictionPage = () => {
   const dispatch = useDispatch()
@@ -141,6 +151,9 @@ const PredictionPage = () => {
     mode: 'free',
     slides: { perView: 5.5, spacing: 15 },
     breakpoints: {
+        '(max-width: 1440px)': {
+        slides: { perView: 4.5, spacing: 15 }
+      },
       '(max-width: 768px)': {
         slides: { perView: 2.5, spacing: 10 }
       },
@@ -323,30 +336,39 @@ const PredictionPage = () => {
               {fetchPrediction.contentList.map((item, index) => {
                 const isActive = activeCardData === item.value
                 return (
-                  <div key={index} className='keen-slider__slide !w-auto box_shadow_common new_border rounded-[10px]'>
-                    <div
-                      onClick={() => {
-                        setActiveCard(index)
-                        setActiveCardData(item.value)
-                        onContentChange(item.value, item?.subcategories?.[0]?.value)
-                        setPredictionSubCategory(item?.subcategories)
-                        setActiveTab(item?.subcategories?.[0]?.value)
-                      }}
-                      className={`w-full h-full rounded-[10px] flex flex-col items-center cursor-pointer p-[15px] sm:p-[25px] gap-[15px] text-center transition-all duration-300 box_shadow_common
-                ${isActive ? 'gradient-background text-white' : 'bg-white new_body_font'}`}
-                    >
-                      <div className='w-[60px] h-[60px] md:w-[80px] md:h-[80px] flex items-center justify-center commonLightBack rounded-full'>
-                        <img
-                          src={item?.image}
-                          alt={item.category}
-                          className='object-contain w-full h-full'
-                        />
-                      </div>
-                      <div className='text-[16px] sm:text-[18px] font-semibold capitalize'>
-                        {item?.category}
-                      </div>
-                    </div>
-                  </div>
+            <div
+  key={index}
+  className="keen-slider__slide !w-auto min-w-[160px] sm:min-w-[180px] md:min-w-[200px] box_shadow_common new_border rounded-[8px]"
+>
+  <div
+    onClick={() => {
+      setActiveCard(index)
+      setActiveCardData(item.value)
+      onContentChange(item.value, item?.subcategories?.[0]?.value)
+      setPredictionSubCategory(item?.subcategories)
+      setActiveTab(item?.subcategories?.[0]?.value)
+    }}
+    className={`w-full h-full rounded-[8px] flex flex-col items-center justify-center cursor-pointer 
+    p-[6px] sm:p-[10px] gap-[6px] text-center transition-all duration-300 box_shadow_common
+    ${isActive ? 'gradient-background text-white' : 'bg-white new_body_font'}`}
+  >
+    <div
+      className="w-[36px] h-[36px] sm:w-[44px] sm:h-[44px] md:w-[50px] md:h-[50px] 
+      flex items-center justify-center commonLightBack rounded-full"
+    >
+      <img
+        src={item?.image}
+        alt={item.category}
+        className="object-contain w-full h-full"
+      />
+    </div>
+    <div className={` ${isActive ? ' text-white' :""}`}>
+      {item?.category}
+    </div>
+  </div>
+</div>
+
+
                 )
               })}
             </div>
@@ -434,4 +456,4 @@ const PredictionPage = () => {
   )
 }
 
-export default PredictionPage
+export default React.memo(PredictionPage)

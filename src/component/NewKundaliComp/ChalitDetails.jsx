@@ -1,8 +1,6 @@
-import React from 'react'
-import { convertDegree } from './KundliVariabls';
-import CustomTable from '../Custom/CustomTable';
-import { Card } from 'antd';
 
+import { Card } from 'antd';
+const CustomTable = lazy(() => import("../Custom/CustomTable"))
 export const ChalitDetails = ({ planetDetails }) => {
 
   const columnsPlanets = [

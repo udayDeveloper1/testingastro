@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import commonBanner from '/banner/defaultBanner.svg'
 
-function CommonBanner ({ backgroundImage = '', text, highlight }) {
+function CommonBanner({ backgroundImage = '', text, highlight }) {
   const [difference, setDifference] = useState(0)
 
   // Function to calculate margin and padding difference
@@ -38,14 +38,14 @@ function CommonBanner ({ backgroundImage = '', text, highlight }) {
         backgroundPosition: 'center'
       }}
     >
-    
-        <div className='container h-full flex items-center justify-center'>
-            <h2 className='newBannerH2 justify-center flex mb-0 new_body_color text-center '>
-              {text} {highlight} <span className='commonBannerSpan'></span>
-            </h2>
+
+      <div className='container h-full flex items-center justify-center'>
+        <h2 className='newBannerH2 justify-center flex mb-0 new_body_color text-center '>
+          {text} {highlight} <span className='commonBannerSpan'></span>
+        </h2>
       </div>
     </div>
   )
 }
 
-export default CommonBanner
+export default memo(CommonBanner)

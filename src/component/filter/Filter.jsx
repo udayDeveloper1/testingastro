@@ -1,13 +1,13 @@
 import { Checkbox, Modal } from "antd";
-import React, { lazy, useState } from "react";
+import { lazy, memo, Suspense, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import close from "../../assets/img/common/close.webp";
 import {
   setFilterValue,
   setOnSubmitFilter,
 } from "../../storemain/slice/MasterSlice";
-import CustomWhiteButton from "../Homepage/CustomWhiteButton";
-import { useTranslation } from "react-i18next";
+const CustomWhiteButton = lazy(() => import('../Homepage/CustomWhiteButton'))
 const CustomButton = lazy(() => import('../Homepage/CustomButton'))
 
 function Filter({ isOpen, onClose }) {
@@ -43,7 +43,6 @@ function Filter({ isOpen, onClose }) {
   const handleSelection = (subcategoryName, categoryName) => {
     setSelectedFilters(prev => {
       const updatedFilters = { ...prev }
-
       // For single selection, just check if the selected is already chosen or not
       if (updatedFilters[categoryName] === subcategoryName) {
         // If already selected, unselect it (optional)
@@ -156,27 +155,29 @@ function Filter({ isOpen, onClose }) {
       </div>
 
       {/* Footer */}
-      <div className='grid grid-cols-2 gap-4 px-2 py-3 md:px-10 md:py-7 mt-4 commonLightBack '>
-        <CustomWhiteButton
-          className="px-5 py-2 text-[16px] font-semibold"
-          onClick={() => {
-            handleClear();
-          }}
-        >
-          {t('RESET')}
-        </CustomWhiteButton>
-        <CustomButton
-          className="px-5 py-2 text-[16px] font-semibold h-full"
-          onClick={() => {
-            dispatch(setOnSubmitFilter(true));
-          }}
-        >
-          {t('APPLY')}
-        </CustomButton>
-      </div>
+      <Suspense fallback={<></>}>
+        <div className='grid grid-cols-2 gap-4 px-2 py-3 md:px-10 md:py-7 mt-4 commonLightBack '>
+          <CustomWhiteButton
+            className="px-5 py-2 text-[16px] font-semibold"
+            onClick={() => {
+              handleClear();
+            }}
+          >
+            {t('RESET')}
+          </CustomWhiteButton>
+          <CustomButton
+            className="px-5 py-2 text-[16px] font-semibold h-full"
+            onClick={() => {
+              dispatch(setOnSubmitFilter(true));
+            }}
+          >
+            {t('APPLY')}
+          </CustomButton>
+        </div>
+      </Suspense>
     </Modal>
   )
 
 }
 
-export default Filter
+export default memo(Filter)

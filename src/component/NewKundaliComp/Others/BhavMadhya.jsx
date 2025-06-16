@@ -1,8 +1,8 @@
-import { Card, Table } from "antd";
-import React from "react";
-import CustomTable from "../../Custom/CustomTable";
+import { Card } from "antd";
+import { lazy, memo } from "react";
 
-export default function BhavMadhya() {
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
+function BhavMadhya() {
   const prasthakvargaColumns = [
     {
       title: "",
@@ -169,7 +169,7 @@ export default function BhavMadhya() {
       render: (text) => (
         <span className="text-[16px] font-semibold new_body_font">{text}</span>
       ),
-     
+
     },
     {
       title: <span className="text-[18px] font-semibold">Degree</span>,
@@ -218,7 +218,7 @@ export default function BhavMadhya() {
       degree: "180",
       orb: "15",
       weight: "10",
-     
+
     },
     { key: "7", abbr: "SQU–SQUARE", degree: "90", orb: "6", weight: "3" },
     { key: "8", abbr: "SSQU–SEMI SQUARE", degree: "45", orb: "1", weight: "1" },
@@ -304,3 +304,5 @@ export default function BhavMadhya() {
     </>
   );
 }
+
+export default memo(BhavMadhya)

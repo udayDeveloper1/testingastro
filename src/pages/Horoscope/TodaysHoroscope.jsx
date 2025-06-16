@@ -1,15 +1,14 @@
-import { useEffect, useState, useMemo, lazy, Suspense } from 'react';
 import moment from 'moment';
-import { useLocation, useNavigate, useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import { lazy, memo, Suspense, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router';
 
-import CommonBanner from '../../component/CommonBanner';
-import AlsoCheckBanner from '../../component/AlsoCheckBanner';
-import ZodiacCard from '../../component/Horoscope/ZodiacCard';
 
 const CommonQuestionComp = lazy(() => import('../../component/CommonQuestionComp'));
 const HomeFAQs = lazy(() => import('../../component/Homepage/HomeFAQs'));
+const AlsoCheckBanner = lazy(() => import('../../component/AlsoCheckBanner'));
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const ZodiacCard = lazy(() => import('../../component/Horoscope/ZodiacCard'));
 
 import {
   getHoroscopeList,
@@ -17,15 +16,14 @@ import {
   getYearlyHoroscopeList
 } from '../../services/api/api.services';
 
-import { Codes, LanguageOption } from '../../utils/CommonVariable';
-import { allHoroScopeNavigation } from '../../utils/navigations/NavigationPage';
-import { UpdatedPaths } from '../../routers/Paths';
 import { useHoroscopeTabs } from '../../component/Horoscope/horoscopeTabsData';
-import { useHoroscopeList } from '../hooks/useAllRashiInfo';
+import { UpdatedPaths } from '../../routers/Paths';
+import { Codes, LanguageOption } from '../../utils/CommonVariable';
 import { Constatnt } from '../../utils/Constent';
+import { allHoroScopeNavigation } from '../../utils/navigations/NavigationPage';
+import { useHoroscopeList } from '../hooks/useAllRashiInfo';
 
 function TodaysHoroscope() {
-  const location = useLocation();
   const navigate = useNavigate();
   const { type: typeParams } = useParams();
 
@@ -34,11 +32,11 @@ function TodaysHoroscope() {
   const horoscopeTabs = useHoroscopeTabs();
   const horoscopeList = useHoroscopeList();
 
-  
 
-        const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-        ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-        : LanguageOption?.ENGLISH
+
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    : LanguageOption?.ENGLISH
 
   const [active, setActive] = useState('0');
   const [type, setType] = useState('daily');
@@ -68,8 +66,8 @@ function TodaysHoroscope() {
       type === 'yesterday-horoscope'
         ? moment().subtract(1, 'day').format('DD/MM/YYYY')
         : type === 'tomorrow-horoscope'
-        ? moment().add(1, 'day').format('DD/MM/YYYY')
-        : moment().format('DD/MM/YYYY');
+          ? moment().add(1, 'day').format('DD/MM/YYYY')
+          : moment().format('DD/MM/YYYY');
 
     const request = {
       zodiac: '1', // Placeholder zodiac ID, can be improved by batching
@@ -90,12 +88,12 @@ function TodaysHoroscope() {
           );
           return matched
             ? {
-                ...horoscope,
-                updateDescription:
-                  matched.response?.bot_response?.total_score?.split_response ||
-                  matched.response?.phase_1?.prediction ||
-                  ''
-              }
+              ...horoscope,
+              updateDescription:
+                matched.response?.bot_response?.total_score?.split_response ||
+                matched.response?.phase_1?.prediction ||
+                ''
+            }
             : horoscope;
         });
         setUpdateZodicList(updated);
@@ -118,7 +116,7 @@ function TodaysHoroscope() {
       <section>
         <CommonBanner text='' highlight={t('horoscopes')} />
       </section>
-
+ <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className='paddingTop50 container mx-auto'>
           <AlsoCheckBanner active={active} onTabChange={onTabChange} />
@@ -143,7 +141,7 @@ function TodaysHoroscope() {
         </div>
       </section>
 
-      <Suspense fallback={<div className="text-center my-10">Loading...</div>}>
+   
         <section>
           <div className='container mx-auto paddingTop50 flex flex-col gap-5'>
             <CommonQuestionComp
@@ -172,4 +170,4 @@ function TodaysHoroscope() {
   );
 }
 
-export default TodaysHoroscope;
+export default memo(TodaysHoroscope);

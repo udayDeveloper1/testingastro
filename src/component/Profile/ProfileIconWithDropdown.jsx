@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, lazy, Suspense, memo } from "react";
+import { lazy, memo, Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Constatnt } from "../../utils/Constent";
 

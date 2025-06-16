@@ -1,9 +1,10 @@
 import { Card } from "antd";
-import CustomTable from "../../Custom/CustomTable";
+import { lazy, memo } from "react";
 
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
 
-export default function ChalitComp() {
-  
+function ChalitComp() {
+
   const planets = [
     { key: "1", label: "Name", planets: "Sun", sign: "Tarot Mamta", sign_lord: "Tarot Mamta", degree: "Tarot Mamta", house: "Tarot Mamta" },
     { key: "2", label: "Time", planets: "Moon", sign: "Gemini", sign_lord: "Me", degree: "Ju", house: "Su" },
@@ -24,7 +25,7 @@ export default function ChalitComp() {
       title: "Planets",
       dataIndex: "planets",
       key: "planets",
-      align:"center",
+      align: "center",
       render: (text) => (
         <span className="new_body_font font-bold font-medium">{text}</span>
       ),
@@ -33,28 +34,28 @@ export default function ChalitComp() {
       title: "Sign",
       dataIndex: "sign",
       key: "sign",
-      align:"center",
+      align: "center",
       render: (text) => <span className="text-gray-800">{text}</span>,
     },
     {
       title: "Sign Lord",
       dataIndex: "sign_lord",
       key: "sign_lord",
-      align:"center",
+      align: "center",
       render: (text) => <span className="text-gray-800">{text}</span>,
     },
     {
       title: "Degree",
       dataIndex: "degree",
       key: "degree",
-      align:"center",
+      align: "center",
       render: (text) => <span className="text-gray-800">{text}</span>,
     },
     {
       title: "House",
       dataIndex: "house",
       key: "house",
-      align:"center",
+      align: "center",
       render: (text) => <span className="text-gray-800">{text}</span>,
     },
   ];
@@ -78,12 +79,14 @@ export default function ChalitComp() {
               pagination={false}
               loading={false}
               bordered={false}
-              
+
             />
           </Card>
-         
+
         </div>
       </div>
     </>
   );
 }
+
+export default memo(ChalitComp)

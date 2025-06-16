@@ -1,15 +1,16 @@
 import moment from 'moment';
 import { Card } from "antd";
-import CustomTable from "../Custom/CustomTable";
 import { formatDate } from "../../utils/CommonFunction";
 import { getShortNakshatra } from "./KundliVariabls";
 import { DateFormat, LanguageOption } from '../../utils/CommonVariable';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Constatnt } from '../../utils/Constent';
-import DataWrapper from '../Custom/DataWrapper';
 
-export default function CharDashaComp({ charDashaSub, charDashaMain }) {
+import { lazy, memo } from 'react';
+const CustomTable = lazy(() => import("../Custom/CustomTable"))
+const DataWrapper = lazy(() => import("../Custom/DataWrapper"))
+ function CharDashaComp({ charDashaSub, charDashaMain }) {
   const { t } = useTranslation()
   const undefine = useSelector(state => state?.masterSlice?.undefine); // ✅ added
 
@@ -190,3 +191,5 @@ export default function CharDashaComp({ charDashaSub, charDashaMain }) {
     </DataWrapper>
   );
 }
+
+export default memo(CharDashaComp)

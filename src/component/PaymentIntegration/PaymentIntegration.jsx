@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 const RazorpayOwnCheckout = () => {
   const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false);
@@ -70,4 +70,4 @@ const RazorpayOwnCheckout = () => {
   );
 };
 
-export default RazorpayOwnCheckout;
+export default memo(RazorpayOwnCheckout);

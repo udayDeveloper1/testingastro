@@ -1,11 +1,12 @@
 
 import { AudioOutlined, SendOutlined } from '@ant-design/icons'
-import cloneDeep from 'lodash/cloneDeep'
 import { faQuestion, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'antd/dist/reset.css'
+import cloneDeep from 'lodash/cloneDeep'
 import React, {
   lazy,
+  Suspense,
   useCallback,
   useEffect,
   useMemo,
@@ -19,40 +20,22 @@ import { toast } from 'react-toastify'
 import sampleImage from '../../assets/img/astrologer/astro2.webp'
 import chatSendIcon from '../../assets/img/chat/send.webp'
 import notFoundImg from '../../assets/img/noDataFound/No_Data_Found.webp'
-import PhoneAuthModals from '../../component/auth/PhoneAuthModals'
-import RatingModal from '../../component/Chat/RatingModal'
-import PaymentModal from '../../component/Modals/PaymentModal'
 import { createSocket } from '../../component/socket/socket'
-import CountdownTimer from '../../component/Timer/Timer'
-import {
-  addChatduration,
-  addChatRequest,
-  chatHistory,
-  editChatRequest,
-  getAstrologersDetails,
-  giveStarPlusReview
-} from '../../services/api/api.services'
-import {
-  setAstroDetails,
-  setAstroPaymentDetails
-} from '../../storemain/slice/astroLogerDetailsSlice'
+import { UpdatedPaths } from '../../routers/Paths'
+import { addChatduration, addChatRequest, chatHistory, editChatRequest, getAstrologersDetails, giveStarPlusReview } from '../../services/api/api.services'
+import { setAstroDetails, setAstroPaymentDetails } from '../../storemain/slice/astroLogerDetailsSlice'
 import { setUserLoginData } from '../../storemain/slice/MasterSlice'
-import {
-  closeModel,
-  Decryption,
-  formatDate,
-  formatTime,
-  openModel,
-  setLoginUserData,
-  TOAST_ERROR,
-  utcToTst
-} from '../../utils/CommonFunction'
+import { closeModel, Decryption, formatDate, formatTime, openModel, setLoginUserData, TOAST_ERROR, utcToTst } from '../../utils/CommonFunction'
 import { Codes } from '../../utils/CommonVariable'
 import { Constatnt } from '../../utils/Constent'
-import { UpdatedPaths } from '../../routers/Paths'
-import Loader2 from '../../component/loader/Loader2'
 const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
 const ConfirmModal = lazy(() => import('../../component/Modals/ConfirmModal'))
+
+const PhoneAuthModals = lazy(() => import('../../component/auth/PhoneAuthModals'));
+const RatingModal = lazy(() => import('../../component/Chat/RatingModal'));
+const Loader2 = lazy(() => import('../../component/loader/Loader2'));
+const PaymentModal = lazy(() => import('../../component/Modals/PaymentModal'));
+const CountdownTimer = lazy(() => import('../../component/Timer/Timer'));
 
 const ChatUI = () => {
   const { t } = useTranslation()
@@ -133,7 +116,7 @@ const ChatUI = () => {
       if (response.code === 1) {
         dispatch(setAstroDetails(response.data))
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   const handleReview = async rating => {
@@ -173,7 +156,7 @@ const ChatUI = () => {
               : '01-01-2000',
           tob:
             formatTime(loginUserData?.time_of_birth, 'hh:mm A') !==
-            'Invalid date'
+              'Invalid date'
               ? formatTime(loginUserData?.time_of_birth, 'hh:mm A')
               : '01:11 PM',
           place: loginUserData?.place_of_birth || 'Amreli, Gujarat, IN'
@@ -246,7 +229,7 @@ const ChatUI = () => {
             })
             setMessages(mergedMessages)
           }
-        } catch (error) {}
+        } catch (error) { }
         setHistory(true)
         setWaitingRef(false)
         setRedErrorRef(false)
@@ -302,7 +285,7 @@ const ChatUI = () => {
         openModel(dispatch, 'openRecharge')
         pauseTimer()
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   const deductMoney = async () => {
@@ -317,7 +300,7 @@ const ChatUI = () => {
         openModel(dispatch, 'openRecharge')
         pauseTimer()
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   const scrollBottom = () => {
@@ -332,19 +315,15 @@ const ChatUI = () => {
         sender_type: 'user',
         receiver_id: receiverId,
         receiver_type: 'astrologer',
-        message: `name: ${loginUserData?.name || 'Test User'}<br /> dob: ${
-          formatDate(loginUserData?.dob, 'DD-MM-YYYY') !== 'Invalid date'
+        message: `name: ${loginUserData?.name || 'Test User'}<br /> dob: ${formatDate(loginUserData?.dob, 'DD-MM-YYYY') !== 'Invalid date'
             ? formatDate(loginUserData?.dob, 'DD-MM-YYYY')
             : '01-01-2000'
-        }<br /> tob: ${
-          formatTime(loginUserData?.time_of_birth, 'hh:mm A') !== 'Invalid date'
+          }<br /> tob: ${formatTime(loginUserData?.time_of_birth, 'hh:mm A') !== 'Invalid date'
             ? formatTime(loginUserData?.time_of_birth, 'hh:mm A')
             : '01:11 PM'
-        }<br /> place: ${
-          loginUserData?.place_of_birth || 'Amreli, Gujarat, IN'
-        } <br /> Hello ${
-          urlData?.name || 'Hello Userji'
-        }Ji,<br /> Jay Shree Krishna !! <br /> `,
+          }<br /> place: ${loginUserData?.place_of_birth || 'Amreli, Gujarat, IN'
+          } <br /> Hello ${urlData?.name || 'Hello Userji'
+          }Ji,<br /> Jay Shree Krishna !! <br /> `,
         message_type: '',
         image: '',
         attachment: '',
@@ -373,7 +352,7 @@ const ChatUI = () => {
         // +loginUserData?.is_freechat_count > 0 ? true : false
       )
       setSocket(newSocket)
-      newSocket.on('connect', () => {})
+      newSocket.on('connect', () => { })
       newSocket.on('disconnect', err => {
         setIsSocketConnected(false)
       })
@@ -442,7 +421,7 @@ const ChatUI = () => {
         setTyping(data || {})
       })
 
-      newSocket.on('send_message_error', data => {})
+      newSocket.on('send_message_error', data => { })
     }
   }
 
@@ -485,7 +464,7 @@ const ChatUI = () => {
       await connectSocket()
       await chatAddDuration()
       await closeModel(dispatch)
-    } catch (error) {}
+    } catch (error) { }
   }
 
   const freeChatComplete = async () => {
@@ -501,29 +480,26 @@ const ChatUI = () => {
     ({ message, isUser, time }) => {
       return (
         <div
-          className={`flex ${
-            isUser ? 'justify-end' : 'justify-start'
-          } px-2 md:px-6 my-2 mb-4`}
+          className={`flex ${isUser ? 'justify-end' : 'justify-start'
+            } px-2 md:px-6 my-2 mb-4`}
         >
           <div className='flex flex-col items-start'>
             <div
               className={`max-w-md px-5 py-3 text-[16px] font-medium rounded-lg leading-[180%] ChatMessage
-          ${
-            isUser
-              ? 'bg_website_color text-white rounded-br-none self-end'
-              : 'commonLightBack text-[#333333] rounded-bl-none'
-          }`}
+          ${isUser
+                  ? 'bg_website_color text-white rounded-br-none self-end'
+                  : 'commonLightBack text-[#333333] rounded-bl-none'
+                }`}
               dangerouslySetInnerHTML={{ __html: message }}
             ></div>
             {/* <p className='max-w-md px-5 py-3 text-[16px] font-medium rounded-lg leading-[180%] ChatMessage'>
           {message}
         </p> */}
             <div
-              className={`text-[16px] font-normal text-gray-500 mt-1 w-full text-end leading-5 ${
-                isUser
+              className={`text-[16px] font-normal text-gray-500 mt-1 w-full text-end leading-5 ${isUser
                   ? 'text-right text-[#e3725d] self-end pr-1'
                   : 'text-gray-500 pl-1'
-              }`}
+                }`}
             >
               {time}
             </div>
@@ -578,8 +554,8 @@ const ChatUI = () => {
             astrologer_id: urlData?.receiver_id,
             conversation_types: 'chat'
           })
-          let datas  = cloneDeep(urlData);
-          datas.AstroData =  response.data
+          let datas = cloneDeep(urlData);
+          datas.AstroData = response.data
           setUrlData(datas)
           connectSocket()
           setHistory(false)
@@ -604,10 +580,10 @@ const ChatUI = () => {
     return (
       waitingRef === false &&
       redErrorRef === false &&
-      disconnected === false 
+      disconnected === false
       // && history === false
     )
-  // }, [waitingRef, redErrorRef, disconnected, history])
+    // }, [waitingRef, redErrorRef, disconnected, history])
   }, [waitingRef, redErrorRef, disconnected])
 
   if (!senderId) {
@@ -702,6 +678,7 @@ const ChatUI = () => {
 
   return (
     <>
+     <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section className=' chat_section'>
         <div className='container mx-auto py-2'>
           <div className='bg-white rounded-[10px] shadow-md overflow-hidden'>
@@ -779,11 +756,10 @@ const ChatUI = () => {
 
               <div className='relative'>
                 <div
-                  className={`overflow-y-auto py-5 pb-12 bg-white leading-none chatbox_sec ${
-                    messages.length === 0
+                  className={`overflow-y-auto py-5 pb-12 bg-white leading-none chatbox_sec ${messages.length === 0
                       ? 'flex items-center justify-center'
                       : ''
-                  }`}
+                    }`}
                 >
                   {renderedMessages}
 
@@ -832,11 +808,10 @@ const ChatUI = () => {
                         onClick={sendMessage}
                         decoding='async'
                         loading='lazy'
-                        className={` ${
-                          isSocketConnected
+                        className={` ${isSocketConnected
                             ? 'cursor-pointer'
                             : 'cursor-not-allowed'
-                        }`}
+                          }`}
                       />
                     </>
                   ) : waitingRef === true ? (
@@ -893,15 +868,7 @@ const ChatUI = () => {
           }}
         />
       </section>
-      {/* <ReloadModal
-        isOpen={reloadOpen}
-        title='Are you sure?'
-        description="This action Can't be undone."
-        okText='Yes'
-        cancelText='Cancel'
-        onCancel={onCancelReload}
-        onConfirm={onConfirmReload}
-      /> */}
+</Suspense>
     </>
   )
 }

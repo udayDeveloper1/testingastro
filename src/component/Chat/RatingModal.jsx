@@ -1,7 +1,6 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { Modal, Avatar, Input, Rate } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-// import CustomButton from "../Homepage/CustomButton";
+import { Avatar, Input, Modal, Rate } from "antd";
+import React, { Suspense, useCallback, useMemo, useState } from "react";
 const CustomButton = React.lazy(() => import("../Homepage/CustomButton"));
 
 
@@ -99,13 +98,15 @@ const RatingModal = React.memo(({
         </div>
 
         <div className="w-full">
-          <CustomButton
-            block
-            className="mt-6 bg-[#6C2BD9] text-white w-full rounded-md font-semibold py-2 text-sm hover:bg-[#5822b1] transition-all"
-            onClick={handleSubmit}
-          >
-            SUBMIT
-          </CustomButton>
+          <Suspense fallback={<></>}>
+            <CustomButton
+              block
+              className="mt-6 bg-[#6C2BD9] text-white w-full rounded-md font-semibold py-2 text-sm hover:bg-[#5822b1] transition-all"
+              onClick={handleSubmit}
+            >
+              SUBMIT
+            </CustomButton>
+            </Suspense>
         </div>
       </div>
     </Modal>

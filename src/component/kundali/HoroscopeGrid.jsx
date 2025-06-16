@@ -1,14 +1,14 @@
-import React, { useMemo, memo } from 'react'
-import { useKeenSlider } from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
-import { horoscopeList } from '../../pages/Horoscope/HororScopVariable'
-import { allHoroScopeDetailsNavigation } from '../../utils/navigations/NavigationPage'
+import { useKeenSlider } from 'keen-slider/react'
+import { memo, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router'
 import "../../assets/css/horoscopeGrid.css"
-import { useTranslation } from 'react-i18next'
+import { horoscopeList } from '../../pages/Horoscope/HororScopVariable'
 import { UpdatedPaths } from '../../routers/Paths'
+import { allHoroScopeDetailsNavigation } from '../../utils/navigations/NavigationPage'
 
-const HoroscopeCard = memo(({ sign, isSlider,signNameForHighlight  }) => {
+const HoroscopeCard = memo(({ sign, isSlider, signNameForHighlight }) => {
 
   const navigate = useNavigate();
   const { type } = useParams();
@@ -32,8 +32,8 @@ const HoroscopeCard = memo(({ sign, isSlider,signNameForHighlight  }) => {
   );
 });
 
-const HoroscopeGrid = memo(({ heading, smallText,signNameForHighlight }) => {
-  
+const HoroscopeGrid = memo(({ heading, smallText, signNameForHighlight }) => {
+
   const [sliderRef] = useKeenSlider({
     loop: false,
     mode: "free",
@@ -52,7 +52,7 @@ const HoroscopeGrid = memo(({ heading, smallText,signNameForHighlight }) => {
   });
 
   const desktopCards = useMemo(() =>
-    horoscopeList.map(sign => (
+    horoscopeList?.map(sign => (
       <HoroscopeCard
         key={sign?.name}
         sign={sign}

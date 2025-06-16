@@ -1,14 +1,10 @@
-import React, { lazy, useState } from 'react'
-import { Modal, Button } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { Modal } from 'antd'
+import { lazy, Suspense } from 'react'
+const CustomWhiteButton = lazy(() => import('../Homepage/CustomWhiteButton'))
 const CustomButton = lazy(() => import('../Homepage/CustomButton'))
-import CustomWhiteButton from '../Homepage/CustomWhiteButton'
-import MoneyWallet from '../../pages/PaymentScreen/MoneyWallet'
-import PaymentDetails from '../../pages/PaymentScreen/PaymentDetails'
-import { closeModel } from '../../utils/CommonFunction'
-import { useDispatch } from 'react-redux'
 
-export default function ReloadModal ({
+export default function ReloadModal({
   isOpen,
   title = 'Are you sure?',
   description = `This action Can't be undone.`,
@@ -31,6 +27,7 @@ export default function ReloadModal ({
       onCancel={onCancel}
       footer={[
         <>
+        <Suspense fallback={<></>}>
           <>
             {(cancelText !== '' || okText !== '') && (
               <div className='flex justify-end gap-3'>
@@ -55,6 +52,7 @@ export default function ReloadModal ({
               </div>
             )}
           </>
+          </Suspense>
         </>
       ]}
       centered

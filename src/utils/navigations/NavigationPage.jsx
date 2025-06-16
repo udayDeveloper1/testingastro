@@ -8,6 +8,12 @@ export function getBasePath(path) {
     return '/' + baseSegments.join('/');
 }
 
+export function transformBlogName(blog) {
+    return blog?.split(/\s+/).slice(0, 2).join('-').toLowerCase();
+}
+
+// ----------------------------------------------------------------------------------------------------
+
 export const astrologerDetailsRedirection = (navigate, paths, id) => {
     const basePath = getBasePath(paths);
     navigate(`${basePath}/${id}`);
@@ -22,23 +28,6 @@ export const kundaliDetailsNavigate = (navigate, tab, kundliData, paths) => {
     const basePath = getBasePath(paths);
     navigate(`${basePath}/${tab}`, { state: { kundliData } });
 }
-
-// export const freeKundaliBasicNavigate = (navigate, id, navigationData) => {
-//     navigate("/freeKundliKundliDetailsBasic", { state: { navigationData } });
-// };
-
-// export const singleYearHoroscopRedirection = (navigate, id, name , paths) => {
-//     const basePath = getBasePath(paths);
-//     navigate(`/horoscope-details-yearly/${name}/${id}`);
-// };
-
-// export const todaySingleHoroScopRedirection = (navigate, id, name, path, type) => {
-//     navigate(`${path}/${type}/${name}/${id}`);
-// };
-
-// export const navigateHoroscope = (navigate, path, type) => {
-//     navigate(`${path}`);
-// };
 
 /*==================================================== 
   updated horoscop module                                          
@@ -57,9 +46,9 @@ export const allHoroScopeDetailsNavigation = (navigate, type, name, id, paths) =
     navigate(`${basePath}/${type || 'daily-horoscope'}/${name}`);
 };
 
-export const blogDetailsNavigation = (navigate, paths, id) => {
+export const blogDetailsNavigation = (navigate, paths, id, name) => {
     const basePath = getBasePath(paths);
-    navigate(`${basePath}/${id}`);
+    navigate(`${basePath}/${transformBlogName(name)}/${id}`);
 };
 
 /*==================================================== 

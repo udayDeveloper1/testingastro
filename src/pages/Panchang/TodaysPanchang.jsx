@@ -656,9 +656,6 @@ function TodaysPanchang() {
       </section>
 
    
-
-     
-
       <HomeFAQs
         text={t('FAQs')}
         highlightText={t('panchange')}

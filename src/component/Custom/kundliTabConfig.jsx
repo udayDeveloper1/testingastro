@@ -11,6 +11,8 @@
 // import OthersDetail from "../../pages/kundali/OthersDetail";
 // import { Remedies } from "../../pages/kundali/Remedies";
 
+import React, { Suspense } from "react";
+
 // export const kundliTabConfig = [
 //   {
 //     key: "basic",
@@ -94,18 +96,29 @@
 //   }
 // ];
 
+// import FreeKundliKundliDetailsBasic from "../../pages/kundali/FreeKundliKundliDetailsBasic";
+// import FreeKundliKundliDetailsCharts from "../../pages/kundali/FreeKundliKundliDetailsCharts";
+// import Planets from "../../pages/kundali/Planets";
+// import DashaVishontari from "../../pages/kundali/DashaVishontari";
+// import CharDasha from "../../pages/kundali/CharDasha";
+// import YoginiDasha from "../../pages/kundali/YoginiDasha";
+// import MahadashaFal from "../../pages/kundali/MahadashaFal";
+// import Prediction from "../../pages/kundali/Prediction";
+// import DoshaReport from "../../pages/kundali/DoshaReport";
+// import OthersDetail from "../../pages/kundali/OthersDetail";
+// import { Remedies } from "../../pages/kundali/Remedies";
 
-
-import FreeKundliKundliDetailsBasic from "../../pages/kundali/FreeKundliKundliDetailsBasic";
-import FreeKundliKundliDetailsCharts from "../../pages/kundali/FreeKundliKundliDetailsCharts";
-import Planets from "../../pages/kundali/Planets";
-import DashaVishontari from "../../pages/kundali/DashaVishontari";
-import CharDasha from "../../pages/kundali/CharDasha";
-import YoginiDasha from "../../pages/kundali/YoginiDasha";
-import MahadashaFal from "../../pages/kundali/MahadashaFal";
-import Prediction from "../../pages/kundali/Prediction";
-import DoshaReport from "../../pages/kundali/DoshaReport";
-import OthersDetail from "../../pages/kundali/OthersDetail";
+const FreeKundliKundliDetailsBasic = React.lazy(() => import("../../pages/kundali/FreeKundliKundliDetailsBasic"));
+const FreeKundliKundliDetailsCharts = React.lazy(() => import("../../pages/kundali/FreeKundliKundliDetailsCharts"));
+const Planets = React.lazy(() => import("../../pages/kundali/Planets"));
+const DashaVishontari = React.lazy(() => import("../../pages/kundali/DashaVishontari"));
+const CharDasha = React.lazy(() => import("../../pages/kundali/CharDasha"));
+const YoginiDasha = React.lazy(() => import("../../pages/kundali/YoginiDasha"));
+const MahadashaFal = React.lazy(() => import("../../pages/kundali/MahadashaFal"));
+const Prediction = React.lazy(() => import("../../pages/kundali/Prediction"));
+const DoshaReport = React.lazy(() => import("../../pages/kundali/DoshaReport"));
+const OthersDetail = React.lazy(() => import("../../pages/kundali/OthersDetail"));
+// const Remedies = React.lazy(() => import("../../pages/kundali/Remedies"));
 import { Remedies } from "../../pages/kundali/Remedies";
 
 export const kundliTabConfig = [
@@ -114,7 +127,8 @@ export const kundliTabConfig = [
     label: "Basic",
     bannerText: "basic_kundli",
     bannerHighlight: "",
-    element: <FreeKundliKundliDetailsBasic />,
+    element:
+      <FreeKundliKundliDetailsBasic />,
     highlightClass: ""
   },
   {
@@ -122,7 +136,8 @@ export const kundliTabConfig = [
     label: "Charts",
     bannerText: "charts",
     bannerHighlight: "",
-    element: <FreeKundliKundliDetailsCharts />,
+    element:
+      <FreeKundliKundliDetailsCharts />,
     highlightClass: ""
   },
   {
@@ -130,15 +145,27 @@ export const kundliTabConfig = [
     label: "Prediction",
     bannerText: "prediction",
     bannerHighlight: "",
-    element: <Prediction />,
+    element:
+      <Prediction />,
     highlightClass: "highlight_Tab"
   },
+  // {
+  //   key: "remedies",
+  //   label: "Ramedies",
+  //   bannerText: "remedies",
+  //   bannerHighlight: "",
+  //   element: <>
+  //       <Remedies />
+  //   </>,// <Remedies />,
+  //   highlightClass: "highlight_Tab"
+  // },
   {
     key: "remedies",
     label: "Ramedies",
     bannerText: "remedies",
     bannerHighlight: "",
-    element: <Remedies />,
+    element:
+      <Remedies />,
     highlightClass: "highlight_Tab"
   },
   {
@@ -146,7 +173,8 @@ export const kundliTabConfig = [
     label: "Planets",
     bannerText: "planets",
     bannerHighlight: "",
-    element: <Planets />,
+    element:
+      <Planets />,
     highlightClass: ""
   },
   {
@@ -154,7 +182,8 @@ export const kundliTabConfig = [
     label: "Others",
     bannerText: "others",
     bannerHighlight: "",
-    element: <OthersDetail />,
+    element:
+      <OthersDetail />,
     highlightClass: ""
   },
   {
@@ -162,7 +191,8 @@ export const kundliTabConfig = [
     label: "Mahadasha Prediction",
     bannerText: "mahadasha_fal",
     bannerHighlight: "",
-    element: <MahadashaFal />,
+    element:
+      <MahadashaFal />,
     highlightClass: ""
   },
   {
@@ -170,7 +200,8 @@ export const kundliTabConfig = [
     label: "Vishontari dasha",
     bannerText: "vishontari_dasha",
     bannerHighlight: "",
-    element: <DashaVishontari />,
+    element:
+      <DashaVishontari />,
     highlightClass: ""
 
   },
@@ -179,7 +210,8 @@ export const kundliTabConfig = [
     label: "Yogini dasha",
     bannerText: "yogini_dasha",
     bannerHighlight: "",
-    element: <YoginiDasha />,
+    element:
+      <YoginiDasha />,
     highlightClass: ""
 
   },
@@ -188,7 +220,8 @@ export const kundliTabConfig = [
     label: "Char dasha",
     bannerText: "char_dasha",
     bannerHighlight: "",
-    element: <CharDasha />,
+    element:
+      <CharDasha />,
     highlightClass: ""
   },
 
@@ -197,7 +230,8 @@ export const kundliTabConfig = [
     label: "Dosha report",
     bannerText: "dosha_report",
     bannerHighlight: "",
-    element: <DoshaReport />,
+    element:
+      <DoshaReport />,
     highlightClass: ""
   }
 ];

@@ -121,7 +121,7 @@ p:empty {
   color: var(--new-body-color);
 }
 
-@media screen and (max-width: 1320px) {
+@media screen and (max-width: 1331px) {
   .nav_text_font {
     font-size: 14px;
   }
@@ -134,6 +134,13 @@ p:empty {
   display: none;
 }
 
+.newBannerH2 {
+  font-weight: var(--font-weight-600);
+  font-size: 40px;
+  line-height: 100%;
+  text-transform: capitalize;
+  color: var(--new-body-color);
+}
 @media screen and (max-width: 1200px) {
   .nav_text_font {
     font-size: 14px;
@@ -144,14 +151,11 @@ p:empty {
   .mobileMenuDisplay {
     display: block;
   }
+  .newBannerH2{
+    font-size: 30px;
+  }
 }
-.newBannerH2 {
-  font-weight: var(--font-weight-600);
-  font-size: 40px;
-  line-height: 100%;
-  text-transform: capitalize;
-  color: var(--new-body-color);
-}
+
 .new_body_font {
   color: var(--new-body-color);
 }
@@ -164,6 +168,9 @@ p:empty {
 }
 .new_border {
   border: var(--input--border-color);
+}
+.new_border_3 {
+  border: 2px solid var(--website-color);
 }
 .new_border_bottom {
   border-bottom: 1px solid var(--border-color);
@@ -1309,7 +1316,7 @@ h2 {
 }
 
 .custom-table .ant-table-header .ant-table-thead > tr > th:first-child {
-  background: linear-gradient(270deg, #f9e9ec 0%, #faebec 100%);
+  background: linear-gradient(270deg, #f9e9ec 0%, #faebec 100%) !important;
 }
 
 .custom-table .ant-table-header .ant-table-thead > tr > th {
@@ -2566,6 +2573,9 @@ body:has(.isScroll) {
   border-color: unset !important;
   border: unset !important;
 }
+.geoSearchInputContainer .ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector{
+  padding: 0;
+}
 .geoSearchInputDiv {
   border: 2px dotted var(--border-color);
 }
@@ -2581,7 +2591,7 @@ body:has(.isScroll) {
 }
 .rahukaalCardP {
   font-weight: var(--font-weight-600);
-  font-size: var(--font-size-30);
+  font-size: var(--font-size-20);
   line-height: 100%;
   letter-spacing: 0px;
   text-align: center;
@@ -2682,7 +2692,7 @@ body:has(.isScroll) {
   padding-left: 20px;
   padding-right: 20px;
   height: 100%;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .kundaliCardForm .ant-card-body {
@@ -2832,7 +2842,7 @@ body:has(.isScroll) {
 }
 
 @media (max-width: 319px) {
-  body {
+  body, .customNavbar , .sticky-navbar-transition, main, section, footer {
     overflow-x: auto;
   }
 }
@@ -2946,4 +2956,37 @@ html .custom-table .panchang123 th,
 
 .PersonReviewCard .ant-card-body {
   padding: 0;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+
+
+/* ----------------- offer*/
+@keyframes couponGlow {
+  0% {
+    background-color: #fff5f8;
+    box-shadow: 0 0 0px rgba(255, 115, 130, 0.4);
+  }
+  50% {
+    background-color: #ffe2ea;
+    box-shadow: 0 0 25px rgba(255, 115, 130, 0.7);
+  }
+  100% {
+    background-color: #fff5f8;
+    box-shadow: 0 0 0px rgba(255, 115, 130, 0);
+  }
+}
+
+.coupon-effect {
+  animation: couponGlow 1.2s ease-in-out 1;
 }

@@ -1,5 +1,5 @@
-import React from 'react';
 import { AudioOutlined } from '@ant-design/icons';
+import { memo } from 'react';
 
 const categories = [
   "First Free Session", "Previous Order", "Payment Failure", "Technical Issue",
@@ -74,4 +74,4 @@ function SupportChatPageComp() {
   );
 }
 
-export default SupportChatPageComp;
+export default memo(SupportChatPageComp);

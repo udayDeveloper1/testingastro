@@ -1,42 +1,32 @@
 import { cloneDeep } from 'lodash'
-import React, { lazy, useCallback, useEffect, useMemo } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
-import Slider from 'react-slick'
 import '../assets/css/commonChatAstro.css'
-import NoDataFound from '../pages/NoDataFound/NoDataFound'
 // import { PATHS } from '../routers/Paths'
+import { useTranslation } from 'react-i18next'
+import { UpdatedPaths } from '../routers/Paths'
 import { addChatRequest, getUserDetails } from '../services/api/api.services'
 import {
   setAstroDetails,
   setAstroPaymentDetails
 } from '../storemain/slice/astroLogerDetailsSlice'
 import { setUserLoginData } from '../storemain/slice/MasterSlice'
-import {
-  closeModel,
-  Encryption,
-  loginRedirection,
-  navigateChat,
-  openModel,
-  setLoginUserData,
-  TOAST_ERROR
-} from '../utils/CommonFunction'
+import { closeModel, Encryption, loginRedirection, navigateChat, openModel, setLoginUserData, TOAST_ERROR } from '../utils/CommonFunction'
 import { Codes } from '../utils/CommonVariable'
 import { Constatnt } from '../utils/Constent'
+import { astrologerDetailsRedirection } from '../utils/navigations/NavigationPage'
+import PhoneAuthModal from './auth/PhoneAuthModals'
+import CustomWhiteButton from './Homepage/CustomWhiteButton'
 import experience from '/newThemeHomePage/experience.svg'
 import language from '/newThemeHomePage/language.svg'
 import messageNewIcon from '/newThemeHomePage/messageNewIcon.svg'
 import phoneNewIcon from '/newThemeHomePage/phoneNewIcon.svg'
 import yelloStar from '/newThemeHomePage/star.svg'
-import { useTranslation } from 'react-i18next'
-import { UpdatedPaths } from '../routers/Paths'
-import { astrologerDetailsRedirection } from '../utils/navigations/NavigationPage'
-import PhoneAuthModal from './auth/PhoneAuthModals'
-import CustomWhiteButton from './Homepage/CustomWhiteButton'
 
 // const CustomWhiteButton = lazy(() => import('./Homepage/CustomWhiteButton'))
 
-function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
+function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
   const { t } = useTranslation()
   const { is_login, loginUserData } = useSelector(
     state => state?.masterSlice?.loginUser
@@ -62,7 +52,6 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
         return TOAST_ERROR(res.message)
       }
 
-      const userData = { ...loginUserData, ...res?.data }
       setLoginUserData(
         dispatch,
         is_login,
@@ -70,11 +59,16 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
         setUserLoginData,
         res?.data
       )
-      loginRedirection(userData)
+      // loginRedirection(userData)
+      loginRedirection({ ...loginUserData, ...res?.data })
 
+      // const isAI = record?.is_ai_chat === '1'
+      // const isFreeChatAvailable = res?.data?.is_freechat_count > 0
+      // const walletBalance = +res?.data?.total_wallet_balance
+      // const pricePerMin = +recordData.price_per_min
       const isAI = record?.is_ai_chat === '1'
       const isFreeChatAvailable = res?.data?.is_freechat_count > 0
-      const walletBalance = +userData?.total_wallet_balance
+      const walletBalance = +res?.data?.total_wallet_balance
       const pricePerMin = +recordData.price_per_min
 
       // Non-AI flow: make addChatRequest API call
@@ -112,13 +106,11 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
   }
 
   const RenderCard1 = React.memo(({ astrologer, index }) => {
-    
     return (
       <div
         key={index}
-        className={`w-full  rounded-[10px]  box_shadow_common flex flex-col gap-4 bg-white max-w-[350px] sm:max-w-[unset] mx-auto sm:mx-[unset] ${
-          index === 0 ? 'mt-4 sm:mt-0' : ''
-        }`}
+        className={`w-full  rounded-[10px]  box_shadow_common flex flex-col gap-4 bg-white max-w-[350px] sm:max-w-[unset] mx-auto sm:mx-[unset] ${index === 0 ? 'mt-4 sm:mt-0' : ''
+          }`}
       >
         <div className='py-5 px-[15px] astroBg_part h-full flex flex-col justify-between '>
           {/* Header Section: Profile Image + Name + Skills + Minutes at bottom right */}
@@ -205,7 +197,7 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
                 height={16}
               />
               <span className='font-medium text-[14px] text-[#343434]'>
-                {astrologer?.orders || 0}
+                {astrologer?.averageRating || 0}({astrologer.totalRatings})
                 {/* || 4.5} (
                 {astrologer?.total_rating || '2k+'}) */}
               </span>
@@ -256,7 +248,7 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
                       height={15}
                     />
                     <span className='website_new_color text-left'>
-                      ₹{astrologer?.call_rate || astrologer?.rate || 0} /{' '}
+                      ₹{astrologer?.price_per_min || 0} /{' '}
                       {t('Min')}
                     </span>
                   </div>
@@ -289,7 +281,7 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
                     />
                     <span className='website_new_color text-left'>
                       {' '}
-                      ₹{astrologer?.price_per_min || astrologer?.rate || 10} /
+                      ₹{astrologer?.price_per_min || 0} /
                       {t('Min')}
                     </span>
                   </div>
@@ -302,7 +294,6 @@ function ChatWithAstrologerCard ({ astrologersList, loading_type = '' }) {
       </div>
     )
   }, [t])
-
 
   return (
     <>

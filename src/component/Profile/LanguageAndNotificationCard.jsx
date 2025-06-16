@@ -1,21 +1,18 @@
-import React, { lazy, useEffect, useState } from 'react';
-import { Switch } from 'antd';
 import { CheckCircleFilled } from '@ant-design/icons';
-import ukImage from '../../assets/img/Profile/ukImage.webp';
-import indiaImg from '../../assets/img/Profile/indiaImg.webp'; // reuse this for Hindi & Gujarati
-import CustomWhiteButton from '../Homepage/CustomWhiteButton';
-const CustomButton = lazy(() => import('../Homepage/CustomButton'))
-import { deleteProfileUser, getUserDetails, updateLanguage } from '../../services/api/api.services';
-import { Codes } from '../../utils/CommonVariable';
-import { closeLoder, closeModel, logoutRedirection, openLoader, openModel, TOAST_ERROR, TOAST_SUCCESS } from '../../utils/CommonFunction';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeLanguage, setUserLoginData } from '../../storemain/slice/MasterSlice';
-import { Constatnt } from '../../utils/Constent';
-import i18n from "../../i18n";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDeleteLeft, faTrash } from '@fortawesome/free-solid-svg-icons'
-import ConfirmModal from '../Modals/ConfirmModal';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Switch } from 'antd';
+import { lazy, memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import indiaImg from '../../assets/img/Profile/indiaImg.webp'; // reuse this for Hindi & Gujarati
+import ukImage from '../../assets/img/Profile/ukImage.webp';
+import { deleteProfileUser } from '../../services/api/api.services';
+import { closeLoder, closeModel, logoutRedirection, openLoader, openModel, TOAST_ERROR, TOAST_SUCCESS } from '../../utils/CommonFunction';
+import { Codes } from '../../utils/CommonVariable';
+const CustomButton = lazy(() => import('../Homepage/CustomButton'))
+const ConfirmModal = lazy(() => import('../Modals/ConfirmModal'))
+
 
 const LanguageAndNotificationCard = () => {
 
@@ -204,4 +201,4 @@ const LanguageAndNotificationCard = () => {
 
 };
 
-export default LanguageAndNotificationCard;
+export default memo(LanguageAndNotificationCard);

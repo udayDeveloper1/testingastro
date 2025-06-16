@@ -2,13 +2,13 @@ import { Card } from "antd";
 import CustomTable from "../Custom/CustomTable";
 import moment from 'moment';
 import { getShortNakshatra } from "./KundliVariabls";
-import React from "react";
+import React, { lazy, memo } from "react";
 import { useSelector } from "react-redux";
 import { LanguageOption } from "../../utils/CommonVariable";
 import { Constatnt } from "../../utils/Constent";
-import DataWrapper from "../Custom/DataWrapper";
+const DataWrapper = lazy(() => import("../Custom/DataWrapper"));
 
-export default function YoginiDashaComp({ yoginiDashaSub }) {
+ function YoginiDashaComp({ yoginiDashaSub }) {
  const undefine = useSelector(state => state?.masterSlice?.undefine);
 
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
@@ -129,3 +129,5 @@ export default function YoginiDashaComp({ yoginiDashaSub }) {
     </DataWrapper>
   );
 }
+
+export default memo(YoginiDashaComp)

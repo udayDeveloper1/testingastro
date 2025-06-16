@@ -22,10 +22,10 @@ function MoneyWallet({ openInModel = false, handlePriceCardClick = () => { } }) 
   const dispatch = useDispatch()
   const PATHS = UpdatedPaths()
   const { t } = useTranslation()
-  const { is_login, loginUserData } = useSelector(
+  const {  loginUserData } = useSelector(
     state => state?.masterSlice?.loginUser
   )
-  const { loding_type, is_loading } = useSelector(
+  const { loding_type } = useSelector(
     state => state?.masterSlice?.loader
   )
   const [walletList, setWalletList] = useState([])
@@ -77,27 +77,15 @@ function MoneyWallet({ openInModel = false, handlePriceCardClick = () => { } }) 
         </section>
       )}
       <section
-        className={`${!openInModel ? 'padding50 ' : ''
+        className={`${!openInModel ? 'paddingBottom100' : ''
           } `}
       >
         <div className='container mx-auto'>
-          {/* Balance Display */}
-          {!openInModel && (
-            <div className='w-full  mx-auto bg-white  rounded-[10px] py-6 px-6 text-center moneyWalletBarShadow'>
-              <span className='text-[18px] font-semibold '>
-                {t('Available_Balance')}:{' '}
-              </span>
-              <span className='font-bold text-[24px] new_body_font '>
-                ₹{loginUserData?.total_wallet_balance}
-              </span>
-            </div>
-          )}
 
           {/* Header */}
-          <div className='flex flex-wrap justify-between py-10 md:py-20 md:items-center gap-[20px] md:gap-0'>
+          <div className={`flex flex-wrap justify-between py-10 md:py-20 md:items-center gap-[20px] md:gap-0 ${!openInModel ? '' : 'hidden' }`}>
             <div
-              className={`flex flex-col w-full sm:w-[48%]  ${!openInModel ? '' : ''
-                }`}
+              className={`flex flex-col w-full sm:w-[48%]  `}
             >
               <h2 className='text-[24px]  md:text-[40px] font-semibold new_body_font mb-0 pb-2'>
                 {t('add_mony_to_wallet')}
@@ -146,10 +134,15 @@ function MoneyWallet({ openInModel = false, handlePriceCardClick = () => { } }) 
                           : ''
                     }
                     onClick={data => {
+                      const finalData={
+                        data: JSON.stringify(data),
+                        walletList:JSON.stringify(walletList)
+                      };
                       if (!openInModel) {
+                        
                         paymentScreenRedirection(
                           navigate,
-                          data,
+                          finalData,
                           PATHS?.PAYMENT_SCREEN
                         )
                       } else {

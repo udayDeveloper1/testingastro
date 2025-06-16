@@ -1,3 +1,4 @@
+import { memo } from "react";
 
 const HoroScopDetailBanner = ({ horoscopeListTab, active, onTabChange = () => { } }) => {
   const totalTabs = Object.keys(horoscopeListTab).length;
@@ -34,7 +35,7 @@ const HoroScopDetailBanner = ({ horoscopeListTab, active, onTabChange = () => { 
   );
 };
 
-export default HoroScopDetailBanner;
+export default memo(HoroScopDetailBanner);
 
 
 

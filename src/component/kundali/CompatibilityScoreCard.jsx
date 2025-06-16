@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react'
 import Chart from 'react-apexcharts'
 import { useTranslation } from 'react-i18next'
 
@@ -104,4 +104,4 @@ const CompatibilityScoreCard = ({
   )
 }
 
-export default CompatibilityScoreCard
+export default memo(CompatibilityScoreCard)

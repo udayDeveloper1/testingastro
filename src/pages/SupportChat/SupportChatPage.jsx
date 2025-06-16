@@ -1,30 +1,10 @@
 // import bhumipujaMuhurat from "../../assets/img/banner/bhumipujaMuhurat.webp";
-import CommonBanner from '../../component/CommonBanner'
-import SupportChatPageComp from '../../component/Support/SupportChatPage'
+import { lazy, Suspense } from 'react';
 
-const categories = [
-  'First Free Session',
-  'Previous Order',
-  'Payment Failure',
-  'Technical Issue',
-  'Astrologer Related',
-  'Live Event Related',
-  'AstroMall Related',
-  'Offers & Coupons',
-  'General FAQs',
-  'Escalate The Issue'
-]
+// Lazy-loaded components
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const SupportChatPageComp = lazy(() => import('../../component/Support/SupportChatPage'));
 
-const messages = [
-  {
-    text: 'Hey there! How can I assist you today?',
-    time: '08:22 AM',
-    sender: 'agent'
-  },
-  { text: 'Hi', time: '08:20 AM', sender: 'user' },
-  { text: 'Hello', time: '08:20 AM', sender: 'user' },
-  { text: 'Hey! How can I help you today?', time: '08:22 AM', sender: 'agent' }
-]
 
 function SupportChatPage () {
   return (
@@ -43,4 +23,4 @@ function SupportChatPage () {
   )
 }
 
-export default SupportChatPage
+export default React.memo(SupportChatPage)

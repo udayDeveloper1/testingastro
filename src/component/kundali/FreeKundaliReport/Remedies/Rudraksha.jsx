@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import { lazy, memo, Suspense } from "react";
 const CustomButton = lazy(() => import('../../../Homepage/CustomButton'))
 
 function Rudraksha({ sections }) {
@@ -19,30 +19,30 @@ function Rudraksha({ sections }) {
           ))}
         </section>
       ))}
-
-      <div className="flex gap-3 py-6">
-        <CustomButton
-          className="py-2 px-16 border font-semibold text-[16px] leading-[100%] transition-all 
+      <Suspense fallback={<></>}>
+        <div className="flex gap-3 py-6">
+          <CustomButton
+            className="py-2 px-16 border font-semibold text-[16px] leading-[100%] transition-all 
           !bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
-        >
-          7-Mukhi
-        </CustomButton>
+          >
+            7-Mukhi
+          </CustomButton>
 
-        <CustomButton
-          className="py-2 px-16 border font-semibold text-[16px] leading-[100%] transition-all 
+          <CustomButton
+            className="py-2 px-16 border font-semibold text-[16px] leading-[100%] transition-all 
           !bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
-        >
-          13-Mukhi
-        </CustomButton>
+          >
+            13-Mukhi
+          </CustomButton>
 
-        <CustomButton
-          className="py-2 px-16 border font-semibold text-[16px] leading-[100%] transition-all 
+          <CustomButton
+            className="py-2 px-16 border font-semibold text-[16px] leading-[100%] transition-all 
           !bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
-        >
-          16-Mukhi
-        </CustomButton>
-      </div>
-
+          >
+            16-Mukhi
+          </CustomButton>
+        </div>
+      </Suspense>
       {Object.values(sections?.rudrakshsecond).map((section, index) => (
         <section
           key={index}
@@ -136,4 +136,4 @@ function Rudraksha({ sections }) {
   );
 }
 
-export default Rudraksha;
+export default memo(Rudraksha);

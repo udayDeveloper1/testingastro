@@ -1,14 +1,13 @@
-import { Card, Table } from "antd";
-import React from "react";
-import CustomTable from "../../Custom/CustomTable";
+import { Card } from "antd";
 import { useTranslation } from "react-i18next";
-
-export default function Ashtakvarg({ ashtakvarga }) {
+import { lazy, memo } from "react";
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
+function Ashtakvarg({ ashtakvarga }) {
   const { t } = useTranslation()
 
   // const signs = ["Ar", "Ta", "Ge", "Ca", "Le", "Vi", "Li", "Sc", "Sa", "Aq", "Pi", "Cp",];
 
-  const signs = [{key:"Ar",value: t('Ar')}, {key:"Ta",value:t('Ta')}, {key:"Ge",value:t("Ge")},{ key:"Ca",value:t('Ce')},{ key:"Le",value:t("Le")}, {key:"Vi",value:t("Vi")},{ key:"Li",value:t("Li")},{key: "Sc",value:t("Sc")},{ key:"Sa",value:t("Sa")},{key: "Aq" ,value:t("Aq")}, {key:"Pi",value:t("Pi")},{ key:"Cp",value:t("Cp")},];
+  const signs = [{ key: "Ar", value: t('Ar') }, { key: "Ta", value: t('Ta') }, { key: "Ge", value: t("Ge") }, { key: "Ca", value: t('Ce') }, { key: "Le", value: t("Le") }, { key: "Vi", value: t("Vi") }, { key: "Li", value: t("Li") }, { key: "Sc", value: t("Sc") }, { key: "Sa", value: t("Sa") }, { key: "Aq", value: t("Aq") }, { key: "Pi", value: t("Pi") }, { key: "Cp", value: t("Cp") },];
 
   const dataSource = ashtakvarga?.ashtakvarga_order?.map((planet, i) => {
     const points = ashtakvarga?.ashtakvarga_points[i];
@@ -97,3 +96,5 @@ export default function Ashtakvarg({ ashtakvarga }) {
     </>
   );
 }
+
+export default memo(Ashtakvarg)

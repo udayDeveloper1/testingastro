@@ -1,5 +1,5 @@
-import React from 'react'
 import { Typography } from "antd";
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const { Title, Paragraph } = Typography;
@@ -13,7 +13,7 @@ function KalsarpDoshaSection({ KaalsarpDosh }) {
         <div>
           <Title level={4} className="!mb-0">
             <span className="website_color commonQuesH2">
-            {t('kalsharp_dosh_analysis')}  
+              {t('kalsharp_dosh_analysis')}
             </span>
           </Title>
         </div>
@@ -76,4 +76,4 @@ function KalsarpDoshaSection({ KaalsarpDosh }) {
   )
 }
 
-export default KalsarpDoshaSection
+export default memo(KalsarpDoshaSection)

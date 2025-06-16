@@ -1,17 +1,14 @@
-import React, { lazy, useRef } from 'react'
-const CustomButton = lazy(() => import('../Homepage/CustomButton'))
+import { lazy, memo, Suspense, useRef } from 'react';
 import newLogo from "../../assets/img/logo/newLogo.png";
-import callSvg from '../../assets/img/kundali/call.svg'
-import chatSvg from '../../assets/img/kundali/chat.svg'
-import { navigate } from '../../utils/navigations/NavigationService'
+import { navigate } from '../../utils/navigations/NavigationService';
 // import { PATHS } from '../../routers/Paths'
-import callWhite from '../../assets/img/astrologer/callWhite.svg'
-import messageWhite from '../../assets/img/astrologer/messageWhite.svg'
-import messageNewIcon from '/newThemeHomePage/messageNewIcon.svg'
-import phoneNewIcon from '/newThemeHomePage/phoneNewIcon.svg'
-import call from '../../assets/img/astrologer/call.svg'
-import { UpdatedPaths } from '../../routers/Paths';
 import { useTranslation } from 'react-i18next';
+import callWhite from '../../assets/img/astrologer/callWhite.svg';
+import messageWhite from '../../assets/img/astrologer/messageWhite.svg';
+import { UpdatedPaths } from '../../routers/Paths';
+import messageNewIcon from '/newThemeHomePage/messageNewIcon.svg';
+import phoneNewIcon from '/newThemeHomePage/phoneNewIcon.svg';
+const CustomButton = lazy(() => import('../Homepage/CustomButton'))
 
 
 const KundliReport = () => {
@@ -37,10 +34,12 @@ const KundliReport = () => {
           <h2 className='text-[30px] leading-[100%] text-center md:text-left xl:text-4xl font-bold new_body_font  pb-1 md:pb-[30px]'>
             {t('download_share')}
           </h2>
+          <Suspense fallback={<></>}>
           <CustomButton
             className=' text-white  px-4 py-2 lg:px-8 lg:py-3 text-md rounded-md' parentClassName='w-full md:min-w-max md:max-w-max'>
             {t('download_kundli_pdf')}
           </CustomButton>
+          </Suspense>
         </div>
       </div>
 
@@ -55,17 +54,17 @@ const KundliReport = () => {
         </div> */}
 
         <div className='flex flex-col justify-center md:justify-end gap-[20px] md:gap-7  items-center md:items-end flex-wrap'>
-          <CustomButton 
-          parentClassName='w-full md:max-w-max'
-          className='text-white px-6 py-2 lg:px-8 lg:py-3 text-md rounded-md flex items-center gap-2  justify-center  '
+          <CustomButton
+            parentClassName='w-full md:max-w-max'
+            className='text-white px-6 py-2 lg:px-8 lg:py-3 text-md rounded-md flex items-center gap-2  justify-center  '
             onMouseEnter={() => callImgRef.current.src = phoneNewIcon}
             onMouseLeave={() => callImgRef.current.src = callWhite}
             onClick={() => { navigate(PATHS.CHATWITHASTROLOGERS) }}>
             <img ref={callImgRef} src={callWhite} alt='call' className='transition-all w-[20px] h-[20px]' /> {t('start_call')}
           </CustomButton>
-          <CustomButton 
-          parentClassName='w-full md:max-w-max'
-          className=' text-white  px-6 py-2 lg:px-8 lg:py-3 text-md rounded-md flex items-center gap-2  justify-center  '
+          <CustomButton
+            parentClassName='w-full md:max-w-max'
+            className=' text-white  px-6 py-2 lg:px-8 lg:py-3 text-md rounded-md flex items-center gap-2  justify-center  '
             onMouseEnter={() => chatImgRef.current.src = messageNewIcon}
             onMouseLeave={() => chatImgRef.current.src = messageWhite}
             onClick={() => { navigate(PATHS.CHATWITHASTROLOGERS) }}>
@@ -77,4 +76,4 @@ const KundliReport = () => {
   )
 }
 
-export default KundliReport
+export default memo(KundliReport)

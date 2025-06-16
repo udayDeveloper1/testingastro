@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card, Typography } from 'antd'
+import { Card, Typography } from 'antd';
+import React from 'react';
 import { formatThirdPartyContent } from '../../utils/CommonFunction';
 
 const { Title, Paragraph } = Typography

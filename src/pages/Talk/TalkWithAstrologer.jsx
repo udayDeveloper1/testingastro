@@ -1,21 +1,23 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-// import talkWithAstrologerBg from "../../assets/img/talk/talkwithAstro.webp";
-import CommonBalanceBar from "../../component/CommonBalanceBar";
-import CommonBanner from "../../component/CommonBanner";
-import ChatWithAstrologerCard from "../../component/CommonChatTalkAstrologerCard";
-import CommonQuestionComp from "../../component/CommonQuestionComp";
-import HomeBlog from "../../component/Homepage/HomeBlog";
-import HomeFAQs from "../../component/Homepage/HomeFAQs";
-import CustomPagination from "../../component/Pagination/CustomPagination";
-import { astrologerList } from "../../services/api/api.services";
-import { Codes } from "../../utils/CommonVariable";
-import useDebounce from "../hooks/useDebounce";
+
+// Lazy-loaded components
+const CommonBalanceBar = lazy(() => import("../../component/CommonBalanceBar"));
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const ChatWithAstrologerCard = lazy(() => import("../../component/CommonChatTalkAstrologerCard"));
+const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
+const HomeBlog = lazy(() => import("../../component/Homepage/HomeBlog"));
+const HomeFAQs = lazy(() => import("../../component/Homepage/HomeFAQs"));
+const CustomPagination = lazy(() => import("../../component/Pagination/CustomPagination"));
+
+// Services & utils (no lazy loading)
 import { getAstrologerList, setOnSubmitFilter } from "../../storemain/slice/MasterSlice";
 import { closeFilter, closeLoder } from "../../utils/CommonFunction";
 import { Constatnt } from "../../utils/Constent";
+import useDebounce from "../hooks/useDebounce";
+
 
 function TalkWithAstrologer() {
   const { t } = useTranslation();
@@ -26,8 +28,7 @@ function TalkWithAstrologer() {
   // --------------------------- All Redux --------------------------------------------------------
 
   const homapageList = useSelector((state) => state.HomePageSlice?.homapageList) || {};
-  const homapageData = homapageList?.data || [];
-  const { is_login, loginUserData } = useSelector(state => state?.masterSlice?.loginUser)
+  const {  loginUserData } = useSelector(state => state?.masterSlice?.loginUser)
 
   const filterValue = useSelector((state) => state?.masterSlice?.filter_value);
   const shortValue = useSelector((state) => state?.masterSlice?.sort_by_value);
@@ -87,13 +88,6 @@ function TalkWithAstrologer() {
     isFetched.current = false;
   };
 
-  const content = [
-    `You don't always get along like a blaze on flames with people, but when you're with that "special person," you feel happy and in control of the situation. We encounter numerous people throughout life. One person would be your life partner out of all those who may be terrific friends or mentors for you. You must make the appropriate choice for that person. They must make you feel at home, never depressed or too uncared for.`,
-    "Do you believe your heart might have jumped a beat if you had met that particular someone? If so, find out what your Sun sign conspires to have you do by checking your zodiac sign love compatibility.",
-    "Zodiac sign compatibility reveals more than just compatibility in romantic relationships. You can also find information on your partner's and your own zodiac love and sexual compatibility. This can ensure a long-lasting relationship with shared understanding while also assisting you in learning further about your mate and your bond.",
-    "Love compatibility can also forecast how your relationship will develop in the future, in addition to letting you know how things stand right now. Moreover, it reveals the strength of your current bond, what makes it successful, and if you and your loved one are about to experience harmony or conflict in the future. Hence, you may determine whether your connection is likely to progress in the ways you want by simply entering the appropriate zodiac sign. Kudos if your sign and your partner's sign align! Seamless times are predictable in advance.",
-  ];
-
   return (
     <>
       <section>
@@ -149,12 +143,9 @@ function TalkWithAstrologer() {
         subHeading={t('All_you_need_to_know_about_Guna_Milan_Kundli_Milan')}
       />
 
-      {/* <NewsletterComp/>
-       <footer>
-         <Footer/>
-        </footer> */}
+   
     </>
   );
 }
 
-export default TalkWithAstrologer;
+export default React.memo(TalkWithAstrologer);

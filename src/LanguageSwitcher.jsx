@@ -1,5 +1,5 @@
 import { Select } from 'antd'
-import { useContext } from 'react'
+import { memo, useContext } from 'react'
 import { LanguageContext } from './context/LanguageContext'
 
 const LanguageSwitcher = () => {
@@ -19,4 +19,4 @@ const LanguageSwitcher = () => {
   )
 }
 
-export default LanguageSwitcher
+export default memo(LanguageSwitcher)

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { lazy, memo, useState } from "react";
 import "../../assets/css/kundli/KundliParts.css";
 // import freeKundliKundliDetailsBasic from "../../assets/img/banner/freeKundliKundliDetailsBasic.webp";
 import northIndianKundliImg from "../../assets/img/kundali/northIndianKundliSample.webp";
 import CommonBanner from "../../component/CommonBanner";
-import CustomTable from "../../component/Custom/CustomTable";
-import CustomButton from "../../component/Homepage/CustomButton";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
-import KundliReport from "../../component/kundali/KundliReport";
-import KundliStepper from "../../component/kundali/KundliStepper";
-import NoteCard from "../../component/NoteCard";
+
+const CustomTable = lazy(() => import("../../component/Custom/CustomTable"));
+const CustomButton = lazy(() => import("../../component/Homepage/CustomButton"));
+const HoroscopeGrid = lazy(() => import("../../component/kundali/HoroscopeGrid"));
+const KundliReport = lazy(() => import("../../component/kundali/KundliReport"));
+const KundliStepper = lazy(() => import("../../component/kundali/KundliStepper"));
+const NoteCard = lazy(() => import("../../component/NoteCard"));
 
 const FreeKundliKundliDetailsDashaVimshottari = () => {
   const [active, setActive] = useState("0");
@@ -235,4 +236,4 @@ const FreeKundliKundliDetailsDashaVimshottari = () => {
   );
 };
 
-export default FreeKundliKundliDetailsDashaVimshottari;
+export default memo(FreeKundliKundliDetailsDashaVimshottari);

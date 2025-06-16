@@ -1,5 +1,5 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 
 
 const { Title, Paragraph } = Typography;
@@ -48,4 +48,4 @@ const ZodiacLuckyColors = ({ title, icon, colors, tip }) => {
   );
 };
 
-export default ZodiacLuckyColors;
+export default memo(ZodiacLuckyColors);

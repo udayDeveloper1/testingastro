@@ -1,10 +1,13 @@
 // import goldBuyingMuhurat from "../../assets/img/banner/goldBuyingMuhurat.webp";
-import CommonBanner from "../../component/CommonBanner";
-import CommonQuestionComp from "../../component/CommonQuestionComp";
-import DynamicCard from "../../component/Dynemic/DynamicCard";
-import NewsletterComp from "../../component/Homepage/NewsLatterComp";
-import GoldBuyingMuhuratcomp from "../../component/Muhurat/GoldBuyingMuhuratcomp";
-import Footer from "../../Layout/Footer";
+import React, { lazy} from "react";
+
+// Lazy-loaded components
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
+const DynamicCard = lazy(() => import("../../component/Dynemic/DynamicCard"));
+const NewsletterComp = lazy(() => import("../../component/Homepage/NewsLatterComp"));
+const GoldBuyingMuhuratcomp = lazy(() => import("../../component/Muhurat/GoldBuyingMuhuratcomp"));
+const Footer = lazy(() => import("../../Layout/Footer"));
 
 function GoldBuyingMuhurat() {
   const content1 = [
@@ -85,7 +88,6 @@ function GoldBuyingMuhurat() {
     <>
       <section>
         <CommonBanner
-          // backgroundImage={goldBuyingMuhurat}
           text="Festival "
           highlight="Calendar 2025 "
         />
@@ -132,4 +134,4 @@ function GoldBuyingMuhurat() {
   );
 }
 
-export default GoldBuyingMuhurat;
+export default React.memo(GoldBuyingMuhurat);

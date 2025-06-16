@@ -1,5 +1,6 @@
-import React from "react";
-import NotesDosha from "./NotesDosha";
+import { lazy, memo, Suspense } from "react";
+
+const NotesDosha = lazy(() => import("./NotesDosha"))
 
 function Manglik() {
     const doshaData = [
@@ -14,6 +15,7 @@ function Manglik() {
     <>
      <div>
       <h2 className="commonQuesH2">Manglik Analysis</h2>
+      <Suspense fallback={<></>}>
       {doshaData.map((item, index) => (
         <NotesDosha 
           key={index}
@@ -23,9 +25,10 @@ function Manglik() {
           disclaimer={item.disclaimer}
         />
       ))}
+      </Suspense>
     </div>
     </>
   );
 }
 
-export default Manglik;
+export default memo(Manglik);

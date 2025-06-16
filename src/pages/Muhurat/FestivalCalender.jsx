@@ -1,14 +1,18 @@
 import React from "react";
 // import festivalCalender from "../../assets/img/banner/festivalCalender.webp";
-import CommonBanner from "../../component/CommonBanner";
-import CommonQuestionComp from "../../component/CommonQuestionComp";
-import FestivalMonthTable from "../../component/Muhurat/FestivalMonthTable";
-import HinduCalendarStructure from "../../component/Muhurat/HinduCalendarStructure";
-import IndianSolarCalender from "../../component/Muhurat/IndianSolarCalender";
-import TypesofCalendars from "../../component/Muhurat/TypesofCalendars";
-import Footer from "../../Layout/Footer";
-import NewsletterComp from "../../component/Homepage/NewsLatterComp";
-import HomeFAQs from "../../component/Homepage/HomeFAQs";
+import { lazy} from "react";
+
+// Lazy-loaded components
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
+const FestivalMonthTable = lazy(() => import("../../component/Muhurat/FestivalMonthTable"));
+const HinduCalendarStructure = lazy(() => import("../../component/Muhurat/HinduCalendarStructure"));
+const IndianSolarCalender = lazy(() => import("../../component/Muhurat/IndianSolarCalender"));
+const TypesofCalendars = lazy(() => import("../../component/Muhurat/TypesofCalendars"));
+const Footer = lazy(() => import("../../Layout/Footer"));
+const NewsletterComp = lazy(() => import("../../component/Homepage/NewsLatterComp"));
+const HomeFAQs = lazy(() => import("../../component/Homepage/HomeFAQs"));
+
 
 function FestivalCalender() {
   const content1 = [
@@ -36,7 +40,6 @@ function FestivalCalender() {
     <>
       <section>
         <CommonBanner
-          // backgroundImage={festivalCalender}
           text="Festival "
           highlight="Calendar 2025 "
         />
@@ -102,4 +105,4 @@ gap-7 md:gap-10">
   );
 }
 
-export default FestivalCalender;
+export default React.memo(FestivalCalender);

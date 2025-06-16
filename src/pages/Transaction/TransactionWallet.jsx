@@ -1,13 +1,17 @@
-import { lazy, useEffect, useState } from 'react'
-import CommonBanner from '../../component/CommonBanner'
+import { lazy, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import { useSelector } from 'react-redux'
-import CustomTable from '../../component/Custom/CustomTable'
-import BalanceActionBar from '../../component/Transaction/BalanceActionBar'
-import { getWalletTransactions } from '../../services/api/api.services'
-import { formatDate } from '../../utils/CommonFunction'
-import { useTranslation } from 'react-i18next'
-const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
+// Lazy-loaded components
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'));
+const CustomTable = lazy(() => import('../../component/Custom/CustomTable'));
+const BalanceActionBar = lazy(() => import('../../component/Transaction/BalanceActionBar'));
+
+// API & utility functions
+import { getWalletTransactions } from '../../services/api/api.services';
+import { formatDate } from '../../utils/CommonFunction';
+
 
 function TransactionWallet () {
   const [active, setActive] = useState('0')
@@ -20,11 +24,7 @@ function TransactionWallet () {
   )
 
   const transactionColumns = [
-    // {
-    //   title: 'ID',
-    //   dataIndex: '_id',
-    //   key: '_id'
-    // },
+ 
     {
       title: t('Type_transcation'),
       dataIndex: 'type',
@@ -123,7 +123,7 @@ function TransactionWallet () {
       </section>
 
       <section>
-        <div className='container padding50'>
+        <div className='container padding50 '>
           {active === '0' ? (
             <>
               <div className='flex flex-col gap-6'>
@@ -140,19 +140,13 @@ function TransactionWallet () {
             <>
               <h2 className='text-2xl font-bold mb-4'>Siddha</h2>
               <div className=''>
-                {/* <CustomTable
-                  columns={columns}
-                  dataSource={data}
-                  pagination={false}
-                  bordered
-                  className="dasha_siddha "
-                /> */}
+               
                 <CustomTable
                   columns={transactionColumns}
                   dataSource={paymentLogsData}
                   pagination={false}
                   bordered
-                  className='dasha_siddha'
+                  className='dasha_siddha transaction_table'
                 />
               </div>
             </>
@@ -163,4 +157,4 @@ function TransactionWallet () {
   )
 }
 
-export default TransactionWallet
+export default React.memo(TransactionWallet)

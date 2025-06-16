@@ -1,13 +1,7 @@
-// import Ashtakvarga from '../../assets/img/kundali/Ashtakvarga.svg'
-// import basic from '../../assets/img/kundali/Basic.svg'
-// import Charts from '../../assets/img/kundali/chart.svg'
-// import Dasha from '../../assets/img/kundali/Dasha.svg'
-// import KP from '../../assets/img/kundali/kp.svg'
-// import Report from '../../assets/img/kundali/Report.svg'
+import { lazy, memo } from "react"
 import defaultImg from "../../assets/img/kundali/astakoot.svg"
 import { UpdatedPaths } from '../../routers/Paths'
-import KundliParts from './KundliParts'
-
+const KundliParts = lazy(() => import("./KundliParts"))
 const KundliStepper = () => {
   const PATHS = UpdatedPaths()
 
@@ -90,4 +84,4 @@ const KundliStepper = () => {
   )
 }
 
-export default KundliStepper
+export default memo(KundliStepper)

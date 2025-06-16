@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Card, Typography } from "antd";
 
 const { Title, Paragraph } = Typography;
@@ -60,4 +60,4 @@ const TypesofCalendars = () => {
   );
 };
 
-export default TypesofCalendars;
+export default memo(TypesofCalendars);

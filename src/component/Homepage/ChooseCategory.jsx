@@ -1,3 +1,4 @@
+import { debounce } from 'lodash'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -133,12 +134,27 @@ const ChooseCategory = () => {
     [navigate]
   )
 
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsDesktop(window.innerWidth > 768)
+  //   }
+  //   window.addEventListener('resize', handleResize)
+  //   return () => window.removeEventListener('resize', handleResize)
+  // }, [])
+
   useEffect(() => {
-    const handleResize = () => {
+    const handleResize = debounce(() => {
       setIsDesktop(window.innerWidth > 768)
-    }
+    }, 200) // adjust 200ms as needed
+
     window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+
+    // Call once initially to set value
+    handleResize()
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      handleResize.cancel() // cancel any pending debounced calls
+    }
   }, [])
 
   return (

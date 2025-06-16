@@ -7,51 +7,43 @@ import {
   TimePicker,
   Upload
 } from 'antd'
+import axios from 'axios'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import moment from 'moment'
-import { lazy, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, memo, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
+import '../../assets/css/userProfileForm.css'
+import edit_icon from '../../assets/img/Profile/edit_icon.svg'
 import profile_image from '../../assets/img/Profile/noUser.svg'
 import {
   editProfile,
   geo_search,
-  getUserDetails,
-  uploadImage
+  getUserDetails
 } from '../../services/api/api.services'
 import { setUserLoginData } from '../../storemain/slice/MasterSlice'
 import {
   closeLoder,
-  compressAndResizeImage,
   FORM_RULS_NO_REQUIRED,
-  formatDate,
-  formatMomentToYYYYMMDD,
-  formatTime,
-  formatTimeTo12Hour,
   getLocationValidationRule,
   openLoader,
-  openModel,
   TOAST_ERROR,
   TOAST_SUCCESS
 } from '../../utils/CommonFunction'
 import {
   Codes,
-  DateFormat,
-  InputTypesEnum,
-  TimeFormat
+  InputTypesEnum
 } from '../../utils/CommonVariable'
 import { Constatnt } from '../../utils/Constent'
-const CustomButton = lazy(() => import('../Homepage/CustomButton'))
-import CustomWhiteButton from '../Homepage/CustomWhiteButton'
-import Loader from '../loader/Loader'
-import { useTranslation } from 'react-i18next'
-import edit_icon from '../../assets/img/Profile/edit_icon.svg'
-import '../../assets/css/userProfileForm.css'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
 import ProfileImageCropper from './ProfileImageCropper'
-  dayjs.extend(customParseFormat)
+const CustomWhiteButton = lazy(() => import('../Homepage/CustomWhiteButton'))
+const CustomButton = lazy(() => import('../Homepage/CustomButton'))
+const Loader = lazy(() => import('../loader/Loader'))
+dayjs.extend(customParseFormat)
 const UserProfileForm = () => {
   const dispatch = useDispatch()
-const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
+  const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
 
   const [timeValue, setTimeValue] = useState(null)
   const loginUser = useSelector(state => state?.masterSlice?.loginUser)
@@ -80,7 +72,7 @@ const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
     'image/webp'
   ]
   const convertTime24Hour = data => {
-    return  dayjs(data).format('HH:mm:ss')
+    return dayjs(data).format('HH:mm:ss')
   }
   const convertDate = dateString => {
     return dayjs(dateString).format('DD/MM/YYYY')
@@ -91,6 +83,7 @@ const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
       const response = await editProfile(request)
       if (response?.code === Codes?.SUCCESS) {
         try {
+
           const response2 = await getUserDetails({
             id: loginUser?.loginUserData?._id
           })
@@ -137,8 +130,18 @@ const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
     }
   }
 
-  const onFinish = async values => {
+  const uploadProfileImage = async (imageFile, folder) => {
+    const response = await axios.post(`${Constatnt.API_BASE_URL}upload/${folder}`, imageFile, {
+      headers: {
+        'api-key': Constatnt.API_KEY,
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 10000,
+    });
+    return response.data;
+  };
 
+  const onFinish = async values => {
     let date = convertDate(values?.[InputTypesEnum?.DOB])
     if (imageFile !== null) {
       try {
@@ -146,21 +149,19 @@ const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
         let formdata = new FormData()
         formdata.append('image', imageFile)
 
-        
-        let response = await uploadImage(formdata, 'Profileimage')
+        // let response = await uploadImage(formdata, 'Profileimage')
+        const response = await uploadProfileImage(formdata, 'Profileimage')
+
         if (response.code === Codes.SUCCESS) {
           let request = {
             name: values?.[InputTypesEnum?.FIRSTNAME] || '  ',
-            gender: values?.[InputTypesEnum?.GENDER],
-            time_of_birth: timeValue
-          ? convertTime24Hour(timeValue)
-          : '',
+            gender: values?.[InputTypesEnum?.GENDER], time_of_birth: timeValue ? convertTime24Hour(timeValue) : '',
             place_of_birth: values?.[InputTypesEnum?.PLACE_OF_BIRTH],
             curr_address: values?.[InputTypesEnum?.ADDRESS],
             city: values?.[InputTypesEnum?.CITY],
             pincode: values?.[InputTypesEnum?.PINCODE],
             email: values?.[InputTypesEnum?.EMAIL],
-            dob:date,
+            dob: date,
             profile_image: response.data.file_name,
             latitude: selecteLocation?.coordinates?.[0]
               ? selecteLocation?.coordinates?.[0]
@@ -172,7 +173,7 @@ const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
               ? selecteLocation?.tz
               : loginUser?.loginUserData?.longitude
           }
-          
+
           let res = updateProfile(request)
 
           if (res.code === Codes.SUCCESS) {
@@ -188,7 +189,6 @@ const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
         }
       } catch (error) {
         console.log(error);
-        
         closeLoder(dispatch)
         TOAST_ERROR(error.message)
       }
@@ -236,64 +236,64 @@ const cropIamge = useSelector((state) => state?.masterSlice?.cropIamge);
   //        console.log(file);
   //       const resizedFile = await compressAndResizeImage(file);
   //       console.log(resizedFile);
-        
+
   //     const imageUrl = URL.createObjectURL(resizedFile)
   //     setPreviewImage(imageUrl)
   //     setImageFile(resizedFile)
   //   }
   // }
 
- const [cropFile, setCropFile] = useState(null)
+  const [cropFile, setCropFile] = useState(null)
 
-const handleImageChange = ({ file }) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp']
-  if (!allowedTypes.includes(file?.type)) {
-    TOAST_ERROR('Only PNG, JPG, JPEG, GIF, or WEBP images are allowed.')
-    return
-  }
-  setCropFile(file) // show crop modal
-   setImageFile(cropIamge)
-}
-
-const centerCropToSquare = (file, outputSize = 300) => {
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => {
-      const img = new Image()
-      img.src = reader.result
-
-      img.onload = () => {
-        const side = Math.min(img.width, img.height)
-
-        const canvas = document.createElement('canvas')
-        canvas.width = outputSize
-        canvas.height = outputSize
-
-        const ctx = canvas.getContext('2d')
-        ctx.drawImage(
-          img,
-          (img.width - side) / 2,
-          (img.height - side) / 2,
-          side,
-          side,
-          0,
-          0,
-          outputSize,
-          outputSize
-        )
-
-        canvas.toBlob((blob) => {
-          const croppedFile = new File([blob], file.name, {
-            type: file.type,
-            lastModified: Date.now(),
-          })
-          resolve(croppedFile)
-        }, file.type)
-      }
+  const handleImageChange = ({ file }) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp']
+    if (!allowedTypes.includes(file?.type)) {
+      TOAST_ERROR('Only PNG, JPG, JPEG, GIF, or WEBP images are allowed.')
+      return
     }
-  })
-}
+    setCropFile(file) // show crop modal
+    setImageFile(cropIamge)
+  }
+
+  const centerCropToSquare = (file, outputSize = 300) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => {
+        const img = new Image()
+        img.src = reader.result
+
+        img.onload = () => {
+          const side = Math.min(img.width, img.height)
+
+          const canvas = document.createElement('canvas')
+          canvas.width = outputSize
+          canvas.height = outputSize
+
+          const ctx = canvas.getContext('2d')
+          ctx.drawImage(
+            img,
+            (img.width - side) / 2,
+            (img.height - side) / 2,
+            side,
+            side,
+            0,
+            0,
+            outputSize,
+            outputSize
+          )
+
+          canvas.toBlob((blob) => {
+            const croppedFile = new File([blob], file.name, {
+              type: file.type,
+              lastModified: Date.now(),
+            })
+            resolve(croppedFile)
+          }, file.type)
+        }
+      }
+    })
+  }
 
 
   const handleSearchPlace = value => {
@@ -331,7 +331,7 @@ const centerCropToSquare = (file, outputSize = 300) => {
 
   const getProfileData = async () => {
     openLoader(dispatch, 'userProfileLoader')
-    
+
     if (loginUser?.is_login === true) {
       let data = loginUser?.loginUserData
       form.setFieldsValue({
@@ -395,7 +395,7 @@ const centerCropToSquare = (file, outputSize = 300) => {
                   src={previewImage}
                   alt='Profile'
                   className='w-full h-full object-cover rounded-full '
-                  // onError={(e) => }
+                // onError={(e) => }
                 />
               ) : (
                 <img
@@ -428,18 +428,18 @@ const centerCropToSquare = (file, outputSize = 300) => {
                   </CustomWhiteButton>
                 </Upload>
 
-          {cropFile ? (
-  <ProfileImageCropper
-    file={cropFile}
-    onCropDone={(blob) => {
-      const url = URL.createObjectURL(blob)
-      setPreviewImage(url)
-      setImageFile(blob)
-      setCropFile(null)
-    }}
-    onCancel={() => setCropFile(null)}
-  />
-) : null}
+                {cropFile ? (
+                  <ProfileImageCropper
+                    file={cropFile}
+                    onCropDone={(blob) => {
+                      const url = URL.createObjectURL(blob)
+                      setPreviewImage(url)
+                      setImageFile(blob)
+                      setCropFile(null)
+                    }}
+                    onCancel={() => setCropFile(null)}
+                  />
+                ) : null}
               </div>
             </div>
             <div className='text-center sm:text-left '>
@@ -615,4 +615,4 @@ const centerCropToSquare = (file, outputSize = 300) => {
   )
 }
 
-export default UserProfileForm
+export default memo(UserProfileForm)

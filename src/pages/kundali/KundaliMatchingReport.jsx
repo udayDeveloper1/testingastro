@@ -1,24 +1,27 @@
-import React, { useCallback, useEffect, useRef, useState, } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { lazy, memo, useCallback, useEffect, useRef, useState, } from "react";
+import { useLocation, useNavigate } from "react-router";
 import "../../assets/css/Kundli.css";
 // import freeKundali from "../../assets/img/banner/kundaliMatchingBanner.webp";
-import CommonBanner from "../../component/CommonBanner";
-import AshtakootTable from "../../component/kundali/AshtakootTable ";
-import CompatibilityScoreCard from "../../component/kundali/CompatibilityScoreCard";
-import DoshaCard from "../../component/kundali/DoshaCard";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
-import KundaliDetails from "../../component/kundali/KundaliDetails";
-import KundliReport from "../../component/kundali/KundliReport";
-import '../../assets/css/Kundli.css'
 import { useTranslation } from "react-i18next";
-import { kundlimatchingRedirection } from "../../utils/navigations/NavigationPage";
-import { addKundliMetching } from "../../services/api/api.services";
 import { useDispatch } from "react-redux";
+import '../../assets/css/Kundli.css';
+import CommonBanner from "../../component/CommonBanner";
+import { UpdatedPaths } from "../../routers/Paths";
+import { addKundliMetching } from "../../services/api/api.services";
+import { closeLoder, formatTime, hasAtLeastOneResponseData, TOAST_ERROR } from "../../utils/CommonFunction";
 import { Codes, LanguageOption, TimeFormat } from "../../utils/CommonVariable";
 import { Constatnt } from "../../utils/Constent";
-import { closeLoder, formatTime, hasAtLeastOneResponseData, TOAST_ERROR } from "../../utils/CommonFunction";
-import { UpdatedPaths } from "../../routers/Paths";
-import moment from "moment";
+import AshtakootTable from "../../component/kundali/AshtakootTable ";
+import KundliReport from "../../component/kundali/KundliReport";
+import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
+import KundaliDetails from "../../component/kundali/KundaliDetails";
+import CompatibilityScoreCard from "../../component/kundali/CompatibilityScoreCard";
+
+// const AshtakootTable = lazy(() => import("../../component/kundali/AshtakootTable"));
+// const CompatibilityScoreCard = lazy(() => import("../../component/kundali/CompatibilityScoreCard"));
+// const HoroscopeGrid = lazy(() => import("../../component/kundali/HoroscopeGrid"));
+// const KundaliDetails = lazy(() => import("../../component/kundali/KundaliDetails"));
+// const KundliReport = lazy(() => import("../../component/kundali/KundliReport"));
 
 
 function KundaliMatchingReport() {
@@ -207,4 +210,4 @@ function KundaliMatchingReport() {
   );
 }
 
-export default KundaliMatchingReport;
+export default memo(KundaliMatchingReport);

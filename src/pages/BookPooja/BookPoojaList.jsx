@@ -1,19 +1,21 @@
-import SearchSortBar from "../../component/Blog/SearchSortBar";
-// import bhumipujaMuhurat from '../../assets/img/banner/bhumipujaMuhurat.webp'
 import { useTranslation } from "react-i18next";
-import CommonBanner from "../../component/CommonBanner";
-import BookPoojaCard from "./BookPoojaCard";
 import "../../assets/css/BookPooja.css"
+import { lazy, memo, Suspense } from "react";
+
+const SearchSortBar = lazy(() => import("../../component/Blog/SearchSortBar"));
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const BookPoojaCard = lazy(() => import("./BookPoojaCard"));
 
 function BookPoojaList() {
   const { t } = useTranslation();
 
   return (
     <>
+    
       <section>
         <CommonBanner text="" highlight={t("Book_a_Pooja_banner")} />
       </section>
-
+    <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className="container mx-auto paddingTop50 ">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -33,8 +35,9 @@ function BookPoojaList() {
           <BookPoojaCard />
         </div>
       </section>
+      </Suspense>
     </>
   );
 }
 
-export default BookPoojaList;
+export default memo(BookPoojaList);

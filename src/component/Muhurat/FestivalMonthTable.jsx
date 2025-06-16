@@ -1,6 +1,6 @@
-import React from "react";
 import { Card } from "antd";
-import CustomTable from "../Custom/CustomTable";
+import { lazy, memo } from "react";
+const CustomTable = lazy(() => import("../Custom/CustomTable"))
 
 // Festival Data for 2024
 const festivalData = {
@@ -74,11 +74,11 @@ const FestivalTable = () => {
         <div>
             {Object.keys(festivalData).map((month) => (
                 <Card key={month} title={`${month} Festival 2024`} style={{ marginBottom: "20px" }} className="festivalTableCard ">
-                    <CustomTable columns={columns} data={festivalData[month]} pagination={false} className="px-6 pb-6 "/>
+                    <CustomTable columns={columns} data={festivalData[month]} pagination={false} className="px-6 pb-6 " />
                 </Card>
             ))}
         </div>
     );
 };
 
-export default FestivalTable;
+export default memo(FestivalTable);

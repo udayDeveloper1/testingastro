@@ -1,10 +1,11 @@
 import { Card, Table } from "antd";
 
-import { formatDate, formatTime } from "../../utils/CommonFunction";
-import { DateFormat, LanguageOption, TimeFormat } from "../../utils/CommonVariable";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import boyImage from "../../assets/img/kundali/boyImage.webp";
 import girlImage from "../../assets/img/kundali/girlImage.webp";
-import { useTranslation } from "react-i18next";
+import { formatTime } from "../../utils/CommonFunction";
+import { LanguageOption, TimeFormat } from "../../utils/CommonVariable";
 import { Constatnt } from "../../utils/Constent";
 
 const KundaliDetails = ({ kundaliData }) => {
@@ -130,7 +131,7 @@ const KundaliDetails = ({ kundaliData }) => {
   );
 };
 
-export default KundaliDetails;
+export default memo(KundaliDetails);
 
 
 

@@ -1,8 +1,9 @@
-import React from "react";
+import { lazy, memo } from "react";
 import { useSelector } from "react-redux";
 import "../../assets/css/kundli/KundliParts.css";
-import ChartsGrid from "../../component/NewKundaliComp/ChartsGrid";
-import DataWrapper from "../../component/Custom/DataWrapper";
+
+const DataWrapper = lazy(() => import("../../component/Custom/DataWrapper"));
+const ChartsGrid = lazy(() => import("../../component/NewKundaliComp/ChartsGrid"));
 
 const FreeKundliKundliDetailsCharts = ({ allKundliDetails }) => {
   const undefine = useSelector((state) => state?.masterSlice?.undefine);
@@ -45,4 +46,4 @@ const FreeKundliKundliDetailsCharts = ({ allKundliDetails }) => {
   );
 };
 
-export default FreeKundliKundliDetailsCharts;
+export default memo(FreeKundliKundliDetailsCharts);

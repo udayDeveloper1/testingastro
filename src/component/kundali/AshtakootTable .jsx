@@ -1,6 +1,6 @@
-import React from 'react'
-import CustomTable from '../Custom/CustomTable'
+import { lazy, memo, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
+const CustomTable = lazy(() => import("../Custom/CustomTable"));
 
 const AshtakootTable = ({ AshtakootData }) => {
 
@@ -151,7 +151,8 @@ const AshtakootTable = ({ AshtakootData }) => {
   return (
     <div className='rounded-lg'>
       <h2 className='text-2xl font-bold mb-4'>{t('match_ashtakoot_point')}</h2>
-      <CustomTable
+     
+     <Suspense fallback={<></>}> <CustomTable
         columns={columns}
         dataSource={data}
         pagination={false}
@@ -159,6 +160,7 @@ const AshtakootTable = ({ AshtakootData }) => {
         scroll={{ x: 'max-content' }}
         className='new_panchang_table panchang123'
       />
+      </Suspense>
       {/* Recommendation Box */}
       {bot_response && <div className='mt-6  rounded-[10px] text-start commonQuesP recommendationBox p-[15px] md:p-10'>
         {bot_response}
@@ -167,4 +169,4 @@ const AshtakootTable = ({ AshtakootData }) => {
   )
 }
 
-export default AshtakootTable
+export default memo(AshtakootTable)

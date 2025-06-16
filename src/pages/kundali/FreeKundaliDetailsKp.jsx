@@ -1,11 +1,13 @@
 // import KundaliKp from "../../assets/img/banner/KundaliKp.webp";
 import { useTranslation } from 'react-i18next'
-import CommonBanner from '../../component/CommonBanner'
-import CustomTable from '../../component/Custom/CustomTable'
-import AstrologyComponent from '../../component/kundali/AstrologyComponent'
-import HoroscopeGrid from '../../component/kundali/HoroscopeGrid'
-import KundliReport from '../../component/kundali/KundliReport'
-import KundliStepper from '../../component/kundali/KundliStepper'
+import { lazy, memo } from 'react'
+
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const CustomTable = lazy(() => import('../../component/Custom/CustomTable'));
+const AstrologyComponent = lazy(() => import('../../component/kundali/AstrologyComponent'));
+const HoroscopeGrid = lazy(() => import('../../component/kundali/HoroscopeGrid'));
+const KundliReport = lazy(() => import('../../component/kundali/KundliReport'));
+const KundliStepper = lazy(() => import('../../component/kundali/KundliStepper'));
 // import { PATHS } from "../../routers/Paths";
 
 function FreeKundaliDetailsKp () {
@@ -368,4 +370,4 @@ function FreeKundaliDetailsKp () {
   )
 }
 
-export default FreeKundaliDetailsKp
+export default memo(FreeKundaliDetailsKp)

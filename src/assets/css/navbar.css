@@ -1,4 +1,3 @@
-
 :root {
   --website-color: #C32853;
   --website-hover-color: #74419d3b;
@@ -26,21 +25,21 @@
   --black-color: black;
   --white-color: white;
   --gray-color: #797979;
- 
+
   --black-opacity: rgba(0, 0, 0, 0.88);
   --backKundliReport: #F2ECF6;
   --black-opacity: rgba(0, 0, 0, 0.88);
   --box-shadow-common: 0px 0px 20px 0px #0000000D;
 
-  --website-light-color:#e3725d21;
-  --website-gradient-back:linear-gradient(90deg, #C32853 0%, #EE7E49 100%);
-   --solid-hover-color: #C32853;  
-   --light-website-gradient-back: linear-gradient(270deg, #FDF3EC 0%, #F9E9EC 100%);
+  --website-light-color: #e3725d21;
+  --website-gradient-back: linear-gradient(90deg, #C32853 0%, #EE7E49 100%);
+  --solid-hover-color: #C32853;
+  --light-website-gradient-back: linear-gradient(270deg, #FDF3EC 0%, #F9E9EC 100%);
 
-   --input--border-color:  1px solid rgba(227, 114, 93, 0.3);
-    --border-color:rgba(227, 114, 93, 0.3);
-    --new-drop--shadow:0px 0px 20px 0px #0000000D;
-     --new-body-color:#343434;
+  --input--border-color: 1px solid rgba(227, 114, 93, 0.3);
+  --border-color: rgba(227, 114, 93, 0.3);
+  --new-drop--shadow: 0px 0px 20px 0px #0000000D;
+  --new-body-color: #343434;
 }
 
 .ProfileImg {
@@ -78,71 +77,100 @@
   -webkit-text-fill-color: transparent;
 }
 
-.topNavLink.ant-dropdown-trigger{
-    position: relative;
-    margin-right: 40px;
+.topNavLink.ant-dropdown-trigger {
+  position: relative;
+  margin-right: 40px;
 }
 
-.topNavLink.ant-dropdown-trigger::before{
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -20px;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    background: url(../img/navbar/downArrow.webp) no-repeat;
-    background-size: contain;
+.topNavLink.ant-dropdown-trigger::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background: url(../img/navbar/downArrow.webp) no-repeat;
+  background-size: contain;
 
 }
 
-.topNavLink.ant-dropdown-trigger > p{
-    font-weight: 400;
-    color: var(--white-color);
+.topNavLink.ant-dropdown-trigger>p {
+  font-weight: 400;
+  color: var(--white-color);
 }
 
 
 @media (max-width: 1023px) {
- .nav_btns > a{
+  .nav_btns>a {
     padding: 10.5px 10px;
     margin-right: 0;
   }
-  .nav_btns > a,
-  .nav_btns > div {
+
+  .nav_btns>a,
+  .nav_btns>div {
     font-size: 14px;
   }
-.topNavLink{
-  font-size: 13px;
-  margin-right: 10px;
-}
 
-  .LanguageDropdown .ant-select-selection-item{
+  .topNavLink {
+    font-size: 13px;
+    margin-right: 10px;
+  }
+
+  .LanguageDropdown .ant-select-selection-item {
     font-size: 14px;
     gap: 0;
   }
-  .LanguageDropdown .ant-select .ant-select-selector{
+
+  .LanguageDropdown .ant-select .ant-select-selector {
     min-width: unset;
   }
-  .navbar_part_gt > nav > ul > li > a{
+
+  .navbar_part_gt>nav>ul>li>a {
     font-size: 14px;
   }
-  .topNavLink.ant-dropdown-trigger{
-        margin-right: 26px;
+
+  .topNavLink.ant-dropdown-trigger {
+    margin-right: 26px;
   }
+
   .topNavLink.ant-dropdown-trigger::before {
     top: calc(50% + 1px);
     right: -15px;
     width: 10px;
     height: 10px;
-}
-.ant-select-dropdown:has( .language_dropdown_part){
-  min-width: 95px;
-}
+  }
+
+  .ant-select-dropdown:has(.language_dropdown_part) {
+    min-width: 95px;
+  }
 }
 
-@media(max-width: 767px){
-    .nav_btns > a, .nav_btns > button{
-        font-weight: 500;
-    }
- 
+@media(max-width: 767px) {
+
+  .nav_btns>a,
+  .nav_btns>button {
+    font-weight: 500;
+  }
+
 }
+
+.nav_text_font {
+  transition: 0.4s ease;
+}
+
+.nav_text_font:hover, .nav_text_font.active, .new_body_font > li:hover > .ant-dropdown-trigger >  .tracking-wide, .new_body_font > li .ant-dropdown-trigger.active .tracking-wide{
+  background: var(--website-gradient-back);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.nav_text_font.active .new_tag_s, .highlight_tab_nav_item > div > .new_tag_s{
+  color : white !important;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: #fff;
+    background-clip: unset;
+}
+

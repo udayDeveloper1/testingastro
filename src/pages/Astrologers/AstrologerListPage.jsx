@@ -1,16 +1,17 @@
-import React, {
+import {
+  lazy,
+  Suspense,
   useCallback,
   useEffect,
   useRef,
   useState,
-  lazy,
-  Suspense,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 // import bhumipujaMuhurat from "../../assets/img/banner/bhumipujaMuhurat.webp";
 // import { PATHS } from "../../routers/Paths";
+import { UpdatedPaths } from "../../routers/Paths";
 import {
   getAstrologerList,
   getFilterListing,
@@ -23,21 +24,15 @@ import {
 } from "../../utils/CommonFunction";
 import { Constatnt } from "../../utils/Constent";
 import useDebounce from "../hooks/useDebounce";
-import NotificationCard from "./NotificationCard";
-import { UpdatedPaths } from "../../routers/Paths";
-import NoDataFound from "../NoDataFound/NoDataFound";
 
 // Lazy load heavy components
 const CommonBalanceBar = lazy(() => import("../../component/CommonBalanceBar"));
 const CommonBanner = lazy(() => import("../../component/CommonBanner"));
 const ChatWithAstrologerCard = lazy(() => import("../../component/CommonChatTalkAstrologerCard"));
-const CommonQuestionComp = lazy(() =>
-  import("../../component/CommonQuestionComp")
-);
+const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
 const HomeFAQs = lazy(() => import("../../component/Homepage/HomeFAQs"));
-const CustomPagination = lazy(() =>
-  import("../../component/Pagination/CustomPagination")
-);
+const CustomPagination = lazy(() => import("../../component/Pagination/CustomPagination"));
+const NoDataFound = lazy(() => import("../NoDataFound/NoDataFound"));
 
 function AstrologerListPage() {
   const { t } = useTranslation();
@@ -111,7 +106,7 @@ function AstrologerListPage() {
 
   useEffect(() => {
     fetchAstrologers();
-  }, [fetchAstrologers , t]);
+  }, [fetchAstrologers, t]);
 
   // Reset page on filter/search change
   useEffect(() => {
@@ -136,7 +131,6 @@ function AstrologerListPage() {
 
   return (
     <>
-      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
         <section>
           <CommonBanner
             // backgroundImage={bhumipujaMuhurat}
@@ -144,9 +138,8 @@ function AstrologerListPage() {
             highlight=""
           />
         </section>
-      </Suspense>
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
 
-      <Suspense fallback={<></>}>
         <section>
           <div className="container mx-auto paddingTop50 flex flex-col gap-5">
             <CommonBalanceBar
@@ -158,7 +151,6 @@ function AstrologerListPage() {
             />
           </div>
         </section>
-      </Suspense>
 
       {/* <Suspense fallback={<div>Loading astrologers...</div>}> */}
       <section className="">
@@ -188,22 +180,28 @@ function AstrologerListPage() {
         )}
       </section>
 
-      <Suspense fallback={<></>}>
-        <section className="">
-          <div className="container mx-auto padding50 flex flex-col gap-5">
+        <section className='faqBackColor'>
+          <div className='container mx-auto paddingTop50  flex flex-col gap-5 '>
             <CommonQuestionComp
               heading={t('How_Chatting_with_an_astrologer_can_help_you')}
               content={[t('astro_para')]}
             />
           </div>
+          <div className='container mx-auto padding50  flex flex-col gap-5 '>
+            <CommonQuestionComp
+              heading={t('How_Chatting_with_an_astrologer_can_help_you2')}
+              content={[t('astro_para2')]}
+            />
+          </div>
         </section>
-      </Suspense>
 
       <HomeFAQs
         text={t('FAQs')}
         highlightText={t('About_Astrology')}
         subHeading={''}
       />
+      </Suspense>
+
       {/* </Suspense> */}
     </>
   );

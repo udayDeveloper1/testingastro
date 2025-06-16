@@ -1,14 +1,15 @@
-import React from "react";
 import { Form, Input } from "antd";
-import CustomButton from "../../component/Homepage/CustomButton";
-import mapIcon from "../../assets/img/contactUs/mapIcon.svg";
+import { t } from "i18next";
+import { lazy, memo, Suspense } from "react";
 import contact from "../../assets/img/contactUs/contact.svg";
 import mail from "../../assets/img/contactUs/mail.svg";
-import CommonBanner from "../../component/CommonBanner";
-import { t } from "i18next";
+import mapIcon from "../../assets/img/contactUs/mapIcon.svg";
 import { addContactUs } from "../../services/api/api.services";
-import { Codes } from "../../utils/CommonVariable";
 import { TOAST_ERROR, TOAST_SUCCESS } from "../../utils/CommonFunction";
+import { Codes } from "../../utils/CommonVariable";
+
+const CustomButton = lazy(() => import("../../component/Homepage/CustomButton"));
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
 
 const { TextArea } = Input;
 
@@ -41,7 +42,7 @@ const ContactSection = () => {
           highlight={t("contact_us")}
         />
       </section>
-
+ <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <div className="flex flex-col items-center justify-center gap-[40px] padding100 container mx-auto">
         <div className="flex flex-col items-center gap-[10px]">
           <h2 className="newBannerH2">{t("contact_get_in_touch")}</h2>
@@ -80,7 +81,7 @@ const ContactSection = () => {
                 label={t("contact_form_phone")}
                 rules={[{ required: true, message: t("contact_validation_phone") }]}
               >
-                <Input placeholder={t("contact_placeholder_phone")} size="large" />
+                <Input type="number" placeholder={t("contact_placeholder_phone")} maxLength={10} size="large" />
               </Form.Item>
 
               <Form.Item
@@ -120,17 +121,21 @@ const ContactSection = () => {
                   />
                 ),
                 title: t("contact_info_address_title"),
-                desc: t("contact_info_address_value"),
+                // desc: t("contact_info_address_value"),
+                desc: 'B 511 Krish cubical, Govardhan partyplot Avalon hotel Road, Sindhu Bhavan Marg, Thaltej, Ahmedabad, Gujarat 380059',
               },
               {
                 icon: <img src={contact} alt="" />,
                 title: t("contact_info_contact_title"),
-                desc: t("contact_info_contact_value"),
+                // desc: t("contact_info_contact_value"),
+                desc: '+91 8849870410',
+
               },
               {
                 icon: <img src={mail} alt="" />,
                 title: t("contact_info_email_title"),
-                desc: t("contact_info_email_value"),
+                // desc: t("contact_info_email_value"),
+                desc: 'chatmyastrologer@gmail.com',
               },
             ].map((item, i) => (
               <div
@@ -149,8 +154,10 @@ const ContactSection = () => {
           </div>
         </div>
       </div>
+      
+</Suspense>
     </>
   );
 };
 
-export default ContactSection;
+export default memo(ContactSection);

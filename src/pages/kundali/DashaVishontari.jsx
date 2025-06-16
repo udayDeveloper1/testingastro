@@ -1,6 +1,7 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import '../../assets/css/kundli/KundliParts.css'
-import DashaVishontariCompo from '../../component/NewKundaliComp/DashaVishontariCompo'
+
+const DashaVishontariCompo = lazy(() => import('../../component/NewKundaliComp/DashaVishontariCompo') );
 // import CustomTabs from "../../component/Custom/CustomTabs";
 
 const DashaVishontari = ({ allKundliDetails }) => {

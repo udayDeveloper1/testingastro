@@ -1,4 +1,3 @@
-import { MessageOutlined, PhoneOutlined } from '@ant-design/icons'
 import { cloneDeep } from 'lodash'
 import React, { memo, Suspense, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,28 +18,21 @@ import {
   setAstroPaymentDetails
 } from '../../storemain/slice/astroLogerDetailsSlice'
 import { setUserLoginData } from '../../storemain/slice/MasterSlice'
-import {
-  Encryption,
-  loginRedirection,
-  navigateChat,
-  openModel,
-  setLoginUserData,
-  TOAST_ERROR
-} from '../../utils/CommonFunction'
+import { Encryption, loginRedirection, navigateChat, openModel, setLoginUserData, TOAST_ERROR } from '../../utils/CommonFunction'
 import { Codes } from '../../utils/CommonVariable'
 import { Constatnt } from '../../utils/Constent'
-
-import { useNavigate } from 'react-router'
-import PhoneAuthModal from '../auth/PhoneAuthModals'
+import { UpdatedPaths } from '../../routers/Paths'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
+const PhoneAuthModal = React.lazy(() => import('../auth/PhoneAuthModals'))
+
 
 const CommonQuestionComp = React.lazy(() => import('../CommonQuestionComp'))
 const CustomButton = React.lazy(() => import('../Homepage/CustomButton'))
 
 const AstrologerImage = memo(({ src, alt }) => (
   <div className='w-28 h-28 lg:w-48 lg:h-48 rounded-full border-4 border-white shadow overflow-hidden'>
-    <img
-      src={src || Constatnt?.DEFAULT_IMAGE}
+    <img src={src || Constatnt?.DEFAULT_IMAGE}
       alt={alt}
       onError={e => {
         e.target.onerror = null
@@ -59,14 +51,16 @@ const InfoRow = memo(({ icon, text }) => (
 ))
 
 const AstrologerCard = ({ astrologer }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const { t } = useTranslation()
   const chatImgRef = useRef(null);
   const callImgRef = useRef(null);
+  const PATHS = UpdatedPaths()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { is_login, loginUserData } = useSelector(state => state?.masterSlice?.loginUser)
+  const LOGIN_KEY = localStorage.getItem(Constatnt?.LOGIN_KEY)
+
   const modal = useSelector(state => state?.masterSlice?.modal)
 
   const { astro_is_verified, astro_description, name, language: astroLanguages = '', experience: astroExperience = '0', price_per_min: chatMin = '0', astro_call_min: callMin = '0', price_per_min: pricePerMin = '0', category = 'Category', profile_image } = astrologer
@@ -78,63 +72,6 @@ const AstrologerCard = ({ astrologer }) => {
 
   const content = useMemo(() => [astro_description ?? ''], [astro_description])
 
-  // const handleChat = async (e, record) => {
-  //   e.preventDefault()
-  //   try {
-  //     let recordData = cloneDeep(record)
-  //     recordData.sessionID = `sessionID_${Date.now()}`
-
-  //     const res = await getUserDetails()
-  //     if (res.code === Codes.SUCCESS) {
-  //       setLoginUserData(
-  //         dispatch,
-  //         is_login,
-  //         loginUserData,
-  //         setUserLoginData,
-  //         res?.data
-  //       )
-  //       let getData = { ...loginUserData, ...res?.data }
-  //       loginRedirection(getData)
-  //       if (res?.data?.is_freechat_count > 0) {
-  //         navigateChat(
-  //           navigate,
-  //           dispatch,
-  //           setAstroDetails,
-  //           Encryption,
-  //           recordData,
-  //           'new',
-  //           true
-  //         )
-  //       } else {
-  //         if (+getData?.total_wallet_balance <= 0) {
-  //           dispatch(setAstroPaymentDetails(recordData))
-  //           navigate(`${PATHS.MONEY_WALLET}`)
-  //         } else if (
-  //           +getData?.total_wallet_balance / +recordData.price_per_min >=
-  //           2
-  //         ) {
-  //           navigateChat(
-  //             navigate,
-  //             dispatch,
-  //             setAstroDetails,
-  //             Encryption,
-  //             recordData,
-  //             'new',
-  //             true
-  //           )
-  //         } else {
-  //           dispatch(setAstroPaymentDetails(recordData))
-  //           navigate(`${PATHS.MONEY_WALLET}`)
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log('error', error)
-
-  //     toast.error(error.message)
-  //   }
-  // }
-
   const handleChat = async (e, record) => {
     e.preventDefault()
     try {
@@ -144,20 +81,12 @@ const AstrologerCard = ({ astrologer }) => {
       }
 
       const res = await getUserDetails()
-
       if (res.code !== Codes.SUCCESS) {
         return TOAST_ERROR(res.message)
       }
 
       const userData = { ...loginUserData, ...res?.data }
-      setLoginUserData(
-        dispatch,
-        is_login,
-        loginUserData,
-        setUserLoginData,
-        res?.data
-      )
-
+      setLoginUserData(dispatch, is_login, loginUserData, setUserLoginData, res?.data)
       loginRedirection(userData)
 
       const isAI = record?.is_ai_chat == '1'
@@ -172,11 +101,11 @@ const AstrologerCard = ({ astrologer }) => {
           conversation_types: 'chat'
         })
 
-        if (response.code !== Codes.SUCCESS) {
-          return TOAST_ERROR(response.message)
+        if (response?.code !== Codes?.SUCCESS) {
+          return TOAST_ERROR(response?.message)
         }
 
-        recordData.AstroData = response.data
+        recordData.AstroData = response?.data
       }
 
       // Decide navigation
@@ -237,7 +166,7 @@ const AstrologerCard = ({ astrologer }) => {
               </span>
               <span className='flex items-center gap-2 commonQuesP'>
                 <img src={call} alt='call' className='w-[30px] h-[30px]' />
-                ₹{callMin || 0}/{t('mins')}
+                ₹{chatMin || 0}/{t('mins')}
               </span>
             </div>
 
@@ -259,7 +188,7 @@ const AstrologerCard = ({ astrologer }) => {
               className='text-white w-full py-2 text-sm rounded-md flex items-center justify-center gap-2'
               // onClick={e => handleChat(e, astrologer)}
               onClick={(e) => {
-                if (is_login) {
+                if (LOGIN_KEY) {
                   handleChat(e, astrologer)
                 } else {
                   openModel(dispatch, 'chat_modal')
@@ -275,7 +204,7 @@ const AstrologerCard = ({ astrologer }) => {
               onMouseEnter={() => callImgRef.current.src = phoneNewIcon}
               onMouseLeave={() => callImgRef.current.src = callWhite}
               onClick={(e) => {
-                if (is_login) {
+                if (LOGIN_KEY) {
                   handleChat(e, astrologer)
                 } else {
                   openModel(dispatch, 'chat_modal')
@@ -307,14 +236,15 @@ const AstrologerCard = ({ astrologer }) => {
 
     </div>
 
-    <PhoneAuthModal
-      isPhoneModalOpen={
-        modal?.is_model && modal?.model_type === 'chat_modal'
-      }
-      issetIsModalOpen={() => {
-        closeModel(dispatch)
-      }}
-    />
+    <Suspense fallback={<></>}
+    > <PhoneAuthModal
+        isPhoneModalOpen={
+          modal?.is_model && modal?.model_type === 'chat_modal'
+        }
+        issetIsModalOpen={() => {
+          closeModel(dispatch)
+        }}
+      />    </Suspense>
 
   </>)
 }

@@ -235,6 +235,11 @@ export function getPanchangTh(request) {
     return AxiosClientApi.post(`${API_V1}/${THIRD_PARTY}/getpanchang`, request, true)
 }
 
+
+export function getChoghadiyamuhurta(request) {
+    return AxiosClientApi.post(`${API_V1}/${THIRD_PARTY}/get_choghadiyamuhurta`, request, true)
+}
+
 export const geo_search = (request) => {
     return AxiosClientApi.post(`${API_V1}/${THIRD_PARTY}/geo_search`, request, true)
 }
@@ -393,6 +398,7 @@ export function getYearlyHoroscopeList(request) {
 export function getRaahuKaal(request) {
     return AxiosClientApi.post(`${API_V1}/${APP}/${COMMON}/get_rahukalam`, request, true)
 }
+
 
 // ---------------------- CMS PAGES api -------------------
 

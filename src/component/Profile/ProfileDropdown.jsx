@@ -1,19 +1,11 @@
-import React, { lazy, Suspense, memo } from "react";
-import { useNavigate } from "react-router";
+import { lazy, memo, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { EditOutlined } from "@ant-design/icons";
-import wallet from "../../assets/img/Profile/wallet.svg"
-import logout from "../../assets/img/Profile/logout.svg"
-import profileEdit from "../../assets/img/Profile/profileEdit.svg"
-import history from "../../assets/img/Profile/history.svg"
-import support from "../../assets/img/Profile/support.svg"
-import deleteIcon from "../../assets/img/Profile/delete.svg"
-
-
-import {
-  resetStore,
-} from "../../storemain/slice/MasterSlice";
-
+import { useNavigate } from "react-router";
+import deleteIcon from "../../assets/img/Profile/delete.svg";
+import history from "../../assets/img/Profile/history.svg";
+import logout from "../../assets/img/Profile/logout.svg";
+import profileEdit from "../../assets/img/Profile/profileEdit.svg";
+import wallet from "../../assets/img/Profile/wallet.svg";
 import {
   closeLoder,
   closeModel,
@@ -24,10 +16,10 @@ import {
   TOAST_SUCCESS,
 } from "../../utils/CommonFunction";
 
-import { UpdatedPaths } from "../../routers/Paths";
 import { useTranslation } from "react-i18next";
-import { Codes } from "../../utils/CommonVariable";
+import { UpdatedPaths } from "../../routers/Paths";
 import { deleteProfileUser } from "../../services/api/api.services";
+import { Codes } from "../../utils/CommonVariable";
 
 // import { PATHS } from "../../routers/Paths";
 
@@ -55,11 +47,11 @@ const ProfileDropdownComponent = ({ setIsOpen = false }) => {
       path: PATHS?.ORDER_HISTORY_CALL,
       icon: history,
     },
-    {
-      label: t('Customer_Support_Chat'),
-      path: PATHS?.HOMEPAGE,
-      icon: support
-    },
+    // {
+    //   label: t('Customer_Support_Chat'),
+    //   path: PATHS?.HOMEPAGE,
+    //   icon: support
+    // },
     // {
     //   label: t('Order_History'),
     //   path: PATHS?.ORDER_HISTORY_CALL,
@@ -69,11 +61,11 @@ const ProfileDropdownComponent = ({ setIsOpen = false }) => {
     //   path: '',
     //   icon: wallet
     // },
-    {
-      label: t('Order_History'),
-      path: PATHS?.ORDER_HISTORY_CALL,
-      icon: wallet
-    },
+    // {
+    //   label: t('Order_History'),
+    //   path: PATHS?.ORDER_HISTORY_CALL,
+    //   icon: wallet
+    // },
     // {
     //   label: t('delete'),
     //   path: '',
@@ -239,4 +231,4 @@ const ProfileDropdown = memo(() => (
   </Suspense>
 ));
 
-export default ProfileDropdown;
+export default memo(ProfileDropdown);

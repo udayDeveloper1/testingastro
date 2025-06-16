@@ -1,19 +1,19 @@
 import { Dropdown } from 'antd'
-import { memo, useContext, useState } from 'react'
+import { lazy, memo, Suspense, useContext, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { LanguageContext } from '../../context/LanguageContext'
 import { LanguageOption } from '../../utils/CommonVariable'
-import Loader from '../loader/Loader'
+const Loader = lazy(() => import('../loader/Loader'))
 
-function LanguageDropdown ({ className = '' }) {
+function LanguageDropdown({ className = '' }) {
   const { changeLanguage, language } = useContext(LanguageContext)
   const navigate = useNavigate()
-  
+
   const [loading, setLoading] = useState(false)
 
   const handleLanguageChange = value => {
     setLoading(true) // Show loader
-    
+
     changeLanguage(value)
     const supportedLanguages = Object.values(LanguageOption)
     const pathSegments = window.location.pathname.split('/')
@@ -57,7 +57,7 @@ function LanguageDropdown ({ className = '' }) {
 
   return (
     <>
-      {loading && <Loader />}
+      {loading && <Suspense fallback={<></>}><Loader /></Suspense>}
 
       <Dropdown
         menu={{ items: dropdownItems }}

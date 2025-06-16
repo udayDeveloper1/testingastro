@@ -1,25 +1,22 @@
-import React, { lazy, useState } from "react";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
+import { lazy, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
-const CustomButton = lazy(() =>
-  import("../../component/Homepage/CustomButton")
-);
+const CustomButton = lazy(() => import("../../component/Homepage/CustomButton"));
+const Ashtakvarg = lazy(() => import("../../component/NewKundaliComp/Others/Ashtakvarg"));
+const Shadbal = lazy(() => import("../../component/NewKundaliComp/Others/Shadbal"));
+const BhavMadhya = lazy(() => import("../../component/NewKundaliComp/Others/BhavMadhya"));
+const Friendship = lazy(() => import("../../component/NewKundaliComp/Others/Friendship"));
+const AvkhadaDetails = lazy(() => import("../../component/NewKundaliComp/Others/AvkhadaDetails"));
+const GhatakAndFavorite = lazy(() => import("../../component/NewKundaliComp/Others/GhatakAndFavorite"));
+const Prasthakvarga = lazy(() => import("../../component/NewKundaliComp/Others/Prasthakvarga"));
+const ChalitComp = lazy(() => import("../../component/NewKundaliComp/Others/ChalitComp"));
 
-import Ashtakvarg from "../../component/NewKundaliComp/Others/Ashtakvarg";
-import Shadbal from "../../component/NewKundaliComp/Others/Shadbal";
-import BhavMadhya from "../../component/NewKundaliComp/Others/BhavMadhya";
-import Friendship from "../../component/NewKundaliComp/Others/Friendship";
-import AvkhadaDetails from "../../component/NewKundaliComp/Others/AvkhadaDetails";
-import GhatakAndFavorite from "../../component/NewKundaliComp/Others/GhatakAndFavorite";
-import Prasthakvarga from "../../component/NewKundaliComp/Others/Prasthakvarga";
-import ChalitComp from "../../component/NewKundaliComp/Others/ChalitComp";
-
+import DataWrapper from "../../component/Custom/DataWrapper";
 import Loader2 from "../../component/loader/Loader2";
 import NoDataFound from "../../pages/NoDataFound/NoDataFound";
-import DataWrapper from "../../component/Custom/DataWrapper";
 
 const OthersDetail = ({ allKundliDetails }) => {
   const { ashtakvarga, shadBala, friendShip } = allKundliDetails || {};
@@ -107,4 +104,4 @@ const OthersDetail = ({ allKundliDetails }) => {
   );
 };
 
-export default OthersDetail;
+export default memo(OthersDetail);

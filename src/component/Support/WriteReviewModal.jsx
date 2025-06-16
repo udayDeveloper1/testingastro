@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Modal, Rate, Input, Button, message, Form } from 'antd';
-import CustomButton from '../Homepage/CustomButton';
+import { Form, Input, Modal, Rate } from 'antd';
+import { lazy, memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { closeModel, TOAST_ERROR, TOAST_SUCCESS } from '../../utils/CommonFunction';
-import { addRattingReview } from '../../services/api/api.services';
-import { Codes } from '../../utils/CommonVariable';
 import { useParams } from 'react-router';
-
+import { addRattingReview } from '../../services/api/api.services';
+import { closeModel, TOAST_ERROR, TOAST_SUCCESS } from '../../utils/CommonFunction';
+import { Codes } from '../../utils/CommonVariable';
+const CustomButton = lazy(() => import('../Homepage/CustomButton'))
 const { TextArea } = Input;
 
 const WriteReviewModal = ({ open, setOpen }) => {
@@ -121,4 +120,4 @@ const WriteReviewModal = ({ open, setOpen }) => {
   );
 };
 
-export default WriteReviewModal;
+export default memo(WriteReviewModal);

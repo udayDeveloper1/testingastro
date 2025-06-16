@@ -1,9 +1,9 @@
-import React, { lazy, useEffect, useRef, useState } from 'react';
 import { AutoComplete } from 'antd';
-import close from "../../assets/img/panchang/close.png";
-import { geo_search } from '../../services/api/api.services';
+import { lazy, memo, Suspense, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import close from "../../assets/img/panchang/close.png";
+import { geo_search } from '../../services/api/api.services';
 const CustomButton = lazy(() => import('../Homepage/CustomButton'))
 
 const GeoSearchInput = ({
@@ -21,6 +21,8 @@ const GeoSearchInput = ({
   const [options, setOptions] = useState([]);
   const isPlaceSelected = useRef(false);
   const searchTimeoutRef = useRef(null);
+  const isCleared = useRef(false);
+  const [error, setError] = useState("");
 
   const handleSearch = (val) => {
     isPlaceSelected.current = false;
@@ -93,27 +95,36 @@ const GeoSearchInput = ({
     setDefaultCity();
   }, [locationData]);
 
+  useEffect(() => {
+    setError("");
+  }, [isPlaceSelected.current])
+
+
   return (
-    <div className={`p-4 md:p-10  rounded-[10px] flex flex-col md:flex-row items-center justify-between gap-2 md:gap-[20px] ${className} commonLightBack geoSearchInputDiv`} >
+    <div className={`p-4 md:p-10  rounded-[10px] flex flex-col md:flex-row items-start justify-between gap-2 md:gap-[20px] ${className} commonLightBack geoSearchInputDiv`} >
       {/* Input Field */}
       <div className="w-full md:flex-1 relative geoSearchInputContainer">
-        <AutoComplete
-          options={!isPlaceSelected.current ? options : []}
-          onSearch={handleSearch}
-          onSelect={handleSelect}
-          onChange={(val) => {
-            onChange?.(val);
-            isPlaceSelected.current = false;
-          }}
-          value={value}
-          placeholder={placeholder}
-          className="w-full rounded-lg py-2 md:py-3 px-4 md:px-6 text-xs md:text-sm bg-white h-full outline-none geoSearchInput"
-          open={!isPlaceSelected.current && options.length > 0}
-          dropdownStyle={{
-            maxWidth: '95vw',
-            overflow: 'auto'
-          }}
-        />
+        <div>
+          <AutoComplete
+            options={!isPlaceSelected.current ? options : []}
+            onSearch={handleSearch}
+            onSelect={handleSelect}
+            onChange={(val) => {
+              onChange?.(val);
+              isPlaceSelected.current = false;
+            }}
+            value={value}
+            placeholder={placeholder}
+            className="w-full rounded-lg py-2 md:py-3 px-4 md:px-6 text-xs md:text-sm bg-white h-full outline-none geoSearchInput"
+            open={!isPlaceSelected.current && options.length > 0}
+            dropdownStyle={{
+              maxWidth: '95vw',
+              overflow: 'auto'
+            }}
+          />
+          {error && <span className="text-red-500 text-xs">{error}</span>}
+        </div>
+
         {showClear && value && (
           <img
             src={close}
@@ -132,17 +143,26 @@ const GeoSearchInput = ({
       {/* Button */}
       {showButton && (
         <div className="w-full md:w-auto mt-2 md:mt-0 h-full flex justify-center items-center">
+          <Suspense fallback={<></>}>
           <CustomButton
             className="text-white text-sm md:text-[16px] font-semibold px-4 md:px-20 py-2 md:py-4 font-medium w-full md:w-auto text-center"
             parentClassName='w-full'
-            onClick={onSubmit}
+            // disabled={!value?.trim()}
+            onClick={() => {
+              if (!value?.trim() && !isPlaceSelected.current) {
+                setError("Location is required");
+                return;
+              }
+              onSubmit();
+            }}
           >
             {t('Get_PANCHANG')}
           </CustomButton>
+          </Suspense>
         </div>
       )}
     </div>
   );
 };
 
-export default GeoSearchInput;
+export default memo(GeoSearchInput);

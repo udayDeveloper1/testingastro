@@ -100,6 +100,25 @@ filter: invert(20%) sepia(91%) saturate(737%) hue-rotate(325deg) brightness(86%)
   max-width: 296px;
 }
 
+.footer_social_icon  path{
+color: #e46a4b;
+fill: #e46a4b;
+}
+
+.footer_social_icon{
+  font-size: 25px;
+}
+
+.footer_socilaIcon_border{
+  border: 1px solid #e46a4b;
+  border-radius: 50%;
+  width: 40px;
+  height: 41px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media(max-width: 767px){
   .light_web_color_bg {
     margin: auto;

@@ -1,11 +1,12 @@
-import React from "react";
+import { lazy, memo } from "react";
 // import freeKundali from "../../assets/img/banner/freeKundali.webp";
-import CommonBanner from "../../component/CommonBanner";
-import CommonQuestionComp from "../../component/CommonQuestionComp";
-import HomeFAQs from "../../component/Homepage/HomeFAQs";
-import KundaliMatchForm from "../../component/kundali/KundaliMatchForm";
 import { useTranslation } from "react-i18next";
-import '../../assets/css/Kundli.css'
+import '../../assets/css/Kundli.css';
+import CommonBanner from "../../component/CommonBanner";
+
+const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
+const HomeFAQs = lazy(() => import("../../component/Homepage/HomeFAQs"));
+const KundaliMatchForm = lazy(() => import("../../component/kundali/KundaliMatchForm"));
 
 
 function KundaliMatching() {
@@ -108,17 +109,17 @@ function KundaliMatching() {
               </div>
             ))}
           </div>
+
         </div>
       </div>
-            <div className="planBackground">
-      <HomeFAQs
-        text={t('FAQs')}
-        highlightText={t('kundli_matching')}
-        // subHeading={t('All_you_need_to_know_about_Guna_Milan_Kundli_Milan')}
-        subHeading={''}
-
-      />
-</div>
+      <div className="planBackground">
+        <HomeFAQs
+          text={t('FAQs')}
+          highlightText={t('kundli_matching')}
+          // subHeading={t('All_you_need_to_know_about_Guna_Milan_Kundli_Milan')}
+          subHeading={''}
+        />
+      </div>
       {/* <NewsletterComp/>
        Footer
        <footer>
@@ -128,4 +129,4 @@ function KundaliMatching() {
   );
 }
 
-export default KundaliMatching;
+export default memo(KundaliMatching);

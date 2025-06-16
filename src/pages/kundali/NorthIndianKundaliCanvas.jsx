@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { memo, useEffect, useRef } from 'react';
 
 const KundaliCanvas = () => {
   const canvasRef = useRef(null);
@@ -88,4 +88,4 @@ const KundaliCanvas = () => {
   return <canvas ref={canvasRef} width={400} height={400} style={{ border: '1px solid #ccc' }} />;
 };
 
-export default KundaliCanvas;
+export default memo(KundaliCanvas);

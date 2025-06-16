@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import { ArrowUpToLine } from "lucide-react";
+import { memo, useEffect, useState } from "react";
 
 const ScrollToTopButton = () => {
   const [visible, setVisible] = useState(false);
@@ -29,4 +29,4 @@ const ScrollToTopButton = () => {
   );
 };
 
-export default ScrollToTopButton;
+export default memo(ScrollToTopButton);

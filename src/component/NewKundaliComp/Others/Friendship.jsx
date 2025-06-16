@@ -1,9 +1,9 @@
-import React from "react";
-import { Card, Table } from "antd";
-import CustomTable from "../../Custom/CustomTable";
+import { Card } from "antd";
+import { lazy, memo } from "react";
 import { useTranslation } from "react-i18next";
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
 
-export default function Friendship({ friendShip }) {
+function Friendship({ friendShip }) {
   const { t } = useTranslation()
   // const planets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
 
@@ -232,7 +232,7 @@ export default function Friendship({ friendShip }) {
             bordered={false}
             centered
             scroll={{ x: 'max-content' }}
-             className="lightBackHead"
+            className="lightBackHead"
           />
         </Card>
         <Card
@@ -278,3 +278,5 @@ export default function Friendship({ friendShip }) {
     </div>
   );
 }
+
+export default memo(Friendship)

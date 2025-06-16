@@ -1,7 +1,6 @@
-import React from "react";
 import { Card } from "antd";
-import CustomTable from "../Custom/CustomTable";
-
+import { lazy, memo } from "react";
+const CustomTable = lazy(() => import("../Custom/CustomTable"))
 const IndianSolarCalendar = () => {
   const columns = [
     {
@@ -43,6 +42,6 @@ const IndianSolarCalendar = () => {
       </Card>
     </div>
   );
-}; 
+};
 
-export default IndianSolarCalendar;
+export default memo(IndianSolarCalendar);

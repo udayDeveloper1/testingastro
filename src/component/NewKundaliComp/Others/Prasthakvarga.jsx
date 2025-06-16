@@ -1,8 +1,8 @@
-import { Card, Table } from "antd";
-import React from "react";
-import CustomTable from "../../Custom/CustomTable";
+import { Card } from "antd";
+import { lazy, memo } from "react";
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
 
-export default function Prasthakvarga() {
+function Prasthakvarga() {
   const columns = [
     {
       title: "",
@@ -19,13 +19,13 @@ export default function Prasthakvarga() {
   ].map((sign, index) =>
     typeof sign === "string"
       ? {
-          title: sign === "Ar2" ? "Ar" : sign === "Ca2" ? "Ca" : sign,
-          dataIndex: sign,
-          key: sign,
-          align: "center" ,
-          width: 80,
-          render: (text) => <span className="new_body_font font-bold">{text}</span>,
-        }
+        title: sign === "Ar2" ? "Ar" : sign === "Ca2" ? "Ca" : sign,
+        dataIndex: sign,
+        key: sign,
+        align: "center",
+        width: 80,
+        render: (text) => <span className="new_body_font font-bold">{text}</span>,
+      }
       : sign
   );
 
@@ -170,30 +170,32 @@ export default function Prasthakvarga() {
 
   return (
     <>
-    <div className="flex flex-col gap-[24px]">
-      <div className="grid grid-cols-2 gap-6  sm:border commonLightBorder  rounded-[10px] sm:p-[15px] md:p-[30px]">
-        <Card
-          className="rounded-[10px] overflow-hidden  col-span-2"
-          bodyStyle={{ padding: 0 }}
-        >
-          {/* Header */}
-          <div className="bg_website_color px-4 py-2">
-            <h3 className=" new_common_heading">Prasthakvarga</h3>
-          </div>
+      <div className="flex flex-col gap-[24px]">
+        <div className="grid grid-cols-2 gap-6  sm:border commonLightBorder  rounded-[10px] sm:p-[15px] md:p-[30px]">
+          <Card
+            className="rounded-[10px] overflow-hidden  col-span-2"
+            bodyStyle={{ padding: 0 }}
+          >
+            {/* Header */}
+            <div className="bg_website_color px-4 py-2">
+              <h3 className=" new_common_heading">Prasthakvarga</h3>
+            </div>
 
-          {/* Custom Table */}
-          <CustomTable
-            columns={columns}
-            data={dataSource}
-            pagination={false}
-            loading={false}
-            scroll={{ x: "max-content" }}
-            bordered
-          />
-        </Card>
-        
+            {/* Custom Table */}
+            <CustomTable
+              columns={columns}
+              data={dataSource}
+              pagination={false}
+              loading={false}
+              scroll={{ x: "max-content" }}
+              bordered
+            />
+          </Card>
+
+        </div>
       </div>
-    </div>
-  </>
+    </>
   );
 }
+
+export default memo(Prasthakvarga)

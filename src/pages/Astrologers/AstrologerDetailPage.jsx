@@ -1,17 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState, lazy, Suspense, memo } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 // import astroDetailPageBanner from "../../assets/img/banner/astroDetailPageBanner.webp";
-import CommonBanner from "../../component/CommonBanner";
-import Loader from "../../component/loader/Loader";
+import { useTranslation } from "react-i18next";
 import { astrologerDetailsAPI, rattingReviewList } from "../../services/api/api.services";
 import { setLoading } from "../../storemain/slice/MasterSlice";
 import { Codes } from "../../utils/CommonVariable";
-import { useTranslation } from "react-i18next";
+import CommonBanner from "../../component/CommonBanner";
 
 const AstrologerCard = lazy(() => import("../../component/Astrologer/AstrologerCard"));
-const CommonHeadingSecond = lazy(() => import("../../component/Astrologer/CommonHeadingSecond"));
 const ReviewsSection = lazy(() => import("../../component/Astrologer/ReviewsSection"));
+const Loader = lazy(() => import("../../component/loader/Loader"));
 
 function AstrologerDetailPageComponent() {
   const { id } = useParams();
@@ -21,15 +20,11 @@ function AstrologerDetailPageComponent() {
   const [astrologerDetails, setAstrologerDetails] = useState({});
   const [rattingListReview, setRattingReviewList] = useState([]);
 
-  const isFetched = useRef(false);
-
   const fetchAstrologerDetails = useCallback(async () => {
-    if (isFetched.current) return;
-    isFetched.current = true;
+
     dispatch(setLoading({ is_loading: true, loding_type: "astro_details" }));
     try {
       const request = { uniqueID: id };
-
       const astroResponse = await astrologerDetailsAPI(request);
       if (astroResponse?.code === Codes?.SUCCESS) {
         setAstrologerDetails(astroResponse?.data);
@@ -39,17 +34,19 @@ function AstrologerDetailPageComponent() {
       if (reviewResponse?.code === Codes?.SUCCESS) {
         setRattingReviewList(reviewResponse?.data);
       }
+
     } finally {
       dispatch(setLoading({ is_loading: false, loding_type: "" }));
     }
-  }, [id, dispatch]);
+  }, [id, t]);
 
   useEffect(() => {
     if (id) {
-      // isFetched.current = false;
+      // if (isFetched.current) return;
+      // isFetched.current = true;
       fetchAstrologerDetails();
     }
-  }, [fetchAstrologerDetails, id, t]);
+  }, [fetchAstrologerDetails]);
 
   return (
     <>
@@ -59,6 +56,7 @@ function AstrologerDetailPageComponent() {
         </div>
       ) : (
         <>
+        <Suspense fallback={<div className='min-h-[100vh]'></div>}>
           <section>
             <CommonBanner
               // backgroundImage={astroDetailPageBanner}
@@ -66,17 +64,7 @@ function AstrologerDetailPageComponent() {
               highlight=""
             />
           </section>
-          {/* <section>
-            <div className="container mx-auto padding50 flex flex-col gap-5 md:gap-10">
-              <Suspense fallback={<div className='min-h-[100vh]'></div>}>
-                <CommonHeadingSecond
-                  heading={`${astrologerDetails?.name || ''} Profile`}
-                  content={[`Yearly Aries Horoscope ${new Date().getFullYear()} Predictions`]}
-                />
-              </Suspense>
-            </div>
-          </section> */}
-
+         
           <section>
             <div className="container mx-auto flex flex-col gap-10 padding50">
               <Suspense fallback={<></>}>
@@ -96,6 +84,7 @@ function AstrologerDetailPageComponent() {
 
             </section>
           }
+          </Suspense>
         </>
       )}
     </>

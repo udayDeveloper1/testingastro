@@ -1,17 +1,17 @@
-import { lazy, useState } from "react";
+import { lazy, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CommonBanner from "../../component/CommonBanner";
-import Kalpasara from "../../component/kundali/FreeKundaliReport/Dosha/Kalpasara";
-import Manglik from "../../component/kundali/FreeKundaliReport/Dosha/Manglik";
-import Sadesati from "../../component/kundali/FreeKundaliReport/Dosha/Sadesati";
-import GeneralTabFreeKundali from "../../component/kundali/FreeKundaliReport/General/GeneralTabFreeKundali";
-import LifeStone from "../../component/kundali/FreeKundaliReport/Remedies/LifeStone";
-import Rudraksha from "../../component/kundali/FreeKundaliReport/Remedies/Rudraksha";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
-import KundliReport from "../../component/kundali/KundliReport";
-import KundliStepper from "../../component/kundali/KundliStepper";
-import TabNavigation from "../../component/kundali/TabNavigation";
-const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const Kalpasara = lazy(() => import("../../component/kundali/FreeKundaliReport/Dosha/Kalpasara"));
+const Manglik = lazy(() => import("../../component/kundali/FreeKundaliReport/Dosha/Manglik"));
+const Sadesati = lazy(() => import("../../component/kundali/FreeKundaliReport/Dosha/Sadesati"));
+const GeneralTabFreeKundali = lazy(() => import("../../component/kundali/FreeKundaliReport/General/GeneralTabFreeKundali"));
+const LifeStone = lazy(() => import("../../component/kundali/FreeKundaliReport/Remedies/LifeStone"));
+const Rudraksha = lazy(() => import("../../component/kundali/FreeKundaliReport/Remedies/Rudraksha"));
+const HoroscopeGrid = lazy(() => import("../../component/kundali/HoroscopeGrid"));
+const KundliReport = lazy(() => import("../../component/kundali/KundliReport"));
+const KundliStepper = lazy(() => import("../../component/kundali/KundliStepper"));
+const TabNavigation = lazy(() => import("../../component/kundali/TabNavigation"));
+const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'));
 
 function FreeKundaliReport() {
   const [active, setActive] = useState("0");
@@ -346,4 +346,4 @@ function FreeKundaliReport() {
   );
 }
 
-export default FreeKundaliReport;
+export default memo(FreeKundaliReport);

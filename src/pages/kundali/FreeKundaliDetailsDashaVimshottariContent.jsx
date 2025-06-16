@@ -1,18 +1,19 @@
-import React, { lazy, useState } from "react";
-import CommonBanner from "../../component/CommonBanner";
-import KundliStepper from "../../component/kundali/KundliStepper";
-const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
-import ImageDataCard from "../../component/kundali/ImageDataCard";
-import KundliReport from "../../component/kundali/KundliReport";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
-import NoteCard from "../../component/NoteCard";
-import CustomTable from "../../component/Custom/CustomTable";
-import northIndianKundliImg from "../../assets/img/kundali/northIndianKundliSample.webp";
+import { lazy, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import northIndianKundliImg from "../../assets/img/kundali/northIndianKundliSample.webp";
+
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const KundliStepper = lazy(() => import("../../component/kundali/KundliStepper"));
+const CustomButton = lazy(() => import("../../component/Homepage/CustomButton"));
+const ImageDataCard = lazy(() => import("../../component/kundali/ImageDataCard"));
+const KundliReport = lazy(() => import("../../component/kundali/KundliReport"));
+const HoroscopeGrid = lazy(() => import("../../component/kundali/HoroscopeGrid"));
+const NoteCard = lazy(() => import("../../component/NoteCard"));
+const CustomTable = lazy(() => import("../../component/Custom/CustomTable"));
 
 function FreeKundaliDetailsDashaVimshottariContent() {
   const [active, setActive] = useState("0");
-    const { t } = useTranslation()
+  const { t } = useTranslation()
   const venusMahadashaData = {
     title: "Venus Mahadasha",
     period: "16-11-1998 - 16-11-2018",
@@ -186,11 +187,10 @@ function FreeKundaliDetailsDashaVimshottariContent() {
           <div className="flex justify-between">
             <div className="w-[49.5%]">
               <CustomButton
-                className={`w-full py-2 border  font-semibold text-[16px] leading-[100%] transition-all ${
-                  active === "0"
+                className={`w-full py-2 border  font-semibold text-[16px] leading-[100%] transition-all ${active === "0"
                     ? " !bg-[#e3725d] !border-[#e3725d] !text-[#fff]"
                     : "!bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
-                }`}
+                  }`}
                 onClick={() => {
                   setActive("0");
                 }}
@@ -200,11 +200,10 @@ function FreeKundaliDetailsDashaVimshottariContent() {
             </div>
             <div className="w-[49.5%]">
               <CustomButton
-                className={`w-full py-2 border  font-semibold text-[16px] leading-[100%] transition-all ${
-                  active === "1"
+                className={`w-full py-2 border  font-semibold text-[16px] leading-[100%] transition-all ${active === "1"
                     ? " !bg-[#e3725d] !border-[#e3725d] !text-[#fff]"
                     : "!bg-[#F2ECF6] !border-[#F2ECF6] !text-[#e3725d] hover:!bg-[#e3725d] hover:!border-[#e3725d] hover:!text-[#fff]"
-                }`}
+                  }`}
                 onClick={() => {
                   setActive("1");
                 }}
@@ -306,4 +305,4 @@ function FreeKundaliDetailsDashaVimshottariContent() {
   );
 }
 
-export default FreeKundaliDetailsDashaVimshottariContent;
+export default memo(FreeKundaliDetailsDashaVimshottariContent);

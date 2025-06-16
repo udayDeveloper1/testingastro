@@ -1,18 +1,22 @@
 import React from "react";
 // import namkaranBanner from "../../assets/img/banner/namkaranBanner.webp";
-import CommonBanner from "../../component/CommonBanner";
-import CommonQuestionComp from "../../component/CommonQuestionComp";
-import Footer from "../../Layout/Footer";
-import NewsletterComp from "../../component/Homepage/NewsLatterComp";
-import GoldBuyingMuhuratcomp from "../../component/Muhurat/GoldBuyingMuhuratcomp";
-import DynamicCard from "../../component/Dynemic/DynamicCard";
-import BhoomiPujanCard from "../../component/Muhurat/BhoomiPujanCard";
-import NamingMuhuratList from "../../component/Muhurat/NamingMuhuratList";
-import CarBikeMuhuratCard from "../../component/Muhurat/CarBikeMuhuratCard";
-import ZodiacLuckyColors from "../../component/Muhurat/ZodiacLuckyColors";
-import AdviceCard from "../../component/Muhurat/AdviceCard";
-import NakshatraList from "../../component/Muhurat/NakshatraList";
-import ariesHeading from "../../assets/img/Horoscope/ariesHeading.webp"
+import { lazy } from "react";
+
+// Assets (should not be lazy loaded)
+import ariesHeading from "../../assets/img/Horoscope/ariesHeading.webp";
+
+// Lazy-loaded components
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
+const Footer = lazy(() => import("../../Layout/Footer"));
+const NewsletterComp = lazy(() => import("../../component/Homepage/NewsLatterComp"));
+const GoldBuyingMuhuratcomp = lazy(() => import("../../component/Muhurat/GoldBuyingMuhuratcomp"));
+const DynamicCard = lazy(() => import("../../component/Dynemic/DynamicCard"));
+const BhoomiPujanCard = lazy(() => import("../../component/Muhurat/BhoomiPujanCard"));
+const CarBikeMuhuratCard = lazy(() => import("../../component/Muhurat/CarBikeMuhuratCard"));
+const ZodiacLuckyColors = lazy(() => import("../../component/Muhurat/ZodiacLuckyColors"));
+const AdviceCard = lazy(() => import("../../component/Muhurat/AdviceCard"));
+
 function CarBikeMuhurat() {
   const content1 = [
     "The importance of Muhurat is deeply embedded in Indian tradition. It is believed that actions taken during an auspicious time are more likely to yield positive results. When you purchase a vehicle, it marks the start of numerous journeys, both literal and metaphorical. A well-timed purchase is thought to protect the buyer from mishaps, improve the longevity of the vehicle, and even enhance the prosperity that the vehicle brings.",
@@ -290,7 +294,7 @@ function CarBikeMuhurat() {
       { title: "Impulse Purchases", description: "The excitement of the weekend can lead to impulsive decisions. It’s crucial to do your research and not rush into buying a vehicle." }
     ]
   };
-  const avoidBuying=[
+  const avoidBuying = [
     {
       title: "",
       description:
@@ -309,7 +313,7 @@ function CarBikeMuhurat() {
   ]
 
 
-  const bhoomiPujanData ={
+  const bhoomiPujanData = {
     "title": "The Most Auspicious Nakshatras For Purchasing A Vehicle In 2025 Are",
     "description": "The Bhoomi Pujan ritual is a sacred act in Hinduism that marks the beginning of construction, be it for a home, temple, or any other structure. In 2025, the importance of this ceremony will continue to uphold its connection between the earth and the divine energies. Below is the Bhoomi Pujan Vidhi for 2025:",
     "steps": [
@@ -424,7 +428,7 @@ function CarBikeMuhurat() {
             steps={bhoomiPujanData.steps}
             listStyle="disc" // Use "disc", "decimal", "circle", etc.
           />
-        {/* <NakshatraList {...nakshatraData} listStyle="disc"/> */}
+          {/* <NakshatraList {...nakshatraData} listStyle="disc"/> */}
         </div>
       </section>
       <NewsletterComp />
@@ -436,4 +440,4 @@ function CarBikeMuhurat() {
   );
 }
 
-export default CarBikeMuhurat;
+export default React.memo(CarBikeMuhurat);

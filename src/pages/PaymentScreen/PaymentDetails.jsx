@@ -4,80 +4,102 @@ import { cloneDeep } from 'lodash'
 import { lazy, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
-import appLogo from '../../assets/img/mainLogo.png'
+import appLogo from '/loader.png'
 import celebrationimg from '../../assets/img/transaction/celebration.gif'
 import {
   addRecharge,
   applyCoupon,
+  listWalletOffer,
   verifyPayment
 } from '../../services/api/api.services'
 import { setLoading, setUserLoginData } from '../../storemain/slice/MasterSlice'
 import {
+  closeLoder,
   closeModel,
+  openLoader,
   openModel,
-  TOAST_ERROR,
-  TOAST_SUCCESS
+  // TOAST_ERROR,
+  // TOAST_SUCCESS
 } from '../../utils/CommonFunction'
-import { Codes } from '../../utils/CommonVariable'
+// import { Codes } from '../../utils/CommonVariable'
 import { Constatnt } from '../../utils/Constent'
 const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
 // import { PATHS } from '../../routers/Paths'
 import ConfirmModal from '../../component/Modals/ConfirmModal'
 import { UpdatedPaths } from '../../routers/Paths'
+import { t } from 'i18next'
+import PriceCard from '../../component/Payment/PriceCard'
+import { paymentScreenRedirection } from '../../utils/navigations/NavigationPage'
 
-export default function PaymentDetails ({
+function PaymentDetails ({
   openInModel = false,
   paymentDetailsData = {},
-  onPaymentSuccess = () => {}
+  onPaymentSuccess = () => { }
 }) {
   const { id } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const PATHS = UpdatedPaths()
 
-  const [couponCode, setCouponCode] = useState('')
+  // const [couponCode, setCouponCode] = useState('')
   const { is_login, loginUserData } = useSelector(
     state => state?.masterSlice?.loginUser
   )
   const modal = useSelector(state => state?.masterSlice?.modal)
 
-  const loading = useSelector(state => state?.masterSlice?.loader?.is_loading)
-  const [appliedCoupon, setAppliedCoupon] = useState(false)
-  const [couponError, setCouponError] = useState('')
+  // const loading = useSelector(state => state?.masterSlice?.loader?.is_loading)
+  // const [appliedCoupon, setAppliedCoupon] = useState(false)
+  // const [couponError, setCouponError] = useState('')
   const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false)
   const [urlObj, setUrlObj] = useState({})
+  const [walletList, setWalletList] = useState([])
+  const [animateCoupon, setAnimateCoupon] = useState(false);
 
   const [paymentCalculation, setPaymentCalculation] = useState({
     price: 0,
     gst: 0,
     totalAmount: 0,
     addRechargeAmount: 0,
-    offerInPercentage: 0,
+    offerInPercentage: "0",
     currency: 'INR',
     currencySymbol: '₹'
   })
-
-  const handleApplyCoupon = () => {
-    if (!couponCode.trim()) {
-      setCouponError('Please enter a coupon code.')
-      return
+  useEffect(() => {
+    if (urlObj?.offer) {
+      setAnimateCoupon(false); // Reset
+      // Slight delay to allow class removal
+      setTimeout(() => {
+        setAnimateCoupon(true); // Trigger animation again
+      }, 10);
     }
+  }, [paymentCalculation]);
 
-    applyCoupon().then(response => {
-      if (response?.code === Codes?.SUCCESS) {
-        TOAST_SUCCESS(response?.message)
-        setCouponError('')
-        setAppliedCoupon(true)
-      } else {
-        TOAST_ERROR(response?.message)
-      }
-    })
-  }
 
-  const handleRemoveCoupon = () => {
-    setCouponCode('')
-    setAppliedCoupon(false)
-  }
+  const astroPaymentDetails = useSelector(
+    state => state?.AstroDetailsDataSlice?.astroPaymentDetails
+  )
+
+  // const handleApplyCoupon = () => {
+  //   if (!couponCode.trim()) {
+  //     setCouponError('Please enter a coupon code.')
+  //     return
+  //   }
+
+  //   applyCoupon().then(response => {
+  //     if (response?.code === Codes?.SUCCESS) {
+  //       TOAST_SUCCESS(response?.message)
+  //       setCouponError('')
+  //       setAppliedCoupon(true)
+  //     } else {
+  //       TOAST_ERROR(response?.message)
+  //     }
+  //   })
+  // }
+
+  // const handleRemoveCoupon = () => {
+  //   setCouponCode('')
+  //   setAppliedCoupon(false)
+  // }
 
   const cancelOffer = async () => {
     let datas = cloneDeep(urlObj)
@@ -105,7 +127,7 @@ export default function PaymentDetails ({
         amount: paymentCalculation?.addRechargeAmount,
         currency: paymentCalculation?.currency,
         receipt: `order_rcptid-${Date.now()}`,
-        coupon_code: ''
+        coupon_code: ""
       }
       let response = await addRecharge(payload)
       if (response?.code === 1) {
@@ -124,7 +146,7 @@ export default function PaymentDetails ({
           key: Constatnt?.VITE_APP_RAZORPAY_KEY_ID,
           amount: paymentCalculation?.totalAmount * 100,
           currency: paymentCalculation?.currency,
-          name: 'Chat My Astrologer App Recharge',
+          name: 'Chat My Astrologer',
           description: 'Test Transaction',
           image: appLogo,
           prefill: {
@@ -203,7 +225,7 @@ export default function PaymentDetails ({
         rzp.open()
       } else {
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   useEffect(() => {
@@ -220,19 +242,26 @@ export default function PaymentDetails ({
   }, [])
 
   useEffect(() => {
-    if (id || Object.keys(paymentDetailsData)?.length > 0) {
+    if (Object.keys(paymentDetailsData)?.length > 0) {
       let dataa
       if (Object.keys(paymentDetailsData)?.length > 0) {
         dataa = paymentDetailsData
+
       } else {
         const base64Decoded = atob(id)
         dataa = Object.fromEntries(new URLSearchParams(base64Decoded).entries())
-      }
 
-      setUrlObj(dataa)
-      const price = parseFloat(dataa?.price) || 0
+      }
+      const parsedData = {
+        data: dataa,
+        walletList: dataa.walletList
+      };
+      setWalletList(parsedData?.walletList)
+      setUrlObj(parsedData?.data)
+    
+      const price = parseFloat(parsedData?.data?.price) || 0
       const gst = parseFloat((price * 0.18).toFixed(2))
-      const offer = parseFloat(dataa?.offer) || 0
+      const offer = parseFloat(parsedData?.data?.offer) || 0
       const totalAmount = parseFloat((price + gst).toFixed(2))
       let offerInPercentage = 0
       let addRechargeAmount = 0
@@ -259,35 +288,135 @@ export default function PaymentDetails ({
         }, 2000)
       }
     }
+         
+ else {
+   let dataa
+        const base64Decoded = atob(id)
+        dataa = Object.fromEntries(new URLSearchParams(base64Decoded).entries())
+const parsedData = {
+        data: JSON.parse(dataa.data),
+        walletList: JSON.parse(dataa.walletList)
+      };
+      setWalletList(parsedData?.walletList)
+      setUrlObj(parsedData?.data)
+    
+      const price = parseFloat(parsedData?.data?.price) || 0
+      const gst = parseFloat((price * 0.18).toFixed(2))
+      const offer = parseFloat(parsedData?.data?.offer) || 0
+      const totalAmount = parseFloat((price + gst).toFixed(2))
+      let offerInPercentage = 0
+      let addRechargeAmount = 0
+      if (dataa?.type === 'percentage') {
+        addRechargeAmount = (price + (price * offer) / 100)?.toFixed(2)
+        offerInPercentage = offer
+      } else {
+        addRechargeAmount = (price + offer)?.toFixed(2)
+        offerInPercentage = ((offer * 100) / price)?.toFixed(2)
+      }
+
+      setPaymentCalculation(prev => ({
+        ...prev,
+        price,
+        gst,
+        totalAmount,
+        addRechargeAmount,
+        offerInPercentage
+      }))
+         if (offer !== '' && !openInModel) {
+        openModel(dispatch, 'coupon_model')
+        setTimeout(() => {
+          closeModel(dispatch)
+        }, 2000)
+      }
+      }
   }, [id])
 
   return (
     <>
-      <section className='pt-3'>
-        <div className='bg-white rounded-[10px]  w-full container padding100 mx-auto '>
-          <div className='shadow-[0px_0px_35px_0px_#0000000D] p-[15px] md:p-10 w-full rounded-[10px] max-w-[800px] mx-auto'>
-            <h1 className='text-2xl font-semibold mb-3 md:mb-6'>
-              Payment Details
-            </h1>
-            <div className='space-y-2 mb-6 border-[#F2ECF6] border  rounded-[10px] '>
-              <div className='flex justify-between  commonLightBack rounded py-4 px-7 mb-0'>
-                <span className='font-medium'>Total Amount</span>
+      <section className={`pt-3   ${!openInModel ? "paddingBottom100" : "" }`}>
+        {/* Header Section */}
+{!openInModel &&            <div className="flex flex-wrap justify-between paddingTop100 paddingBottom50 md:items-center gap-5 container mx-auto">
+          <div className="flex flex-col w-full sm:w-[48%]">
+            <h2 className="text-[24px] md:text-[40px] font-semibold new_body_font pb-2 mb-0">
+              {t('add_mony_to_wallet')}
+            </h2>
+            <p className="text-[16px] font-semibold mb-0">
+              {t('choose_from_avilable_recharge_pack')}
+            </p>
+          </div>
+
+          <div className="flex justify-between items-center p-[20px] md:p-[30px] rounded-xl relative bg-[linear-gradient(90deg,_#fdf3ec_0%,_#f9e9ec_100%)] w-full sm:w-[48%] available_balance">
+            <span className="text-[16px] md:text-[18px] font-medium text-black">
+              {t('Available_Balance')}:
+            </span>
+            <span className="text-[25px] md:text-[30px] lg:text-[36px] font-semibold bg-[linear-gradient(90deg,_#c32853_0%,_#ee7e49_100%)] bg-clip-text text-transparent">
+              ₹{loginUserData?.total_wallet_balance}
+            </span>
+          </div>
+        </div>}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[24px] container mx-auto">
+          {/* PriceCard List */}
+ {!openInModel &&         <div className="order-2 lg:order-1">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+              {walletList?.length > 0 ? (
+                walletList.map((item, index) => (
+                  <PriceCard
+                    key={index}
+                    openInModel={openInModel}
+                    data={item}
+                    price={item?.price}
+                    extraLabel={
+                      item?.type === 'percentage'
+                        ? `${t('get')} ${item?.offer}% ${t('extra')}`
+                        : item?.type === 'flat'
+                          ? `₹ ${item?.offer} ${t('flat')}`
+                          : ''
+                    }
+                    onClick={(data) => {
+                      const finalData = {
+                        data: JSON.stringify(data),
+                        walletList: JSON.stringify(walletList),
+                      };
+
+                      if (!openInModel) {
+                        paymentScreenRedirection(navigate, finalData, PATHS?.PAYMENT_SCREEN);
+                      } else {
+                        handlePriceCardClick(data);
+                      }
+                    }}
+                    classList={`${paymentCalculation?.price == item?.price ? "new_border_3" : ""}`}
+                  />
+                ))
+              ) : (
+                <p>{t('no_data_found')}</p>
+              )}
+            </div>
+          </div>}
+
+          {/* Payment Details */}
+          <div className={`bg-white rounded-[10px] shadow-[0px_0px_35px_0px_#0000000D] p-4 md:p-10 w-full max-w-[800px] order-1 lg:order-2 ${!openInModel ? "" : "col-span-2" }`}>
+            <h1 className="text-2xl font-semibold mb-6">Payment Details</h1>
+
+            <div className="space-y-2 mb-6 border border-[#F2ECF6] rounded-[10px] overflow-hidden">
+              <div className="flex justify-between commonLightBack py-4 px-7">
+                <span className="font-medium">Total Amount</span>
                 <span>
                   {paymentCalculation?.currencySymbol}
                   {paymentCalculation?.price}
                 </span>
               </div>
 
-              <div className='flex justify-between py-4 px-7 border-t border-[#F2ECF6] border-b'>
-                <span className='font-medium'>GST @ 18%</span>
+              <div className="flex justify-between py-4 px-7 border-t border-b border-[#F2ECF6]">
+                <span className="font-medium">GST @ 18%</span>
                 <span>
                   {paymentCalculation?.currencySymbol}
                   {paymentCalculation?.gst}
                 </span>
               </div>
 
-              <div className='flex justify-between py-4 px-7'>
-                <span className='font-medium'>Total Payable Amount</span>
+              <div className="flex justify-between py-4 px-7">
+                <span className="font-medium">Total Payable Amount</span>
                 <span>
                   {paymentCalculation?.currencySymbol}
                   {paymentCalculation?.totalAmount}
@@ -295,56 +424,48 @@ export default function PaymentDetails ({
               </div>
             </div>
 
-            {urlObj?.offer !== '' && (
-              <div className='commonLightBack p-4 rounded-lg mb-6 '>
-                <div className='grid md:gap-5 md:grid-cols-[auto_3fr] items-start md:items-center '>
-                  <div className=''>
-                    <p className='website_color font-bold mb-0 text-[30px]'>
-                      %
-                    </p>
-                  </div>
-                  <div className=' flex justify-between flex-row items-start'>
+            {/* Coupon Applied */}
+            {urlObj?.offer && (
+              <div
+                className={`commonLightBack p-4 rounded-lg mb-6 ${animateCoupon ? 'coupon-effect' : ''
+                  }`}
+              >
+                <div className="grid md:grid-cols-[auto_1fr] gap-4 items-center">
+                  <p className="website_color font-bold text-[30px] m-0">%</p>
+                  <div className="flex justify-between items-start">
                     <div>
-                      <p className='website_color font-bold mb-0'>
-                        Coupon Applied
-                      </p>
-                      <p className='new_body_font md:text-lg  font-semibold mb-0'>
-                        {paymentCalculation?.currencySymbol} {urlObj?.offer}{' '}
-                        Cashback in Wallet after Recharge
+                      <p className="website_color font-bold mb-0">Coupon Applied</p>
+                      <p className="new_body_font md:text-lg font-semibold mb-0">
+                        {paymentCalculation?.currencySymbol} {urlObj?.offer} Cashback in Wallet after Recharge
                       </p>
                     </div>
                     <div
-                      className='bg_website_color rounded-[50%] p-1 w-[20px] h-[20px] flex items-center justify-center cursor-pointer'
+                      className="bg_website_color rounded-full p-1 w-[20px] h-[20px] flex items-center justify-center cursor-pointer"
                       onClick={cancelOffer}
                     >
-                      <FontAwesomeIcon icon={faTimes} className='text-white' />
+                      <FontAwesomeIcon icon={faTimes} className="text-white" />
                     </div>
                   </div>
                 </div>
               </div>
             )}
 
-            <div className='w-full flex justify-between items-center'>
+
+
+            {/* Pay Button */}
+            <div className="w-full flex justify-end">
               <CustomButton
-                className=' text-white py-3 rounded font-medium'
+                className="text-white py-3 px-6 rounded font-medium"
                 onClick={handlePayment}
               >
-                {/* {modal?.model_type == 'coupon_model' ? 'Paying...' : ''} */}
                 PAY NOW
               </CustomButton>
             </div>
           </div>
         </div>
       </section>
-      <ConfirmModal
-        isOpen={modal?.is_model && modal?.model_type == 'coupon_model'}
-        title={`Wow ${paymentCalculation?.offerInPercentage}% Coupon Applied!!`}
-        description=''
-        okText=''
-        cancelText=''
-        imageSrc={celebrationimg}
-        imgClass='max-w-[100px] mx-auto block mt-5'
-      />
     </>
   )
 }
+
+export default React.memo(PaymentDetails)

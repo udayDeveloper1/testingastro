@@ -1,6 +1,7 @@
 // import kundaliChart from "../../assets/img/kundali/kundaliChart.svg";
+import { lazy, memo, Suspense } from "react";
 import kundaliChart from "../../assets/img/kundali/kundliReport.webp";
-import CustomTable from "../Custom/CustomTable";
+const CustomTable = lazy(() => import("../Custom/CustomTable"))
 
 const columns = [
   {
@@ -98,17 +99,19 @@ const AstrologyComponent = () => {
       </div>
       <div className="col-span-2  rounded-[10px]  bg-white w-full">
         <h3 className="text-lg font-semibold mb-4 ">Ruling Planets</h3>
-        <CustomTable
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          bordered
-          scroll={{ x: "1750px", y: 500 }}
-          className="text-center h-full"
-        />
+        <Suspense fallback={<></>}>
+          <CustomTable
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+            bordered
+            scroll={{ x: "1750px", y: 500 }}
+            className="text-center h-full"
+          />
+        </Suspense>
       </div>
     </div>
   );
 };
 
-export default AstrologyComponent;
+export default memo(AstrologyComponent);

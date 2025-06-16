@@ -20,13 +20,10 @@ const LanguageDropdown = lazy(() =>
   import('../component/Homepage/LanguageDropDown')
 )
 const CustomButton = lazy(() => import('../component/Homepage/CustomButton'))
-const ProfileIconWithDropdown = lazy(() =>
-  import('../component/Profile/ProfileIconWithDropdown')
-)
+const ProfileIconWithDropdown = lazy(() => import('../component/Profile/ProfileIconWithDropdown'))
 
 import { DownOutlined } from '@ant-design/icons'
 import { Dropdown } from 'antd'
-import moment from 'moment'
 import PhoneAuthModal from '../component/auth/PhoneAuthModals'
 import { UpdatedPaths } from '../routers/Paths'
 import {
@@ -71,9 +68,9 @@ function NavBar() {
   const LOGIN_KEY = localStorage.getItem(Constatnt?.LOGIN_KEY)
   const LANGUAGE_KEY = localStorage.getItem(Constatnt?.LANGUAGE_KEY)
   const AUTH_KEY = JSON.parse(localStorage.getItem(Constatnt?.AUTH_KEY))
-  const loginUser = useSelector(state => state?.masterSlice?.loginUser)
   const modal = useSelector(state => state?.masterSlice?.modal)
-  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH;
+
   const labels = useMemo(
     () => ({
       chat: t('chat_with_astrologer'),
@@ -89,9 +86,10 @@ function NavBar() {
       namakaran: t('namakaran_Muhurat'),
       rahu: t('rahu_kaal'),
       offers: t('Offers'),
-      blog: t('blog'),
+      blog: t('blogs'),
       genral_prediction: t('genral_prediction'),
-      kundali_prediction: t('kundali_prediction')
+      kundali_prediction: t('kundali_prediction'),
+      choghadiya: t('choghadiya'),
     }),
     [LocalLanguage]
   )
@@ -99,7 +97,7 @@ function NavBar() {
   const topNavItems = useMemo(
     () => [
       {
-        key: 'blog',
+        key: 'blogs',
         label: labels.blog,
         to: PATHS?.BLOG,
         type: 'link'
@@ -109,8 +107,8 @@ function NavBar() {
   )
 
   const TopNavItem = React.memo(({ item, pathname }) => {
-    const isActive = item.value && pathname.includes(item.value)
 
+    const isActive = item.value && pathname.includes(item.value)
     if (item.type === 'link') {
       return (
         <Link to={item.to} className='customDisplayNavbar topNavLink'>
@@ -135,6 +133,7 @@ function NavBar() {
           )
         }))
       }, [item.type, item.children, pathname])
+
       return (
         <Dropdown menu={{ items: dropdownItems }} trigger={['hover']}>
           <div
@@ -145,6 +144,7 @@ function NavBar() {
           </div>
         </Dropdown>
       )
+
     }
 
     if (item.type === 'action') {
@@ -200,8 +200,9 @@ function NavBar() {
           : navigate(path),
       value: path
     }),
-    [navigate, dispatch, LocalLanguage]
+    [navigate, dispatch, LocalLanguage, LOGIN_KEY]
   )
+
   const predictionChildren = useMemo(
     () => [
       getPredictionNavItem(
@@ -221,9 +222,7 @@ function NavBar() {
 
   const getMuhuratNavItem = useCallback(
     (key, labelKey, path) => ({
-      label: t(labelKey),
-      key,
-      onClick: () => navigate(path),
+      label: t(labelKey), key, onClick: () => navigate(path),
       value: path
     }),
     [navigate, LocalLanguage]
@@ -234,7 +233,9 @@ function NavBar() {
       getMuhuratNavItem('marriage', 'Marriage_Muhurat', PATHS.MARRIAGE_MUHURAT),
       getMuhuratNavItem('bhumi', 'bhumi_Pujan_Muhurat', PATHS.BHUMIPUJA_MUHURAT),
       getMuhuratNavItem('namakaran', 'namakaran_Muhurat', PATHS.NAMKARAN_MUHURAT),
-      getMuhuratNavItem('rahu', 'rahu_kaal', PATHS.RAHU_KAAL)
+      getMuhuratNavItem('choghadiya', 'choghadiya', PATHS.CHOGADIYA),
+      getMuhuratNavItem('rahu', 'rahu_kaal', PATHS.RAHU_KAAL),
+
     ],
     [getMuhuratNavItem]
   )
@@ -326,6 +327,7 @@ function NavBar() {
   )
 
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null)
+
   const toggleDropdown = idx => {
     setOpenDropdownIndex(openDropdownIndex === idx ? null : idx)
   }
@@ -441,7 +443,18 @@ function NavBar() {
           label: t('namakaran_Muhurat'),
           type: 'link',
           to: PATHS?.NAMKARAN_MUHURAT
-        }
+        },
+
+        {
+          label: t('choghadiya'),
+          type: 'link',
+          to: PATHS?.CHOGADIYA
+        },
+        {
+          label: t('rahu_kaal'),
+          type: 'link',
+          to: PATHS?.RAHU_KAAL
+        },
       ],
       highLightClass: ""
     },
@@ -476,7 +489,6 @@ function NavBar() {
     dispatch(setUserLoginData({ is_login: false, loginUserData: '' }))
     logoutRedirection()
     navigate(PATHS.HOMEPAGE)
-    // TOAST_SUCCESS('Logout successfully')
   }
 
   const handleLogout = useCallback(() => {
@@ -510,16 +522,6 @@ function NavBar() {
     try {
 
       const cityName = await getCurrentCity()
-      const commonPagination = {
-        page: 1,
-        per_page: Constatnt?.PER_PAGE_DATA
-      }
-
-      const muhuratRequest = {
-        type: 'marriage muhurat',
-        year: moment().year(),
-        lang: LocalLanguage
-      }
 
       const apiCalls = [
         // dispatch(getHomePageListing()),
@@ -539,13 +541,19 @@ function NavBar() {
 
 
   const NavItem = React.memo(({ item, horoscopeDropdownItems }) => {
-    const baseClasses = 'nav_text_font new_body_font capitalize'
+
+    const isActives = item.to && location.pathname === item.to
+    const childrenActive = item.children ? (item?.children?.find(ele => ele.value === location.pathname)) : false
+
+    const baseClasses = `nav_text_font new_body_font capitalize ${(isActives || childrenActive) ? "active" : ""}`
+
     const isActive =
       location.pathname.startsWith(item.value) ||
       location.pathname.includes(item.value)
+
     if (item.type === 'link') {
       return (
-        <li key={item.key}>
+        <li key={item.key} className='isActives'>
           <Link to={item.to} className={baseClasses}>
             {item.label}
           </Link>
@@ -563,12 +571,21 @@ function NavBar() {
         <li key={item.key} className={item.highLightClass}>
           <Dropdown menu={{ items: dropdownItems }} trigger={['hover']}>
             <div
-              className={`cursor-pointer flex items-center gap-[5px] ${baseClasses} ${isActive ? 'active' : ''
-                }`}
+              className={`relative cursor-pointer flex items-center gap-[6px]  py-1 rounded-md transition-all duration-200 hover:bg-gray-100 ${baseClasses} ${isActive ? 'active' : ''}`}
             >
-              {item.highLightClass && <span class="inline-block new_tag text-[9px] bg-gradient-to-r from-[#c32853] to-[#ee7e49] text-white px-2 pt-[2.3px] pb-[1px] rounded-full font-bold animate-pulse leading-tight">NEW</span>}
-              <span className=''>{item.label}</span>
-              <DownOutlined className='mr-1 text-sm' />
+              {item.highLightClass && (
+                <div className="absolute new_tag_s -top-2 -right-3 text-[10px] bg-gradient-to-r from-[#c32853] to-[#ee7e49] !text-white px-2 py-[1px] rounded-full font-semibold shadow-lg animate-bounce z-10">
+                  NEW
+                </div>
+              )}
+
+              <span
+                className={`relative tracking-wide ${item.highLightClass ? 'text-orange-600 animate-pulse' : 'text-gray-800'} leading-[150%]`}
+              >
+                {item.label}
+              </span>
+
+              <DownOutlined className="text-sm text-gray-500 group-hover:text-black transition-colors duration-200" />
             </div>
           </Dropdown>
         </li>
@@ -647,15 +664,15 @@ function NavBar() {
         const isOpen = openDropdownIndex === idx
 
         return (
-          <li key={idx} className={`${item.highLightClass} mobile_nav_items_class`}>
+          <li key={idx} className={` mobile_nav_items_class`}>
             <button
               onClick={() => toggleDropdown(idx)}
               type='button'
-              className={`flex  justify-between items-center w-full px-4 py-3 text-[#C32853] tracking-wide cursor-pointer rounded-[10px] hover:bg-gradient-to-r from-[#C32853] to-[#EE7E49] hover:text-white transition duration-200`}
+              className={`flex  justify-between items-center w-full px-4 py-3 text-[#C32853] tracking-wide cursor-pointer rounded-[10px] hover:bg-gradient-to-r from-[#C32853] to-[#EE7E49] hover:text-white transition duration-200 ${item.highLightClass} `}
             >
               <div className={``}>      {item.label}
 
-                {item.highLightClass && <span class="inline-block new_tag text-[9px] bg-gradient-to-r from-[#c32853] to-[#ee7e49] text-white px-2 pt-[2.3px] pb-[1px] rounded-full font-bold animate-pulse leading-tight">NEW</span>}
+                {item.highLightClass && <span className="inline-block new_tag text-[9px] bg-gradient-to-r from-[#c32853] to-[#ee7e49] text-white px-2 pt-[2.3px] pb-[1px] rounded-full font-bold animate-pulse leading-tight">NEW</span>}
 
               </div>
               {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -824,8 +841,6 @@ function NavBar() {
     fetchData()
   }, [LocalLanguage])
 
-
-
   useEffect(() => {
     if (isSidebarOpen) {
       document.body.style.overflow = 'hidden'
@@ -838,12 +853,7 @@ function NavBar() {
   }, [isSidebarOpen, location.pathname])
 
   const isPROFILE_SETTING = location?.pathname === `/${PATHS?.PROFILE_SETTING}`
-
-  const linkClass = `flex items-center space-x-2 py-3 px-3 rounded-md mobileNavUl transition settingIcon ${isPROFILE_SETTING
-    ? 'bg_website_color text-white'
-    : 'hover:bg-[linear-gradient(90deg,_#C32853_0%,_#EE7E49_100%)] hover:text-white website_color'
-    }`
-
+  const linkClass = `flex items-center space-x-2 py-3 px-3 rounded-md mobileNavUl transition settingIcon ${isPROFILE_SETTING ? 'bg_website_color text-white' : 'hover:bg-[linear-gradient(90deg,_#C32853_0%,_#EE7E49_100%)] hover:text-white website_color'}`
   const iconClass = `w-5 h-5 cogIcon ${isPROFILE_SETTING ? '!text-white' : ''}`
 
   return (
@@ -866,12 +876,11 @@ function NavBar() {
           <Suspense fallback={<></>}>
             <LanguageDropdown className='LanguageDropdownblock topNavLink ' />
           </Suspense>
-          {loginUser?.is_login && (
+          {LOGIN_KEY && (
             <>
               <div
                 className='w-8 h-8 flex items-center justify-center commonLightBack rounded-full box_shadow_common cursor_pointer    border border-white '
-                onClick={() => navigate(PATHS?.MONEY_WALLET)}
-              >
+                onClick={() => navigate(PATHS?.MONEY_WALLET)} >
                 <div className='w-[22px] h-[22px]'>
                   <img
                     src={walletIcon}
@@ -884,7 +893,6 @@ function NavBar() {
                   />
                 </div>
               </div>
-
               <div className='w-8 h-8 bg-gray-300 rounded-full'>
                 <ProfileIconWithDropdown profileImg={profileImg} />
               </div>
@@ -921,7 +929,7 @@ function NavBar() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className='customDisplayNavbar customDisplayNavbar items-center gap-5 xl:gap-[20px] 2xl:gap-[50px]'>
+            <nav className='customDisplayNavbar customDisplayNavbar items-center gap-5 '>
               <ul className='flex items-center  md:space-x-4 2xl:space-x-6 mb-0 new_body_font font-bold ps-5 md:ps-0'>
                 {desktopNavItems.map(item => (
                   <NavItem

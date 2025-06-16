@@ -1,5 +1,5 @@
 import { Input } from 'antd'
-import React, { lazy } from 'react'
+import { lazy, memo } from 'react'
 import close from '../../assets/img/panchang/close.webp'
 const CustomButton = lazy(() => import('../Homepage/CustomButton'))
 
@@ -36,4 +36,4 @@ const PanchangSearch = () => {
   )
 }
 
-export default PanchangSearch
+export default memo(PanchangSearch)

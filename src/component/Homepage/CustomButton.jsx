@@ -1,5 +1,5 @@
 import { Loader } from 'lucide-react'; // Importing Lucide Icons
-import React from 'react'
+import React from 'react';
 
 const CustomButton = ({
   children,

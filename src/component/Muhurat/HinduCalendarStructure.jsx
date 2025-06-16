@@ -1,5 +1,5 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 
 const { Title, Paragraph } = Typography;
 
@@ -16,7 +16,7 @@ const hinduCalendarData = [
   {
     title: "Nakshatras",
     description: "Indian astrology divides the ecliptic into 27 or 28 nakshatras, or lunar mansions, each with its unique qualities.",
-  }, 
+  },
   {
     title: "Solar Months",
     description: "The Indian calendar also incorporates solar months based on the Sun’s position in the zodiac.",
@@ -46,27 +46,27 @@ const hinduCalendarData = [
 const HinduCalendarStructure = () => {
   return (
     <Card title="Structure Of Hindu Calendar" bordered={false} className="structureHinduCalender">
-        <div className="flex flex-col gap-1">
-      <Paragraph className="struct_heading">
-        The Indian calendar, a complex and culturally rich system, exhibits a unique structure deeply intertwined with its history and traditions.
-        Predominantly a lunisolar calendar, it combines lunar phases and solar cycles to reckon time.
-        The primary components of the Indian calendar include:
-      </Paragraph>
+      <div className="flex flex-col gap-1">
+        <Paragraph className="struct_heading">
+          The Indian calendar, a complex and culturally rich system, exhibits a unique structure deeply intertwined with its history and traditions.
+          Predominantly a lunisolar calendar, it combines lunar phases and solar cycles to reckon time.
+          The primary components of the Indian calendar include:
+        </Paragraph>
 
-      {hinduCalendarData.map((item, index) => (
-        <div key={index} className="flex flex-col">
-          <Title level={5} className="struct_title">{index + 1}. {item.title}</Title>
-          <Paragraph className="struct_Para">{item.description}</Paragraph>
-        </div>
-      ))}
+        {hinduCalendarData.map((item, index) => (
+          <div key={index} className="flex flex-col">
+            <Title level={5} className="struct_title">{index + 1}. {item.title}</Title>
+            <Paragraph className="struct_Para">{item.description}</Paragraph>
+          </div>
+        ))}
 
-      <Paragraph className="struct_heading">
-        The Indian calendar is a dynamic and culturally significant timekeeping system, reflecting the diversity and richness of the nation’s heritage.
-        Its structure serves as a guide for religious, social, and agricultural activities, connecting people to their traditions and the celestial rhythms of the universe.
-      </Paragraph>
+        <Paragraph className="struct_heading">
+          The Indian calendar is a dynamic and culturally significant timekeeping system, reflecting the diversity and richness of the nation’s heritage.
+          Its structure serves as a guide for religious, social, and agricultural activities, connecting people to their traditions and the celestial rhythms of the universe.
+        </Paragraph>
       </div>
     </Card>
   );
 };
 
-export default HinduCalendarStructure;
+export default memo(HinduCalendarStructure);

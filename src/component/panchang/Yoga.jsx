@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Card, Typography } from "antd";
 
 const { Title, Paragraph } = Typography;
@@ -36,4 +36,4 @@ const Yoga = ({ title, introText, data }) => {
   );
 };
 
-export default Yoga;
+export default memo(Yoga);

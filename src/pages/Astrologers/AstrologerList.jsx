@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 // import bhumipujaMuhurat from "../../assets/img/banner/bhumipujaMuhurat.webp";
-import CommonHeadingSecond from "../../component/Astrologer/CommonHeadingSecond";
-import CommonBanner from "../../component/CommonBanner";
 import { astrologerList } from "../../services/api/api.services";
 import { Codes } from "../../utils/CommonVariable";
+import CommonBanner from "../../component/CommonBanner";
 
 // Lazy load these components
 const OurAstrologer = lazy(() => import("../../component/Homepage/OurAstrologer"));
 const CustomPagination = lazy(() => import("../../component/Pagination/CustomPagination"));
+const CommonHeadingSecond = lazy(() => import("../../component/Astrologer/CommonHeadingSecond"));
 
 function AstrologerList() {
   const { t } = useTranslation();
@@ -58,7 +58,7 @@ function AstrologerList() {
           highlight=""
         />
       </section>
-
+<Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className="container mx-auto paddingTop50 paddingBottom100  flex flex-col gap-10">
           <CommonHeadingSecond heading="Our Astrologers" content={content2} />
@@ -86,6 +86,7 @@ function AstrologerList() {
           </Suspense>
         )}
       </section>
+      </Suspense>
     </>
   );
 }

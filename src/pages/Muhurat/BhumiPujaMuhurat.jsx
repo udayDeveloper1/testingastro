@@ -1,16 +1,20 @@
-// import bhumipujaMuhurat from "../../assets/img/banner/bhumipujaMuhurat.webp";
-import moment from 'moment'
-import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-import CommonBanner from '../../component/CommonBanner'
-import DynamicCard from '../../component/Dynemic/DynamicCard'
-import Loader from '../../component/loader/Loader'
-import { generateMuhuratBlogThunk } from '../../storemain/slice/MasterSlice'
-import { openLoader } from '../../utils/CommonFunction'
-import { Constatnt } from '../../utils/Constent'
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
-function BhumiPujaMuhurat () {
+// Lazy loaded components
+import { lazy } from 'react';
+
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const DynamicCard = lazy(() => import('../../component/Dynemic/DynamicCard'));
+const Loader = lazy(() => import('../../component/loader/Loader'));
+
+import { generateMuhuratBlogThunk } from '../../storemain/slice/MasterSlice';
+import { openLoader } from '../../utils/CommonFunction';
+import { Constatnt } from '../../utils/Constent';
+
+function BhumiPujaMuhurat() {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
@@ -56,4 +60,4 @@ function BhumiPujaMuhurat () {
   )
 }
 
-export default BhumiPujaMuhurat
+export default React.memo(BhumiPujaMuhurat)

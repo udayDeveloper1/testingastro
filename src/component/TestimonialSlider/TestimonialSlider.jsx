@@ -1,58 +1,68 @@
-import React, { useEffect, useState } from 'react'
-import Slider from 'react-slick'
-import quotes from '/newThemeHomePage/quotes.webp'
-import { meetOurClient } from '../../services/api/api.services'
-import { Codes } from '../../utils/CommonVariable'
+// import React, { useCallback, useEffect, useState } from 'react'
+// import Slider from 'react-slick'
+// import quotes from '/newThemeHomePage/quotes.webp'
+// import { meetOurClient } from '../../services/api/api.services'
+// import { Codes } from '../../utils/CommonVariable'
+// import { useTranslation } from 'react-i18next'
 
-const testimonials = [
-  {
-    name: 'Guy Hawkins',
-    role: 'President of Sales',
-    image: 'https://i.pravatar.cc/100?img=1',
-    quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
-  },
-  {
-    name: 'Jane Cooper',
-    role: 'Marketing Lead',
-    image: 'https://i.pravatar.cc/100?img=2',
-    quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
-  }
-  // Add more as needed
-]
+import { memo } from "react"
+
+// const testimonials = [
+//   {
+//     name: 'Guy Hawkins',
+//     role: 'President of Sales',
+//     image: 'https://i.pravatar.cc/100?img=1',
+//     quote:
+//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
+//   },
+//   {
+//     name: 'Jane Cooper',
+//     role: 'Marketing Lead',
+//     image: 'https://i.pravatar.cc/100?img=2',
+//     quote:
+//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.'
+//   }
+//   // Add more as needed
+// ]
 
 const TestimonialSlider = () => {
-  const settings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: { slidesToShow: 1 }
-      }
-    ]
-  }
+  // const settings = {
+  //   dots: true,
+  //   arrows: false,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 2,
+  //   slidesToScroll: 1,
+  //   responsive: [
+  //     {
+  //       breakpoint: 768,
+  //       settings: { slidesToShow: 1 }
+  //     }
+  //   ]
+  // }
 
-  const [data, setData] = useState(false)
+  // const [data, setData] = useState(false)
 
-  useEffect(() => {
-    meetOurClient().then((response) => {
-      if (response?.code === Codes?.SUCCESS) {
-        setData(response?.data)
-      } else {
-        setData([])
-      }
-    })
-    
-  }, [])
+  // const { t } = useTranslation()
+
+  // const fetchTestimonials = useCallback(async () => {
+  //   try {
+  //     const response = await meetOurClient();
+  //     setData(response?.code === Codes.SUCCESS ? response?.data : []);
+  //   } catch (error) {
+  //     setData([]);
+  //   } finally {
+  //     // setLoading(false);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   fetchTestimonials();
+  // }, [fetchTestimonials, t]);
+
   return (
     <div className='testimonial'>
-      <Slider {...settings}>
+      {/* <Slider {...settings}>
         {data.length > 0 && data?.map((item, index) => (
           <div key={index} className='px-3 '>
             <div className='bg-white p-[15px] md:p-[40px] rounded-lg  h-full flex flex-col justify-between new_border box_shadow_common'>
@@ -61,7 +71,7 @@ const TestimonialSlider = () => {
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-[20px]'>
                   <img
-                    src={'https://chatmyastrologer-assets.s3.us-east-1.amazonaws.com/chatmyastrologer/Profileimage/1742977887778.png' }
+                    src={'https://chatmyastrologer-assets.s3.us-east-1.amazonaws.com/chatmyastrologer/Profileimage/1742977887778.png'}
                     alt={item.name}
                     className='w-12 h-12 rounded-full object-cover'
                     width={48}
@@ -82,9 +92,9 @@ const TestimonialSlider = () => {
             </div>
           </div>
         ))}
-      </Slider>
+      </Slider> */}
     </div>
   )
 }
 
-export default TestimonialSlider
+export default memo(TestimonialSlider)

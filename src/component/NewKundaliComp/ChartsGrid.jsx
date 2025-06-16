@@ -1,8 +1,9 @@
-import React from "react";
+
 import { Card } from "antd";
-import northIndianKundliImg from "../../assets/img/kundali/northIndianKundliSample.webp";
-import KundliChart from "../kundali/KundliChart/KundliChart";
+// import KundliChart from "../kundali/KundliChart/KundliChart";
+import { lazy, memo } from "react";
 import { useTranslation } from "react-i18next";
+const KundliChart = lazy(() => import("../kundali/KundliChart/KundliChart"))
 
 export const ChartCard = ({ title, allCharts, classList = "" }) => (
 
@@ -19,7 +20,7 @@ export const ChartCard = ({ title, allCharts, classList = "" }) => (
   </Card>
 );
 
-export default function ChartsGrid({
+function ChartsGrid({
   rashiLagnaChart,
   navamsaChart,
   chalitChart,
@@ -320,3 +321,5 @@ export default function ChartsGrid({
     </div>
   );
 }
+
+export default memo(ChartsGrid)

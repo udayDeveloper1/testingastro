@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { lazy, useMemo } from 'react'
 import charity from '../../assets/img/remedies/charity.svg'
 import fasting from '../../assets/img/remedies/fasting.svg'
 import gemstone from '../../assets/img/remedies/gemstone.svg'
@@ -6,8 +6,10 @@ import rudraksh from '../../assets/img/remedies/rudraksh.svg'
 import specialpooja from '../../assets/img/remedies/specialpooja.svg'
 import spiritual from '../../assets/img/remedies/spiritual.svg'
 import weekDay from '../../assets/img/remedies/weekDay.svg'
-import Loader2 from '../../component/loader/Loader2'
 import { useTranslation } from 'react-i18next'
+
+const Loader2 = lazy(() => import('../../component/loader/Loader2'))
+
 
 export const Remedies = ({ allKundliDetails }) => {
   const { remedies } = allKundliDetails
@@ -29,7 +31,7 @@ export const Remedies = ({ allKundliDetails }) => {
         <img
           src={imageSrc}
           alt={title}
-          onError={(e) => e.target.src = imageList[0]}
+          onError={(e) => e.target.src = imageList[0] || ''}
           className='min-w-[100px]    min-h-[100px] max-w-[100px] max-h-[100px] md:min-w-[149px] md:min-h-[149px] md:max-w-[149px] md:max-h-[149px] object-contain rounded-[10px] overflow-hidden border border-[#F9E9EC]'
         />
         <div className=''>
@@ -40,10 +42,10 @@ export const Remedies = ({ allKundliDetails }) => {
 
           {Array.isArray(content) ? (
             content?.map((ele, ind) => {
-              return <p key={ind} className='pt-3'>{ele}</p>
+              return <p key={ind} className='pt-3 commonQuesP'>{ele}</p>
             })
           ) : (
-            <p key={ind} className='pt-3'>
+            <p key={ind} className='pt-3 commonQuesP'>
               {content}
             </p>
           )}
@@ -92,17 +94,13 @@ export const Remedies = ({ allKundliDetails }) => {
 
   const sanitizedRemedies = useMemo(() => {
     if (!remedies) return []
-
     return Object.keys(remedies)?.map((ele, ind) => {
-      const content = Array.isArray(remedies[ele])
-        ? remedies[ele]
+      const content = Array.isArray(remedies[ele]) ? remedies[ele]
         : [
-          remedies[ele]?.description
-            ? remedies[ele]?.description
-            : remedies[ele]
+          remedies[ele]?.description ? remedies[ele]?.description : remedies[ele]
         ]
 
-      const data = matchList?.find((item) => item.id === ele)
+      const data = matchList?.find((item) => item?.id === ele)
 
       return (
         <RemedyCard
@@ -117,17 +115,21 @@ export const Remedies = ({ allKundliDetails }) => {
 
   return (
     <>
-      {sanitizedRemedies?.length > 0 ?
-        <div className='space-y-5 mt-4'>{sanitizedRemedies}</div>
-        :
-        <div className='space-y-5 mt-4'>
+      <section className="paddingTop50 min-h-[300px] flex items-center justify-center">
+
+        {sanitizedRemedies?.length > 0 ?
+          <div className=''>{sanitizedRemedies}</div> :
           <div className=''>
-            <div className='pb-10 pt-24 min-h-[100vh]'>
-              <Loader2 />
+            <div className=''>
+              <div className=' min-h-[100vh]'>
+                <Loader2 />
+              </div>
             </div>
           </div>
-        </div>
-      }
+        }
+      </section>
     </>
   )
 }
+
+// export default memo(Prediction)

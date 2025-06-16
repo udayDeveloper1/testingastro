@@ -1,5 +1,5 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 
 const { Title, Paragraph } = Typography;
 
@@ -44,4 +44,4 @@ const AdviceCard = ({ title, description, advantages = [], disadvantages = [] })
   );
 };
 
-export default AdviceCard;
+export default memo(AdviceCard);

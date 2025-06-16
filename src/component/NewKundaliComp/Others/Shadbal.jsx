@@ -1,9 +1,8 @@
 import { Card } from 'antd'
-import React from 'react'
-import CustomTable from '../../Custom/CustomTable'
+import { lazy, memo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-export default function Shadbal({ shadBala }) {
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
+function Shadbal({ shadBala }) {
   const { t } = useTranslation()
 
   // const columns = [
@@ -126,3 +125,5 @@ export default function Shadbal({ shadBala }) {
     </div>
   )
 }
+
+export default memo(Shadbal)

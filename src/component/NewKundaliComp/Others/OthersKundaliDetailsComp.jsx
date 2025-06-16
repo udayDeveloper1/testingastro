@@ -1,9 +1,10 @@
 import { Card } from "antd";
-import CustomTable from "../../Custom/CustomTable";
+import { lazy, memo } from "react";
 
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
 
-export default function OthersKundaliDetailsComp() {
-  
+function OthersKundaliDetailsComp() {
+
   const planets = [
     { key: "1", label: "Name", planets: "Sun", sign: "Tarot Mamta", sign_lord: "Tarot Mamta", degree: "Tarot Mamta", house: "Tarot Mamta" },
     { key: "2", label: "Time", planets: "Moon", sign: "Gemini", sign_lord: "Me", degree: "Ju", house: "Su" },
@@ -146,3 +147,5 @@ export default function OthersKundaliDetailsComp() {
     </>
   );
 }
+
+export default memo(OthersKundaliDetailsComp)

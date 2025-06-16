@@ -1,8 +1,7 @@
-import { memo, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router'
+import { lazy, memo } from 'react'
 import '../../assets/css/kundli/KundliParts.css'
-import PredictionComp from '../../component/NewKundaliComp/PredictionComp'
+const PredictionComp = lazy(() => import('../../component/NewKundaliComp/PredictionComp'));
+
 // import CustomTabs from "../../component/Custom/CustomTabs";
 
 const Prediction = ({ allKundliDetails, predicatioinApi }) => {

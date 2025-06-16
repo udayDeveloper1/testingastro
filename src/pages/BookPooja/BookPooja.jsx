@@ -1,16 +1,17 @@
 import { Avatar, Card, Rate } from "antd";
 import { t } from "i18next";
-import { useMemo } from "react";
+import { lazy, memo, Suspense, useMemo } from "react";
 
-import bookpooja from "../../assets/img/bookpooja/bookpooja.svg";
-import RatingsAndReviews from "../../component/Astrologer/RatingsAndReviews";
-import CommonBanner from "../../component/CommonBanner";
-import CustomButton from "../../component/Homepage/CustomButton";
-import CommonInfoCard from "../../component/Kaal/CommonInfoCard";
-import { Modal, Form, Input, DatePicker, TimePicker } from "antd";
-import dayjs from "dayjs";
+import { DatePicker, Form, Input, Modal, TimePicker } from "antd";
 import { useState } from "react";
-import CustomWhiteButton from "../../component/Homepage/CustomWhiteButton";
+import bookpooja from "../../assets/img/bookpooja/bookpooja.svg";
+
+
+const RatingsAndReviews = lazy(() => import("../../component/Astrologer/RatingsAndReviews"));
+const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+const CustomButton = lazy(() => import("../../component/Homepage/CustomButton"));
+const CustomWhiteButton = lazy(() => import("../../component/Homepage/CustomWhiteButton"));
+const CommonInfoCard = lazy(() => import("../../component/Kaal/CommonInfoCard"));
 
 // 🔧 Assumed utility import for date formatting
 
@@ -109,6 +110,7 @@ const BookPooja = () => {
       <section>
         <CommonBanner text={t("Book_a_Pooja_banner")} highlight="" />
       </section>
+<Suspense fallback={<div className='min-h-[100vh]'></div>}>
 
       {/* Pooja Card Section */}
       <section className="">
@@ -251,7 +253,7 @@ const BookPooja = () => {
             <CustomButton
               type="submit"
               className="w-full px-3 py-2"
-             
+
               parentClassName="w-full "
             >
               SUBMIT
@@ -259,8 +261,9 @@ const BookPooja = () => {
           </div>
         </Form>
       </Modal>
+      </Suspense>
     </>
   );
 };
 
-export default BookPooja;
+export default memo(BookPooja);

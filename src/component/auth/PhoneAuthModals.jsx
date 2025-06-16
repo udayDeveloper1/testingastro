@@ -1,22 +1,22 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
+import React, { memo, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import 'react-phone-input-2/lib/style.css'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 import phone from '../../assets/img/Phone/phone.webp'
 // import { PATHS } from '../../routers/Paths'
 import { login, sendOTP } from '../../services/api/api.services'
 
 import { setUserLoginData } from '../../storemain/slice/MasterSlice'
+
+import { useTranslation } from 'react-i18next'
+import { UpdatedPaths } from '../../routers/Paths'
 import {
   closeModel,
   loginRedirection,
-  TOAST_ERROR,
-  TOAST_SUCCESS
+  TOAST_ERROR
 } from '../../utils/CommonFunction'
 import { Codes } from '../../utils/CommonVariable'
-import { UpdatedPaths } from '../../routers/Paths'
-import { useTranslation } from 'react-i18next'
 const PhoneInput = React.lazy(() => import('react-phone-input-2'))
 const CustomButton = React.lazy(() => import('../Homepage/CustomButton'))
 
@@ -27,8 +27,6 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { t } = useTranslation()
-
-  const PATHS = UpdatedPaths()
 
   const phoneInputRef = useRef(null)
 
@@ -107,7 +105,7 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
 
       sendOTP(requestBody).then(response => {
         if (response?.code === Codes?.SUCCESS) {
-          TOAST_SUCCESS(response?.message)
+          // TOAST_SUCCESS(response?.message)
           setOTPMatch(response?.data?.otp_code)
           setIsOtpOpen(true)
           closeModel(dispatch)
@@ -151,6 +149,8 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
     },
     [otp]
   )
+
+
 
   const validateAndSubmitOTP = useCallback(() => {
     const enteredOTP = otp.join('')
@@ -202,7 +202,7 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
       login(requestBody).then(response => {
         if (response?.code === Codes?.SUCCESS) {
           loginRedirection(response?.data)
-          TOAST_SUCCESS(response.message)
+          // TOAST_SUCCESS(response.message)
           setOTPMatch('')
           setOtp(['', '', '', ''])
           setIsOtpOpen(false)
@@ -239,7 +239,7 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
 
     sendOTP(requestBody).then(response => {
       if (response?.code === Codes?.SUCCESS) {
-        TOAST_SUCCESS(response?.message)
+        // TOAST_SUCCESS(response?.message)
         setOTPMatch(response?.data?.otp_code)
         setIsOtpOpen(true)
         issetIsModalOpen(false)
@@ -352,8 +352,11 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
                         className='block object-contain'
                       />
                     </div>
-                    <PhoneInput
+                   
+                   <Suspense fallback={<></>}> <PhoneInput
                       country={'in'}
+                      onlyCountries={['in']}
+                      disableDropdown={true}
                       value={countryCode?.country_code}
                       onChange={handleChange}
                       inputClass='w-full border border-gray-300 rounded-md px-3 py-2 h-full'
@@ -367,6 +370,7 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
                         }
                       }}
                     />
+                    </Suspense>
                     <input
                       type='hidden'
                       {...register('phoneNumber', {
@@ -420,9 +424,8 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
               <p className='text-[16px] font-[400] text-gray new_body_font mt-2'>
                 {t('OTP_sent_to')}{' '}
                 <span className='font-semibold new_body_font'>
-                  {`${countryCode.country_format}${
-                    countryCode?.country_code + ' '
-                  }${watchedPhoneNumber}`}
+                  {`${countryCode.country_format}${countryCode?.country_code + ' '
+                    }${watchedPhoneNumber}`}
                 </span>
               </p>
               <div className='flex justify-center gap-3 mt-4'>

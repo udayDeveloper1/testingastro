@@ -1,7 +1,8 @@
 // import PrivacyBanner from "../../assets/img/banner/PrivacyBanner.webp";
-import CommonBanner from '../../component/CommonBanner'
-import CommonQuestionComp from '../../component/CommonQuestionComp'
-import GoldBuyingMuhuratcomp from '../../component/Muhurat/GoldBuyingMuhuratcomp'
+import { lazy, memo, Suspense } from 'react'
+import CommonBanner from '../../component/CommonBanner';
+const CommonQuestionComp = lazy(() => import('../../component/CommonQuestionComp'));
+const GoldBuyingMuhuratcomp = lazy(() => import('../../component/Muhurat/GoldBuyingMuhuratcomp'));
 
 function AboutUs () {
   const content = [
@@ -108,6 +109,7 @@ function AboutUs () {
           highlight='About US'
         />
       </section>
+    <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section className=''>
         <div className='container mx-auto padding50 flex flex-col gap-10'>
           <CommonQuestionComp heading='' content={content} />
@@ -169,8 +171,10 @@ function AboutUs () {
           />
         </div>
       </section>
+      </Suspense>
+
     </>
   )
 }
 
-export default AboutUs
+export default memo(AboutUs)

@@ -1,5 +1,4 @@
-import { cloneDeep } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 const KundliChart = ({ allCharts }) => {
 
@@ -90,4 +89,4 @@ const KundliChart = ({ allCharts }) => {
   )
 }
 
-export default KundliChart
+export default memo(KundliChart)

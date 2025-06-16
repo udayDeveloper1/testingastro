@@ -11,7 +11,7 @@ export const Constatnt = {
     : import.meta.env.VITE_APP_API_LIVE_URL,
 
   // # ----------------------------- Encreption keys --------------------------------------
-
+  IS_ENCREPTION: true,
   KEY: import.meta.env.VITE_APP_KEY,
   IV: import.meta.env.VITE_APP_IV,
 
@@ -23,6 +23,8 @@ export const Constatnt = {
 
   // VITE_APP_RAZORPAY_SECRET: import.meta.env.VITE_APP_RAZORPAY_SECRET,
   VITE_APP_RAZORPAY_KEY_ID: import.meta.env.VITE_APP_RAZORPAY_KEY_ID,
+
+
 
   // --------------------------- response code manage---------------------------------------
 
@@ -63,10 +65,4 @@ export const Constatnt = {
 
   SOCKETURL: import.meta.env.VITE_APP_SOCKETURL,
 
-  // -------------------- Api for i love pdf-------------------------------------------
-
-  PDF_API_BASE_URL: 'https://api.ilovepdf.com/v1/',
-  PDF_API_SERVER_URL: 'https://api.ilovepdf.com/v1/',
-
-  // PATHS: UpdatedPaths()
 }

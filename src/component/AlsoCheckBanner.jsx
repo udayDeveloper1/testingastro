@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useHoroscopeTabs } from './Horoscope/horoscopeTabsData'
 
 const AlsoCheckBanner = ({ active, onTabChange }) => {
@@ -65,4 +66,4 @@ const AlsoCheckBanner = ({ active, onTabChange }) => {
   )
 }
 
-export default AlsoCheckBanner
+export default memo(AlsoCheckBanner)

@@ -1,20 +1,16 @@
 // import freeKundali from "../../assets/img/banner/freeKundali.webp";
 import { useTranslation } from 'react-i18next'
 import '../../assets/css/Kundli.css'
-import CommonBanner from '../../component/CommonBanner'
-import CommonQuestionComp from '../../component/CommonQuestionComp'
-import HomeFAQs from '../../component/Homepage/HomeFAQs'
-import FreeKundaliForm from '../../component/kundali/FreeKundaliForm'
-import { useParams } from 'react-router'
+import { lazy, memo } from 'react';
+
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const CommonQuestionComp = lazy(() => import('../../component/CommonQuestionComp'));
+const HomeFAQs = lazy(() => import('../../component/Homepage/HomeFAQs'));
+const FreeKundaliForm = lazy(() => import('../../component/kundali/FreeKundaliForm'));
 
 function FreeKundali () {
   const { t } = useTranslation()
-const {lang} = useParams()
   const content = [t('content')]
-
-  const content1 = [t('kundli_content_1')]
-
-  const content2 = [t('kundli_content_2')]
 
   return (
     <>
@@ -68,4 +64,4 @@ const {lang} = useParams()
   )
 }
 
-export default FreeKundali
+export default memo(FreeKundali)

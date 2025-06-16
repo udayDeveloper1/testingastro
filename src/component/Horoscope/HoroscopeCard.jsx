@@ -1,12 +1,12 @@
-import React from "react";
 import { Select } from "antd";
 import "antd/dist/reset.css"; // Ensure Ant Design styles are applied
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 const { Option } = Select;
 
 const HoroscopeCard = React.memo(() => {
-    const { t } = useTranslation()
+  const { t } = useTranslation()
   return (
     <div className="pt-0 grid grid-cols-1 lg:grid-cols-3 gap-2">
       {/* Left Content */}

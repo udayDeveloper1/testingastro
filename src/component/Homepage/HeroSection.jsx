@@ -1,10 +1,10 @@
-import { memo, useCallback } from 'react'
-import FreeKundali from '../kundali/FreeKundaliForm'
+import { memo, useCallback } from 'react';
+import FreeKundali from "../kundali/FreeKundaliForm";
 
 const HeroSection = ({ backImg, cardData, navigate, t }) => {
-  const handleNavigate = useCallback(path => () =>{
-    
-    navigate(path)}, [navigate])
+  const handleNavigate = useCallback(path => () => {
+    navigate(path)
+  }, [navigate])
 
   return (
     <div className='relative overflow-hidden'>
@@ -14,8 +14,8 @@ const HeroSection = ({ backImg, cardData, navigate, t }) => {
         className='absolute top-0 left-0 z-[-1] h-full w-full object-cover'
         decoding='async'
         // loading='lazy'
-        width={4500}
-        height={1750}
+        width={1910}
+        height={580}
       />
       <div className='HeroSection pt-14 sm:pt-20 md:pt-28 lg:pt-20 z-[1] overflow-hidden'>
         <section className='text-center'>
@@ -45,7 +45,7 @@ const HeroSection = ({ backImg, cardData, navigate, t }) => {
                           src={card.icon}
                           alt='icon'
                           className='w-[28px] h-[28px] object-contain'
-                          loading='lazy'
+                          // loading='lazy'
                           decoding='async'
                           width={20}
                           height={20}
@@ -58,15 +58,14 @@ const HeroSection = ({ backImg, cardData, navigate, t }) => {
                   ))}
                 </div>
               </div>
-
               <div className='hidden md:flex justify-center lg:justify-end col-span-12 lg:col-span-6 xl:col-span-5 freeKundliHomepageForm'>
                 <FreeKundali />
               </div>
             </div>
           </div>
         </section>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 

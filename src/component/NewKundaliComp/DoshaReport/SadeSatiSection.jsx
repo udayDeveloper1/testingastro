@@ -1,17 +1,16 @@
-import React from "react";
 import { Card, Tag, Typography } from "antd";
-import CustomTable from "../../Custom/CustomTable";
+import { lazy, memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { LanguageOption } from "../../../utils/CommonVariable";
 import { Constatnt } from "../../../utils/Constent";
+const CustomTable = lazy(() => import("../../Custom/CustomTable"))
 
 const { Title, Paragraph } = Typography;
 function SadeSatiSection({ sadeSati }) {
   const { t } = useTranslation()
-    const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-        ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
-        : LanguageOption?.ENGLISH
+  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
+    : LanguageOption?.ENGLISH
 
 
   // Check if sadeSati is defined and is an array
@@ -68,7 +67,7 @@ function SadeSatiSection({ sadeSati }) {
       render: (value) => value || '-',
     },
     {
-      title:t('end_date'),
+      title: t('end_date'),
       dataIndex: 'end_date',
       key: 'end_date',
       align: "center",
@@ -137,6 +136,4 @@ function SadeSatiSection({ sadeSati }) {
   );
 }
 
-
-
-export default SadeSatiSection;
+export default memo(SadeSatiSection);

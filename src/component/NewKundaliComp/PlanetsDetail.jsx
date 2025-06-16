@@ -1,11 +1,11 @@
 import { Card } from "antd";
+import { lazy, memo } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import CustomTable from "../Custom/CustomTable";
 import { convertDegree, getShortNakshatra } from "./KundliVariabls";
-import { useTranslation } from "react-i18next";
-import DataWrapper from "../Custom/DataWrapper";
-import { useSelector } from "react-redux";
-
-export default function PlanetsDetail({ planetDetails }) {
+const DataWrapper = lazy(() => import("../Custom/DataWrapper"));
+function PlanetsDetail({ planetDetails }) {
   const { t } = useTranslation();
   const undefine = useSelector((state) => state?.masterSlice?.undefine);
 
@@ -196,6 +196,7 @@ export default function PlanetsDetail({ planetDetails }) {
               loading={false}
               scroll={{ x: "max-content" }}
               bordered={false}
+              className=' lightBackHead '
             />
           </Card>
         </div>
@@ -203,3 +204,5 @@ export default function PlanetsDetail({ planetDetails }) {
     </DataWrapper>
   );
 }
+
+export default memo(PlanetsDetail)

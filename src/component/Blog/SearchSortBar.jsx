@@ -1,13 +1,13 @@
-import React from 'react';
 import { Input } from 'antd';
+import React from 'react';
 import commonSearch from '../../assets/img/common/search.svg';
 
 const SearchSortBar = React.memo(({
   showSearchInput = true,
   searchValue = '',
-  onSearchChange = () => {},
+  onSearchChange = () => { },
   sortOptions = [],
-  onSortChange = () => {},
+  onSortChange = () => { },
   placeholder = '',
 }) => {
   return (
@@ -15,9 +15,9 @@ const SearchSortBar = React.memo(({
       <div className="col-span-2 grid grid-cols-2">
         {showSearchInput ? (
           <div className="col-span-2 flex items-center   py-2">
-             <div className='w-[38px] h-[38px] min-h-[38px] min-w-[38px] flex items-center justify-center bg_light_back rounded-full'>
-            <img src={commonSearch} alt='Search' className='object-contain w-[16px] h-[16px]' />
-          </div>
+            <div className='w-[38px] h-[38px] min-h-[38px] min-w-[38px] flex items-center justify-center bg_light_back rounded-full'>
+              <img src={commonSearch} alt='Search' className='object-contain w-[16px] h-[16px]' />
+            </div>
             {/* <img src={commonSearch} alt="search icon" className="w-10 h-10" /> */}
             <Input
               placeholder={placeholder}

@@ -13,9 +13,9 @@ import tommorowWhite from '../../assets/img/Horoscope/tomorrowWhite.svg'
 import yearIcon from '../../assets/img/Horoscope/horoscope.svg'
 import yearWhite from '../../assets/img/Horoscope/YearWhite.svg'
 
+import moment from 'moment'
 import weekIcon from '../../assets/img/Horoscope/week.svg'
 import weekWhite from '../../assets/img/Horoscope/weekWhite.svg'
-import moment from 'moment'
 
 export const useHoroscopeTabs = () => {
   const { t } = useTranslation()

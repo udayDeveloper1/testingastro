@@ -1,18 +1,15 @@
-import React from "react";
 import {
-  StarFilled,
-  ShareAltOutlined,
-  WechatWorkOutlined,
+  StarFilled
 } from "@ant-design/icons";
-import CustomWhiteButton from "../Homepage/CustomWhiteButton";
-import Loader2 from "../loader/Loader2";
-import Loader3 from "../loader/Loader3";
-import messageIcon from '../../assets/img/Profile/message.svg'
+import { lazy, memo } from "react";
+import { useTranslation } from "react-i18next";
+import messageIcon from '../../assets/img/Profile/message.svg';
+const CustomWhiteButton = lazy(() => import("../Homepage/CustomWhiteButton"));
+const Loader3 = lazy(() => import("../loader/Loader3"));
 
 
 // import { PATHS } from "../../routers/Paths";
-import { Link } from "react-router";
-import { useTranslation } from "react-i18next";
+
 
 function AstrologerChatCard({ astro, historyType, handleChat = () => { } }) {
   const { t } = useTranslation()
@@ -44,7 +41,7 @@ function AstrologerChatCard({ astro, historyType, handleChat = () => { } }) {
             ₹ {astro?.receiver_price_per_min}/min
           </p>
         </div>
-        
+
       </div>
 
       {/* Content section */}
@@ -53,7 +50,7 @@ function AstrologerChatCard({ astro, historyType, handleChat = () => { } }) {
           Order Id: <span className="font-[400]">{astro?.random_id}</span>
         </p>
         <p className="commonQuesP !font-medium ">{astro?.dateTime}</p>
-       
+
         <p className="commonQuesP !font-medium ">
           Rate: ₹  <span className="font-[400]">{astro?.receiver_price_per_min}/min</span>
         </p>
@@ -71,12 +68,12 @@ function AstrologerChatCard({ astro, historyType, handleChat = () => { } }) {
               {t('chat')}
             </CustomWhiteButton>
           )}
-        
+
         </div>
-        
+
       </div>
     </div>
   );
 }
 
-export default AstrologerChatCard;
+export default memo(AstrologerChatCard);

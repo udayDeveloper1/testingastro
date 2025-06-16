@@ -103,12 +103,13 @@ export const BASE_PATHS = {
   FREE_KUNDALI_REPORT: '/free-kundali-report',
   BLOG: '/blog',
   BLOG_DETAILS: '/blog-details',
-  BLOG_SINGLE_PAGE: '/blog-details/:blogId',
+  BLOG_SINGLE_PAGE: '/blog-details/:name/:blogId',
   TRANSACTION_WALLET: '/transaction-wallet',
   ORDER_HISTORY_CALL: '/order-history-call',
   SUPPORT_CHAT: '/support-chat',
   PROFILE_SETTING: '/profile-setting',
   PRIVACY_POLICY: '/privacy-policy',
+  APP_PRIVACY_POLICY: '/app-privacy-policy',
   TERMS_CONDITIONS: '/terms-conditions',
   CHAT_SCREEN: '/chat',
   CHAT_ID: '/chat/:chatAstroId',
@@ -123,6 +124,7 @@ export const BASE_PATHS = {
   BOOK_POOJA_LIST: '/book-pooja-list',
   ASTRO_MALL: '/astro-mall',
   ABOUT_US: '/about-us',
+  CHOGADIYA:'/choghadiya',
   NOT_FOUND: '*',
 };
 
@@ -227,12 +229,14 @@ export const PATHS_LANGUAGE = {
   FREE_KUNDALI_REPORT: '/:lang/free-kundali-report',
   BLOG: '/:lang/blog',
   BLOG_DETAILS: '/:lang/blog-details',
-  BLOG_SINGLE_PAGE: '/:lang/blog-details/:blogId',
+  BLOG_SINGLE_PAGE: '/:lang/blog-details/:name/:blogId',
   TRANSACTION_WALLET: '/:lang/transaction-wallet',
   ORDER_HISTORY_CALL: '/:lang/order-history-call',
   SUPPORT_CHAT: '/:lang/support-chat',
   PROFILE_SETTING: '/:lang/profile-setting',
   PRIVACY_POLICY: '/:lang/privacy-policy',
+  APP_PRIVACY_POLICY: '/:lang/app-privacy-policy',
+
   TERMS_CONDITIONS: '/:lang/terms-conditions',
   CHAT_SCREEN: '/:lang/chat',
   CHAT_ID: '/:lang/chat/:chatAstroId',
@@ -246,7 +250,9 @@ export const PATHS_LANGUAGE = {
   RAHU_KAAL: '/:lang/rahu-kaal',
   BOOK_POOJA: '/:lang/book-pooja',
   BOOK_POOJA_LIST: '/:lang/book-pooja-list',
-    ASTRO_MALL: '/:lang/astro-mall',
+  ASTRO_MALL: '/:lang/astro-mall',
+  CHOGADIYA:'/:lang/choghadiya',
+
   // ABOUT_US: '/:lang/about-us'
 }
 
@@ -284,7 +290,6 @@ let cachedPaths = null
 
 export function UpdatedPaths () {
   const lang = getCurrentLanguage()?.toLowerCase()
-  
   // If language hasn’t changed, return cached paths
   if (cachedLang === lang && cachedPaths) {
     return cachedPaths

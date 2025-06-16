@@ -1,9 +1,9 @@
-import React, { memo } from 'react';
-import plusImage from '../../assets/img/Horoscope/plusImage.webp';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
+import plusImage from '../../assets/img/Horoscope/plusImage.webp';
 
 const LuckyInfoCard = memo(({ horoScopDetails = {} }) => {
-    const { t } = useTranslation()
+  const { t } = useTranslation()
 
   const {
     lucky_color_code = '',
@@ -29,13 +29,13 @@ const LuckyInfoCard = memo(({ horoScopDetails = {} }) => {
         </InfoBlock>
 
         {/* Mood Day */}
-        <InfoBlock label={t('mood_day')} value={lucky_mood} classList=' md:border-r'/>
+        <InfoBlock label={t('mood_day')} value={lucky_mood} classList=' md:border-r' />
 
         {/* Lucky Number */}
-        <InfoBlock label={t('lucky_number')} value={luckyNumbers} classList=' md:border-r'/>
+        <InfoBlock label={t('lucky_number')} value={luckyNumbers} classList=' md:border-r' />
 
         {/* Lucky Time */}
-        <InfoBlock label={t('lucky_time')} value={lucky_time} classList='border-r-none'/>
+        <InfoBlock label={t('lucky_time')} value={lucky_time} classList='border-r-none' />
 
         {/* Plus Image - Mobile only */}
         <img
@@ -49,7 +49,7 @@ const LuckyInfoCard = memo(({ horoScopDetails = {} }) => {
   );
 });
 
-const InfoBlock = ({ label, value = '-', children,classList="" }) => (
+const InfoBlock = ({ label, value = '-', children, classList = "" }) => (
   <div className={`flex flex-col items-center justify-start md:justify-center gap-[5px] md:gap-[20px] border-[#343434] ${classList} `}>
     <p className='luckyCardP  mb-0'>{label}</p>
     {children || <span className='luckyCardSpan commonQuesP'>{value}</span>}

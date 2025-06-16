@@ -1,39 +1,38 @@
-import { lazy, useLayoutEffect, useState } from 'react'
-// import transactionPayment from '../../assets/img/banner/transactionPayment.webp'
-// import TransactionWalletImage from '../../assets/img/banner/TransactionWallet.webp'
-import CommonBanner from '../../component/CommonBanner'
+import { lazy, useLayoutEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { cloneDeep } from 'lodash';
 
-import { cloneDeep } from 'lodash'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
-import Loader from '../../component/loader/Loader'
-import AstrologerChatCard from '../../component/Transaction/AstrologerChatCard'
-// import { PATHS } from '../../routers/Paths'
+// Eagerly loaded components
+import CommonBanner from '../../component/CommonBanner';
+import Loader from '../../component/loader/Loader';
+import AstrologerChatCard from '../../component/Transaction/AstrologerChatCard';
+import NoDataFound from '../NoDataFound/NoDataFound';
+
+// API services
 import {
-  addChatRequest,
   getUserDetails,
   orderHistoryChat
-} from '../../services/api/api.services'
+} from '../../services/api/api.services';
+
+// Redux slices
 import {
   setAstroDetails,
-  setAstroPaymentDetails
-} from '../../storemain/slice/astroLogerDetailsSlice'
+} from '../../storemain/slice/astroLogerDetailsSlice';
+import { setUserLoginData } from '../../storemain/slice/MasterSlice';
 
+// Constants & utility functions
 import {
   Encryption,
   loginRedirection,
   navigateChat,
   setLoginUserData,
   TOAST_ERROR
-} from '../../utils/CommonFunction'
+} from '../../utils/CommonFunction';
+import { Codes } from '../../utils/CommonVariable';
+import { UpdatedPaths } from '../../routers/Paths';
 
-import NoDataFound from '../NoDataFound/NoDataFound'
-import { Codes } from '../../utils/CommonVariable'
-import CustomWhiteButton from '../../component/Homepage/CustomWhiteButton'
-import { setUserLoginData } from '../../storemain/slice/MasterSlice'
-import { UpdatedPaths } from '../../routers/Paths'
-import { useTranslation } from 'react-i18next'
-const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
 
 function OrderHistoryCall () {
   const [active, setActive] = useState('1')
@@ -41,7 +40,6 @@ function OrderHistoryCall () {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const PATHS = UpdatedPaths()
 
   const { is_login, loginUserData } = useSelector(
     state => state?.masterSlice?.loginUser
@@ -96,38 +94,13 @@ function OrderHistoryCall () {
       const walletBalance = +userData?.total_wallet_balance
       const pricePerMin = +recordData.receiver_price_per_min
 
-      // if (!isAI) {
-      //   const response = await addChatRequest({
-      //     astrologer_id: record?.receiver_id,
-      //     conversation_types: 'chat'
-      //   })
-
-      //   if (response.code !== Codes.SUCCESS) {
-      //     return TOAST_ERROR(response.message)
-      //   }
-
-      //   recordData.AstroData = response.data
-      // }
+     
       
       recordData.isAI = isAI
       recordData.isFreeChatAvailable = isFreeChatAvailable
       recordData.walletBalance = walletBalance
       recordData.pricePerMin = pricePerMin
 
-      // if (isFreeChatAvailable || walletBalance / pricePerMin >= 2) {
-      //   navigateChat(
-      //     navigate,
-      //     dispatch,
-      //     setAstroDetails,
-      //     Encryption,
-      //     recordData,
-      //     'history',
-      //     true
-      //   )
-      // } else {
-      //   dispatch(setAstroPaymentDetails(recordData))
-      //   navigate(PATHS.MONEY_WALLET)
-      // }
       navigateChat(
         navigate,
         dispatch,
@@ -198,7 +171,7 @@ function OrderHistoryCall () {
   )
 }
 
-export default OrderHistoryCall
+export default React.memo(OrderHistoryCall)
 
 // import { lazy, useLayoutEffect, useState } from 'react'
 // // import transactionPayment from '../../assets/img/banner/transactionPayment.webp'

@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo, useState } from "react";
-import Table from "antd/es/table";
-import { useLocation } from "react-router-dom";
 import { createStyles } from "antd-style";
+import Table from "antd/es/table";
+import React, { useCallback, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
@@ -76,7 +76,7 @@ const CustomTable = React.memo(
           expandable
           pagination={paginationConfig}
           loading={loading}
-          scroll={scroll }
+          scroll={scroll}
           sticky
           {...rest}
         />

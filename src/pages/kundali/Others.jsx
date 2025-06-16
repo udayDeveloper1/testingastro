@@ -1,22 +1,17 @@
-import { Card, Table } from "antd";
-import React, { memo, useEffect, useMemo, useState } from "react";
-import "../../assets/css/kundli/KundliParts.css";
-import freeKundliKundliDetailsBasic from "../../assets/img/banner/freeKundliKundliDetailsBasic.webp";
-import CommonBanner from "../../component/CommonBanner";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
-import KundliReport from "../../component/kundali/KundliReport";
-import KundliStepper from "../../component/kundali/KundliStepper";
+import { lazy, memo } from "react";
 import { useLocation, useNavigate } from "react-router";
+import "../../assets/css/kundli/KundliParts.css";
 // import { PATHS } from "../../routers/Paths";
 import { useSelector } from "react-redux";
-import { Codes, TimeFormat } from "../../utils/CommonVariable";
-import { formatTime } from "../../utils/CommonFunction";
 
-import BasicBirthDetailsCard from "../../component/NewKundaliComp/BasicBirthDetailsCard";
-import CustomTable from "../../component/Custom/CustomTable";
-import PlanetsDetail from "../../component/NewKundaliComp/PlanetsDetail";
-import { ChalitDetails } from "../../component/NewKundaliComp/ChalitDetails";
 import { UpdatedPaths } from "../../routers/Paths";
+const ChalitDetails = lazy(() =>
+  import("../../component/NewKundaliComp/ChalitDetails").then(module => ({
+    default: module.ChalitDetails
+  }))
+);
+const HoroscopeGrid = lazy(() => import("../../component/kundali/HoroscopeGrid"));
+
 // import CustomTabs from "../../component/Custom/CustomTabs";
 
 const Others = ({ allKundliDetails }) => {

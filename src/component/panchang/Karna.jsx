@@ -1,31 +1,31 @@
-import React from "react";
 import { Card, Typography } from "antd";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph } = Typography;
 
 const Karna = () => {
-    const { t } = useTranslation()
+  const { t } = useTranslation()
   const introText = [
     t('karan_intro_1'),
     t('karan_intro_2')
   ];
 
   const movableKaran = [
- t('Bava_name'),
- t('Balava_name'),
- t('Kaulava_name'),
- t('Taitila_name'),
- t('Gara_name'),
- t('Vanij_name'),
- t('Vishti_name'),
+    t('Bava_name'),
+    t('Balava_name'),
+    t('Kaulava_name'),
+    t('Taitila_name'),
+    t('Gara_name'),
+    t('Vanij_name'),
+    t('Vishti_name'),
   ];
 
   const fixedKaran = [
-t('Sakuni_name'),
-t('Chatushpad_name'),
-t('Naag_name'),
-t('Kintughna_name'),
+    t('Sakuni_name'),
+    t('Chatushpad_name'),
+    t('Naag_name'),
+    t('Kintughna_name'),
   ];
 
   return (
@@ -67,11 +67,11 @@ t('Kintughna_name'),
 
         {/* Footer Text */}
         <Paragraph className="commonQuesP mb-0">
-        {t('karan_intro_3')}
+          {t('karan_intro_3')}
         </Paragraph>
       </div>
     </Card>
   );
 };
 
-export default Karna;
+export default memo(Karna);

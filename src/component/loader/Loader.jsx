@@ -2,6 +2,7 @@
 // import loader2 from "../../assets/img/loader/loader2.webp";
 // import loader3 from "../../assets/img/loader/loader3.webp";
 // import loader4 from "../../assets/img/loader/loader4.webp";
+import { memo } from "react";
 import loader1 from "/loader/loader1.webp";
 import loader2 from "/loader/loader2.webp";
 import loader3 from "/loader/loader3.webp";
@@ -27,4 +28,4 @@ const Loader = () => {
     )
 }
 
-export default Loader
+export default memo(Loader)

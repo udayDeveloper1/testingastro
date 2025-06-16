@@ -1,5 +1,5 @@
-import React from "react";
-import { Tag, Typography } from "antd";
+import { Typography } from "antd";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph } = Typography;
@@ -150,7 +150,7 @@ function MangalDoshaSection({ mangalDosh, mangalikDosh }) {
             </ul>
           </div> */}
           </div>
-        </Typography> }
+        </Typography>}
       {
         mangalikDosh &&
         <Typography className="flex flex-col gap-6 mt-3 mt-5">
@@ -279,4 +279,4 @@ function MangalDoshaSection({ mangalDosh, mangalikDosh }) {
   );
 }
 
-export default MangalDoshaSection;
+export default memo(MangalDoshaSection);

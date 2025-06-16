@@ -1,8 +1,6 @@
-import React from 'react';
-import { Button } from 'antd';
 import { MessageOutlined } from '@ant-design/icons';
-import CustomButton from '../../component/Homepage/CustomButton';
-
+import { lazy, memo } from 'react';
+const CustomButton = lazy(() => import("../../component/Homepage/CustomButton"))
 const NotificationCard = ({ userName, question, onAccept, onReject }) => {
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-4 border border-gray-200">
@@ -31,4 +29,4 @@ const NotificationCard = ({ userName, question, onAccept, onReject }) => {
   );
 };
 
-export default NotificationCard;
+export default memo(NotificationCard);

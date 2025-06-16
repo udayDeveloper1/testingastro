@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 
 function LifeStone({ stones }) {
   return (
@@ -44,4 +44,4 @@ function LifeStone({ stones }) {
   );
 }
 
-export default LifeStone;
+export default memo(LifeStone);

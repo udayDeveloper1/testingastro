@@ -1,8 +1,10 @@
-import { memo } from "react";
+import { lazy, memo } from "react";
 import { useSelector } from "react-redux";
 import "../../assets/css/kundli/KundliParts.css";
-import DoshaReportComp from "../../component/NewKundaliComp/DoshaReportComp";
-import DataWrapper from "../../component/Custom/DataWrapper";
+
+
+const DoshaReportComp = lazy(() => import("../../component/NewKundaliComp/DoshaReportComp"));
+const DataWrapper = lazy(() => import("../../component/Custom/DataWrapper"));
 
 const DoshaReport = ({ allKundliDetails }) => {
   const undefine = useSelector((state) => state?.masterSlice?.undefine);

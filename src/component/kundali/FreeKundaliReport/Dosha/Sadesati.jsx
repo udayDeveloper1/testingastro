@@ -1,10 +1,10 @@
-import React from "react";
-import NotesDosha from "./NotesDosha";
-import CustomTable from "../../../Custom/CustomTable";
+import { memo, Suspense } from "react";
+const NotesDosha = lazy(() => import("./NotesDosha"))
+const CustomTable = lazy(() => import("../../../Custom/CustomTable"))
 
 function Sadesati() {
 
- const rudrakshTop ={
+  const rudrakshTop = {
     rudrakshaSuggestionReport: {
       title: "Shani Sade Sati: Rising Phase",
       content: [
@@ -25,8 +25,6 @@ function Sadesati() {
       ]
     }
   };
-
-
   const doshaData = [
     {
       title: "No",
@@ -34,7 +32,6 @@ function Sadesati() {
       content: "Your next Sadesati starts from 11-Dec-2043.",
     },
   ];
-
   const columns = [
     {
       title: "Start",
@@ -135,9 +132,9 @@ function Sadesati() {
       <div className="flex flex-col gap-10">
         <div>
           <h2 className="commonQuesH2">Manglik Analysis</h2>
-
+          <Suspense fallback={<></>}  key={index}> 
           {doshaData.map((item, index) => (
-            <NotesDosha
+           <NotesDosha
               key={index}
               title={item.title}
               subTitle={item.subTitle}
@@ -145,35 +142,38 @@ function Sadesati() {
               disclaimer={item.disclaimer}
             />
           ))}
+          </Suspense>
         </div>
 
         <div>
-          <CustomTable
-            columns={columns}
-            dataSource={dataSource}
-            pagination={false}
-            bordered
-            className="dasha_siddha" 
-          />
+          <Suspense fallback={<></>}>
+            <CustomTable
+              columns={columns}
+              dataSource={dataSource}
+              pagination={false}
+              bordered
+              className="dasha_siddha"
+            />
+          </Suspense>
         </div>
 
         {Object.values(rudrakshTop).map((section, index) => (
-    <section
-      key={index}
-      className="kundali-section pb-6 mb-5 flex flex-col gap-5 kundali_section_customBorderBottom"
-    >
-      <h2 className="commonQuesH2">{section.title}</h2>
-      {section.content.map((paragraph, pIndex) => (
-        <p key={pIndex} className="commonQuesP">
-          {paragraph}
-        </p>
-      ))}
-    </section>
-  ))}
+          <section
+            key={index}
+            className="kundali-section pb-6 mb-5 flex flex-col gap-5 kundali_section_customBorderBottom"
+          >
+            <h2 className="commonQuesH2">{section.title}</h2>
+            {section.content.map((paragraph, pIndex) => (
+              <p key={pIndex} className="commonQuesP">
+                {paragraph}
+              </p>
+            ))}
+          </section>
+        ))}
 
       </div>
     </>
   );
 }
 
-export default Sadesati;
+export default memo(Sadesati);

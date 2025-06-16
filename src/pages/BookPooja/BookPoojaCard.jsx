@@ -1,6 +1,6 @@
-import React from "react";
+import { lazy, memo, Suspense } from "react";
 import bookpooja from "../../assets/img/bookpooja/bookPoojaCard.svg";
-import CustomButton from "../../component/Homepage/CustomButton";
+const CustomButton = lazy(() => import("../../component/Homepage/CustomButton"));
 
 const BookPoojaCard = () => {
   const dummyPoojas = Array.from({ length: 10 }).map((_, i) => ({
@@ -11,6 +11,8 @@ const BookPoojaCard = () => {
   }));
 
   return (
+    <>
+    <Suspense fallback={<div className='min-h-[100vh]'></div>}>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {dummyPoojas.map((puja, index) => (
         <div
@@ -28,36 +30,38 @@ const BookPoojaCard = () => {
 
           {/* Remove button from content section */}
 
-{/* Content Section */}
-<div className="p-[20px] flex flex-col gap-[20px]">
-  <div className="flex flex-col gap- customBookContDiv">
-    <h3 className="commonQuesH3">{puja.title}</h3>
-    <p className="text-[14px] new_body_font leading-[21px] font-[400]">
-      {puja.description}
-    </p>
-    <CustomButton className="" parentClassName="customHoverBtn BOOK_NOW_pooja">BOOK NOW</CustomButton>
+          {/* Content Section */}
+          <div className="p-[20px] flex flex-col gap-[20px]">
+            <div className="flex flex-col gap- customBookContDiv">
+              <h3 className="commonQuesH3">{puja.title}</h3>
+              <p className="text-[14px] new_body_font leading-[21px] font-[400]">
+                {puja.description}
+              </p>
+              <CustomButton className="" parentClassName="customHoverBtn BOOK_NOW_pooja">BOOK NOW</CustomButton>
 
-  </div>
-</div>
+            </div>
+          </div>
 
-{/* Hover Overlay with single button */}
-<div className="absolute bookPoojaHoverDiv text-white h-full w-full rounded-[10px]">
-  <div className="hoverContentWrapper h-full flex flex-col justify-between rounded-[10px] p-[20px]">
-    <div className="flex flex-col gap-[20px]">
-      <h3 className="commonQuesH3 !text-white">{puja.title}</h3>
-      <p className="commonQuesP !text-white mb-4">
-        Pitru Dosh Nivaran Puja is a sacred Hindu ritual performed to
-        appease ancestors and mitigate the effects of Pitru Dosha...
-      </p>
-    </div>
-    {/* <button className="customHoverBtn">BOOK NOW</button> */}
-  </div>
-</div>
+          {/* Hover Overlay with single button */}
+          <div className="absolute bookPoojaHoverDiv text-white h-full w-full rounded-[10px]">
+            <div className="hoverContentWrapper h-full flex flex-col justify-between rounded-[10px] p-[20px]">
+              <div className="flex flex-col gap-[20px]">
+                <h3 className="commonQuesH3 !text-white">{puja.title}</h3>
+                <p className="commonQuesP !text-white mb-4">
+                  Pitru Dosh Nivaran Puja is a sacred Hindu ritual performed to
+                  appease ancestors and mitigate the effects of Pitru Dosha...
+                </p>
+              </div>
+              {/* <button className="customHoverBtn">BOOK NOW</button> */}
+            </div>
+          </div>
 
         </div>
       ))}
     </div>
+    </Suspense>
+    </>
   );
 };
 
-export default BookPoojaCard;
+export default memo(BookPoojaCard);

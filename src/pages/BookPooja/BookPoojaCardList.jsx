@@ -1,5 +1,6 @@
-import BookPoojaCard from "./BookPoojaCard";
+import { lazy, memo, Suspense } from "react";
 
+const BookPoojaCard = lazy(() => import("./BookPoojaCard"));
 const BookPoojaCardList = () => {
   const dummyPoojas = Array.from({ length: 10 }).map((_, i) => ({
     title: `Pooja #${i + 1}`,
@@ -8,6 +9,7 @@ const BookPoojaCardList = () => {
   }));
 
   return (
+     <Suspense fallback={<div className='min-h-[100vh]'></div>}>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {dummyPoojas.map((puja, index) => (
         <BookPoojaCard
@@ -18,7 +20,8 @@ const BookPoojaCardList = () => {
         />
       ))}
     </div>
+    </Suspense>
   );
 };
 
-export default BookPoojaCardList;
+export default memo(BookPoojaCardList);

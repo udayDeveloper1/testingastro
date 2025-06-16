@@ -14,6 +14,7 @@ import { Suspense } from 'react'
 import { Helmet } from 'react-helmet'
 import { updateToken } from '../services/api/api.services'
 import imageCompression from 'browser-image-compression';
+
 import {
   setIsScroll,
   setLoading,
@@ -147,14 +148,8 @@ export const formatDate = (dateString, formatPattern) => {
   return moment(dateString).format(formatPattern)
 }
 
-export const setLoginUserData = (
-  dispatch,
-  is_login,
-  loginUserData,
-  sliceMethod,
-  changeData
-) => {
-  let preparedData = {
+export const setLoginUserData = ( dispatch, is_login, loginUserData, sliceMethod, changeData ) => {
+   let preparedData = {
     ...loginUserData,
     ...changeData
   }
@@ -262,15 +257,7 @@ export const sendDateProfile = date => {
 
 // ------------------------------------------------------- chat navigate --------------------------------------------------------------------------------------
 
-export const navigateChat = (
-  navigate,
-  dispatch,
-  dispatchEventName,
-  Encryption,
-  record,
-  chatType,
-  EncryptionType
-) => {
+export const navigateChat = (navigate, dispatch, dispatchEventName, Encryption, record, chatType, EncryptionType) => {
   let findLang = Object.keys(LanguageOption).find(ele => {
     if (LanguageOption?.[ele] === window.location.pathname.split('/')[1]) {
       return LanguageOption?.[ele]
@@ -370,29 +357,25 @@ export const openFilter = (dispatch, type) => {
 
 export const Translate = key => i18next.t(key)
 
-export const getLocationValidationRule = (
-  isPlaceSelectedRef,
-  t,
-  selecteLocation
-) => [
-    { required: true, message: t('enter_place_of_birth') },
-    {
-      validator: (_, value) => {
-        if (!value) return Promise.resolve()
+export const getLocationValidationRule = (isPlaceSelectedRef, t, selecteLocation) => [
+  { required: true, message: t('enter_place_of_birth') },
+  {
+    validator: (_, value) => {
+      if (!value) return Promise.resolve()
 
-        if (
-          !isPlaceSelectedRef.current &&
-          Object.keys(selecteLocation).length === 0
-        ) {
-          return Promise.reject(
-            new Error(t('please_select_place_from_suggestion'))
-          )
-        }
-
-        return Promise.resolve()
+      if (
+        !isPlaceSelectedRef.current &&
+        Object.keys(selecteLocation).length === 0
+      ) {
+        return Promise.reject(
+          new Error(t('please_select_place_from_suggestion'))
+        )
       }
+
+      return Promise.resolve()
     }
-  ]
+  }
+]
 
 export const FORM_RULS = {
   [InputTypesEnum?.NAME]: [
@@ -703,6 +686,49 @@ export const compressAndResizeImage = async (file, width = 184, height = 184) =>
   });
 };
 
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+const weekdayNames = [
+  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+];
+
+export const formatDateReadable = (dateStr) => {
+  const [day, month, year] = dateStr.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+
+  const getOrdinalSuffix = (n) => {
+    if (n > 3 && n < 21) return n + "th";
+    switch (n % 10) {
+      case 1: return n + "st";
+      case 2: return n + "nd";
+      case 3: return n + "rd";
+      default: return n + "th";
+    }
+  };
+
+  const formattedDate = `${getOrdinalSuffix(day)} ${monthNames[month - 1]} ${year}`;
+  const weekday = weekdayNames[date.getDay()];
+
+  return {
+    formattedDate,
+    weekday
+  };
+}
+
+export const convertTo12Hour = (timeStr) => {
+  const [hour, minute] = timeStr.split(":").map(Number);
+  const date = new Date();
+  date.setHours(hour, minute);
+
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+}
 
 export default {
   convertToBase64,
@@ -722,10 +748,7 @@ export default {
   // ExportToPdf
 }
 
-
-
 // -------------------------corp image
-
 
 // utils/CommonFunction.js or cropUtils.js
 export const getCroppedImg = (imageSrc, pixelCrop) => {
