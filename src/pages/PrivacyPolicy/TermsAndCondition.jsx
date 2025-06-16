@@ -2,13 +2,13 @@ import  { useEffect, useState, lazy, Suspense, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 // Lazy-loaded components
-const CommonBanner = lazy(() => import("../../component/CommonBanner"));
 const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
 
 // Utilities and constants
 import { Constatnt } from "../../utils/Constent";
 import { Codes, LanguageOption } from "../../utils/CommonVariable";
 import { getCmsPages } from "../../services/api/api.services";
+import CommonBanner from "../../component/CommonBanner";
 
 
 function TermsAndCondition() {
@@ -43,6 +43,7 @@ function TermsAndCondition() {
           highlight=""
         />
       </section>
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section className="">
         <div className="container mx-auto padding50 flex flex-col gap-10">
           <CommonQuestionComp heading="" content={content} />
@@ -51,6 +52,7 @@ function TermsAndCondition() {
 
         </div>
       </section>
+      </Suspense>
     </>
   );
 }

@@ -1,22 +1,35 @@
 import { memo, useCallback } from 'react';
 import FreeKundali from "../kundali/FreeKundaliForm";
-
-const HeroSection = ({ backImg, cardData, navigate, t }) => {
+import backImg from '/homepage/homeBackgroundImage.webp';
+import backImgMobile from '/homepage/homeBackgroundImage_mobile.webp';
+const HeroSection = ({ cardData, navigate, t }) => {
   const handleNavigate = useCallback(path => () => {
     navigate(path)
   }, [navigate])
 
   return (
     <div className='relative overflow-hidden'>
-      <img
-        src={backImg}
-        alt='banner'
-        className='absolute top-0 left-0 z-[-1] h-full w-full object-cover'
-        decoding='async'
-        // loading='lazy'
-        width={1910}
-        height={580}
-      />
+      <picture>
+        <source
+          srcSet={backImgMobile}
+          media="(max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          srcSet={backImg}
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          src={backImg}
+          alt="banner"
+          className="absolute top-0 left-0 z-[-1] h-full w-full object-cover"
+          decoding="async"
+          fetchPriority='high'
+          width={1910}
+          height={580}
+        />
+      </picture>
       <div className='HeroSection pt-14 sm:pt-20 md:pt-28 lg:pt-20 z-[1] overflow-hidden'>
         <section className='text-center'>
           <div className='container mx-auto px-4'>

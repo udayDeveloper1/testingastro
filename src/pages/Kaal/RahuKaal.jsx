@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 import moment from "moment";
-import { lazy, memo, useEffect, useState } from "react";
+import { lazy, memo, Suspense, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/css/rahukaal.css";
@@ -219,7 +219,7 @@ function RahuKaal() {
       <section>
         <CommonBanner text={t('Daily Auspicious & Inauspicious Timings ')} highlight="" />
       </section>
-
+<Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className="container mx-auto paddingTop100">
           <RahuKaalForm
@@ -298,7 +298,7 @@ function RahuKaal() {
          
         </div>
       </section>
-
+</Suspense>
 
     </>
   );

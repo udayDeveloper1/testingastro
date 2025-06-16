@@ -11,7 +11,6 @@ import cricket from '../../assets/img/prediction/cricket.png';
 import stockmarket from '../../assets/img/prediction/stockmarket.png';
 
 // Lazy-loaded components
-const CommonBanner = lazy(() => import('../../component/CommonBanner'));
 const Loader2 = lazy(() => import('../../component/loader/Loader2'));
 const ConfirmModal = lazy(() => import('../../component/Modals/ConfirmModal'));
 const NoDataFound = lazy(() => import('../NoDataFound/NoDataFound'));
@@ -41,6 +40,7 @@ import {
 } from '../../utils/CommonVariable';
 import { Constatnt } from '../../utils/Constent';
 import { UpdatedPaths } from '../../routers/Paths';
+import CommonBanner from '../../component/CommonBanner';
 
 
 const PredictionPage = () => {
@@ -324,6 +324,8 @@ const PredictionPage = () => {
   return (
     <>
       <CommonBanner text={PATHS?.PREDICTION === location?.pathname ? t('kundali_prediction') : PATHS?.GENERAL_PREDICTION === location?.pathname ? t('genral_prediction') : t('prediction')} />
+
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       {showModal ? (
         <div className='col-span-full flex justify-center items-center h-full mt-5'>
           <NoDataFound />
@@ -423,11 +425,6 @@ const PredictionPage = () => {
                   >
                     <p
                       className='commonQuesP '
-                    // dangerouslySetInnerHTML={{
-                    //   __html: DOMPurify.sanitize(
-                    //     formatThirdPartyContent(sub?.value) || ''
-                    //   )
-                    // }}
                     >
                       {formatWithLineBreaks(sub?.value)}
                     </p>
@@ -452,6 +449,8 @@ const PredictionPage = () => {
           setShowModal(false)
         }}
       />
+        </Suspense>
+
     </>
   )
 }

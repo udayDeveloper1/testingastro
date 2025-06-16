@@ -4,9 +4,10 @@ import { lazy } from "react";
 
 // Assets (should not be lazy loaded)
 import ariesHeading from "../../assets/img/Horoscope/ariesHeading.webp";
+import CommonBanner from "../../component/CommonBanner";
 
 // Lazy-loaded components
-const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+// const CommonBanner = lazy(() => import("../../component/CommonBanner"));
 const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
 const Footer = lazy(() => import("../../Layout/Footer"));
 const NewsletterComp = lazy(() => import("../../component/Homepage/NewsLatterComp"));
@@ -381,6 +382,7 @@ function CarBikeMuhurat() {
           highlight="Muhurat 2025"
         />
       </section>
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className=" container mx-auto paddingTop100 pb-10 flex flex-col gap-10">
           <CommonQuestionComp
@@ -431,11 +433,7 @@ function CarBikeMuhurat() {
           {/* <NakshatraList {...nakshatraData} listStyle="disc"/> */}
         </div>
       </section>
-      <NewsletterComp />
-      {/* Footer */}
-      <footer>
-        <Footer />
-      </footer>
+    </Suspense>
     </>
   );
 }

@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router'
 import moment from 'moment'
 import '../assets/css/homepage.css'
 import '../assets/css/newHomePage.css'
-import backImg from '/homepage/homeBackgroundImage.webp'
-import backImgMobile from '/homepage/homeBackgroundImage_mobile.webp'
+
 import {
   getDashboardCount,
   getDashboardPanchang,
@@ -124,7 +123,6 @@ function HomePage() {
   return (
     <>
       <HeroSection
-        backImg={screenCategory === '412-or-below' ? backImgMobile : backImg}
         cardData={cardData}
         navigate={navigate}
         // observerRefss={observerRef}

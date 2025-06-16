@@ -1,5 +1,5 @@
 import moment from "moment";
-import { lazy, memo, useEffect, useState } from "react";
+import { lazy, memo, Suspense, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/css/chogadiya.css";
@@ -20,7 +20,6 @@ const Loader2 = lazy(() => import("../../component/loader/Loader2"));
 function Chogadiya() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  // const todayPanchangs = useSelector(state => state?.HomePageSlice?.todayPanchang?.data)
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY)
     : LanguageOption?.ENGLISH;
@@ -169,7 +168,7 @@ function Chogadiya() {
       <section>
         <CommonBanner text={t("choghadiya")} highlight="" />
       </section>
-
+<Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className="container mx-auto paddingTop100">
           <RahuKaalForm
@@ -336,6 +335,7 @@ function Chogadiya() {
           />
         </div>
       </section>
+      </Suspense>
     </>
   );
 }

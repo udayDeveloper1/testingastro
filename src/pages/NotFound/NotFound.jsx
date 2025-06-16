@@ -1,8 +1,9 @@
 import { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import notFoundImg from "../../assets/img/noDataFound/No_Data_Found.webp";
+import CommonBanner from '../../component/CommonBanner';
 
-const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+
 const NotFound = () => {
   const { t } = useTranslation()
   return (

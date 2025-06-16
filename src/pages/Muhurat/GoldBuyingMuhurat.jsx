@@ -1,8 +1,9 @@
 // import goldBuyingMuhurat from "../../assets/img/banner/goldBuyingMuhurat.webp";
-import React, { lazy} from "react";
+import React, { lazy, Suspense} from "react";
+import CommonBanner from "../../component/CommonBanner";
 
 // Lazy-loaded components
-const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+
 const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
 const DynamicCard = lazy(() => import("../../component/Dynemic/DynamicCard"));
 const NewsletterComp = lazy(() => import("../../component/Homepage/NewsLatterComp"));
@@ -92,7 +93,7 @@ function GoldBuyingMuhurat() {
           highlight="Calendar 2025 "
         />
       </section>
-
+<Suspense fallback={<></>}> 
       <section>
         <div className=" container mx-auto paddingTop100 pb-10 flex flex-col gap-10">
           <CommonQuestionComp
@@ -124,12 +125,8 @@ function GoldBuyingMuhurat() {
           />
         </div>
       </section>
+</Suspense>
 
-      <NewsletterComp />
-      {/* Footer */}
-      <footer>
-        <Footer />
-      </footer>
     </>
   );
 }

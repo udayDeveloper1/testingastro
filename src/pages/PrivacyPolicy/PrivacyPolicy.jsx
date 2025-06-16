@@ -2,13 +2,13 @@ import { useEffect, useState, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Lazy-loaded components
-const CommonBanner = lazy(() => import('../../component/CommonBanner'));
 const CommonQuestionComp = lazy(() => import('../../component/CommonQuestionComp'));
 
 // API & constants
 import { getCmsPages } from '../../services/api/api.services';
 import { Codes, LanguageOption } from '../../utils/CommonVariable';
 import { Constatnt } from '../../utils/Constent';
+import CommonBanner from '../../component/CommonBanner';
 
 function PrivacyPolicy() {
   const { t } = useTranslation()
@@ -42,12 +42,14 @@ function PrivacyPolicy() {
           highlight=''
         />
       </section>
+       <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section className=''>
         <div className='container mx-auto padding50 flex flex-col gap-10'>
           <CommonQuestionComp heading='' content={content} />
          
         </div>
       </section>
+      </Suspense>
     </>
   )
 }

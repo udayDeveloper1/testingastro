@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Lazy-load React components
 import { lazy} from 'react';
-const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+
 const DynamicCard = lazy(() => import('../../component/Dynemic/DynamicCard'));
 const Loader = lazy(() => import('../../component/loader/Loader'));
 
@@ -14,6 +14,7 @@ const Loader = lazy(() => import('../../component/loader/Loader'));
 import { generateMuhuratBlogThunk } from '../../storemain/slice/MasterSlice';
 import { openLoader } from '../../utils/CommonFunction';
 import { Constatnt } from '../../utils/Constent';
+import CommonBanner from '../../component/CommonBanner';
 
 function NamkaranMuhurat() {
   const dispatch = useDispatch()
@@ -45,18 +46,19 @@ function NamkaranMuhurat() {
           highlight={new Date().getFullYear()}
         />
       </section>
-
+<Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className='container mx-auto paddingTop100 paddingBottom100 flex flex-col gap-10'>
-          <DynamicCard
+        <Suspense fallback={<></>}>   <DynamicCard
             title={`Astrological Significance of Namkaran ${new Date().getFullYear()}`}
             introText=''
             data={muhratData}
             listStyle='decimal'
             dangerouslyPara={true}
-          />
+          /></Suspense>
         </div>
       </section>
+      </Suspense>
     </>
   )
 }

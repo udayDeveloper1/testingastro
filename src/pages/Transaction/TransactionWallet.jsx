@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 // Lazy-loaded components
-const CommonBanner = lazy(() => import('../../component/CommonBanner'));
 const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'));
 const CustomTable = lazy(() => import('../../component/Custom/CustomTable'));
 const BalanceActionBar = lazy(() => import('../../component/Transaction/BalanceActionBar'));
@@ -11,6 +10,7 @@ const BalanceActionBar = lazy(() => import('../../component/Transaction/BalanceA
 // API & utility functions
 import { getWalletTransactions } from '../../services/api/api.services';
 import { formatDate } from '../../utils/CommonFunction';
+import CommonBanner from '../../component/CommonBanner';
 
 
 function TransactionWallet () {
@@ -82,7 +82,7 @@ function TransactionWallet () {
         </div>
         {/* <KundliStepper /> */}
       </section>
-
+<Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className='container paddingTop50'>
           <div className='grid gap-6 md:gap-12'>
@@ -153,6 +153,7 @@ function TransactionWallet () {
           )}
         </div>
       </section>
+      </Suspense>
     </>
   )
 }

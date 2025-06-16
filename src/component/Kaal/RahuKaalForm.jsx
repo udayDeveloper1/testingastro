@@ -1,6 +1,6 @@
 import { AutoComplete, DatePicker } from "antd";
 import dayjs from "dayjs";
-import { lazy, memo, useEffect, useRef, useState } from "react";
+import { lazy, memo, Suspense, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import close from "../../assets/img/panchang/close.png";
 import calender from "../../assets/img/rahukaal/calender.svg";

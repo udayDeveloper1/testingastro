@@ -1,11 +1,11 @@
 import moment from "moment";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
 // Lazy-loaded components
 import { lazy} from "react";
-const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+
 const DynamicCard = lazy(() => import("../../component/Dynemic/DynamicCard"));
 const Loader = lazy(() => import("../../component/loader/Loader"));
 
@@ -13,6 +13,7 @@ const Loader = lazy(() => import("../../component/loader/Loader"));
 import { generateMuhuratBlogThunk } from "../../storemain/slice/MasterSlice";
 import { openLoader } from "../../utils/CommonFunction";
 import { Constatnt } from "../../utils/Constent";
+import CommonBanner from "../../component/CommonBanner";
 
 function MarriageMuhurat() {
 
@@ -21,13 +22,6 @@ function MarriageMuhurat() {
   const { t } = useTranslation();
   const muhratData = useSelector(state => state?.masterSlice?.muhratData)
   const loder = useSelector((state) => state?.masterSlice?.loader);
-
-
-  const parseMarkdownSections = markdown => {
-    const sanitizedHTML = DOMPurify.sanitize(marked.parse(markdown));
-    return sanitizedHTML
-  }
-
 
   useEffect(() => {
     openLoader(dispatch, "marrige_muhrat");
@@ -44,15 +38,13 @@ function MarriageMuhurat() {
       {loder?.is_loading && loder?.loding_type === "marrige_muhrat" && (
         <Loader />
       )}
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <CommonBanner text={t('marrige_muharat')} highlight={new Date().getFullYear()} />
       </section>
-
-     
       <section>
         <div className=' container mx-auto paddingTop100 paddingBottom100 flex flex-col gap-10'>
-
-
+          <Suspense fallback={<></>}> 
           <DynamicCard
             title={`${t('marrige_muharat')} ${new Date().getFullYear()}`}
             introText=""
@@ -60,8 +52,10 @@ function MarriageMuhurat() {
             listStyle='decimal'
             dangerouslyPara={true}
           />
+          </Suspense>
         </div>
       </section>
+      </Suspense>
     </>
   )
 }

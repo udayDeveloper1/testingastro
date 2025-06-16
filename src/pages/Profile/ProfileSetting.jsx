@@ -2,7 +2,6 @@ import { lazy, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import CommonBanner from '../../component/CommonBanner'
 import UserProfileForm from '../../component/Profile/UserProfileForm'
-const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
 
 function ProfileSetting() {
   const { t } = useTranslation()
@@ -11,6 +10,7 @@ function ProfileSetting() {
 
   return (
     <>
+    <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <CommonBanner
           // backgroundImage={getBannerImage()}
@@ -28,8 +28,9 @@ function ProfileSetting() {
 
         </div>
       </section>
+</Suspense>
     </>
   )
 }
 
-export default ProfileSetting
+export default Reat(ProfileSetting)

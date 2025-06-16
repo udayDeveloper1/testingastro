@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 
 // Lazy-loaded components
 const CommonBalanceBar = lazy(() => import("../../component/CommonBalanceBar"));
-const CommonBanner = lazy(() => import("../../component/CommonBanner"));
 const ChatWithAstrologerCard = lazy(() => import("../../component/CommonChatTalkAstrologerCard"));
 const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
 const HomeBlog = lazy(() => import("../../component/Homepage/HomeBlog"));
@@ -17,6 +16,7 @@ import { getAstrologerList, setOnSubmitFilter } from "../../storemain/slice/Mast
 import { closeFilter, closeLoder } from "../../utils/CommonFunction";
 import { Constatnt } from "../../utils/Constent";
 import useDebounce from "../hooks/useDebounce";
+import CommonBanner from "../../component/CommonBanner";
 
 
 function TalkWithAstrologer() {
@@ -97,6 +97,7 @@ function TalkWithAstrologer() {
           highlight={` ${t('Astrologer')}`}
         />
       </section>
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <div className="container mx-auto paddingTop50 flex flex-col gap-5">
           <CommonBalanceBar
@@ -143,7 +144,7 @@ function TalkWithAstrologer() {
         subHeading={t('All_you_need_to_know_about_Guna_Milan_Kundli_Milan')}
       />
 
-   
+   </Suspense>
     </>
   );
 }

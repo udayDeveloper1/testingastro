@@ -134,11 +134,6 @@ export default defineConfig({
     global: 'globalThis',
   },
 
-  // ✅ Add this block here
-  // optimizeDeps: {
-  //   exclude: ['react', 'react-dom'],
-  // },
-
   build: {
     target: 'esnext',
     chunkSizeWarningLimit: 1500,
@@ -163,11 +158,30 @@ export default defineConfig({
 
     rollupOptions: {
       output: {
+        // manualChunks(id) {
+        //   if (id.includes('node_modules')) {
+        //     return 'vendor'
+        //   }
+        // },
+
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            return 'vendor'
+            if (
+              id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/scheduler/')
+            ) {
+              return 'react-vendors';
+            }
+
+            if (id.includes('firebase')) return 'firebase';
+            if (id.includes('axios')) return 'axios';
+            if (id.includes('@headlessui')) return 'headlessui';
+            if (id.includes('lodash')) return 'lodash';
+
+            return 'vendor';
           }
-        },
+        }
       },
     },
   },

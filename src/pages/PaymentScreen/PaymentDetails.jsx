@@ -1,35 +1,36 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { cloneDeep } from 'lodash'
-import { lazy, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router'
-import appLogo from '/loader.png'
-import celebrationimg from '../../assets/img/transaction/celebration.gif'
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
+import { t } from 'i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { cloneDeep } from 'lodash';
+
+// Lazy-loaded components
+const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'));
+const PriceCard = lazy(() => import('../../component/Payment/PriceCard'));
+
+// Static assets
+import appLogo from '/loader.png';
+
+// API services
 import {
   addRecharge,
-  applyCoupon,
-  listWalletOffer,
   verifyPayment
-} from '../../services/api/api.services'
-import { setLoading, setUserLoginData } from '../../storemain/slice/MasterSlice'
+} from '../../services/api/api.services';
+
+// Redux actions
+import { setLoading, setUserLoginData } from '../../storemain/slice/MasterSlice';
+
+// Utilities & constants
 import {
-  closeLoder,
   closeModel,
-  openLoader,
-  openModel,
-  // TOAST_ERROR,
-  // TOAST_SUCCESS
-} from '../../utils/CommonFunction'
-// import { Codes } from '../../utils/CommonVariable'
-import { Constatnt } from '../../utils/Constent'
-const CustomButton = lazy(() => import('../../component/Homepage/CustomButton'))
-// import { PATHS } from '../../routers/Paths'
-import ConfirmModal from '../../component/Modals/ConfirmModal'
-import { UpdatedPaths } from '../../routers/Paths'
-import { t } from 'i18next'
-import PriceCard from '../../component/Payment/PriceCard'
-import { paymentScreenRedirection } from '../../utils/navigations/NavigationPage'
+  openModel
+} from '../../utils/CommonFunction';
+import { Constatnt } from '../../utils/Constent';
+import { UpdatedPaths } from '../../routers/Paths';
+import { paymentScreenRedirection } from '../../utils/navigations/NavigationPage';
+
 
 function PaymentDetails ({
   openInModel = false,
@@ -73,33 +74,6 @@ function PaymentDetails ({
       }, 10);
     }
   }, [paymentCalculation]);
-
-
-  const astroPaymentDetails = useSelector(
-    state => state?.AstroDetailsDataSlice?.astroPaymentDetails
-  )
-
-  // const handleApplyCoupon = () => {
-  //   if (!couponCode.trim()) {
-  //     setCouponError('Please enter a coupon code.')
-  //     return
-  //   }
-
-  //   applyCoupon().then(response => {
-  //     if (response?.code === Codes?.SUCCESS) {
-  //       TOAST_SUCCESS(response?.message)
-  //       setCouponError('')
-  //       setAppliedCoupon(true)
-  //     } else {
-  //       TOAST_ERROR(response?.message)
-  //     }
-  //   })
-  // }
-
-  // const handleRemoveCoupon = () => {
-  //   setCouponCode('')
-  //   setAppliedCoupon(false)
-  // }
 
   const cancelOffer = async () => {
     let datas = cloneDeep(urlObj)
@@ -333,6 +307,7 @@ const parsedData = {
 
   return (
     <>
+    <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section className={`pt-3   ${!openInModel ? "paddingBottom100" : "" }`}>
         {/* Header Section */}
 {!openInModel &&            <div className="flex flex-wrap justify-between paddingTop100 paddingBottom50 md:items-center gap-5 container mx-auto">
@@ -464,6 +439,7 @@ const parsedData = {
           </div>
         </div>
       </section>
+      </Suspense>
     </>
   )
 }

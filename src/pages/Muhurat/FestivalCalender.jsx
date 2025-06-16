@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 // import festivalCalender from "../../assets/img/banner/festivalCalender.webp";
-import { lazy} from "react";
+import { lazy } from "react";
+import CommonBanner from "../../component/CommonBanner";
 
 // Lazy-loaded components
-const CommonBanner = lazy(() => import("../../component/CommonBanner"));
+
 const CommonQuestionComp = lazy(() => import("../../component/CommonQuestionComp"));
 const FestivalMonthTable = lazy(() => import("../../component/Muhurat/FestivalMonthTable"));
 const HinduCalendarStructure = lazy(() => import("../../component/Muhurat/HinduCalendarStructure"));
@@ -44,7 +45,7 @@ function FestivalCalender() {
           highlight="Calendar 2025 "
         />
       </section>
-
+<Suspense fallback={<></>}> 
       <section>
         <div className=" container mx-auto padding100 flex flex-col 
 gap-7 md:gap-10">
@@ -63,44 +64,40 @@ gap-7 md:gap-10">
         </div>
       </section>
 
-       <section>
-       <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
-       <FestivalMonthTable />
-       </div>
-       </section>
+      <section>
+        <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
+          <FestivalMonthTable />
+        </div>
+      </section>
 
-       <section>
-       <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
-       <HinduCalendarStructure />
-       </div>
-       </section>
+      <section>
+        <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
+          <HinduCalendarStructure />
+        </div>
+      </section>
 
-       <section>
-       <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
-       <IndianSolarCalender />
-       </div>
-       </section>
+      <section>
+        <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
+          <IndianSolarCalender />
+        </div>
+      </section>
 
-       <section>
-       <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
-       <TypesofCalendars />
-       </div>
-       </section>
+      <section>
+        <div className=" container mx-auto paddingBottom100 flex flex-col gap-10">
+          <TypesofCalendars />
+        </div>
+      </section>
 
-       <section>
-       <div className=" container mx-auto  flex flex-col gap-10">
-       <CommonQuestionComp
+      <section>
+        <div className=" container mx-auto  flex flex-col gap-10">
+          <CommonQuestionComp
             heading="Embrace the Festivities: Indian Festival Calendar 2024 | Dates, Events, and Cultural Celebrations"
             content={content4}
           />
-       </div>
-       </section>
-       <HomeFAQs text={`${t('Frequently_Asked_Questions')} ${'about'}`} highlightText="ChatMyAstrologer's Indian Festival Calendar 2024" subHeading=""/>
- <NewsletterComp/>
-       {/* Footer */}
-       <footer>
-         <Footer/>
-        </footer>
+        </div>
+      </section>
+      <HomeFAQs text={`${t('Frequently_Asked_Questions')} ${'about'}`} highlightText="ChatMyAstrologer's Indian Festival Calendar 2024" subHeading="" />
+   </Suspense>
     </>
   );
 }

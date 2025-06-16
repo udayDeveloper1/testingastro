@@ -1,8 +1,8 @@
 // import bhumipujaMuhurat from "../../assets/img/banner/bhumipujaMuhurat.webp";
 import { lazy, Suspense } from 'react';
+import CommonBanner from '../../component/CommonBanner';
 
 // Lazy-loaded components
-const CommonBanner = lazy(() => import('../../component/CommonBanner'));
 const SupportChatPageComp = lazy(() => import('../../component/Support/SupportChatPage'));
 
 

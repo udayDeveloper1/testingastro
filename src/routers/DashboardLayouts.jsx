@@ -133,9 +133,9 @@ export const RootLayout = () => {
   }, [location, navigationType])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // const timer = setTimeout(() => {
       document.getElementById('initialLoader')?.remove()
-    }, 100)
+    // }, 100)
     return () => clearTimeout(timer)
   }, [])
 

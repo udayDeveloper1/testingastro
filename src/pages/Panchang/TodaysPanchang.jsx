@@ -1,35 +1,31 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router'
-// import PrivacyBanner from "../../assets/img/banner/PrivacyBanner.webp";
-import CommonBanner from '../../component/CommonBanner'
-import CommonQuestionComp from '../../component/CommonQuestionComp'
-import CustomTable from '../../component/Custom/CustomTable'
-import GeoSearchInput from '../../component/geo/GeoSearchInput'
-import Karna from '../../component/panchang/Karna'
-import LagnaChartAndBalam from '../../component/panchang/LagnaChartAndBalam'
-import Nakshatra from '../../component/panchang/Nakshatra'
-import Tithi from '../../component/panchang/Tithi'
-import TodayPanchangCard from '../../component/panchang/TodayPanchangCard'
-import Vaar from '../../component/panchang/Vaar'
-import Yoga from '../../component/panchang/Yoga'
-import sunrise from "../../assets/img/panchang/sunrise.svg"
-import moon from "../../assets/img/panchang/moon.svg"
+import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
+// Lazy-loaded components
+const CommonBanner = lazy(() => import('../../component/CommonBanner'));
+const CustomTable = lazy(() => import('../../component/Custom/CustomTable'));
+const GeoSearchInput = lazy(() => import('../../component/geo/GeoSearchInput'));
+const LagnaChartAndBalam = lazy(() => import('../../component/panchang/LagnaChartAndBalam'));
+const TodayPanchangCard = lazy(() => import('../../component/panchang/TodayPanchangCard'));
+const Loader = lazy(() => import('../../component/loader/Loader'));
+const HomeFAQs = lazy(() => import('../../component/Homepage/HomeFAQs'));
+
+// API & store
 import {
   getLagnaChartData,
   getPlanetDataForTodayPanchang,
   getTodaysPanchangAPi
-} from '../../storemain/slice/HompageSlice'
-import { setLoading, setUserLoginData } from '../../storemain/slice/MasterSlice'
-import { Constatnt } from '../../utils/Constent'
-import moment from 'moment'
-import { closeLoder, openLoader, TOAST_SUCCESS } from '../../utils/CommonFunction'
-import Loader from '../../component/loader/Loader'
-import { KundliChartType } from '../../component/NewKundaliComp/KundliVariabls'
-import { useTranslation } from 'react-i18next'
-import HomeFAQs from '../../component/Homepage/HomeFAQs'
-import { LanguageOption } from '../../utils/CommonVariable'
+} from '../../storemain/slice/HompageSlice';
+import { setLoading, setUserLoginData } from '../../storemain/slice/MasterSlice';
+
+// Utils & constants
+import { closeLoder, openLoader, TOAST_SUCCESS } from '../../utils/CommonFunction';
+import { Constatnt } from '../../utils/Constent';
+import { LanguageOption } from '../../utils/CommonVariable';
+import { KundliChartType } from '../../component/NewKundaliComp/KundliVariabls';
+
 
 function TodaysPanchang() {
   const [locationValue, setLocationValue] = useState('Mumbai') // State for the input value
@@ -173,7 +169,7 @@ function TodaysPanchang() {
     }
   ]
 
-  const content = t('panchang_description', { returnObjects: true })
+
 
   const columns = [
     {
@@ -295,171 +291,6 @@ function TodaysPanchang() {
     })
   )
 
-  const avoidBhumiPujan = [
-    {
-      title: '',
-      description: 'Sunday (Sun)'
-    },
-    {
-      title: '',
-      description: 'Monday (Moon)'
-    },
-    {
-      title: '',
-      description: 'Tuesday (Mars)'
-    },
-    {
-      title: '',
-      description: 'Wednesday (Mercury)'
-    },
-    {
-      title: '',
-      description: 'Thursday (Jupiter)'
-    },
-    {
-      title: '',
-      description: 'Friday (Venus)'
-    },
-    {
-      title: '',
-      description: 'Saturday (Saturn)'
-    }
-  ]
-
-  const introText = t('yoga_descriptions', { returnObjects: true })
-
-  const data = [
-    {
-      name: t('Vishkumbha_name'),
-      description:
-        t('Vishkumbha')
-    },
-    {
-      name: t('Preeti_name'),
-      description:
-        t('Preeti')
-    },
-    {
-      name: t('Ayushman_name'),
-      description: t('Ayushman')
-    },
-    {
-      name: t('Saubhagya_name'),
-      description:
-        t('Saubhagya')
-    },
-    {
-      name: t('Shobhana_name'),
-      description:
-        t('Shobhana')
-    },
-    {
-      name: t('Atiganda_name'),
-      description:
-        t('Atiganda')
-    },
-    {
-      name: t('Sukarma_name'),
-      description:
-        t('Sukarma')
-    },
-    {
-      name: t('Dhriti_name'),
-      description:
-        t('Dhriti')
-    },
-    {
-      name: t('Shoola_name'),
-      description:
-        t('Shoola')
-    },
-    {
-      name: t('Ganda_name'),
-      description:
-        t('Ganda')
-    },
-    {
-      name: t('Vridhi_name'),
-      description:
-        t('Vridhi')
-    },
-    {
-      name: t('Dhruva_name'),
-      description:
-        t('Dhruva')
-    },
-    {
-      name: t('Vyaghata_name'),
-      description: t('Vyaghata')
-    },
-    {
-      name: t('Harshana_name'),
-      description:
-        t('Harshana')
-    },
-    {
-      name: t('Vajra_name'),
-      description:
-        t('Vajra')
-    },
-    {
-      name: t('Siddhi_name'),
-      description:
-        t('Siddhi')
-    },
-    {
-      name: t('Vyatipata_name'),
-      description: t('Vyatipata')
-    },
-    {
-      name: t('Variyana_name'),
-      description: t('Variyana')
-    },
-    {
-      name: t('Parigha_name'),
-      description:
-        t('Parigha')
-    },
-    {
-      name: t('Shiva_name'),
-      description:
-        t('Shiva')
-    },
-    {
-      name: t('Siddha_name'),
-      description:
-        t('Siddha')
-    },
-    {
-      name: t('Saadhya_name'),
-      description: t('Saadhya')
-    },
-    {
-      name: t('Shubha_name'),
-      description:
-        t('Shubha')
-    },
-    {
-      name: t('Shukla_name'),
-      description:
-        t('Shukla')
-    },
-    {
-      name: t('Brahma_name'),
-      description:
-        t('Brahma')
-    },
-    {
-      name: t('Indra_name'),
-      description:
-        t('Indra')
-    },
-    {
-      name: t('Vaidhriti_name'),
-      description: t('Vaidhriti')
-    }
-  ]
-
   const taraBala = [
     'Ashwini',
     'Krittika',
@@ -547,7 +378,7 @@ function TodaysPanchang() {
       ])
 
       // setLocationValue('')
-      await new Promise(resolve => setTimeout(resolve, 300)) 
+      await new Promise(resolve => setTimeout(resolve, 300))
       // dispatch(setLoading({ is_loading: false, loading_type: "todayPanchang" }));
       closeLoder(dispatch)
     } else {
@@ -563,7 +394,7 @@ function TodaysPanchang() {
           <Loader />
         </>
       )}
-
+<Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>
         <CommonBanner
           // backgroundImage={PrivacyBanner}
@@ -655,18 +486,18 @@ function TodaysPanchang() {
         </div>
       </section>
 
-   
+
       <HomeFAQs
         text={t('FAQs')}
         highlightText={t('panchange')}
         subHeading={''}
       />
-
+</Suspense>
     </>
   )
 }
 
-export default TodaysPanchang
+export default memo(TodaysPanchang)
 
 
 

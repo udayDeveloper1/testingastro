@@ -1,21 +1,25 @@
-import { useEffect, useState } from 'react'
-import CommonBanner from '../../component/CommonBanner'
-import PriceCard from '../../component/Payment/PriceCard'
-// import walletScreen from '../../assets/img/banner/walletScreen.webp'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
+import { useEffect, useState, lazy, Suspense } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
+
+// Lazy-loaded components
+const PriceCard = lazy(() => import('../../component/Payment/PriceCard'));
+const Loader2 = lazy(() => import('../../component/loader/Loader2'));
+
+// API services
 import {
   listWalletOffer,
   paymentAstrologerOfferWallet
-} from '../../services/api/api.services'
-import { Codes } from '../../utils/CommonVariable'
-import { paymentScreenRedirection } from '../../utils/navigations/NavigationPage'
+} from '../../services/api/api.services';
 
-import Loader2 from '../../component/loader/Loader2'
-import { closeLoder, openLoader } from '../../utils/CommonFunction'
-import { UpdatedPaths } from '../../routers/Paths'
-import { useTranslation } from 'react-i18next'
-// import { PATHS } from '../../routers/Paths'
+// Utils and constants
+import { Codes } from '../../utils/CommonVariable';
+import { closeLoder, openLoader } from '../../utils/CommonFunction';
+import { paymentScreenRedirection } from '../../utils/navigations/NavigationPage';
+import { UpdatedPaths } from '../../routers/Paths';
+import CommonBanner from '../../component/CommonBanner';
+
 
 function MoneyWallet({ openInModel = false, handlePriceCardClick = () => { } }) {
   const navigate = useNavigate()
@@ -76,6 +80,7 @@ function MoneyWallet({ openInModel = false, handlePriceCardClick = () => { } }) 
           />
         </section>
       )}
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section
         className={`${!openInModel ? 'paddingBottom100' : ''
           } `}
@@ -159,6 +164,7 @@ function MoneyWallet({ openInModel = false, handlePriceCardClick = () => { } }) 
           )}
         </div>
       </section>
+      </Suspense>
     </>
   )
 }

@@ -12,16 +12,11 @@ import { closeLoder, formatTime, hasAtLeastOneResponseData, TOAST_ERROR } from "
 import { Codes, LanguageOption, TimeFormat } from "../../utils/CommonVariable";
 import { Constatnt } from "../../utils/Constent";
 import AshtakootTable from "../../component/kundali/AshtakootTable ";
-import KundliReport from "../../component/kundali/KundliReport";
-import HoroscopeGrid from "../../component/kundali/HoroscopeGrid";
-import KundaliDetails from "../../component/kundali/KundaliDetails";
-import CompatibilityScoreCard from "../../component/kundali/CompatibilityScoreCard";
 
-// const AshtakootTable = lazy(() => import("../../component/kundali/AshtakootTable"));
-// const CompatibilityScoreCard = lazy(() => import("../../component/kundali/CompatibilityScoreCard"));
-// const HoroscopeGrid = lazy(() => import("../../component/kundali/HoroscopeGrid"));
-// const KundaliDetails = lazy(() => import("../../component/kundali/KundaliDetails"));
-// const KundliReport = lazy(() => import("../../component/kundali/KundliReport"));
+const CompatibilityScoreCard = lazy(() => import("../../component/kundali/CompatibilityScoreCard"));
+const HoroscopeGrid = lazy(() => import("../../component/kundali/HoroscopeGrid"));
+const KundaliDetails = lazy(() => import("../../component/kundali/KundaliDetails"));
+const KundliReport = lazy(() => import("../../component/kundali/KundliReport"));
 
 
 function KundaliMatchingReport() {

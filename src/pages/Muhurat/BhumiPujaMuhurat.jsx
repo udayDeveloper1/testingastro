@@ -1,18 +1,18 @@
 import moment from 'moment';
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Lazy loaded components
 import { lazy } from 'react';
 
-const CommonBanner = lazy(() => import('../../component/CommonBanner'));
 const DynamicCard = lazy(() => import('../../component/Dynemic/DynamicCard'));
 const Loader = lazy(() => import('../../component/loader/Loader'));
 
 import { generateMuhuratBlogThunk } from '../../storemain/slice/MasterSlice';
 import { openLoader } from '../../utils/CommonFunction';
 import { Constatnt } from '../../utils/Constent';
+import CommonBanner from '../../component/CommonBanner';
 
 function BhumiPujaMuhurat() {
   const dispatch = useDispatch()
@@ -33,9 +33,9 @@ function BhumiPujaMuhurat() {
 
   return (
     <>
-      {loder?.is_loading && loder?.loding_type === 'bhoomi_muhrat' && (
+      <Suspense fallback={<></>}>    {loder?.is_loading && loder?.loding_type === 'bhoomi_muhrat' && (
         <Loader />
-      )}
+      )}</Suspense>
       <section>
         <CommonBanner
           // backgroundImage={bhumipujaMuhurat}
@@ -46,16 +46,17 @@ function BhumiPujaMuhurat() {
 
       <section>
         <div className='container mx-auto paddingTop100 paddingBottom100 flex flex-col gap-10'>
-          <DynamicCard
+          <Suspense fallback={<></>}>  <DynamicCard
             title={`${t(
               'significance_bhiimi_pujan'
             )} ${new Date().getFullYear()}`}
             introText=''
             data={muhratData}
             listStyle='decimal'
-          />
+          /></Suspense>
         </div>
       </section>
+
     </>
   )
 }
