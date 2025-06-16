@@ -49,12 +49,6 @@ function HomePage() {
   const homapageData = useSelector(state => state.HomePageSlice?.homapageList?.data || [])
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
 
-  const shouldShowLoader = useMemo(() => loader?.is_loading && loader?.loding_type === 'login', [loader])
-
-  if (shouldShowLoader) {
-    return <Loader />
-  }
-
   const request = useMemo(() => ({
     date: moment().format('DD/MM/YYYY'),
     time: moment().format('HH:mm'),
