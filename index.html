@@ -1,5 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+ 
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+  <title>ChatMyAstroLoger - Talk to Astrologers Online</title>
+  <meta name="description"
+    content="ChatMyAstrologer connects you with expert astrologers online for personalized readings. Get accurate predictions and guidance for your future." />
+  <meta name="keywords"
+    content="ChatMyAstrologer, astrology, astrologers, horoscope, zodiac, predictions, kundli, tarot reading, online astrologer" />
+  <meta name="author" content="ChatMyAstrologer" />
+  <meta name="theme-color" content="#E3725D" />
+ 
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.webp" />
+ 
+  <!-- Preload Key Images -->
+  <link rel="preload" as="image" href="/homepage/homeBackgroundImage.webp" type="image/webp" />
+  <link rel="preload" as="image" href="/assets/img/banner/homeBackgroundImage_mobile.webp" type="image/webp"
+    media="(max-width: 412px)" />
+ 
+  <!-- Preload Fonts -->
+  <link rel="preload" href="/font/Poppins-Black.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/font/Poppins-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/font/Poppins-ExtraBold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/font/Poppins-ExtraLight.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/font/Poppins-Light.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/font/Poppins-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/font/Poppins-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/font/Poppins-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+  <link rel="preload" href="/font/Poppins-Thin.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+ 
+  <!-- Initial Loader Style -->
+  <style>
+    .initialLoader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid;
+      border-color: #C32853 transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+      position: fixed;
+      z-index: -1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+ 
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+ 
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+ 
+<body>
+  <div class="initialLoader" id="initialLoader"></div>
+  <div id="root"></div>
+ 
+  <!-- React Entry -->
+  <script type="module" src="/src/main.jsx"></script>
+ 
+  <!-- Third-Party Scripts -->
+  <script>
+    requestIdleCallback(() => {
+      // Clarity
+      const clarity = document.createElement('script');
+      clarity.src = "https://www.clarity.ms/tag/rxnu4zm6aj";
+      clarity.async = true;
+      document.body.appendChild(clarity);
+    });
+ 
+    requestIdleCallback(() => {
+      // Google Tag Manager
+      const ga = document.createElement('script');
+      ga.src = "https://www.googletagmanager.com/gtag/js?id=G-6V1TW3XYFY";
+      ga.async = true;
+      document.body.appendChild(ga);
+ 
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-6V1TW3XYFY");
+    });
+ 
+    requestIdleCallback(() => {
+      // Firebase Analytics
+      import("https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js").then(({ initializeApp }) => {
+        import("https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js").then(({ getAnalytics }) => {
+          const firebaseConfig = {
+            apiKey: "AIzaSyBd_mTQ7hcb-ZpcgMVHvOED1eV98mpffE4",
+            authDomain: "chatmyastrologern.firebaseapp.com",
+            projectId: "chatmyastrologern",
+            storageBucket: "chatmyastrologern.appspot.com",
+            messagingSenderId: "288851431622",
+            appId: "1:288851431622:web:9a8f12695867dcb42f47c7",
+            measurementId: "G-QVC1CV2RZB",
+          };
+ 
+          const app = initializeApp(firebaseConfig);
+          getAnalytics(app);
+        });
+      });
+    });
+  </script>
+ 
+  <!-- Optional: GTM noscript fallback -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=G-6V1TW3XYFY" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+</body>
+ 
+</html>
+ 
+
+<!-- <!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -58,9 +186,7 @@
 <body>
   <div class="initialLoader" id="initialLoader"></div>
   <div id="root"></div>
-
   <script type="module" src="/src/main.jsx"></script>
-
   <script>
     requestIdleCallback(() => {
       const clarity = document.createElement('script');
@@ -98,8 +224,8 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
-  </script>
+  </script> 
 
 </body>
 
-</html>
+</html> -->

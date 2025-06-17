@@ -707,7 +707,9 @@
   flex-wrap: nowrap !important;
   gap: 20px;
 }
-
+.ant-table-wrapper .ant-table-cell, :where(.css-dev-only-do-not-override-vrrzze).ant-table-wrapper .ant-table-thead>tr>th{
+  padding: 16px 14px;
+}
 
 @media(max-width: 768px) {
   .report-custom-style .ant-tabs>.ant-tabs-nav .ant-tabs-nav-wrap {

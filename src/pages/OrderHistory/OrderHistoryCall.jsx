@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { lazy, Suspense, useLayoutEffect, useState } from 'react';
+import { lazy, memo, Suspense, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -12,15 +12,10 @@ const AstrologerChatCard = lazy(() => import('../../component/Transaction/Astrol
 const NoDataFound = lazy(() => import('../NoDataFound/NoDataFound'));
 
 // API services
-import {
-  getUserDetails,
-  orderHistoryChat
-} from '../../services/api/api.services';
+import { getUserDetails, orderHistoryChat } from '../../services/api/api.services';
 
 // Redux slices
-import {
-  setAstroDetails,
-} from '../../storemain/slice/astroLogerDetailsSlice';
+import { setAstroDetails, } from '../../storemain/slice/astroLogerDetailsSlice';
 import { setUserLoginData } from '../../storemain/slice/MasterSlice';
 
 // Constants & utility functions
@@ -127,50 +122,50 @@ function OrderHistoryCall() {
           <CommonBanner text={t('order_history')} />
         </div>
       </section>
-<Suspense fallback={<div className='min-h-[100vh]'></div>}>
-      <section>
-        <div className='container padding50 '>
-          {active === '0' ? (
-            <>
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-                {astrologers.map((astro, index) => (
-                  <AstrologerChatCard
-                    key={index}
-                    astro={astro}
-                    historyType='Call'
-                  />
-                ))}
-              </div>
-            </>
-          ) : active === '1' ? (
-            <>
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-                {astrologers.map((astro, index) => {
-                  return (
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
+        <section>
+          <div className='container padding50 '>
+            {active === '0' ? (
+              <>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                  {astrologers.map((astro, index) => (
                     <AstrologerChatCard
                       key={index}
                       astro={astro}
                       historyType='Call'
                     />
-                  )
-                })}
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
-          {loading && <Loader />}
-          {!loading && astrologers?.length === 0 && (
-            <>
-              <NoDataFound classList='pt-10' />
-            </>
-          )}
-        </div>
-      </section>
+                  ))}
+                </div>
+              </>
+            ) : active === '1' ? (
+              <>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                  {astrologers.map((astro, index) => {
+                    return (
+                      <AstrologerChatCard
+                        key={index}
+                        astro={astro}
+                        historyType='Call'
+                      />
+                    )
+                  })}
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+            {loading && <Loader />}
+            {!loading && astrologers?.length === 0 && (
+              <>
+                <NoDataFound classList='pt-10' />
+              </>
+            )}
+          </div>
+        </section>
       </Suspense>
     </>
   )
 }
 
-export default React.memo(OrderHistoryCall)
+export default memo(OrderHistoryCall)
 

@@ -158,7 +158,7 @@ const RahuKaalForm = ({
           <img
             src={close}
             alt="clear"
-            className="absolute top-1/2 right-[13px] md:right-4 -translate-y-1/2 cursor-pointer close_img_rahukaal"
+            className="absolute top-[85px] lg:top-1/2 right-[13px] md:right-4 -translate-y-1/2 cursor-pointer close_img_rahukaal"
             style={{ width: "16px", height: "16px" }}
             onClick={() => {
               onChange("");

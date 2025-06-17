@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, lazy, Suspense } from 'react';
+import React, { useCallback, useEffect, useState, lazy, Suspense, useMemo, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
@@ -23,13 +23,18 @@ import { setLoading, setUserLoginData } from '../../storemain/slice/MasterSlice'
 // Utils & constants
 import { closeLoder, openLoader, TOAST_SUCCESS } from '../../utils/CommonFunction';
 import { Constatnt } from '../../utils/Constent';
-import { LanguageOption } from '../../utils/CommonVariable';
+import { DateFormat, LanguageOption } from '../../utils/CommonVariable';
 import { KundliChartType } from '../../component/NewKundaliComp/KundliVariabls';
+import RahuKaalForm from '../../component/Kaal/RahuKaalForm';
 
 
 function TodaysPanchang() {
-  const [locationValue, setLocationValue] = useState('Mumbai') // State for the input value
+  const [locationValue, setLocationValue] = useState('Ahmedabad') // State for the input value
   const [selectedLocation, setSelectedLocation] = useState(null) // State for the selected location
+    const [selectedDate, setSelectedDate] = useState(moment().format(DateFormat?.DATE_DASH_FORMAT));
+  const [selectedDay, setSelectedDay] = useState('todays');
+  const locationData = useSelector(state => state.masterSlice?.location)
+  
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -38,7 +43,7 @@ function TodaysPanchang() {
   const myLanguage = useSelector(state => state?.masterSlice?.currentLanguage)
   const todayPanchangs = useSelector(
     state => state?.HomePageSlice?.todayPanchang?.data
-  )
+  )  
   const panchangeLagnaChart =
     useSelector(state => state?.HomePageSlice?.lagnaChart?.data) || {}
   const planetDataForTodayPanchang =
@@ -51,18 +56,16 @@ function TodaysPanchang() {
   const padZero = num => String(num).padStart(2, '0')
 
   // Format date as DD/MM/YYYY
-  const dob = `${padZero(now.getDate())}/${padZero(
-    now.getMonth() + 1
-  )}/${now.getFullYear()}`
+  const dob = moment(selectedDate).format(DateFormat?.DATE_SLASH_FORMAT)
 
   // Format time as HH:MM
   const tob = `${padZero(now.getHours())}:${padZero(now.getMinutes())}`
 
   const submitData = {
-    date: dob || moment().format('DD/MM/YYYY'),
+    date: dob,
     time: tob || moment().format('HH:mm'),
-    lat: selectedLocation?.coordinates?.[0] || '19.0760',
-    lon: selectedLocation?.coordinates?.[1] || '72.8777',
+    lat: selectedLocation?.coordinates?.[0] || '23.02579000',
+    lon: selectedLocation?.coordinates?.[1] || '72.58727000',
     tz: selectedLocation?.tz || '5.5',
     tzon: selectedLocation?.tzone[0],
     u_name: selectedLocation?.full_name,
@@ -81,14 +84,27 @@ function TodaysPanchang() {
   const submitDataForLagnaChart = {
     dob: moment().format('DD/MM/YYYY'),
     tob: moment().format('HH:mm'),
-    lat: selectedLocation?.coordinates?.[0] || '19.0760',
-    lon: selectedLocation?.coordinates?.[1] || '72.8777',
+    lat: selectedLocation?.coordinates?.[0] || '23.02579000',
+    lon: selectedLocation?.coordinates?.[1] || '72.58727000',
     tz: selectedLocation?.tz || '5.5',
     div: KundliChartType?.D1,
     lang: myLanguage ?? localStorage.getItem(Constatnt?.LANGUAGE_KEY),
     transit_date: moment().format("DD/MM/YYYY"),
     year: `${moment().year()}`,
   };
+
+
+  // const request = useMemo(() => ({
+  //     date: moment().format('DD/MM/YYYY'),
+  //     time: moment().format('HH:mm'),
+  //     lat: locationData?.coordinates?.[0] || '23.02579000',
+  //     lon: locationData?.coordinates?.[1] || '72.58727000',
+  //     tz: locationData?.tz || '5.5',
+  //     tzon: locationData?.tz || '5.5',
+  //     bop: locationData?.full_name || 'Ahmedabad',
+  //     u_name: '',
+  //     lang: LocalLanguage
+  //   }), [locationData, LocalLanguage])
 
   const fetchData = useCallback(() => {
     dispatch(setLoading({ is_loading: true, loading_type: 'todayPanchang' }))
@@ -315,6 +331,7 @@ function TodaysPanchang() {
 
   // Handle selection of location
   const handleSelectLocation = location => {
+    
     setSelectedLocation(location)
   }
 
@@ -337,7 +354,7 @@ function TodaysPanchang() {
     if (isValidLocation(selectedLocation)) {
       openLoader(dispatch, 'panchang_loader')
       const submitData = {
-        date: moment().format('DD/MM/YYYY'),
+        date: dob,
         time: moment().format('HH:mm'),
         lat: selectedLocation?.coordinates?.[0] || '',
         lon: selectedLocation?.coordinates?.[1] || '',
@@ -406,7 +423,7 @@ function TodaysPanchang() {
       <section>
         <div className="container mx-auto paddingTop100 flex flex-col gap-12">
           <div>
-            <GeoSearchInput
+            {/* <GeoSearchInput
               value={locationValue} // Bind the value to the state
               onChange={handleChange} // Pass the handler for input change
               onSelectLocation={handleSelectLocation} // Handle location selection
@@ -414,13 +431,34 @@ function TodaysPanchang() {
               showClear={true} // Show clear button if needed
               showButton={true} // Show GET PANCHANG button
               onSubmit={handleSubmit} // Handle submit
-            />
+            /> */}
+             <RahuKaalForm
+            showClear={true} // Show clear button if needed
+            showButton={true} // Show GET PANCHANG button
+            showDate={true}
+            value={locationValue} // Bind the value to the state
+            onChange={handleChange} // Pass the handler for input change
+            onSelectLocation={handleSelectLocation} // Handle location selection
+            placeholder={t('enter_city_name')}
+            onSubmit={handleSubmit}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            selectedDay={selectedDay}
+            locationData={locationData}
+            form_button_text={t('Get_PANCHANG')}
+          />
           </div>
           <TodayPanchangCard
             todayPanchangcardData={todayPanchangs?.response}
             todayRequest={todayPanchangs?.request}
             location={selectedLocation}
           />
+        </div>
+      </section>
+
+      <section>
+        <div className="container mx-auto paddingTop100">
+         
         </div>
       </section>
       <section>

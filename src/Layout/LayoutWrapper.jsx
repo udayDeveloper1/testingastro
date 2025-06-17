@@ -1,11 +1,12 @@
 // components/LayoutWrapper.jsx
-import  React ,{ useRef, useEffect, lazy } from 'react';
+import React, { useRef, useEffect, lazy } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { setPageScroll } from '../storemain/slice/MasterSlice';
 import SEO from '../SEO';
 import { Outlet } from 'react-router-dom';
 const Footer = lazy(() => import('./Footer'))
+
 const LayoutWrapper = ({ children, showFooter = true }) => {
   const scrolltoTopRef = useRef();
   const location = useLocation();
@@ -21,7 +22,7 @@ const LayoutWrapper = ({ children, showFooter = true }) => {
     }
   }, [location?.pathname, pageScroll]);
 
-
+  
   return (
     <div ref={scrolltoTopRef}>
       <SEO />

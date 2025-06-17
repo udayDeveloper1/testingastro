@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState, lazy, Suspense, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Lazy-loaded components
@@ -54,4 +54,4 @@ function PrivacyPolicy() {
   )
 }
 
-export default React.memo(PrivacyPolicy)
+export default memo(PrivacyPolicy)

@@ -30,15 +30,13 @@ function CommonBanner({ backgroundImage = '', text, highlight }) {
   }, [])
 
   return (
-    <div
-      className='w-full customBanner min-h-[100px] flex items-center justify-center '
+    <div className='w-full customBanner min-h-[100px] flex items-center justify-center '
       style={{
         backgroundImage: `url(${commonBanner})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
     >
-
       <div className='container h-full flex items-center justify-center'>
         <h2 className='newBannerH2 justify-center flex mb-0 new_body_color text-center '>
           {text} {highlight} <span className='commonBannerSpan'></span>

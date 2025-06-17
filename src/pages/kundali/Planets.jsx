@@ -11,7 +11,7 @@ const Planets = ({ allKundliDetails }) => {
   return (
     <>
       <section>
-        <div className=" paddingTop50">
+        <div className="paddingTop50">
           <PlanetsDetail planetDetails={planetDetails} />
         </div>
       </section>

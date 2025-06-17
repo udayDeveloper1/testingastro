@@ -95,7 +95,7 @@ function DashaVishontariCompo({ mahaDasha, antarDasha }) {
   return (
     <DataWrapper data={mahaDasha} undefine={undefine || !hasAnyData}>
       <div className="flex flex-col gap-[24px]">
-        <div className="sm:border commonLightBorder  rounded-[10px] sm:p-[15px] md:p-[30px] ">
+        <div className="commonCardBorderKundali commonLightBorder  rounded-[10px] sm:p-[15px] md:p-[30px] ">
           <Card
             className="rounded-[10px] overflow-hidden col-span-2 mb-5"
             bodyStyle={{ padding: 0 }}

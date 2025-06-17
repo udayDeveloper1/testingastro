@@ -125,71 +125,9 @@ export const BASE_PATHS = {
   ASTRO_MALL: '/astro-mall',
   ABOUT_US: '/about-us',
   CHOGADIYA:'/choghadiya',
+  ANDROID_PRIVACY_POLICY: '/privacypolicy',
   NOT_FOUND: '*',
 };
-
-// export const PATHS_LANGUAGE = {
-//   HOMEPAGE: '/:lang/',
-//   TALKWITHASTROLOGER: '/:lang/talkWithAstrologer',
-//   CHATWITHASTROLOGERS: '/:lang/chatWithAstrologer',
-//   FREEKUNDALI: '/:lang/freeKundli',
-//   KUNDALI_MATCHING: '/:lang/kundaliMatching',
-//   KUNDALI_MATCHING_REPORT: '/:lang/kundaliMatchingReport',
-//   HOROSCOPE: '/:lang/todaysHoroscope',
-//   YEARLY_SINGLE: '/:lang/horoscope-details-yearly',
-//   YEARLY_SINGLE_HOROSCOPE: '/:lang/horoscope-details-yearly/:type/:name/:id',
-//   YEARLY_HOROSCOPE: '/:lang/horoscope-yearly',
-//   TODAYS_SINGLE: '/:lang/horoscope-details-daily',
-//   TODAYS_SINGLE_HOROSCOPE: '/:lang/horoscope-details-daily/:type/:name/:id',
-//   WEEKLY_SINGLE: '/:lang/horoscope-details-weekly',
-//   WEEKLY_SINGLE_HOROSCOPE: '/:lang/horoscope-details-weekly/:type/:name/:id',
-//   WEEKLY_HOROSCOPE: '/:lang/horoscope-weekly',
-//   ALL_HOROSCOPE: '/:lang/horoscope/:type',
-//   ALL_HOROSCOPE_DETAILS: '/:lang/horoscope-details/:type/:name',
-//   COMPATABILITY: '/:lang/compatibility',
-//   PHONE_AUTH_MODALS: '/:lang/phoneAuthModals',
-//   FESTIVAL_CALENDER: '/:lang/festivalCalender',
-//   GOLD_BUYING_MUHURAT: '/:lang/goldBuyingMuhurat',
-//   MARRIAGE_MUHURAT: '/:lang/marrigeMuhurat',
-//   BHUMIPUJA_MUHURAT: '/:lang/bhumipujaMuhurat',
-//   NAMKARAN_MUHURAT: '/:lang/namkaranMuhurat',
-//   CARBIKE_MUHURAT: '/:lang/carBikeMuhurat',
-//   OUR_ASTROLOGER: '/:lang/ourAstrologer',
-//   ASTROLOGER_DETAIL_PAGE: '/:lang/astrologerDetailPage/:id',
-//   FREEKUNDALI_DETAILS: '/:lang/kundli-details/:tab',
-//   FREE_KUNDLI_KUNDLI_DETAILS_BASIC: '/:lang/freeKundliKundliDetailsBasic',
-//   FREE_KUNDALI_DETAILS_KP: '/:lang/freeKundaliDetailsKp',
-//   FREE_KUNDLI_KUNDLI_DETAILS_CHARTS: '/:lang/freeKundliKundliDetailsCharts',
-//   FREE_KUNDLIKUNDLI_DETAILS_ASHTAKVARGA:
-//     '/:lang/freeKundliKundliDetailsAshtakvarga',
-//   FREE_KUNDLIKUNDLI_DETAILS_DASHA_VIMSHOTTARI:
-//     '/:lang/FreeKundliKundliDetailsDashaVimshottari',
-//   FREE_KUNDALI_DETAILS_DASHA_VIMSHOTTARI_CONTENT:
-//     '/:lang/freeKundaliDetailsDashaVimshottariContent',
-//   FREE_KUNDALI_REPORT: '/:lang/freeKundaliReport',
-//   BLOG: '/:lang/blog',
-//   BLOG_DETAILS: '/:lang/blogDetails',
-//   BLOG_SINGLE_PAGE: '/:lang/blogDetails/:blogId',
-//   TRANSACTION_WALLET: '/:lang/transactionWallet',
-//   ORDER_HISTORY_CALL: '/:lang/orderHistorycall',
-//   SUPPORT_CHAT: '/:lang/supportChat',
-//   PROFILE_SETTING: '/:lang/profileSetting',
-//   PRIVACY_POLICY: '/:lang/privacyPolicy',
-//   TERMS_CONDITIONS: '/:lang/termsConditions',
-//   CHAT_SCREEN: '/:lang/chat',
-//   CHAT_ID: '/:lang/chat/:chatAstroId',
-//   TODAYS_PANCHANGAM: '/:lang/todaysPanchang',
-//   PAYMENT_SCREEN: '/:lang/paymentScreen/:id',
-//   MONEY_WALLET: '/:lang/moneyWallet',
-//   PREDICTION: '/:lang/kundali_prediction',
-//   GENERAL_PREDICTION: '/:lang/general_prediction',
-//   ABOUT_US: '/:lang/AboutUs',
-//   CONTACT_US: '/:lang/contactUs',
-//   RAHU_KAAL: '/:lang/rahuKaal',
-//   BOOK_POOJA: '/:lang/bookPooja',
-//   BOOK_POOJA_LIST: '/:lang/bookPoojaList',
-//   // ABOUT_US:"/:lang/aboutus"
-// }
 
 export const PATHS_LANGUAGE = {
   HOMEPAGE: '/:lang/',
@@ -252,7 +190,6 @@ export const PATHS_LANGUAGE = {
   BOOK_POOJA_LIST: '/:lang/book-pooja-list',
   ASTRO_MALL: '/:lang/astro-mall',
   CHOGADIYA:'/:lang/choghadiya',
-
   // ABOUT_US: '/:lang/about-us'
 }
 

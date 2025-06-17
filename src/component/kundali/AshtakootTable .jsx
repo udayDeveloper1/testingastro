@@ -48,6 +48,8 @@ const AshtakootTable = ({ AshtakootData }) => {
     {
       title: t('out_of'),
       dataIndex: "outOf",
+      width: '120px',
+
       key: "outOf",
     },
     {

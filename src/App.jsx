@@ -1,5 +1,5 @@
 
-import { lazy, memo, Suspense, useMemo } from 'react'
+import { lazy, memo, Suspense, useEffect, useMemo } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import './assets/css/antdCss.css'
@@ -16,6 +16,12 @@ function App() {
   const publicRoutes = useMemo(() => PathRedirection.filter(r => r.auth === false), [])
   const noLayoutRoutes = useMemo(() => PathRedirection.filter(r => r.auth === undefined), [])
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      document.getElementById('initialLoader')?.remove()
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [])
   return (<>
     <BrowserRouter>
       <Suspense fallback={null}>
@@ -33,6 +39,7 @@ function App() {
               )}
             </Route>
           )}
+
           {publicRoutes.length > 0 && (
             <Route element={<PublicLayout />}>
               {publicRoutes.map(({ path, element }, index) =>
@@ -45,7 +52,8 @@ function App() {
         </Route>
 
         {noLayoutRoutes.length > 0 && (
-          <Route element={<WithoutHeaderFooter />}> {noLayoutRoutes?.map(({ path, element }, index) => path && element ? (<Route key={path} path={path} element={element} />) : null)} </Route>
+          <Route element={<WithoutHeaderFooter />}>
+            {noLayoutRoutes?.map(({ path, element }, index) => path && element ? (<Route key={path} path={path} element={element} />) : null)} </Route>
         )}
 
       </Routes>

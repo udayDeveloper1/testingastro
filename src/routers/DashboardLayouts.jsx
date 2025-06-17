@@ -81,6 +81,7 @@ const LayoutWrapper = lazy(() => import('../Layout/LayoutWrapper'))
 
 //   return () => clearTimeout(timer)
 // }, [])
+
 //   return (
 //     <div className={pageScroll.is_scroll ? 'isScroll' : ''} ref={scrollRef}>
 //       <NavBar />
@@ -132,12 +133,7 @@ export const RootLayout = () => {
     }
   }, [location, navigationType])
 
-  useEffect(() => {
-    // const timer = setTimeout(() => {
-      document.getElementById('initialLoader')?.remove()
-    // }, 100)
-    return () => clearTimeout(timer)
-  }, [])
+
 
   return (
     <div className={pageScroll.is_scroll ? 'isScroll' : ''} ref={scrollRef}>
@@ -155,7 +151,6 @@ export const RootLayout = () => {
   )
 }
 
-
 export const DashboardLayout = React.memo(() => {
   const navigate = useNavigate()
 
@@ -171,6 +166,6 @@ export const DashboardLayout = React.memo(() => {
 
 export const PublicLayout = () => <Outlet />
 
-export const WithoutHeaderFooter = React.memo(({ children }) => (
-  <LayoutWrapper showFooter={false}>{children}</LayoutWrapper>
-))
+export const WithoutHeaderFooter = React.memo(({ children }) => {
+  return <LayoutWrapper showFooter={false}>{children}</LayoutWrapper>;
+});

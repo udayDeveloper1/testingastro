@@ -193,3 +193,10 @@
         padding-bottom: 70px !important;
     }
 }
+
+@media(min-width: 1536px){
+  .homepage_astroList_part > div > div:nth-child(5), .homepage_astroList_part > div > div:nth-child(6), .homepage_blogList_part > .testimonial > div > div:nth-child(5), .homepage_blogList_part > .testimonial > div > div:nth-child(6){
+      display: none;
+  }
+  
+}

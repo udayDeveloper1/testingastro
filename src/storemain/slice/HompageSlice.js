@@ -41,6 +41,7 @@ export const getTodaysPanchangAPi = createAsyncThunk(
   'PanchangApi',
   async ({ submitData }, { dispatch }) => {
     try {
+      
       // dispatch(setLoading({ is_loading: true, loding_type: 'homepage' }))
       const { data, code, message } = await todaysPanchang(submitData)
       // dispatch(setLoading({ is_loading: false, loding_type: 'homepage' }))

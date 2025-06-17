@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 // import namkaranBanner from "../../assets/img/banner/namkaranBanner.webp";
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';

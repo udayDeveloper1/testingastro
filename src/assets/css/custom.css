@@ -232,7 +232,7 @@ h2 {
     border: unset;
   }
   .commonCardBorderKundali {
-    border: unset;
+    border: unset !important;
   }
 }
 

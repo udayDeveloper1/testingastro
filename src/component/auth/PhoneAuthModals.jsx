@@ -202,7 +202,6 @@ const PhoneAuthModal = memo(({ isPhoneModalOpen, issetIsModalOpen }) => {
       login(requestBody).then(response => {
         if (response?.code === Codes?.SUCCESS) {
           loginRedirection(response?.data)
-          // TOAST_SUCCESS(response.message)
           setOTPMatch('')
           setOtp(['', '', '', ''])
           setIsOtpOpen(false)

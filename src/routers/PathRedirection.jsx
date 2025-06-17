@@ -5,7 +5,7 @@ import { Components } from './componentRegistry'
 
 export const PathRedirection = [
   { auth: false, path: BASE_PATHS.HOMEPAGE, element: <Components.HomePage /> },
-    { auth: false, path: PATHS_LANGUAGE.HOMEPAGE, element: <Components.HomePage /> },
+  { auth: false, path: PATHS_LANGUAGE.HOMEPAGE, element: <Components.HomePage /> },
   { auth: false, path: BASE_PATHS.TALKWITHASTROLOGER, element: <Components.TalkWithAstrologer /> },
   { auth: false, path: BASE_PATHS.CHATWITHASTROLOGERS, element: <Components.ChatWithAstrologer /> },
   { auth: false, path: BASE_PATHS.FREEKUNDALI, element: <Components.FreeKundali /> },
@@ -24,7 +24,7 @@ export const PathRedirection = [
   { auth: false, path: BASE_PATHS.ASTROLOGER_DETAIL_PAGE, element: <Components.AstrologerDetailPage /> },
   { auth: true, path: BASE_PATHS.PROFILE_SETTING, element: <Components.ProfileSetting /> },
   { auth: false, path: BASE_PATHS.PRIVACY_POLICY, element: <Components.PrivacyPolicy /> },
-  { auth: false, path: BASE_PATHS.APP_PRIVACY_POLICY, element: <Components.PrivacyPolicy /> },
+  { auth: undefined, path: BASE_PATHS.APP_PRIVACY_POLICY, element: <Components.AndroidPrivacyPolicy /> },
   { auth: false, path: BASE_PATHS.TERMS_CONDITIONS, element: <Components.TermsAndCondition /> },
   { auth: false, path: BASE_PATHS.PAYMENT_SCREEN, element: <Components.PaymentDetails /> },
   { auth: false, path: BASE_PATHS.WEEKLY_HOROSCOPE, element: <Components.TodaysHoroscope /> },
@@ -84,7 +84,7 @@ export const PathRedirection = [
   { auth: false, path: PATHS_LANGUAGE.ASTROLOGER_DETAIL_PAGE, element: <Components.AstrologerDetailPage /> },
   { auth: true, path: PATHS_LANGUAGE.PROFILE_SETTING, element: <Components.ProfileSetting /> },
   { auth: false, path: PATHS_LANGUAGE.PRIVACY_POLICY, element: <Components.PrivacyPolicy /> },
-  { auth: false, path: PATHS_LANGUAGE.APP_PRIVACY_POLICY, element: <Components.PrivacyPolicy /> },
+  { auth: false, path: PATHS_LANGUAGE.APP_PRIVACY_POLICY, element: <Components.AndroidPrivacyPolicy /> },
   { auth: false, path: PATHS_LANGUAGE.TERMS_CONDITIONS, element: <Components.TermsAndCondition /> },
   { auth: false, path: PATHS_LANGUAGE.PAYMENT_SCREEN, element: <Components.PaymentDetails /> },
   { auth: false, path: PATHS_LANGUAGE.WEEKLY_HOROSCOPE, element: <Components.TodaysHoroscope /> },
@@ -122,5 +122,5 @@ export const PathRedirection = [
   { auth: false, path: PATHS_LANGUAGE.ABOUT_US, element: <Components.Aboutus /> },
   { auth: false, path: PATHS_LANGUAGE.ASTRO_MALL, element: <Components.ComingSoon /> },
   { auth: false, path: PATHS_LANGUAGE.CHOGADIYA, element: <Components.Chogadiya /> },
-
+  { auth: undefined, path: PATHS_LANGUAGE.APP_PRIVACY_POLICY, element: <Components.AndroidPrivacyPolicy /> },
 ]

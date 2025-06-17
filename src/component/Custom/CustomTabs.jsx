@@ -186,7 +186,6 @@ const CustomTabs = () => {
         moonChart,
         planetRes,
         ashtakvarga,
-        remedies,
         mahaDasha,
         charDashaMain,
         yoginiDashaSub,
@@ -212,7 +211,6 @@ const CustomTabs = () => {
         getPlanetsDetailsTh(updatedRequest),
         getAshtakvargaTh(updatedRequest),
 
-        getRemedies({ ...updatedRequest, place: data?.bop, type: "", nakshatra: "", name: data?.u_name }),
 
         getMahaDashaTh(updatedRequest),
         getCharDashaMainTh(updatedRequest),
@@ -240,7 +238,6 @@ const CustomTabs = () => {
       if (moonChart?.code === Codes.SUCCESS) handleSuccess("moonChart", moonChart.data?.response);
       if (planetRes?.code === Codes.SUCCESS) handleSuccess("planetDetails", planetRes.data?.response);
       if (ashtakvarga?.code === Codes.SUCCESS) handleSuccess("ashtakvarga", ashtakvarga.data?.response);
-      if (remedies?.code === Codes.SUCCESS) handleSuccess("remedies", remedies.data);
       if (mahaDasha?.code === Codes.SUCCESS) handleSuccess("mahaDasha", mahaDasha.data?.response);
       if (charDashaMain?.code === Codes.SUCCESS) handleSuccess("charDashaMain", charDashaMain.data?.response);
       if (yoginiDashaSub?.code === Codes.SUCCESS) handleSuccess("yoginiDashaSub", yoginiDashaSub.data?.response);
@@ -255,13 +252,17 @@ const CustomTabs = () => {
       if (friendShip?.code === Codes.SUCCESS) handleSuccess("friendShip", friendShip.data?.response);
       if (sadeSati?.code === Codes.SUCCESS) handleSuccess("sadeSati", sadeSati.data?.response);
 
+      // if (remedies?.code === Codes.SUCCESS) handleSuccess("remedies", remedies.data);
       // ⚡ Prediction calls already in parallel as you wrote:
-      const [kundliPredicationDaily, kundliPredicationMonthly, kundliPredicationLife] = await Promise.all([
+
+      const [remedies, kundliPredicationDaily, kundliPredicationMonthly, kundliPredicationLife] = await Promise.all([
+        getRemedies({ ...updatedRequest, place: data?.bop, type: "", nakshatra: "", name: data?.u_name }),
         kundliPredication({ ...updatedRequest, name: data?.u_name, type: "daily" }),
         kundliPredication({ ...updatedRequest, name: data?.u_name, type: "monthly" }),
         kundliPredication({ ...updatedRequest, name: data?.u_name, type: "life" }),
       ]);
 
+      if (remedies?.code === Codes.SUCCESS) handleSuccess("remedies", remedies.data);
       setPredicationApi({
         kundliPredication: {
           daily: kundliPredicationDaily?.code === Codes.SUCCESS ? kundliPredicationDaily?.data || "" : "",
@@ -383,6 +384,7 @@ const CustomTabs = () => {
               size="large"
             />
           )}
+
         </div>
       </div>
 

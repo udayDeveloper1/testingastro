@@ -6,7 +6,7 @@ import { SEOTITLE } from './utils/CommonFunction'
 import React from 'react'
 // import { PATHS } from './routers/Paths'
 
- const SEO = () => {
+const SEO = () => {
   const location = useLocation()
   const PATHS = UpdatedPaths()
   const currentLang = localStorage.getItem(Constatnt.LANGUAGE_KEY) || LanguageOption.ENGLISH

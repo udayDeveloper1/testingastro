@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, Suspense } from 'react'
 import noDataFound from '../../assets/img/noDataFound/No_Data_Found.webp'
 const NoDataFound = ({ classList = "" }) => {
   return (

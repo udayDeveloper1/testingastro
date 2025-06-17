@@ -1027,7 +1027,6 @@ h2 {
       fill: #d8524e;
 }
 
-.Toastify__progress-bar--success{
   background: linear-gradient(90deg, #C32853 0%, #EE7E49 100%);
 } */
 
@@ -1035,7 +1034,7 @@ h2 {
 
 @media (min-width: 413px) {
   .footerBackground {
-    background: url('/banner/footerBg.svg') no-repeat;
+    background: url('/banner/footerBg.webp') no-repeat;
       background-size: cover;
         background-position: center;
   }
@@ -2609,7 +2608,7 @@ body:has(.isScroll) {
   height: 49px;
   width: 1px;
   top: 0;
-  left: 0;
+  left: -12px;
   position: absolute;
   border: none;
   background: var(--website-gradient-back);
@@ -2620,7 +2619,7 @@ body:has(.isScroll) {
   height: 49px;
   width: 1px;
   top: 0;
-  right: 0;
+  right: -12px;
   position: absolute;
   border: none;
   background: var(--website-gradient-back);

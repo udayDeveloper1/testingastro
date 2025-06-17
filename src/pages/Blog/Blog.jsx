@@ -8,6 +8,7 @@ import { Constatnt } from '../../utils/Constent'
 import useDebounce from '../hooks/useDebounce'
 import CommonBanner from '../../component/CommonBanner'
 
+
 const HomeBlog = lazy(() => import('../../component/Homepage/HomeBlog'));
 const CustomPagination = lazy(() => import('../../component/Pagination/CustomPagination'));
 const Loader2 = lazy(() => import('../../component/loader/Loader2'));
@@ -19,7 +20,7 @@ function Blog() {
   const blogListData = useSelector(state => state?.masterSlice?.blogListData)
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [perPage, setParPage] = useState(Constatnt?.PER_PAGE_DATA)
+  const [perPage, setParPage] = useState(9)
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
   // useEffect(() => {
   //   dispatch(getHomePageListing())

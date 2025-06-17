@@ -75,6 +75,7 @@ export const getGeoSearchLoaction = createAsyncThunk(
             // dispatch(setLoading({ is_loading: true, loding_type: 'homepage' }))
             const { data } = await geo_search(submitData);
             // dispatch(setLoading({ is_loading: false, loding_type: 'homepage' }))
+            
             return data.response[0];
         } catch (error) {
             throw error;

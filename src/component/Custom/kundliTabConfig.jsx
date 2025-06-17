@@ -127,8 +127,7 @@ export const kundliTabConfig = [
     label: "Basic",
     bannerText: "basic_kundli",
     bannerHighlight: "",
-    element:
-      <FreeKundliKundliDetailsBasic />,
+    element: <FreeKundliKundliDetailsBasic />,
     highlightClass: ""
   },
   {
@@ -136,8 +135,7 @@ export const kundliTabConfig = [
     label: "Charts",
     bannerText: "charts",
     bannerHighlight: "",
-    element:
-      <FreeKundliKundliDetailsCharts />,
+    element: <FreeKundliKundliDetailsCharts />,
     highlightClass: ""
   },
   {
@@ -145,8 +143,7 @@ export const kundliTabConfig = [
     label: "Prediction",
     bannerText: "prediction",
     bannerHighlight: "",
-    element:
-      <Prediction />,
+    element: <Prediction />,
     highlightClass: "highlight_Tab"
   },
   // {
@@ -164,8 +161,7 @@ export const kundliTabConfig = [
     label: "Ramedies",
     bannerText: "remedies",
     bannerHighlight: "",
-    element:
-      <Remedies />,
+    element: <Remedies />,
     highlightClass: "highlight_Tab"
   },
   {
@@ -173,8 +169,7 @@ export const kundliTabConfig = [
     label: "Planets",
     bannerText: "planets",
     bannerHighlight: "",
-    element:
-      <Planets />,
+    element: <Planets />,
     highlightClass: ""
   },
   {
@@ -182,8 +177,7 @@ export const kundliTabConfig = [
     label: "Others",
     bannerText: "others",
     bannerHighlight: "",
-    element:
-      <OthersDetail />,
+    element: <OthersDetail />,
     highlightClass: ""
   },
   {
@@ -191,8 +185,7 @@ export const kundliTabConfig = [
     label: "Mahadasha Prediction",
     bannerText: "mahadasha_fal",
     bannerHighlight: "",
-    element:
-      <MahadashaFal />,
+    element: <MahadashaFal />,
     highlightClass: ""
   },
   {
@@ -200,8 +193,7 @@ export const kundliTabConfig = [
     label: "Vishontari dasha",
     bannerText: "vishontari_dasha",
     bannerHighlight: "",
-    element:
-      <DashaVishontari />,
+    element: <DashaVishontari />,
     highlightClass: ""
 
   },

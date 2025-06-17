@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 
 import moment from 'moment'
+// import 'slick-carousel/slick/slick-theme.css'
+// import 'slick-carousel/slick/slick.css'
 import '../assets/css/homepage.css'
 import '../assets/css/newHomePage.css'
-
+import backImg from '/homepage/homeBackgroundImage.webp'
+import backImgMobile from '/homepage/homeBackgroundImage_mobile.webp'
 import {
   getDashboardCount,
   getDashboardPanchang,
@@ -28,6 +31,9 @@ import useObserver from './hooks/useObserver'
 const ChatWithAstrologerCard = lazy(() => import('../component/CommonChatTalkAstrologerCard'))
 const HoroscopeGrid = lazy(() => import('../component/kundali/HoroscopeGrid'))
 const TodaysPanchangHomePage = lazy(() => import('../component/panchang/TodaysPanchangHomePage'))
+
+// const TestimonialSlider = lazy(() => import('../component/TestimonialSlider/TestimonialSlider'))
+
 const CustomButton = lazy(() => import('../component/Homepage/CustomButton'))
 const HomeBlog = lazy(() => import('../component/Homepage/HomeBlog'))
 const HomeFAQs = lazy(() => import('../component/Homepage/HomeFAQs'))
@@ -48,6 +54,14 @@ function HomePage() {
   const dashboardCount = useSelector(state => state?.masterSlice?.dashboardCount)
   const homapageData = useSelector(state => state.HomePageSlice?.homapageList?.data || [])
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
+  // const [shouldLoadAfterScroll, setShouldLoadAfterScroll] = useState(false)
+  // const observerRef = useRef(null)
+
+  const shouldShowLoader = useMemo(() => loader?.is_loading && loader?.loding_type === 'login', [loader])
+
+  if (shouldShowLoader) {
+    return <Loader />
+  }
 
   const request = useMemo(() => ({
     date: moment().format('DD/MM/YYYY'),
@@ -69,7 +83,17 @@ function HomePage() {
     const isLanguageChanged = parsedData?.request?.lang !== LocalLanguage
     if (isValidLocation) {
       if (isDataMissing || isLanguageChanged) {
-      
+        // let request = {
+        //   date: moment().format('DD/MM/YYYY'),
+        //   time: moment().format('HH:mm'),
+        //   lat: locationData?.coordinates?.[0] || '19.0760',
+        //   lon: locationData?.coordinates?.[1] || '72.8777',
+        //   tz: locationData?.tz || '5.5',
+        //   tzon: locationData?.tz || '5.5',
+        //   bop: locationData?.full_name || 'Mumbai',
+        //   u_name: '',
+        //   lang: LocalLanguage
+        // }
         dispatch(getDashboardPanchang(request))
       } else {
         dispatch(setPanchangDetails(parsedData))
@@ -85,8 +109,8 @@ function HomePage() {
     // }
   }, [t])
 
-  const slicedAstrologerList = useMemo(() => homapageData?.AstrologerList?.slice(0, 4), [homapageData, t])
-  const slicedBlogList = useMemo(() => homapageData?.BlogList?.slice(0, 4), [homapageData, t])
+  const slicedAstrologerList = useMemo(() => homapageData?.AstrologerList?.slice(0, 6), [homapageData, t])
+  const slicedBlogList = useMemo(() => homapageData?.BlogList?.slice(0, 6), [homapageData, t])
 
   const cardData = useMemo(
     () => [
@@ -117,6 +141,7 @@ function HomePage() {
   return (
     <>
       <HeroSection
+        backImg={screenCategory === '412-or-below' ? backImgMobile : backImg}
         cardData={cardData}
         navigate={navigate}
         // observerRefss={observerRef}
@@ -174,7 +199,7 @@ function HomePage() {
               </p>
             </div>
 
-            <div className=''>
+            <div className='homepage_astroList_part'>
               {/* <OurAstrologer AstrologerList={homapageData?.AstrologerList} /> */}
               <ChatWithAstrologerCard
                 // astrologersList={homapageData?.AstrologerList?.slice(0, 4)}
@@ -207,7 +232,9 @@ function HomePage() {
                 {t('lorem_quis_bibendum_auctor')}
               </p>
             </div>
-            <HomeBlog BlogList={slicedBlogList} />
+            <div className='homepage_blogList_part'>
+              <HomeBlog BlogList={slicedBlogList} />
+            </div>
           </div>
         </section>
 
@@ -236,7 +263,7 @@ function HomePage() {
           highlightText={t('Astrology')}
         />
       </>}
-      
+
     </>
   )
 }

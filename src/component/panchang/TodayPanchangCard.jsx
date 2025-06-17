@@ -20,6 +20,7 @@ const TodayPanchangCard = ({ todayPanchangcardData, location, todayRequest }) =>
     formattedDate = `${weekday} ${day} ${month}, ${year}`;
   }
 
+  
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 ">
       {/* Today's Panchang */}

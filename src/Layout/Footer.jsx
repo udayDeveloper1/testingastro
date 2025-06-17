@@ -215,7 +215,7 @@ function Footer() {
             href={href}
             target='_blank'
             rel='noopener noreferrer'
-            className='w-10 h-10 flex items-center justify-center rounded-full transition'
+            className='w-10 h-10 min-w-10 min-h-10 flex items-center justify-center rounded-full transition'
           >
             <img
               src={icon}
@@ -246,7 +246,7 @@ function Footer() {
           {t('footer_text')}
         </p>
 
-        <div className='flex justify-center md:justify-start space-x-3 md:mt-[20px]'>
+        <div className='flex justify-center md:justify-start space-x-3 md:mt-[20px] flex-wrap gap-y-3'>
           {socialIcons}
           <a
             key={"thread"}
@@ -255,7 +255,7 @@ function Footer() {
             rel='noopener noreferrer'
             className='w-10 h-10 flex items-center justify-center rounded-full transition'
           >
-            <div className='footer_socilaIcon_border'>
+            <div className='footer_socilaIcon_border min-w-10 min-h-10'>
               <BsThreads className="footer_social_icon " />
             </div></a>
           <a
@@ -265,7 +265,7 @@ function Footer() {
             rel='noopener noreferrer'
             className='w-10 h-10 flex items-center justify-center rounded-full transition'
           >
-            <div className='footer_socilaIcon_border'>
+            <div className='footer_socilaIcon_border min-w-10 min-h-10' >
               <FaWhatsapp className="footer_social_icon " />
             </div></a>
         </div>
@@ -286,76 +286,6 @@ function Footer() {
             {/* Main Flex Container */}
             <div className='grid grid-cols-4 gap-6 md:gap-8'>
               {/* Left Section */}
-              {/* <div className='col-span-4 md:col-span-1 flex flex-col  text-center md:text-left gap-[15px]'>
-                <img
-                  src={footerLogo}
-                  alt='Footer Logo'
-                  className='mx-auto md:mx-0  !mb-0 lg:!mb-[0]'
-                  width={221}
-                  height={67}
-                  decoding='async'
-                  loading='lazy'
-                />
-                <p className='commonQuesP mb-[20px] md:mb-[35px] lg:mb-[45px] '>
-                  {t('footer_text')}
-                </p>
-
-                <div className='flex justify-center md:justify-start space-x-3 md:mt-[20px]'>
-                  <a
-                    href='https://facebook.com'
-                    className='w-10 h-10 flex items-center justify-center rounded-full transition new_body_font'
-                  >
-       
-                    <img
-                      src={facebookIcon}
-                      alt='facebook'
-                      width={40}
-                      height={41}
-                      decoding='async'
-                      loading='lazy'
-                    />
-                  </a>
-                  <a
-                    href='https://instagram.com'
-                    className='w-10 h-10 flex items-center justify-center rounded-full transition'
-                  >
-                    <img
-                      src={instagram}
-                      alt='facebook'
-                      width={40}
-                      height={41}
-                      decoding='async'
-                      loading='lazy'
-                    />
-                  </a>
-                  <a
-                    href='https://x.com'
-                    className='w-10 h-10 flex items-center justify-center rounded-full transition'
-                  >
-                    <img
-                      src={twitter}
-                      alt='facebook'
-                      width={40}
-                      height={41}
-                      decoding='async'
-                      loading='lazy'
-                    />
-                  </a>
-                  <a
-                    href='https://youtube.com'
-                    className='w-10 h-10 flex items-center justify-center rounded-full transition'
-                  >
-                    <img
-                      src={youtube}
-                      alt='facebook'
-                      width={40}
-                      height={41}
-                      decoding='async'
-                      loading='lazy'
-                    />
-                  </a>
-                </div>
-              </div> */}
               <FooterLeftColumn t={t} />
               <hr className='w-full block md:hidden opacity-20 col-span-4' />
 

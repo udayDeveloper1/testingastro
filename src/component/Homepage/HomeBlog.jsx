@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router'
 import { UpdatedPaths } from '../../routers/Paths'
 import { getFormattedDay, getFormattedMonth } from '../../utils/CommonFunction'
 import { blogDetailsNavigation } from '../../utils/navigations/NavigationPage'
-import { memo } from 'react'
-
+import { memo, useState } from 'react'
+import defaultimage from "/loader.png"
 function HomeBlog({ BlogList }) {
-  // const { t } = useTranslation()
+  const [imageLoaded, setImageLoaded] = useState(BlogList?.length > 0 ? true : false);
   const navigate = useNavigate()
   const PATHS = UpdatedPaths()
 
@@ -24,7 +24,7 @@ function HomeBlog({ BlogList }) {
             }}
           >
             <div className='w-full h-44 overflow-hidden rounded-[10px] homeBlogImageDiv'>
-              <img
+              {/* <img
                 src={blog?.cover_image}
                 alt={blog?.title}
                 className='w-full h-full object-cover'
@@ -32,6 +32,33 @@ function HomeBlog({ BlogList }) {
                 height={176}
                 decoding='async'
                 loading='lazy'
+                onError={(e) => {
+                  e.target.src = defaultimage; // fallback image path
+                }}
+              /> */}
+              {!imageLoaded && (
+                <img
+                  src={defaultimage}
+                  alt="Loading..."
+                  className="w-full h-full object-cover absolute inset-0"
+                />
+              )}
+
+              {/* Actual blog image */}
+              <img
+                src={blog?.cover_image}
+                alt={blog?.title}
+                className={`w-full h-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
+                width={300}
+                height={176}
+                decoding="async"
+                loading="lazy"
+                onLoad={() => setImageLoaded(true)}
+                onError={(e) => {
+                  e.target.src = defaultimage;
+                  setImageLoaded(true); // Show default image if error occurs
+                }}
               />
               <div className='homeBlogImageDivDate text-center'>
                 {getFormattedDay(blog?.created_at)}{' '}

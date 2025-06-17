@@ -306,7 +306,6 @@ const fetchDynamicRoutes = async () => {
       }
     ]) || [];
 
-    // console.log('horoscopeDynamicData', horoscopeDynamicData);
 
     return [...horoscopeDynamicData, ...transformedBlogData, ...transformedAstrologerData];
 

@@ -47,6 +47,7 @@ export const Components = {
     NotFound: lazy(() => import('../pages/NotFound/NotFound.jsx')),
     ComingSoon: lazy(() => import('../component/comingSoon/ComingSoon.jsx')),
     Chogadiya:lazy(() => import('../pages/Kaal/Chogadiya.jsx')),
+    AndroidPrivacyPolicy: lazy(() => import('../pages/AndroidPrivacyPolicy/AndroidPrivacyPolicy.jsx')),
     // BookPoojaList: lazy(() => import('../pages/BookPooja/BookPoojaList'),
     // BookPooja: lazy(() => import('../pages/BookPooja/BookPooja'),
 };

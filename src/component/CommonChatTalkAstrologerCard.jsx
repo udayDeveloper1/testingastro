@@ -297,7 +297,7 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
 
   return (
     <>
-      <div className='grid gap-x-[20px] gap-y-[20px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  '>
+      <div className='grid gap-x-[20px] gap-y-[20px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4  '>
         {astrologersList?.map((astro, index) => (
           <React.Fragment key={index}>
             <RenderCard1 astrologer={astro} index={index} />

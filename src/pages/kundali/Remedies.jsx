@@ -12,18 +12,11 @@ const Loader2 = lazy(() => import('../../component/loader/Loader2'))
 
 
 export const Remedies = ({ allKundliDetails }) => {
+  
   const { remedies } = allKundliDetails
   const { t } = useTranslation()
 
-  const imageList = [
-    rudraksh,
-    gemstone,
-    weekDay,
-    fasting,
-    specialpooja,
-    charity,
-    spiritual
-  ]
+  const imageList = [rudraksh, gemstone, weekDay, fasting, specialpooja, charity, spiritual]
 
   const RemedyCard = ({ title, imageSrc, content }) => {
     return (
@@ -116,9 +109,8 @@ export const Remedies = ({ allKundliDetails }) => {
   return (
     <>
       <section className="paddingTop50 min-h-[300px] flex items-center justify-center">
-
         {sanitizedRemedies?.length > 0 ?
-          <div className=''>{sanitizedRemedies}</div> :
+          <div className='flex flex-col gap-[25px]'>{sanitizedRemedies}</div> :
           <div className=''>
             <div className=''>
               <div className=' min-h-[100vh]'>

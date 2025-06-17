@@ -217,7 +217,7 @@ function RahuKaal() {
         <Loader />
       )} */}
       <section>
-        <CommonBanner text={t('Daily Auspicious & Inauspicious Timings ')} highlight="" />
+        <CommonBanner text={t('rahu_kaal')} highlight="" />
       </section>
 <Suspense fallback={<div className='min-h-[100vh]'></div>}>
       <section>

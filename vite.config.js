@@ -174,9 +174,9 @@ export default defineConfig({
               return 'react-vendors';
             }
 
-            if (id.includes('firebase')) return 'firebase';
+            // if (id.includes('firebase')) return 'firebase';
             if (id.includes('axios')) return 'axios';
-            if (id.includes('@headlessui')) return 'headlessui';
+            // if (id.includes('@headlessui')) return 'headlessui';
             if (id.includes('lodash')) return 'lodash';
 
             return 'vendor';
