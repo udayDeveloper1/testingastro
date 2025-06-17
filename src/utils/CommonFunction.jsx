@@ -1,6 +1,5 @@
 import CryptoJS from 'crypto-js'
 import { toast } from 'react-toastify'
-import Swal from 'sweetalert2'
 import { Constatnt } from './Constent'
 // import ExcelJS from 'exceljs'
 // import jsPDF from 'jspdf'
@@ -195,50 +194,6 @@ export const TOAST_INFO = message => {
 
 export const TOAST_WARNING = message => {
   return toast.warning(message)
-}
-
-export const SWIT_SUCCESS = message => {
-  return Swal.fire({
-    position: 'top-center',
-    icon: 'success',
-    title: message,
-    showConfirmButton: false,
-    timer: 1800
-  })
-}
-
-export const SWIT_DELETE = message => {
-  return Swal.fire({
-    title: 'Are you sure?',
-    text: message ? message : '',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#bd30d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
-  })
-}
-
-export const SWIT_DELETE_SUCCESS = message => {
-  return Swal.fire({
-    position: 'top-center',
-    icon: 'success',
-    title: message ? message : 'Your data has been deleted.',
-    showConfirmButton: false,
-    timer: 1500
-  })
-}
-
-export const SWIT_LOGOUT = message => {
-  return Swal.fire({
-    title: 'Are you sure logout?',
-    text: message ? message : '',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#5d87ff',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, logout it!'
-  })
 }
 
 export const getDateProfile = date => {
@@ -735,12 +690,8 @@ export default {
   Encryption,
   Decryption,
   TOAST_ERROR,
-  SWIT_LOGOUT,
   TOAST_WARNING,
   TOAST_INFO,
-  SWIT_DELETE_SUCCESS,
-  SWIT_DELETE,
-  SWIT_SUCCESS,
   toGuDigits,
   toHiDigits
   // ExportToCSV,
