@@ -5,14 +5,11 @@ import { useTranslation } from "react-i18next";
 import boyImage from "../../assets/img/kundali/boyImage.webp";
 import girlImage from "../../assets/img/kundali/girlImage.webp";
 import { formatTime } from "../../utils/CommonFunction";
-import { LanguageOption, TimeFormat } from "../../utils/CommonVariable";
-import { Constatnt } from "../../utils/Constent";
+import { TimeFormat } from "../../utils/CommonVariable";
 
 const KundaliDetails = ({ kundaliData }) => {
 
   const { t } = useTranslation();
-
-  const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH
 
   const boyData = [
     { key: "1", label: t('name'), value: kundaliData?.male?.name },

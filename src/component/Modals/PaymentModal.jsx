@@ -46,6 +46,7 @@ export default function PaymentModal({
           <>
             {(cancelText !== '' || okText !== '') && (
               <div className='flex justify-end gap-3'>
+                <Suspense fallback={<></>}>
                 {cancelText !== '' && (
                   <CustomWhiteButton
                     key='cancel'
@@ -67,6 +68,7 @@ export default function PaymentModal({
                     {okText}
                   </CustomButton>
                 )}
+                </Suspense>
               </div>
             )}
           </>

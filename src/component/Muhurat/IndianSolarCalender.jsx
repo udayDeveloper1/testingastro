@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import { lazy, memo } from "react";
+import { lazy, memo, Suspense } from "react";
 const CustomTable = lazy(() => import("../Custom/CustomTable"))
 const IndianSolarCalendar = () => {
   const columns = [
@@ -38,7 +38,9 @@ const IndianSolarCalendar = () => {
   return (
     <div className="rounded-lg">
       <Card title="Indian Solar Calendar" className="festivalTableCard">
+        <Suspense fallback={<></>}>
         <CustomTable columns={columns} data={data} pagination={false} className="px-6 pb-6" />
+        </Suspense>
       </Card>
     </div>
   );

@@ -68,7 +68,6 @@ function NavBar() {
   const LOGIN_KEY = localStorage.getItem(Constatnt?.LOGIN_KEY)
   const LANGUAGE_KEY = localStorage.getItem(Constatnt?.LANGUAGE_KEY)
   const AUTH_KEY = JSON.parse(localStorage.getItem(Constatnt?.AUTH_KEY))
-  const loginUser = useSelector(state => state?.masterSlice?.loginUser)
   const modal = useSelector(state => state?.masterSlice?.modal)
   const LocalLanguage = localStorage?.getItem(Constatnt?.LANGUAGE_KEY) ? localStorage?.getItem(Constatnt?.LANGUAGE_KEY) : LanguageOption?.ENGLISH;
 

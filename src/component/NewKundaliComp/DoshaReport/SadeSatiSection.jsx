@@ -1,5 +1,5 @@
 import { Card, Tag, Typography } from "antd";
-import { lazy, memo } from "react";
+import { lazy, memo, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageOption } from "../../../utils/CommonVariable";
 import { Constatnt } from "../../../utils/Constent";
@@ -120,15 +120,17 @@ function SadeSatiSection({ sadeSati }) {
               <h3 className="new_common_heading">{t('sade_sati_report_table')}</h3>
             </div>
 
-            <CustomTable
-              columns={columns}
-              data={filteredSadeSati}
-              pagination={false}
-              loading={false}
-              bordered={false}
-              scroll={{ x: "max-content" }}
-              className="lightBackHead"
-            />
+            <Suspense fallback={<></>}>
+              <CustomTable
+                columns={columns}
+                data={filteredSadeSati}
+                pagination={false}
+                loading={false}
+                bordered={false}
+                scroll={{ x: "max-content" }}
+                className="lightBackHead"
+              />
+            </Suspense>
           </Card>
         </div>
       </div>

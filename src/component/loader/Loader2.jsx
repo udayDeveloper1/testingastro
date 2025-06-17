@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import "../../index.css"
 import loader1 from "/loader/loader1.webp";
 import loader2 from "/loader/loader2.webp";

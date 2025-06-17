@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import { lazy, memo } from "react";
+import { lazy, memo, Suspense } from "react";
 const CustomTable = lazy(() => import("../Custom/CustomTable"))
 
 // Festival Data for 2024
@@ -72,11 +72,13 @@ const columns = [
 const FestivalTable = () => {
     return (
         <div>
+            <Suspense fallback={<></>}>
             {Object.keys(festivalData).map((month) => (
                 <Card key={month} title={`${month} Festival 2024`} style={{ marginBottom: "20px" }} className="festivalTableCard ">
                     <CustomTable columns={columns} data={festivalData[month]} pagination={false} className="px-6 pb-6 " />
                 </Card>
             ))}
+            </Suspense>
         </div>
     );
 };

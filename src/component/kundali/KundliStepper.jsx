@@ -1,4 +1,4 @@
-import { lazy, memo } from "react"
+import { lazy, memo, Suspense } from "react"
 import defaultImg from "../../assets/img/kundali/astakoot.svg"
 import { UpdatedPaths } from '../../routers/Paths'
 const KundliParts = lazy(() => import("./KundliParts"))
@@ -65,6 +65,7 @@ const KundliStepper = () => {
   return (
     <div className='padding50 container'>
       <div className='flex w-full justify-between rounded-lg KundliPartsLine mx-auto overflow-x-auto lg:overflow-hidden'>
+        <Suspense fallback={<></>}>
         {kundliInfo?.map((ele, ind) => {
           return (
             <div className={ele.classList2} key={ind}>
@@ -78,6 +79,7 @@ const KundliStepper = () => {
             </div>
           )
         })}
+        </Suspense>
       </div>
     </div>
 

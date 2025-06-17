@@ -124,10 +124,7 @@ const CustomTabs = () => {
 
   const tabConfigWithProps = kundliTabConfig?.map((tab) => ({
     ...tab,
-    element: React.cloneElement(tab?.element, {
-      allKundliDetails,
-      predicatioinApi,
-    }),
+    element: React.cloneElement(tab?.element, { allKundliDetails, predicatioinApi }),
   }));
 
   const currentTab = kundliTabConfig?.find((tab) => tab.key === activeKey);
@@ -389,14 +386,16 @@ const CustomTabs = () => {
       </div>
 
       <div className="container mx-auto ">
-        {tabConfigWithProps?.map((tab) => (
-          <div
-            key={tab.key}
-            style={{ display: activeKey === tab.key ? "block" : "none" }}
-          >
-            {tab.element}
-          </div>
-        ))}
+        <Suspense fallback={<></>}>
+          {tabConfigWithProps?.map((tab) => (
+            <div
+              key={tab.key}
+              style={{ display: activeKey === tab.key ? "block" : "none" }}
+            >
+              {tab.element}
+            </div>
+          ))}
+        </Suspense>
       </div>
 
       <section className="padding100 px-[15px] md:px-[0]">

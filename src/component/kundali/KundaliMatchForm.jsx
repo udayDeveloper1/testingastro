@@ -1027,6 +1027,7 @@ const KundaliMatchForm = () => {
                     className='max-w-[263px] block mx-auto'
                   />
                 </div>
+                <Suspense fallback={<></>}>
                 <CustomButton
                   className='text-white  py-3 '
                   parentClassName='mt-3 w-full'
@@ -1036,6 +1037,7 @@ const KundaliMatchForm = () => {
                 >
                   {t('login')}
                 </CustomButton>
+                </Suspense>
               </div>
             </>
           )}
