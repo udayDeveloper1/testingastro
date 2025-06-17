@@ -76,37 +76,43 @@ export default defineConfig({
             ) {
               return 'react-vendors';
             }
+            if (id.includes('node_modules/cors')) return 'cors';
+            if (id.includes('node_modules/express')) return 'express';
+            if (id.includes('node_modules/google-auth-library')) return 'google-auth-library';
+            if (id.includes('node_modules/react-easy-crop')) return 'react-easy-crop';
+            if (id.includes('node_modules/sitemap')) return 'sitemap';
+
             if (id.includes('node_modules/axios')) return 'axios';
             if (id.includes('node_modules/lodash')) return 'lodash';
             if (id.includes('node_modules/antd')) return 'antd';
             if (id.includes('node_modules/moment')) return 'moment';
             if (id.includes('node_modules/apexcharts')) return 'apexcharts';
+            if (id.includes('node_modules/react-apexcharts')) return 'react-apexcharts';
             if (id.includes('node_modules/browser-image-compression')) return 'browser-image-compression';
             if (id.includes('node_modules/dayjs')) return 'dayjs';
             if (id.includes('node_modules/i18next')) return 'i18next';
             if (id.includes('node_modules/razorpay')) return 'razorpay';
+            if (id.includes('node_modules/react-razorpay')) return 'razorpay';
             if (id.includes('node_modules/sweetalert2')) return 'sweetalert2';
             if (id.includes('node_modules/react-i18next')) return 'i18next';
             if (id.includes('node_modules/@ant-design/icons')) return 'ant-icons';
-            // if (id.includes('node_modules/@fortawesome/')) return 'fontawesome';
-            // if (id.includes('node_modules/@fortawesome/')) return 'fontawesome';
-            // if (id.includes('node_modules/react-toastify')) return 'toastify';
-            // if (id.includes('node_modules/socket.io-client')) return 'socket';
-            // if (id.includes('node_modules/sweetalert2')) return 'sweetalert';
-            // if (id.includes('node_modules/react-hook-form')) return 'hook-form';
-            // if (id.includes('node_modules/react-router')) return 'router';
-            // if (id.includes('node_modules/react-router-dom')) return 'router';
-            // if (id.includes('node_modules/react-redux') || id.includes('node_modules/@reduxjs/toolkit')) return 'redux';
-            // if (id.includes('node_modules/crypto-js')) return 'crypto';
-            // if (id.includes('node_modules/dompurify')) return 'dompurify';
-            // if (id.includes('node_modules/apexcharts') || id.includes('node_modules/react-apexcharts')) return 'apexcharts';
-            // if (id.includes('node_modules/browser-image-compression')) return 'image-compression';
-            // if (id.includes('node_modules/react-phone-input-2')) return 'phone-input';
-            // if (id.includes('node_modules/react-helmet') || id.includes('node_modules/react-helmet-async')) return 'helmet';
-            // if (id.includes('node_modules/react-icons')) return 'react-icons';
-            // if (id.includes('node_modules/keen-slider')) return 'keen-slider';
-            // if (id.includes('node_modules/lucide-react')) return 'lucide';
-            // if (id.includes('node_modules/react-player')) return 'react-player';
+            if (id.includes('node_modules/antd-style')) return 'antd-style';
+            if (id.includes('node_modules/@fontawesome/')) return 'fontawesome';
+            if (id.includes('node_modules/react-toastify')) return 'toastify';
+            if (id.includes('node_modules/socket.io-client')) return 'socket';
+            if (id.includes('node_modules/react-hook-form')) return 'hook-form';
+            if (id.includes('node_modules/react-redux') || id.includes('node_modules/@reduxjs/toolkit')) return 'redux';
+
+            if (id.includes('node_modules/apexcharts') || id.includes('node_modules/react-apexcharts')) return 'apexcharts';
+              if (id.includes('node_modules/crypto-js')) return 'crypto';
+              if (id.includes('node_modules/dompurify')) return 'dompurify';
+            if (id.includes('node_modules/react-phone-input-2')) return 'react-phone-input-2';
+             if (id.includes('node_modules/react-helmet') || id.includes('node_modules/react-helmet-async')) return 'helmet';
+             if (id.includes('node_modules/react-icons')) return 'react-icons';
+
+            if (id.includes('node_modules/keen-slider')) return 'keen-slider';
+            if (id.includes('node_modules/lucide-react')) return 'lucide';
+            if (id.includes('node_modules/react-player')) return 'react-player';
             return 'vendor';
           }
         }

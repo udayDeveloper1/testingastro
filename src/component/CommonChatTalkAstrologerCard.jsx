@@ -73,6 +73,20 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
 
       // Non-AI flow: make addChatRequest API call
       if (!isAI) {
+        // const response = await addChatRequest({
+        //   astrologer_id: record?._id,
+        //   conversation_types: 'chat'
+        // })
+
+        // if (response.code !== Codes.SUCCESS) {
+        //   return TOAST_ERROR(response.message)
+        // }
+
+        // recordData.AstroData = response.data
+      }
+
+      // Decide navigation
+      if (isFreeChatAvailable || walletBalance / pricePerMin >= 2) {
         const response = await addChatRequest({
           astrologer_id: record?._id,
           conversation_types: 'chat'
@@ -83,10 +97,6 @@ function ChatWithAstrologerCard({ astrologersList, loading_type = '' }) {
         }
 
         recordData.AstroData = response.data
-      }
-
-      // Decide navigation
-      if (isFreeChatAvailable || walletBalance / pricePerMin >= 2) {
         navigateChat(
           navigate,
           dispatch,
