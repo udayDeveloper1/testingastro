@@ -34,19 +34,19 @@ const TodaysPanchangHomePage = lazy(() => import('../component/panchang/TodaysPa
 
 // const TestimonialSlider = lazy(() => import('../component/TestimonialSlider/TestimonialSlider'))
 
-// const CustomButton = lazy(() => import('../component/Homepage/CustomButton'))
-// const HomeBlog = lazy(() => import('../component/Homepage/HomeBlog'))
-// const HomeFAQs = lazy(() => import('../component/Homepage/HomeFAQs'))
-// const Numbers = lazy(() => import('../component/Homepage/Numbers'))
-// const Loader = lazy(() => import('../component/loader/Loader'))
-// const ChooseCategory = lazy(() => import('../component/Homepage/ChooseCategory'))
+const CustomButton = lazy(() => import('../component/Homepage/CustomButton'))
+const HomeBlog = lazy(() => import('../component/Homepage/HomeBlog'))
+const HomeFAQs = lazy(() => import('../component/Homepage/HomeFAQs'))
+const Numbers = lazy(() => import('../component/Homepage/Numbers'))
+const Loader = lazy(() => import('../component/loader/Loader'))
+const ChooseCategory = lazy(() => import('../component/Homepage/ChooseCategory'))
 
-import CustomButton from '../component/Homepage/CustomButton'
-import HomeBlog from '../component/Homepage/HomeBlog'
-import HomeFAQs from '../component/Homepage/HomeFAQs'
-import Numbers from '../component/Homepage/Numbers'
-import Loader from '../component/loader/Loader'
-import ChooseCategory from '../component/Homepage/ChooseCategory'
+// import CustomButton from '../component/Homepage/CustomButton'
+// import HomeBlog from '../component/Homepage/HomeBlog'
+// import HomeFAQs from '../component/Homepage/HomeFAQs'
+// import Numbers from '../component/Homepage/Numbers'
+// import Loader from '../component/loader/Loader'
+// import ChooseCategory from '../component/Homepage/ChooseCategory'
 
 function HomePage() {
 
@@ -169,7 +169,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* <Suspense fallback={<div className='min-h-[100vh]'></div>}> */}
+      <Suspense fallback={<div className='min-h-[100vh]'></div>}>
         <section className='colorBackground'>
           <div className='container mx-auto  flex flex-col gap-5 padding50 overflow-hidden '>
             <div className=''>
@@ -190,7 +190,7 @@ function HomePage() {
             </div>
           </div>
         </section>
-      {/* </Suspense> */}
+      </Suspense>
 
       {showOurAstrogers && <>
         <section className='newColorBack' >
